@@ -788,44 +788,9 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     }
   };
 
-  const handlePaymentSuccess = () => {
-    toast({
-      title: "Listing Activated!",
-      description: "Your property listing is now live and available for investment.",
-    });
-    onClose();
-    resetForm();
-  };
 
-  const resetForm = () => {
-    setFormData({
-      address: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      propertyType: "",
-      propertyValue: "",
-      description: "",
-      squareFootage: "",
-      sharePrice: "",
-      maxShares: "",
-    });
-    setDeed([]);
-    setTitle([]);
-    setLlc([]);
-    setImages([]);
-    setVideos([]);
-    setStep("form");
-    setFeeCalculation(null);
-    setTempPropertyId(null);
-  };
 
-  const handleClose = () => {
-    onClose();
-    if (step === "form") {
-      resetForm();
-    }
-  };
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -855,9 +820,37 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
           </div>
         </DialogHeader>
 
-        {step === "form" ? (
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {renderStepContent()}
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between pt-6 border-t">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={currentStep === 1}
+            >
+              Previous
+            </Button>
+            
+            {currentStep < totalSteps ? (
+              <Button
+                type="button"
+                onClick={handleNext}
+                className="bg-[#b34034] hover:bg-[#A0522D]"
+              >
+                Next Step
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                disabled={createProperty.isPending}
+                className="bg-[#b34034] hover:bg-[#A0522D]"
+              >
+                {createProperty.isPending ? "Creating..." : "Submit Property"}
+              </Button>
+            )}
 
           {/* Navigation Buttons */}
           <div className="flex justify-between pt-6 border-t">
