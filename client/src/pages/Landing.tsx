@@ -70,7 +70,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   onClick={handleShowRegister}
-                  className="px-8 py-4 bg-[#8B4513] text-white font-semibold hover:bg-[#A0522D]"
+                  className="px-8 py-4 bg-[#b34034] text-white font-semibold hover:bg-[#A0522D]"
                   size="lg"
                 >
                   Get Started
