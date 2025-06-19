@@ -170,7 +170,7 @@ export default function Dashboard() {
           <div className="space-y-4">
             <Button
               onClick={() => setShowCreateProperty(true)}
-              className="w-full from-primary to-blue-600 text-white hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all bg-[#a14c4ce3]"
+              className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white shadow-lg hover:shadow-xl transition-all"
             >
               <Plus className="mr-2" size={16} />
               List New Property

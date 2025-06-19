@@ -190,7 +190,7 @@ export default function AIRecommendations() {
                     {rec.property.squareFootage.toLocaleString()} sq ft • 
                     ${(Number(rec.property.propertyValue) / rec.property.squareFootage).toFixed(0)}/sq ft
                   </div>
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                  <Button size="sm" className="bg-[#8B4513] hover:bg-[#A0522D]">
                     View Details
                   </Button>
                 </div>

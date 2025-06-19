@@ -50,7 +50,7 @@ export default function AIInsights() {
               <p className="text-sm text-gray-600">Compete with other investors in challenges and leaderboards</p>
             </div>
           </div>
-          <Button size="lg" onClick={() => window.location.href = "/api/login"}>
+          <Button size="lg" onClick={() => window.location.href = "/api/login"} className="bg-[#8B4513] hover:bg-[#A0522D]">
             Sign In to Access AI Features
           </Button>
         </div>
