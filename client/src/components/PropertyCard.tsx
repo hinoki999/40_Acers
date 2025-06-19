@@ -14,8 +14,10 @@ interface PropertyCardProps {
 }
 
 export default function PropertyCard({ property, onInvest }: PropertyCardProps) {
-  const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const [isLiked, setIsLiked] = useState(false);
+  const [showTokenization, setShowTokenization] = useState(false);
+  
+  const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const totalValue = Number(property.sharePrice) * property.maxShares;
   const availableShares = property.maxShares - property.currentShares;
 

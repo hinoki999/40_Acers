@@ -103,9 +103,6 @@ export const insertPropertySchema = createInsertSchema(properties).omit({
   updatedAt: true,
   latitude: true,
   longitude: true,
-}).extend({
-  propertyValue: z.string().min(1, "Property value is required"),
-  squareFootage: z.number().min(1, "Square footage must be at least 1"),
 });
 
 export const insertInvestmentSchema = createInsertSchema(investments).omit({

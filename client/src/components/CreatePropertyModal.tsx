@@ -77,6 +77,8 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         city: "",
         state: "",
         zipcode: "",
+        propertyValue: "",
+        squareFootage: "",
         maxShares: "",
         sharePrice: "",
         thumbnailUrl: "",
@@ -508,6 +510,10 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <Button
                 type="button"
                 onClick={handleNext}
+                disabled={
+                  (currentStep === 1 && (!formData.address || !formData.city || !formData.state || !formData.zipcode)) ||
+                  (currentStep === 2 && (!formData.propertyValue || !formData.squareFootage))
+                }
                 className="px-6 bg-primary text-white hover:bg-primary/90"
               >
                 Next Step
