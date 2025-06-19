@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, DollarSign, Home, Calculator } from "lucide-react";
+import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 
 interface TokenizationCalculatorProps {
   propertyValue: number;

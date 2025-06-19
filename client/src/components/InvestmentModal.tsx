@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { Property } from "@shared/schema";
 import { TrendingUp, DollarSign, Wallet, Calculator, Star } from "lucide-react";
+import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 
 interface InvestmentModalProps {
   isOpen: boolean;
@@ -204,17 +205,29 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-600">Price per Token:</span>
-                  <span className="font-medium">${sharePrice}</span>
+                  <BitcoinPriceDisplay 
+                    usdPrice={sharePrice} 
+                    showBoth={true}
+                    className="font-medium text-sm"
+                  />
                 </div>
                 <div className="flex justify-between text-lg font-bold text-primary border-t pt-2">
                   <span>Total Investment:</span>
-                  <span>${totalInvestment.toLocaleString()}</span>
+                  <BitcoinPriceDisplay 
+                    usdPrice={totalInvestment} 
+                    showBoth={true}
+                    className="font-bold text-lg"
+                  />
                 </div>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-neutral-600">Property Value:</span>
-                  <span className="font-medium">${totalPropertyValue.toLocaleString()}</span>
+                  <BitcoinPriceDisplay 
+                    usdPrice={totalPropertyValue} 
+                    showBoth={true}
+                    className="font-medium text-sm"
+                  />
                 </div>
                 <div className="flex justify-between">
                   <span className="text-neutral-600">Your Ownership:</span>
