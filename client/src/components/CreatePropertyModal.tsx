@@ -5,11 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertPropertySchema } from "@shared/schema";
-import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video } from "lucide-react";
+import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle } from "lucide-react";
 
 interface CreatePropertyModalProps {
   isOpen: boolean;
@@ -32,10 +33,18 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     zoomMeetingUrl: "",
     zoomMeetingId: "",
     zoomPassword: "",
+    // Document uploads
+    deedDocuments: [] as string[],
+    titleDocuments: [] as string[],
+    llcDocuments: [] as string[],
+    // Media uploads
+    propertyImages: [] as string[],
+    propertyVideos: [] as string[],
   });
 
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 4;
+  const totalSteps = 6;
+  const [uploadingFiles, setUploadingFiles] = useState(false);
 
   // Calculate tokenization based on property value and square footage
   const calculateTokenization = (propertyValue: string, squareFootage: string) => {
@@ -87,6 +96,11 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         zoomMeetingUrl: "",
         zoomMeetingId: "",
         zoomPassword: "",
+        deedDocuments: [],
+        titleDocuments: [],
+        llcDocuments: [],
+        propertyImages: [],
+        propertyVideos: [],
       });
       setCurrentStep(1);
     },
@@ -376,6 +390,354 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="text-white" size={24} />
+              </div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Legal Documentation</h3>
+              <p className="text-neutral-600">Upload property deeds, titles, and business documents for verification</p>
+            </div>
+            
+            {/* Property Deed Upload */}
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <Shield className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Deed</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload official property deed documents (PDF, JPG, PNG)</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'deed')}
+                    className="hidden"
+                    id="deed-upload"
+                  />
+                  <Label htmlFor="deed-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Files'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.deedDocuments.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="font-medium text-sm">Uploaded Documents:</p>
+                    {formData.deedDocuments.map((doc, index) => (
+                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded">
+                        <span className="text-sm text-green-800">{doc.split('/').pop()}</span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeDocument('deedDocuments', index)}
+                        >
+                          <X size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Title Documents Upload */}
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <FileText className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Title Documents</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload title insurance and ownership documents</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'title')}
+                    className="hidden"
+                    id="title-upload"
+                  />
+                  <Label htmlFor="title-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Files'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.titleDocuments.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="font-medium text-sm">Uploaded Documents:</p>
+                    {formData.titleDocuments.map((doc, index) => (
+                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded">
+                        <span className="text-sm text-green-800">{doc.split('/').pop()}</span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeDocument('titleDocuments', index)}
+                        >
+                          <X size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* LLC Documents Upload */}
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <Building className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Business LLC Documents</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload LLC formation documents and operating agreements</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'llc')}
+                    className="hidden"
+                    id="llc-upload"
+                  />
+                  <Label htmlFor="llc-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Files'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.llcDocuments.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="font-medium text-sm">Uploaded Documents:</p>
+                    {formData.llcDocuments.map((doc, index) => (
+                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded">
+                        <span className="text-sm text-green-800">{doc.split('/').pop()}</span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeDocument('llcDocuments', index)}
+                        >
+                          <X size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      case 5:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Camera className="text-white" size={24} />
+              </div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Property Media</h3>
+              <p className="text-neutral-600">Upload high-quality images and videos of your property</p>
+            </div>
+            
+            {/* Property Images Upload */}
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <Camera className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Images</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload multiple high-quality photos (JPG, PNG, max 10MB each)</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'images')}
+                    className="hidden"
+                    id="images-upload"
+                  />
+                  <Label htmlFor="images-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Images'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.propertyImages.length > 0 && (
+                  <div className="mt-4 grid grid-cols-3 gap-2">
+                    {formData.propertyImages.map((img, index) => (
+                      <div key={index} className="relative group">
+                        <div className="aspect-square bg-neutral-100 rounded-lg flex items-center justify-center text-xs text-neutral-600 overflow-hidden">
+                          <Camera size={20} />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => removeDocument('propertyImages', index)}
+                        >
+                          <X size={12} />
+                        </Button>
+                        <p className="text-xs text-center mt-1 truncate">{img.split('/').pop()}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Property Videos Upload */}
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <Video className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Videos</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload property tour videos (MP4, MOV, max 100MB each)</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept="video/*"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'videos')}
+                    className="hidden"
+                    id="videos-upload"
+                  />
+                  <Label htmlFor="videos-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Videos'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.propertyVideos.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="font-medium text-sm">Uploaded Videos:</p>
+                    {formData.propertyVideos.map((video, index) => (
+                      <div key={index} className="flex items-center justify-between bg-purple-50 p-2 rounded">
+                        <span className="text-sm text-purple-800 flex items-center">
+                          <Video size={16} className="mr-2" />
+                          {video.split('/').pop()}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeDocument('propertyVideos', index)}
+                        >
+                          <X size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      case 6:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Video className="text-white" size={24} />
+              </div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Virtual Tours & Final Review</h3>
+              <p className="text-neutral-600">Set up virtual property tours and review your submission</p>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Virtual Tour Setup */}
+              <div className="border rounded-lg p-6 bg-gradient-to-r from-blue-50 to-purple-50">
+                <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                  <Video size={20} />
+                  Virtual Tour Setup (Optional)
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="zoomMeetingUrl" className="flex items-center gap-2">
+                      <Video size={16} />
+                      Zoom Meeting URL
+                    </Label>
+                    <Input
+                      id="zoomMeetingUrl"
+                      type="url"
+                      placeholder="https://zoom.us/j/123456789"
+                      value={formData.zoomMeetingUrl}
+                      onChange={(e) => setFormData({ ...formData, zoomMeetingUrl: e.target.value })}
+                      className="mt-2"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="zoomMeetingId">Meeting ID</Label>
+                      <Input
+                        id="zoomMeetingId"
+                        placeholder="123 456 789"
+                        value={formData.zoomMeetingId}
+                        onChange={(e) => setFormData({ ...formData, zoomMeetingId: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="zoomPassword">Meeting Password</Label>
+                      <Input
+                        id="zoomPassword"
+                        placeholder="password123"
+                        value={formData.zoomPassword}
+                        onChange={(e) => setFormData({ ...formData, zoomPassword: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submission Summary */}
+              <div className="border rounded-lg p-6 bg-gradient-to-r from-green-50 to-blue-50">
+                <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                  <CheckCircle size={20} />
+                  Submission Summary
+                </h4>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Property:</span>
+                      <span className="font-medium">{formData.address || 'Not set'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Type:</span>
+                      <span className="font-medium">{formData.propertyType}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Value:</span>
+                      <span className="font-medium">${formData.propertyValue ? parseInt(formData.propertyValue).toLocaleString() : '0'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Square Footage:</span>
+                      <span className="font-medium">{formData.squareFootage ? parseInt(formData.squareFootage).toLocaleString() : '0'} sq ft</span>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Deed Documents:</span>
+                      <span className="font-medium">{formData.deedDocuments.length} files</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Title Documents:</span>
+                      <span className="font-medium">{formData.titleDocuments.length} files</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">LLC Documents:</span>
+                      <span className="font-medium">{formData.llcDocuments.length} files</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-600">Property Media:</span>
+                      <span className="font-medium">{formData.propertyImages.length + formData.propertyVideos.length} files</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4 p-3 bg-yellow-50 rounded border-l-4 border-yellow-400">
+                  <p className="text-sm text-yellow-800">
+                    <strong>Review Required:</strong> Your property will be reviewed by our team within 2-3 business days. 
+                    You'll receive updates via email about the verification status.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
               <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Video className="text-white" size={24} />
               </div>

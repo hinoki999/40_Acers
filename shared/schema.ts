@@ -52,9 +52,24 @@ export const properties = pgTable("properties", {
   currentShares: integer("current_shares").notNull().default(0),
   thumbnailUrl: text("thumbnail_url"),
   propertyType: text("property_type").notNull().default("Townhouse"),
+  description: text("description"),
+  
+  // Legal documents
+  deedDocuments: text("deed_documents").array(),
+  titleDocuments: text("title_documents").array(),
+  llcDocuments: text("llc_documents").array(),
+  
+  // Property media
+  propertyImages: text("property_images").array(),
+  propertyVideos: text("property_videos").array(),
+  
+  // Virtual tour
   zoomMeetingUrl: text("zoom_meeting_url"),
   zoomMeetingId: text("zoom_meeting_id"),
   zoomPassword: text("zoom_password"),
+  
+  // Property status
+  verificationStatus: text("verification_status").notNull().default("pending"),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
