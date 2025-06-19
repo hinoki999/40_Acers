@@ -50,7 +50,13 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   return (
     <div>
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary to-blue-700">
+      <section 
+        className="py-20 relative bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_1750351700360.jpg')`
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
