@@ -166,6 +166,110 @@ export class DatabaseStorage implements IStorage {
   }
 
   // User Profile operations
+  // Payment and Wallet operations
+  async getUserWallet(userId: string): Promise<Wallet | undefined> {
+    const [wallet] = await db.select().from(wallets).where(eq(wallets.userId, userId));
+    return wallet || undefined;
+  }
+
+  async createWallet(wallet: InsertWallet): Promise<Wallet> {
+    const [newWallet] = await db.insert(wallets).values(wallet).returning();
+    return newWallet;
+  }
+
+  async updateWallet(id: number, updates: Partial<Wallet>): Promise<Wallet> {
+    const [wallet] = await db.update(wallets).set(updates).where(eq(wallets.id, id)).returning();
+    return wallet;
+  }
+
+  async createPaymentTransaction(transaction: InsertPaymentTransaction): Promise<PaymentTransaction> {
+    const [paymentTransaction] = await db.insert(paymentTransactions).values(transaction).returning();
+    return paymentTransaction;
+  }
+
+  async updatePaymentTransaction(id: number, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction> {
+    const [transaction] = await db.update(paymentTransactions).set(updates).where(eq(paymentTransactions.id, id)).returning();
+    return transaction;
+  }
+
+  async updatePaymentTransactionByStripeId(stripePaymentIntentId: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | undefined> {
+    const [transaction] = await db.update(paymentTransactions)
+      .set(updates)
+      .where(eq(paymentTransactions.stripePaymentIntentId, stripePaymentIntentId))
+      .returning();
+    return transaction || undefined;
+  }
+
+  async getPaymentTransactions(userId: string): Promise<PaymentTransaction[]> {
+    return await db.select().from(paymentTransactions).where(eq(paymentTransactions.userId, userId)).orderBy(desc(paymentTransactions.createdAt));
+  }
+
+  async createWalletTransaction(transaction: InsertWalletTransaction): Promise<WalletTransaction> {
+    const [walletTransaction] = await db.insert(walletTransactions).values(transaction).returning();
+    return walletTransaction;
+  }
+
+  async createListingFee(fee: InsertListingFee): Promise<ListingFee> {
+    const [listingFee] = await db.insert(listingFees).values(fee).returning();
+    return listingFee;
+  }
+
+  async updateListingFeeByPaymentId(paymentTransactionId: number, updates: Partial<ListingFee>): Promise<ListingFee | undefined> {
+    const [fee] = await db.update(listingFees)
+      .set(updates)
+      .where(eq(listingFees.paymentTransactionId, paymentTransactionId))
+      .returning();
+    return fee || undefined;
+  }
+
+  async updatePropertyStatus(propertyId: number, status: string): Promise<void> {
+    await db.update(properties).set({ status }).where(eq(properties.id, propertyId));
+  }
+
+  // Social Investor operations
+  async getSocialInvestors(propertyId?: number): Promise<SocialInvestor[]> {
+    if (propertyId) {
+      return await db.select().from(socialInvestors).where(eq(socialInvestors.propertyId, propertyId));
+    }
+    return await db.select().from(socialInvestors);
+  }
+
+  async createSocialInvestor(investor: InsertSocialInvestor): Promise<SocialInvestor> {
+    const [socialInvestor] = await db.insert(socialInvestors).values(investor).returning();
+    return socialInvestor;
+  }
+
+  // Withdrawal System operations
+  async getUserInvestmentAccount(userId: string): Promise<UserInvestmentAccount | undefined> {
+    const [account] = await db.select().from(userInvestmentAccounts).where(eq(userInvestmentAccounts.userId, userId));
+    return account || undefined;
+  }
+
+  async getWithdrawalRequests(userId: string): Promise<WithdrawalRequest[]> {
+    return await db.select().from(withdrawalRequests).where(eq(withdrawalRequests.userId, userId)).orderBy(desc(withdrawalRequests.createdAt));
+  }
+
+  async createWithdrawalRequest(request: InsertWithdrawalRequest): Promise<WithdrawalRequest> {
+    const [withdrawalRequest] = await db.insert(withdrawalRequests).values(request).returning();
+    return withdrawalRequest;
+  }
+
+  async updateWithdrawalRequest(id: number, updates: Partial<WithdrawalRequest>): Promise<WithdrawalRequest> {
+    const [request] = await db.update(withdrawalRequests).set(updates).where(eq(withdrawalRequests.id, id)).returning();
+    return request;
+  }
+
+  async getInvestmentTiers(): Promise<InvestmentTier[]> {
+    return await db.select().from(investmentTiers);
+  }
+
+  async getMilestonePerformance(propertyId?: number): Promise<MilestonePerformance[]> {
+    if (propertyId) {
+      return await db.select().from(milestonePerformance).where(eq(milestonePerformance.propertyId, propertyId));
+    }
+    return await db.select().from(milestonePerformance);
+  }
+
   async getUserProfile(userId: string): Promise<UserProfile | undefined> {
     const [profile] = await db.select().from(userProfiles).where(eq(userProfiles.userId, userId));
     return profile;

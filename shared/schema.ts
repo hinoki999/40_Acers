@@ -288,3 +288,60 @@ export type WalletTransaction = typeof walletTransactions.$inferSelect;
 export type InsertWalletTransaction = typeof walletTransactions.$inferInsert;
 export type ListingFee = typeof listingFees.$inferSelect;
 export type InsertListingFee = typeof listingFees.$inferInsert;
+
+// User profiles for investment preferences
+export const userProfiles = pgTable("user_profiles", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  riskTolerance: text("risk_tolerance").notNull().default("moderate"), // "conservative" | "moderate" | "aggressive"
+  investmentGoals: text("investment_goals").array().default([]),
+  budgetMin: integer("budget_min").default(0),
+  budgetMax: integer("budget_max").default(10000),
+  preferredLocations: text("preferred_locations").array().default([]),
+  propertyTypes: text("property_types").array().default([]),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Challenges for gamification
+export const challenges = pgTable("challenges", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  type: text("type").notNull(), // "investment" | "social" | "educational"
+  rules: jsonb("rules"),
+  rewards: jsonb("rewards"),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const challengeParticipants = pgTable("challenge_participants", {
+  id: serial("id").primaryKey(),
+  challengeId: integer("challenge_id").notNull().references(() => challenges.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  progress: integer("progress").default(0),
+  completed: boolean("completed").default(false),
+  joinedAt: timestamp("joined_at").defaultNow(),
+});
+
+// Leaderboard for community engagement
+export const leaderboard = pgTable("leaderboard", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  category: text("category").notNull(), // "investments" | "social" | "overall"
+  score: integer("score").default(0),
+  rank: integer("rank").default(0),
+  achievements: text("achievements").array().default([]),
+  lastUpdated: timestamp("last_updated").defaultNow(),
+});
+
+export type UserProfile = typeof userProfiles.$inferSelect;
+export type InsertUserProfile = typeof userProfiles.$inferInsert;
+export type Challenge = typeof challenges.$inferSelect;
+export type InsertChallenge = typeof challenges.$inferInsert;
+export type ChallengeParticipant = typeof challengeParticipants.$inferSelect;
+export type InsertChallengeParticipant = typeof challengeParticipants.$inferInsert;
+export type LeaderboardEntry = typeof leaderboard.$inferSelect;
+export type InsertLeaderboardEntry = typeof leaderboard.$inferInsert;
