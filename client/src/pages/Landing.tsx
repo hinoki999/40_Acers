@@ -60,9 +60,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                   alt="40 Acres Logo" 
                   className="h-48 w-auto object-contain"
                 />
-                <h1 className="text-5xl font-bold leading-tight">
-                  Peer to Peer Investment Marketplace
-                </h1>
+                <h1 className="font-bold text-[42px] text-left">Peer to Peer                              Investment Marketplace</h1>
               </div>
               <p className="text-xl text-blue-100 mb-8 leading-relaxed">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
@@ -114,7 +112,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-
       {/* Property Listings Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -188,7 +185,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-
       {/* Features Section */}
       <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -232,7 +228,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-
       <AuthModals
         showLogin={showLogin}
         showRegister={showRegister}
@@ -249,7 +244,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           setShowLogin(true);
         }}
       />
-      
       <InvestmentModal
         isOpen={showInvestment}
         onClose={() => {
