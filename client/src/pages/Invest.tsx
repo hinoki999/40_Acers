@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Search, Filter, TrendingUp, MapPin, DollarSign } from "lucide-react";
 import InvestmentModal from "@/components/InvestmentModal";
+import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 
 export default function Invest() {
@@ -19,6 +20,7 @@ export default function Invest() {
   const [location, setLocation] = useState("all");
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [showInvestment, setShowInvestment] = useState(false);
+  const [showSocialShare, setShowSocialShare] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
 
   const { data: properties = [], isLoading } = useQuery({
@@ -31,6 +33,14 @@ export default function Invest() {
     if (property) {
       setSelectedProperty(property);
       setShowInvestment(true);
+    }
+  };
+
+  const handleShare = (propertyId: number) => {
+    const property = properties.find((p: Property) => p.id === propertyId);
+    if (property) {
+      setSelectedProperty(property);
+      setShowSocialShare(true);
     }
   };
 
@@ -241,7 +251,7 @@ export default function Invest() {
                   key={property.id}
                   property={property}
                   onInvest={() => handleInvest(property.id)}
-                  onShare={() => handleInvest(property.id)}
+                  onShare={() => handleShare(property.id)}
                 />
               ))}
             </div>
@@ -253,6 +263,14 @@ export default function Invest() {
         isOpen={showInvestment}
         onClose={() => {
           setShowInvestment(false);
+          setSelectedProperty(null);
+        }}
+        property={selectedProperty}
+      />
+      <SocialShareModal
+        isOpen={showSocialShare}
+        onClose={() => {
+          setShowSocialShare(false);
           setSelectedProperty(null);
         }}
         property={selectedProperty}

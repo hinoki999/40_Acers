@@ -30,12 +30,20 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   });
 
   const handleInvest = (propertyId: number) => {
-    const property = properties.find(p => p.id === propertyId);
+    const property = (properties as Property[]).find((p) => p.id === propertyId);
     if (property) {
       setSelectedProperty(property);
       setShowInvestment(true);
     } else {
       setShowLogin(true);
+    }
+  };
+
+  const handleShare = (propertyId: number) => {
+    const property = (properties as Property[]).find((p) => p.id === propertyId);
+    if (property) {
+      setSelectedProperty(property);
+      setShowSocialShare(true);
     }
   };
 
