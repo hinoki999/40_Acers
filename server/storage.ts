@@ -38,48 +38,6 @@ export interface IStorage {
   getUserTransactions(userId: string): Promise<Transaction[]>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   getAllTransactions(): Promise<Transaction[]>;
-  
-  // User Profile operations
-  getUserProfile(userId: string): Promise<UserProfile | undefined>;
-  createUserProfile(profile: InsertUserProfile): Promise<UserProfile>;
-  updateUserProfile(userId: string, profile: Partial<InsertUserProfile>): Promise<UserProfile>;
-  
-  // Social Investor operations
-  getSocialInvestors(propertyId?: number): Promise<SocialInvestor[]>;
-  createSocialInvestor(investor: InsertSocialInvestor): Promise<SocialInvestor>;
-  
-  // Withdrawal System operations
-  getUserInvestmentAccount(userId: string): Promise<UserInvestmentAccount | undefined>;
-  getWithdrawalRequests(userId: string): Promise<WithdrawalRequest[]>;
-  createWithdrawalRequest(request: InsertWithdrawalRequest): Promise<WithdrawalRequest>;
-  updateWithdrawalRequest(id: number, updates: Partial<WithdrawalRequest>): Promise<WithdrawalRequest>;
-  getInvestmentTiers(): Promise<InvestmentTier[]>;
-  getMilestonePerformance(propertyId?: number): Promise<MilestonePerformance[]>;
-  
-  // Payment and Wallet operations
-  getUserWallet(userId: string): Promise<Wallet | undefined>;
-  createWallet(wallet: InsertWallet): Promise<Wallet>;
-  updateWallet(id: number, updates: Partial<Wallet>): Promise<Wallet>;
-  createPaymentTransaction(transaction: InsertPaymentTransaction): Promise<PaymentTransaction>;
-  updatePaymentTransaction(id: number, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction>;
-  updatePaymentTransactionByStripeId(stripePaymentIntentId: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | undefined>;
-  getPaymentTransactions(userId: string): Promise<PaymentTransaction[]>;
-  createWalletTransaction(transaction: InsertWalletTransaction): Promise<WalletTransaction>;
-  createListingFee(fee: InsertListingFee): Promise<ListingFee>;
-  updateListingFeeByPaymentId(paymentTransactionId: number, updates: Partial<ListingFee>): Promise<ListingFee | undefined>;
-  updatePropertyStatus(propertyId: number, status: string): Promise<void>;
-  
-  // Challenge operations
-  getAllChallenges(): Promise<Challenge[]>;
-  getActiveChallenge(): Promise<Challenge[]>;
-  createChallenge(challenge: InsertChallenge): Promise<Challenge>;
-  joinChallenge(challengeId: number, userId: string): Promise<ChallengeParticipant>;
-  updateChallengeProgress(challengeId: number, userId: string, progress: number): Promise<void>;
-  
-  // Leaderboard operations
-  getLeaderboard(category: string, limit?: number): Promise<LeaderboardEntry[]>;
-  updateUserScore(userId: string, category: string, score: number): Promise<void>;
-  getUserRanking(userId: string, category: string): Promise<LeaderboardEntry | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {

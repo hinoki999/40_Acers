@@ -75,16 +75,28 @@ export default function Marketplace() {
       const price = Number(property => property.sharePrice);
       switch (filters.investmentLevel) {
         case 'entry':
-          filtered = filtered.filter(property => Number(property.sharePrice) >= 1000 && Number(property.sharePrice) <= 10000);
+          filtered = filtered.filter(property => {
+            const price = Number(property.sharePrice);
+            return price >= 1000 && price <= 10000;
+          });
           break;
         case 'moderate':
-          filtered = filtered.filter(property => Number(property.sharePrice) >= 10000 && Number(property.sharePrice) <= 50000);
+          filtered = filtered.filter(property => {
+            const price = Number(property.sharePrice);
+            return price >= 10000 && price <= 50000;
+          });
           break;
         case 'premium':
-          filtered = filtered.filter(property => Number(property.sharePrice) >= 50000 && Number(property.sharePrice) <= 100000);
+          filtered = filtered.filter(property => {
+            const price = Number(property.sharePrice);
+            return price >= 50000 && price <= 100000;
+          });
           break;
         case 'exclusive':
-          filtered = filtered.filter(property => Number(property.sharePrice) >= 100000);
+          filtered = filtered.filter(property => {
+            const price = Number(property.sharePrice);
+            return price >= 100000;
+          });
           break;
       }
     }

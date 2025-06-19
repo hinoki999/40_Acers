@@ -154,9 +154,9 @@ export default function Community() {
                     property={property}
                     onInvest={handleInvest}
                     onShare={handleShare}
-                    onLike={(propertyId) => console.log('Liked property:', propertyId)}
-                    onComment={(propertyId) => console.log('Comment on property:', propertyId)}
-                    onSave={(propertyId) => console.log('Saved property:', propertyId)}
+                    onLike={(propertyId: number) => console.log('Liked property:', propertyId)}
+                    onComment={(propertyId: number) => console.log('Comment on property:', propertyId)}
+                    onSave={(propertyId: number) => console.log('Saved property:', propertyId)}
                   />
                 ))}
               </div>
