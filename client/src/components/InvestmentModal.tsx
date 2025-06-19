@@ -1,16 +1,15 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { isUnauthorizedError } from "@/lib/authUtils";
 import { Property } from "@shared/schema";
-import { TrendingUp, DollarSign, Wallet, Calculator, Star } from "lucide-react";
+import { DollarSign, TrendingUp, Calculator, Wallet, Star, CreditCard } from "lucide-react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
+import StripePaymentModal from "./StripePaymentModal";
 
 interface InvestmentModalProps {
   isOpen: boolean;
@@ -52,6 +51,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const totalPropertyValue = sharePrice * property.maxShares;
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>

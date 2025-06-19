@@ -13,6 +13,7 @@ import { insertPropertySchema, insertInvestmentSchema, insertTransactionSchema }
 import { geocodeAddress } from "./geocoding";
 import { getBitcoinPrice } from "./bitcoin";
 import { z } from "zod";
+import paymentsRouter from "./paymentsRoutes";
 
 const investmentRequestSchema = z.object({
   propertyId: z.number(),
