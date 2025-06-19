@@ -54,10 +54,16 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
-
-              <h1 className="text-5xl font-bold leading-tight mb-6">
-                Peer to Peer Investment Marketplace
-              </h1>
+              <div className="flex items-center justify-center gap-6 mb-6">
+                <img 
+                  src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750352435284.png" 
+                  alt="40 Acres Logo" 
+                  className="h-24 w-auto object-contain"
+                />
+                <h1 className="text-5xl font-bold leading-tight">
+                  Peer to Peer Investment Marketplace
+                </h1>
+              </div>
               <p className="text-xl text-blue-100 mb-8 leading-relaxed">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
               </p>
