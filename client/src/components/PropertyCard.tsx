@@ -185,16 +185,29 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
 
         {/* Action Buttons */}
         <div className="space-y-2">
-          <Button
-            onClick={() => onInvest(property.id)}
-            className="w-full bg-[#000000] text-white hover:bg-[#A0522D] transition-all duration-300 shadow-lg hover:shadow-xl btn-touch"
-            size="lg"
-          >
-            <div className="flex items-center justify-center gap-2">
-              <TrendingUp size={16} />
-              Invest Now
-            </div>
-          </Button>
+          {(() => {
+            const remainingShares = property.maxShares - property.currentShares;
+            const maxPossibleOwnership = (remainingShares / property.maxShares) * 100;
+            const canInvest = maxPossibleOwnership >= 49;
+            
+            return (
+              <Button
+                onClick={() => onInvest(property.id)}
+                disabled={!canInvest}
+                className={`w-full transition-all duration-300 shadow-lg hover:shadow-xl btn-touch ${
+                  canInvest 
+                    ? "bg-green-600 text-white hover:bg-green-700" 
+                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
+                size="lg"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <TrendingUp size={16} />
+                  {canInvest ? "Invest Now (49% Min)" : "Insufficient Shares Available"}
+                </div>
+              </Button>
+            );
+          })()}
           
           <div className="flex gap-2">
             <Button

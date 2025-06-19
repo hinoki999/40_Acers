@@ -25,12 +25,17 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Calculate ownership details
+  // Calculate ownership details with 49% minimum rule
   const sharePriceValue = property ? parseFloat(property.sharePrice) : 0;
   const ownershipPercentage = property ? (shares / property.maxShares) * 100 : 0;
   const propertyValue = property ? parseFloat(property.propertyValue) : 0;
   const propertyValueShare = (propertyValue * ownershipPercentage) / 100;
   const totalInvestment = shares * sharePriceValue;
+  
+  // 49% ownership requirements
+  const minSharesFor49Percent = property ? Math.ceil(property.maxShares * 0.49) : 0;
+  const minInvestmentFor49Percent = minSharesFor49Percent * sharePriceValue;
+  const meetsMinimumOwnership = ownershipPercentage >= 49;
 
   const { data: bitcoinPrice } = useQuery<{ price: number | null }>({
     queryKey: ['/api/bitcoin-price'],
