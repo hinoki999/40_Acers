@@ -69,14 +69,56 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const createPropertyMutation = useMutation({
-    mutationFn: async (data: any) => {
-      const response = await apiRequest("POST", "/api/properties", data);
-      return response.json();
-    },
+  // File upload handler
+  const handleFileUpload = async (files: FileList, documentType: string) => {
+    setUploadingFiles(true);
+    const uploadedUrls: string[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      try {
+        // Simulate file upload - in production, this would upload to cloud storage
+        const mockUrl = `https://storage.example.com/${documentType}/${Date.now()}-${file.name}`;
+        uploadedUrls.push(mockUrl);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate upload time
+      } catch (error) {
+        toast({
+          title: "Upload Error",
+          description: `Failed to upload ${file.name}`,
+          variant: "destructive",
+        });
+      }
+    }
+    
+    setUploadingFiles(false);
+    return uploadedUrls;
+  };
+
+  const handleDocumentUpload = async (files: FileList, docType: 'deed' | 'title' | 'llc' | 'images' | 'videos') => {
+    const urls = await handleFileUpload(files, docType);
+    
+    setFormData(prev => ({
+      ...prev,
+      [`${docType}Documents`]: docType === 'images' ? 
+        [...prev.propertyImages, ...urls] : 
+        docType === 'videos' ? 
+        [...prev.propertyVideos, ...urls] :
+        [...(prev[`${docType}Documents` as keyof typeof prev] as string[]), ...urls]
+    }));
+  };
+
+  const removeDocument = (docType: string, index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      [docType]: (prev[docType as keyof typeof prev] as string[]).filter((_, i) => i !== index)
+    }));
+  };
+
+  const createProperty = useMutation({
+    mutationFn: (data: any) => apiRequest("/api/properties", "POST", data),
     onSuccess: () => {
       toast({
-        title: "Success",
+        title: "Success!",
         description: "Property created successfully!",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/properties"] });
@@ -138,14 +180,20 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         squareFootage: parseInt(formData.squareFootage),
         maxShares: parseInt(formData.maxShares),
         sharePrice: formData.sharePrice,
-        thumbnailUrl: formData.thumbnailUrl || null,
+        thumbnailUrl: formData.thumbnailUrl,
         propertyType: formData.propertyType,
-        zoomMeetingUrl: formData.zoomMeetingUrl || null,
-        zoomMeetingId: formData.zoomMeetingId || null,
-        zoomPassword: formData.zoomPassword || null,
+        description: formData.description,
+        deedDocuments: formData.deedDocuments,
+        titleDocuments: formData.titleDocuments,
+        llcDocuments: formData.llcDocuments,
+        propertyImages: formData.propertyImages,
+        propertyVideos: formData.propertyVideos,
+        zoomMeetingUrl: formData.zoomMeetingUrl || undefined,
+        zoomMeetingId: formData.zoomMeetingId || undefined,
+        zoomPassword: formData.zoomPassword || undefined,
       });
 
-      createPropertyMutation.mutate(propertyData);
+      createProperty.mutate(propertyData);
     } catch (error) {
       toast({
         title: "Validation Error",
@@ -291,11 +339,10 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                   required
                 />
                 <p className="text-xs text-neutral-500 mt-1">
-                  Total square footage of the property
+                  Total living space in square feet
                 </p>
               </div>
             </div>
-            
             {formData.propertyValue && formData.squareFootage && (
               <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg border border-green-200">
                 <h4 className="font-semibold text-neutral-900 mb-3">Tokenization Summary</h4>
@@ -397,8 +444,8 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <p className="text-neutral-600">Upload property deeds, titles, and business documents for verification</p>
             </div>
             
-            {/* Property Deed Upload */}
             <div className="space-y-4">
+              {/* Property Deed Upload */}
               <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
                 <div className="text-center">
                   <Shield className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
@@ -534,8 +581,8 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <p className="text-neutral-600">Upload high-quality images and videos of your property</p>
             </div>
             
-            {/* Property Images Upload */}
             <div className="space-y-4">
+              {/* Property Images Upload */}
               <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
                 <div className="text-center">
                   <Camera className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
@@ -738,82 +785,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         );
       default:
         return null;
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Video className="text-white" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Zoom Meeting Setup</h3>
-              <p className="text-neutral-600">Set up virtual property tours for potential investors</p>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="zoomMeetingUrl" className="flex items-center gap-2">
-                  <Video size={16} />
-                  Zoom Meeting URL (Optional)
-                </Label>
-                <Input
-                  id="zoomMeetingUrl"
-                  type="url"
-                  placeholder="https://zoom.us/j/123456789"
-                  value={formData.zoomMeetingUrl}
-                  onChange={(e) => setFormData({ ...formData, zoomMeetingUrl: e.target.value })}
-                  className="mt-2"
-                />
-                <p className="text-xs text-neutral-500 mt-1">
-                  Provide a Zoom link for virtual property tours
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="zoomMeetingId">Meeting ID</Label>
-                  <Input
-                    id="zoomMeetingId"
-                    placeholder="123 456 789"
-                    value={formData.zoomMeetingId}
-                    onChange={(e) => setFormData({ ...formData, zoomMeetingId: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="zoomPassword">Meeting Password</Label>
-                  <Input
-                    id="zoomPassword"
-                    placeholder="password123"
-                    value={formData.zoomPassword}
-                    onChange={(e) => setFormData({ ...formData, zoomPassword: e.target.value })}
-                  />
-                </div>
-              </div>
-              
-              {formData.zoomMeetingUrl && (
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border border-blue-200">
-                  <h4 className="font-semibold text-neutral-900 mb-2">Virtual Tour Setup</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>Meeting URL:</span>
-                      <span className="font-medium text-blue-600 truncate ml-2">{formData.zoomMeetingUrl}</span>
-                    </div>
-                    {formData.zoomMeetingId && (
-                      <div className="flex justify-between">
-                        <span>Meeting ID:</span>
-                        <span className="font-medium">{formData.zoomMeetingId}</span>
-                      </div>
-                    )}
-                    {formData.zoomPassword && (
-                      <div className="flex justify-between">
-                        <span>Password:</span>
-                        <span className="font-medium">{formData.zoomPassword}</span>
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-xs text-blue-600 mt-3">
-                    Investors will be able to join virtual property tours using these details
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      default:
-        return null;
     }
   };
 
@@ -829,41 +800,32 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <DialogTitle className="text-2xl font-bold text-neutral-900">
                 List Your Property
               </DialogTitle>
-              <p className="text-neutral-600">Share your investment opportunity with the community</p>
+              <p className="text-sm text-neutral-600 mt-1">
+                Step {currentStep} of {totalSteps}: Complete property documentation
+              </p>
             </div>
           </div>
           
           {/* Progress Bar */}
-          <div className="flex items-center justify-between mb-6">
-            {[1, 2, 3, 4].map((step) => (
-              <div key={step} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
-                  step <= currentStep 
-                    ? 'bg-primary text-white' 
-                    : 'bg-neutral-200 text-neutral-600'
-                }`}>
-                  {step}
-                </div>
-                {step < 4 && (
-                  <div className={`w-16 h-1 mx-2 transition-all ${
-                    step < currentStep ? 'bg-primary' : 'bg-neutral-200'
-                  }`}></div>
-                )}
-              </div>
-            ))}
+          <div className="mb-6">
+            <div className="flex justify-between text-xs text-neutral-600 mb-2">
+              <span>Progress</span>
+              <span>{Math.round((currentStep / totalSteps) * 100)}%</span>
+            </div>
+            <Progress value={(currentStep / totalSteps) * 100} className="h-2" />
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-6">
           {renderStepContent()}
-          
-          <div className="flex justify-between mt-8 pt-6 border-t border-neutral-200">
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between pt-6 border-t">
             <Button
               type="button"
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 1}
-              className="px-6"
             >
               Previous
             </Button>
@@ -872,31 +834,17 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <Button
                 type="button"
                 onClick={handleNext}
-                disabled={
-                  (currentStep === 1 && (!formData.address || !formData.city || !formData.state || !formData.zipcode)) ||
-                  (currentStep === 2 && (!formData.propertyValue || !formData.squareFootage))
-                }
-                className="px-6 bg-primary text-white hover:bg-primary/90"
+                className="bg-[#b34034] hover:bg-[#A0522D]"
               >
                 Next Step
               </Button>
             ) : (
               <Button
                 type="submit"
-                disabled={createPropertyMutation.isPending}
-                className="px-8 bg-gradient-to-r from-primary to-blue-600 text-white hover:from-primary/90 hover:to-blue-600/90"
+                disabled={createProperty.isPending}
+                className="bg-[#b34034] hover:bg-[#A0522D]"
               >
-                {createPropertyMutation.isPending ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Creating...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Sparkles size={16} />
-                    Launch Property
-                  </div>
-                )}
+                {createProperty.isPending ? "Creating..." : "Submit Property"}
               </Button>
             )}
           </div>
