@@ -71,15 +71,15 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               </Link>
             </nav>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {!isLoading && (
               <>
                 {!isAuthenticated ? (
-                  <div className="flex items-center space-x-3">
-                    <Button variant="ghost" onClick={onShowLogin}>
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <Button variant="ghost" size="sm" onClick={onShowLogin} className="text-sm">
                       Login
                     </Button>
-                    <Button onClick={onShowRegister} className="bg-neutral-900 text-white hover:bg-neutral-800">
+                    <Button onClick={onShowRegister} size="sm" className="bg-neutral-900 text-white hover:bg-neutral-800 text-sm">
                       Register
                     </Button>
                   </div>
