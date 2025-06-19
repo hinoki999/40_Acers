@@ -54,13 +54,12 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
-              <div className="flex items-center space-x-4 mb-6">
+              <div className="flex items-center justify-center mb-6">
                 <img 
-                  src={logoImage} 
+                  src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351355844.png" 
                   alt="40 Acres Logo" 
-                  className="w-16 h-16 object-contain"
+                  className="h-16 w-auto object-contain"
                 />
-                <div className="text-2xl font-bold">40 Acres</div>
               </div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
                 Peer to Peer<br />
@@ -196,7 +195,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
       <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Why Choose 40 Acres App?</h2>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Why Choose Our Platform?</h2>
             <p className="text-xl text-neutral-600">
               Professional investment platform built for modern investors
             </p>

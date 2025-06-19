@@ -63,7 +63,11 @@ export default function AIInsights() {
       {/* Header */}
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <Sparkles size={32} className="text-blue-600" />
+          <img 
+            src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351355844.png" 
+            alt="40 Acres Logo" 
+            className="h-8 w-auto object-contain"
+          />
           <h1 className="text-3xl font-bold text-gray-900">AI-Powered Insights</h1>
         </div>
         <p className="text-gray-600 max-w-2xl mx-auto">

@@ -24,11 +24,10 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-3">
               <img 
-                src={logoImage} 
+                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351355844.png" 
                 alt="40 Acres Logo" 
-                className="w-10 h-10 object-contain"
+                className="h-8 w-auto object-contain"
               />
-              <span className="text-xl font-bold text-neutral-900">40 Acres</span>
             </Link>
             <nav className="hidden md:flex space-x-6">
               <Button variant="ghost" className="text-neutral-700 hover:text-primary">
