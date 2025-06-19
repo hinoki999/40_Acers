@@ -95,7 +95,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserPortfolioValue(userId: string): Promise<number> {
     const result = await db
-      .select({ total: sum(investments.totalInvested) })
+      .select({ total: sum(investments.investmentAmount) })
       .from(investments)
       .where(eq(investments.userId, userId));
     return Number(result[0]?.total || 0);
@@ -103,7 +103,7 @@ export class DatabaseStorage implements IStorage {
 
   async getUserTotalShares(userId: string): Promise<number> {
     const result = await db
-      .select({ total: sum(investments.sharesOwned) })
+      .select({ total: sum(investments.sharesPurchased) })
       .from(investments)
       .where(eq(investments.userId, userId));
     return Number(result[0]?.total || 0);
