@@ -11,6 +11,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertPropertySchema } from "@shared/schema";
 import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface CreatePropertyModalProps {
   isOpen: boolean;
@@ -692,12 +693,131 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Video className="text-white" size={24} />
+              <div className="w-16 h-16 bg-gradient-to-br from-red-600 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="text-white" size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Virtual Tours & Final Review</h3>
-              <p className="text-neutral-600">Set up virtual property tours and review your submission</p>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Business Verification Required</h3>
+              <p className="text-neutral-600 max-w-md mx-auto">
+                Property listing is available for verified business users only. You'll need to complete business verification and pay the listing fee.
+              </p>
             </div>
+
+            {/* Business Verification Status */}
+            <div className="border-2 border-amber-200 bg-amber-50 rounded-lg p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
+                  <Building className="text-white" size={16} />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-amber-900">Business Verification Status</h4>
+                  <p className="text-amber-700 text-sm">Required for property listings</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-amber-800">Business LLC Documents</span>
+                  <Badge variant="outline" className="border-amber-300 text-amber-800">
+                    {formData.llcDocuments.length > 0 ? "Uploaded" : "Required"}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-amber-800">Property Deed & Title</span>
+                  <Badge variant="outline" className="border-amber-300 text-amber-800">
+                    {(formData.deedDocuments.length > 0 && formData.titleDocuments.length > 0) ? "Complete" : "Required"}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-amber-800">Property Media</span>
+                  <Badge variant="outline" className="border-amber-300 text-amber-800">
+                    {formData.propertyImages.length > 0 ? "Uploaded" : "Required"}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+
+            {/* Listing Fee Calculation */}
+            {formData.propertyValue && formData.state && (
+              <div className="border rounded-lg p-6 bg-gradient-to-r from-green-50 to-blue-50">
+                <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                  <DollarSign size={20} />
+                  Listing Fee Calculation
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-neutral-700">Property Value:</span>
+                    <span className="font-semibold">${Number(formData.propertyValue).toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-neutral-700">Location ({formData.state}):</span>
+                    <span className="text-sm text-neutral-600">
+                      {(['CA', 'NY', 'WA', 'MA', 'HI'].includes(formData.state.toUpperCase())) ? "High-value market" : 
+                       (['TX', 'FL', 'OH', 'IN', 'TN'].includes(formData.state.toUpperCase())) ? "Standard market" : "Standard market"}
+                    </span>
+                  </div>
+                  <div className="border-t pt-3">
+                    <div className="flex justify-between items-center text-lg font-bold">
+                      <span>Listing Fee:</span>
+                      <span className="text-green-600">
+                        ${Math.round((Number(formData.propertyValue) * (
+                          Number(formData.propertyValue) < 100000 ? 3.0 :
+                          Number(formData.propertyValue) < 500000 ? 2.5 :
+                          Number(formData.propertyValue) < 1000000 ? 2.0 : 1.5
+                        )) / 100).toLocaleString()}
+                      </span>
+                    </div>
+                    <p className="text-xs text-neutral-600 mt-1">
+                      Fee: {Number(formData.propertyValue) < 100000 ? "3%" : 
+                            Number(formData.propertyValue) < 500000 ? "2.5%" :
+                            Number(formData.propertyValue) < 1000000 ? "2%" : "1.5%"} of property value
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Virtual Tour Setup */}
+            <div className="border rounded-lg p-6">
+              <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                <Video size={20} />
+                Virtual Tour Setup (Optional)
+              </h4>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="zoomMeetingUrl" className="flex items-center gap-2">
+                    <Video size={16} />
+                    Zoom Meeting URL
+                  </Label>
+                  <Input
+                    id="zoomMeetingUrl"
+                    type="url"
+                    placeholder="https://zoom.us/j/123456789"
+                    value={formData.zoomMeetingUrl}
+                    onChange={(e) => setFormData({ ...formData, zoomMeetingUrl: e.target.value })}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="zoomMeetingId">Meeting ID</Label>
+                    <Input
+                      id="zoomMeetingId"
+                      placeholder="123 456 789"
+                      value={formData.zoomMeetingId}
+                      onChange={(e) => setFormData({ ...formData, zoomMeetingId: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="zoomPassword">Meeting Password</Label>
+                    <Input
+                      id="zoomPassword"
+                      placeholder="Optional password"
+                      value={formData.zoomPassword}
+                      onChange={(e) => setFormData({ ...formData, zoomPassword: e.target.value })}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
             
             <div className="space-y-6">
               {/* Virtual Tour Setup */}

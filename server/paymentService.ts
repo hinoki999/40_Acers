@@ -33,18 +33,29 @@ export interface PaymentResult {
 }
 
 export class PaymentService {
-  // Calculate dynamic listing fees based on property value
-  static calculateListingFee(propertyValue: number): { fee: number; percentage: number } {
+  // Calculate location-based listing fees (1-3% based on location and property value)
+  static calculateListingFee(propertyValue: number, state: string = ""): { fee: number; percentage: number } {
     let percentage = 0;
     
+    // Base rates by property value
     if (propertyValue < 100000) {
-      percentage = 2.5; // 2.5% for properties under $100k
+      percentage = 3.0; // 3% for properties under $100k
     } else if (propertyValue < 500000) {
-      percentage = 2.0; // 2.0% for properties $100k-$500k
+      percentage = 2.5; // 2.5% for properties $100k-$500k
     } else if (propertyValue < 1000000) {
-      percentage = 1.5; // 1.5% for properties $500k-$1M
+      percentage = 2.0; // 2% for properties $500k-$1M
     } else {
-      percentage = 1.0; // 1.0% for properties over $1M
+      percentage = 1.5; // 1.5% for properties over $1M
+    }
+
+    // Location-based adjustments
+    const highCostStates = ['CA', 'NY', 'WA', 'MA', 'HI'];
+    const lowCostStates = ['TX', 'FL', 'OH', 'IN', 'TN'];
+    
+    if (highCostStates.includes(state.toUpperCase())) {
+      percentage = Math.max(percentage - 0.5, 1.0); // Reduce by 0.5% but minimum 1%
+    } else if (lowCostStates.includes(state.toUpperCase())) {
+      percentage = Math.min(percentage + 0.5, 3.0); // Increase by 0.5% but maximum 3%
     }
 
     const fee = (propertyValue * percentage) / 100;
@@ -55,13 +66,14 @@ export class PaymentService {
   static async createListingPaymentIntent(
     userId: string,
     propertyId: number,
-    propertyValue: number
+    propertyValue: number,
+    state: string = ""
   ): Promise<PaymentResult> {
     if (!isStripeConfigured || !stripe) {
       throw new Error('Payment processing is not available. Please contact support.');
     }
 
-    const { fee, percentage } = this.calculateListingFee(propertyValue);
+    const { fee, percentage } = this.calculateListingFee(propertyValue, state);
     const amountCents = Math.round(fee * 100);
     
     // Generate receipt number

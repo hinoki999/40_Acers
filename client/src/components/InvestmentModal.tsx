@@ -33,7 +33,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
     mutationFn: async (data: { propertyId: number; shares: number }) => {
       return apiRequest('/api/invest', 'POST', data);
     },
-    onSuccess: () => {
+    onSuccess: (response: any) => {
       toast({
         title: "Investment Successful",
         description: `You've successfully invested in ${shares} shares of this property.`,
@@ -41,6 +41,9 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
       queryClient.invalidateQueries({ queryKey: ['/api/portfolio'] });
       queryClient.invalidateQueries({ queryKey: ['/api/transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/investments'] });
+      setShares(1);
+      setInvestmentAmount("");
       onClose();
     },
     onError: (error: any) => {
