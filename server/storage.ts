@@ -1,19 +1,20 @@
 import {
-  users,
-  properties,
-  investments,
-  transactions,
-  type User,
-  type UpsertUser,
-  type Property,
-  type InsertProperty,
-  type Investment,
-  type InsertInvestment,
-  type Transaction,
-  type InsertTransaction,
+  users, properties, investments, transactions, wallets, paymentTransactions, 
+  walletTransactions, listingFees, socialInvestors, userInvestmentAccounts,
+  withdrawalRequests, investmentTiers, milestonePerformance, userProfiles,
+  challenges, challengeParticipants, leaderboard,
+  type User, type UpsertUser, type Property, type InsertProperty,
+  type Investment, type InsertInvestment, type Transaction, type InsertTransaction,
+  type Wallet, type InsertWallet, type PaymentTransaction, type InsertPaymentTransaction,
+  type WalletTransaction, type InsertWalletTransaction, type ListingFee, type InsertListingFee,
+  type SocialInvestor, type InsertSocialInvestor, type UserInvestmentAccount, type InsertUserInvestmentAccount,
+  type WithdrawalRequest, type InsertWithdrawalRequest, type InvestmentTier, type InsertInvestmentTier,
+  type MilestonePerformance, type InsertMilestonePerformance, type UserProfile, type InsertUserProfile,
+  type Challenge, type InsertChallenge, type ChallengeParticipant, type InsertChallengeParticipant,
+  type LeaderboardEntry, type InsertLeaderboardEntry
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, sum, and } from "drizzle-orm";
+import { eq, desc, sum, and, lte, gte } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {

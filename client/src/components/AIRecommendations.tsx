@@ -105,7 +105,7 @@ export default function AIRecommendations() {
               Try Again
             </Button>
           </div>
-        ) : recommendations.length === 0 ? (
+        ) : (recommendations as PropertyRecommendation[]).length === 0 ? (
           <div className="text-center py-8">
             <Brain size={48} className="mx-auto text-gray-400 mb-3" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No Recommendations Available</h3>
