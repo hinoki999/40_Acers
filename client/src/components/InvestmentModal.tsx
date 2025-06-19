@@ -52,7 +52,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
 
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-4">
@@ -247,16 +247,16 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
           </div>
         </div>
       </DialogContent>
-    </Dialog>
+      </Dialog>
 
-    <StripePaymentModal
-      isOpen={showPayment}
-      onClose={() => setShowPayment(false)}
-      property={property}
-      investmentAmount={totalInvestment}
-      shares={shares}
-      onSuccess={handlePaymentSuccess}
-    />
-  </>
+      <StripePaymentModal
+        isOpen={showPayment}
+        onClose={() => setShowPayment(false)}
+        property={property}
+        investmentAmount={totalInvestment}
+        shares={shares}
+        onSuccess={handlePaymentSuccess}
+      />
+    </>
   );
 }

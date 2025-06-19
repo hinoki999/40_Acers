@@ -129,8 +129,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const investment = await storage.createInvestment({
         userId,
         propertyId,
-        sharesOwned: shares,
-        totalInvested: totalInvested.toString(),
+        sharesPurchased: shares,
+        investmentAmount: totalInvested.toString(),
+        purchasePrice: property.sharePrice,
       });
 
       // Update property shares
