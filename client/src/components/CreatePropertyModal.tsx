@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertPropertySchema } from "@shared/schema";
-import { Home, MapPin, DollarSign, Share, Camera, Sparkles } from "lucide-react";
+import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video } from "lucide-react";
 
 interface CreatePropertyModalProps {
   isOpen: boolean;
@@ -60,6 +60,9 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         thumbnailUrl: "",
         propertyType: "Townhouse",
         description: "",
+        zoomMeetingUrl: "",
+        zoomMeetingId: "",
+        zoomPassword: "",
         zoomMeetingUrl: "",
         zoomMeetingId: "",
         zoomPassword: "",

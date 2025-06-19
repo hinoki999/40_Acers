@@ -16,6 +16,7 @@ import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
 import PropertyHeatMap from "@/components/PropertyHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
+import CurrencyToggle from "@/components/CurrencyToggle";
 import { Transaction, Property } from "@shared/schema";
 
 interface PortfolioData {
@@ -28,6 +29,7 @@ export default function Dashboard() {
   const [showInvestment, setShowInvestment] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [transactionFilter, setTransactionFilter] = useState("");
+  const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
   const { toast } = useToast();
   const { isAuthenticated, isLoading } = useAuth();
   const queryClient = useQueryClient();
@@ -305,10 +307,18 @@ export default function Dashboard() {
       {properties.length > 0 && (
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-neutral-900">
-              Available Investment Opportunities
-            </CardTitle>
-            <p className="text-neutral-600">Discover and invest in new properties</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-2xl font-bold text-neutral-900">
+                  Available Investment Opportunities
+                </CardTitle>
+                <p className="text-neutral-600">Discover and invest in new properties</p>
+              </div>
+              <CurrencyToggle 
+                currentCurrency={currency}
+                onCurrencyChange={setCurrency}
+              />
+            </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

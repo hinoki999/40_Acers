@@ -7,6 +7,7 @@ import { DollarSign, Shield, TrendingUp, Users } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import AuthModals from "@/components/AuthModals";
 import InvestmentModal from "@/components/InvestmentModal";
+import CurrencyToggle from "@/components/CurrencyToggle";
 import { Property } from "@shared/schema";
 
 interface LandingProps {
@@ -19,6 +20,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   const [showRegister, setShowRegister] = useState(false);
   const [showInvestment, setShowInvestment] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ["/api/properties"],
@@ -111,7 +113,13 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Featured Properties</h2>
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <h2 className="text-4xl font-bold text-neutral-900">Featured Properties</h2>
+              <CurrencyToggle 
+                currentCurrency={currency}
+                onCurrencyChange={setCurrency}
+              />
+            </div>
             <p className="text-xl text-neutral-600">
               Discover profitable rental properties and start building your portfolio
             </p>

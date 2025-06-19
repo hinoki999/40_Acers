@@ -91,7 +91,7 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
               <BitcoinPriceDisplay 
-                usdPrice={sharePrice} 
+                usdPrice={Number(property.sharePrice)} 
                 showBoth={true}
                 className="text-center"
               />

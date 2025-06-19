@@ -14,7 +14,7 @@ export default function BitcoinPriceDisplay({ usdPrice, className = "", showBoth
     refetchInterval: 60000, // Refetch every minute
   });
 
-  const bitcoinPrice = bitcoinData?.price;
+  const bitcoinPrice = (bitcoinData as any)?.price;
   const btcAmount = bitcoinPrice ? usdPrice / bitcoinPrice : null;
 
   const formatBitcoin = (btcAmount: number): string => {
