@@ -851,35 +851,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 {createProperty.isPending ? "Creating..." : "Submit Property"}
               </Button>
             )}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between pt-6 border-t">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={currentStep === 1}
-            >
-              Previous
-            </Button>
-            
-            {currentStep < totalSteps ? (
-              <Button
-                type="button"
-                onClick={handleNext}
-                className="bg-[#b34034] hover:bg-[#A0522D]"
-              >
-                Next Step
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                disabled={createProperty.isPending}
-                className="bg-[#b34034] hover:bg-[#A0522D]"
-              >
-                {createProperty.isPending ? "Creating..." : "Submit Property"}
-              </Button>
-            )}
           </div>
         </form>
       </DialogContent>
