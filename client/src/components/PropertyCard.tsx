@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { TrendingUp, MapPin, Users, Zap, Heart, Video, Calculator, Share2 } from "lucide-react";
+import { TrendingUp, MapPin, Users, Zap, Heart, Video, Calculator, Share2, PieChart } from "lucide-react";
 import { Property } from "@shared/schema";
 import { useState } from "react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";

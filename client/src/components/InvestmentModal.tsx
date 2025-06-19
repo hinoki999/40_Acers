@@ -25,6 +25,13 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Calculate ownership details
+  const sharePriceValue = property ? parseFloat(property.sharePrice) : 0;
+  const ownershipPercentage = property ? (shares / property.maxShares) * 100 : 0;
+  const propertyValue = property ? parseFloat(property.propertyValue) : 0;
+  const propertyValueShare = (propertyValue * ownershipPercentage) / 100;
+  const totalInvestment = shares * sharePriceValue;
+
   const { data: bitcoinPrice } = useQuery<{ price: number | null }>({
     queryKey: ['/api/bitcoin-price'],
   });
