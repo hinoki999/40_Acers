@@ -1,8 +1,9 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { Home, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import logoImage from "@/assets/40-acres-logo.png";
 
 interface HeaderProps {
   onShowLogin: () => void;
@@ -21,11 +22,13 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center">
-                <Home className="text-white" size={16} />
-              </div>
-              <span className="text-xl font-bold text-neutral-900">40 Acres App</span>
+            <Link href="/" className="flex items-center space-x-3">
+              <img 
+                src={logoImage} 
+                alt="40 Acres Logo" 
+                className="w-10 h-10 object-contain"
+              />
+              <span className="text-xl font-bold text-neutral-900">40 Acres</span>
             </Link>
             <nav className="hidden md:flex space-x-6">
               <Button variant="ghost" className="text-neutral-700 hover:text-primary">

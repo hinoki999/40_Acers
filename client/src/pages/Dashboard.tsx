@@ -18,6 +18,7 @@ import PropertyHeatMap from "@/components/PropertyHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import { Transaction, Property } from "@shared/schema";
+import logoImage from "@/assets/40-acres-logo.png";
 
 interface PortfolioData {
   totalValue: number;
@@ -137,6 +138,18 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Dashboard Header with Logo */}
+      <div className="flex items-center space-x-4 mb-8">
+        <img 
+          src={logoImage} 
+          alt="40 Acres Logo" 
+          className="w-12 h-12 object-contain"
+        />
+        <div>
+          <h1 className="text-3xl font-bold text-neutral-900">40 Acres Dashboard</h1>
+          <p className="text-neutral-600">Manage your real estate investments</p>
+        </div>
+      </div>
       {/* Portfolio Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Portfolio Value Card */}

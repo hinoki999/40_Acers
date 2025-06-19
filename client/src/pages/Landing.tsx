@@ -9,6 +9,7 @@ import AuthModals from "@/components/AuthModals";
 import InvestmentModal from "@/components/InvestmentModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import { Property } from "@shared/schema";
+import logoImage from "@/assets/40-acres-logo.png";
 
 interface LandingProps {
   onShowLogin: () => void;
@@ -53,6 +54,14 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
+              <div className="flex items-center space-x-4 mb-6">
+                <img 
+                  src={logoImage} 
+                  alt="40 Acres Logo" 
+                  className="w-16 h-16 object-contain"
+                />
+                <div className="text-2xl font-bold">40 Acres</div>
+              </div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
                 Peer to Peer<br />
                 Investment<br />
