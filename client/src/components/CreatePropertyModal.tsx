@@ -6,12 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertPropertySchema } from "@shared/schema";
 import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 interface CreatePropertyModalProps {
   isOpen: boolean;
@@ -118,18 +118,10 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   const createProperty = useMutation({
     mutationFn: (data: any) => apiRequest("/api/properties", "POST", data),
     onSuccess: (response: any) => {
-      // Check if property was successfully posted to community feed and marketplace
-      if (response.communityFeedPosted && response.marketplacePosted) {
-        toast({
-          title: "Success!",
-          description: "Property listed successfully in Community Feed and Marketplace!",
-        });
-      } else {
-        toast({
-          title: "Success!",
-          description: "Property created successfully!",
-        });
-      }
+      toast({
+        title: "Success!",
+        description: "Property listed successfully!",
+      });
       queryClient.invalidateQueries({ queryKey: ["/api/properties"] });
       onClose();
       setFormData({
@@ -156,19 +148,11 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
       setCurrentStep(1);
     },
     onError: (error: any) => {
-      if (error?.message?.includes("verified business users")) {
-        toast({
-          title: "Upgrade Required",
-          description: "Only verified business users can list properties. Please upgrade your account.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to create property. Please try again.",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Error",
+        description: "Failed to create property. Please try again.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -775,146 +759,56 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               </div>
             )}
 
-            {/* Virtual Tour Setup */}
-            <div className="border rounded-lg p-6">
+            {/* Final Review Summary */}
+            <div className="border rounded-lg p-6 bg-gradient-to-r from-green-50 to-blue-50">
               <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
-                <Video size={20} />
-                Virtual Tour Setup (Optional)
+                <CheckCircle size={20} />
+                Submission Summary
               </h4>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="zoomMeetingUrl" className="flex items-center gap-2">
-                    <Video size={16} />
-                    Zoom Meeting URL
-                  </Label>
-                  <Input
-                    id="zoomMeetingUrl"
-                    type="url"
-                    placeholder="https://zoom.us/j/123456789"
-                    value={formData.zoomMeetingUrl}
-                    onChange={(e) => setFormData({ ...formData, zoomMeetingUrl: e.target.value })}
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="zoomMeetingId">Meeting ID</Label>
-                    <Input
-                      id="zoomMeetingId"
-                      placeholder="123 456 789"
-                      value={formData.zoomMeetingId}
-                      onChange={(e) => setFormData({ ...formData, zoomMeetingId: e.target.value })}
-                    />
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Property:</span>
+                    <span className="font-medium">{formData.address || 'Not set'}</span>
                   </div>
-                  <div>
-                    <Label htmlFor="zoomPassword">Meeting Password</Label>
-                    <Input
-                      id="zoomPassword"
-                      placeholder="Optional password"
-                      value={formData.zoomPassword}
-                      onChange={(e) => setFormData({ ...formData, zoomPassword: e.target.value })}
-                    />
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Type:</span>
+                    <span className="font-medium">{formData.propertyType}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Value:</span>
+                    <span className="font-medium">${formData.propertyValue ? parseInt(formData.propertyValue).toLocaleString() : '0'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Square Footage:</span>
+                    <span className="font-medium">{formData.squareFootage ? parseInt(formData.squareFootage).toLocaleString() : '0'} sq ft</span>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-            
-            <div className="space-y-6">
-              {/* Virtual Tour Setup */}
-              <div className="border rounded-lg p-6 bg-gradient-to-r from-blue-50 to-purple-50">
-                <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
-                  <Video size={20} />
-                  Virtual Tour Setup (Optional)
-                </h4>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="zoomMeetingUrl" className="flex items-center gap-2">
-                      <Video size={16} />
-                      Zoom Meeting URL
-                    </Label>
-                    <Input
-                      id="zoomMeetingUrl"
-                      type="url"
-                      placeholder="https://zoom.us/j/123456789"
-                      value={formData.zoomMeetingUrl}
-                      onChange={(e) => setFormData({ ...formData, zoomMeetingUrl: e.target.value })}
-                      className="mt-2"
-                    />
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Deed Documents:</span>
+                    <span className="font-medium">{formData.deedDocuments.length} files</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="zoomMeetingId">Meeting ID</Label>
-                      <Input
-                        id="zoomMeetingId"
-                        placeholder="123 456 789"
-                        value={formData.zoomMeetingId}
-                        onChange={(e) => setFormData({ ...formData, zoomMeetingId: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="zoomPassword">Meeting Password</Label>
-                      <Input
-                        id="zoomPassword"
-                        placeholder="password123"
-                        value={formData.zoomPassword}
-                        onChange={(e) => setFormData({ ...formData, zoomPassword: e.target.value })}
-                      />
-                    </div>
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Title Documents:</span>
+                    <span className="font-medium">{formData.titleDocuments.length} files</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">LLC Documents:</span>
+                    <span className="font-medium">{formData.llcDocuments.length} files</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Property Media:</span>
+                    <span className="font-medium">{formData.propertyImages.length + formData.propertyVideos.length} files</span>
                   </div>
                 </div>
               </div>
-
-              {/* Submission Summary */}
-              <div className="border rounded-lg p-6 bg-gradient-to-r from-green-50 to-blue-50">
-                <h4 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
-                  <CheckCircle size={20} />
-                  Submission Summary
-                </h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Property:</span>
-                      <span className="font-medium">{formData.address || 'Not set'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Type:</span>
-                      <span className="font-medium">{formData.propertyType}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Value:</span>
-                      <span className="font-medium">${formData.propertyValue ? parseInt(formData.propertyValue).toLocaleString() : '0'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Square Footage:</span>
-                      <span className="font-medium">{formData.squareFootage ? parseInt(formData.squareFootage).toLocaleString() : '0'} sq ft</span>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Deed Documents:</span>
-                      <span className="font-medium">{formData.deedDocuments.length} files</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Title Documents:</span>
-                      <span className="font-medium">{formData.titleDocuments.length} files</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">LLC Documents:</span>
-                      <span className="font-medium">{formData.llcDocuments.length} files</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Property Media:</span>
-                      <span className="font-medium">{formData.propertyImages.length + formData.propertyVideos.length} files</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-4 p-3 bg-yellow-50 rounded border-l-4 border-yellow-400">
-                  <p className="text-sm text-yellow-800">
-                    <strong>Review Required:</strong> Your property will be reviewed by our team within 2-3 business days. 
-                    You'll receive updates via email about the verification status.
-                  </p>
-                </div>
+              
+              <div className="mt-4 p-3 bg-yellow-50 rounded border-l-4 border-yellow-400">
+                <p className="text-sm text-yellow-800">
+                  <strong>Review Required:</strong> Your property will be reviewed by our team within 2-3 business days. 
+                  You'll receive updates via email about the verification status.
+                </p>
               </div>
             </div>
           </div>
@@ -923,10 +817,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         return null;
     }
   };
-
-
-
-
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
