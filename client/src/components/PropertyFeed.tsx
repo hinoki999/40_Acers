@@ -339,6 +339,19 @@ export default function PropertyFeed({ properties, onInvest, onShare }: Property
                   </div>
                 </div>
 
+                {/* Property Value */}
+                <div className="bg-green-500/20 rounded-lg p-3 backdrop-blur-sm mb-3 border border-green-400/30">
+                  <div className="flex justify-between items-center">
+                    <div className="text-green-300 text-sm font-medium">Property Value</div>
+                    <div className="text-green-200 text-lg font-bold">
+                      ${Number(currentProperty.propertyValue).toLocaleString()}
+                    </div>
+                  </div>
+                  <div className="text-green-300/80 text-xs mt-1">
+                    {currentProperty.squareFootage.toLocaleString()} sq ft
+                  </div>
+                </div>
+
                 {/* Investment Info */}
                 <div className="bg-black/40 rounded-lg p-3 backdrop-blur-sm">
                   <div className="flex justify-between items-center mb-2">
