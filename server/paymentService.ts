@@ -354,7 +354,7 @@ export class PaymentService {
     
     const csvHeader = "Date,Receipt Number,Type,Amount,Status,Property ID,Payment Method\n";
     const csvRows = transactions.map(t => 
-      `${new Date(t.createdAt).toISOString().split('T')[0]},${t.receiptNumber},${t.transactionType},${t.amount},${t.status},${t.propertyId || ''},${t.paymentMethod}`
+      `${new Date(t.createdAt || new Date()).toISOString().split('T')[0]},${t.receiptNumber},${t.transactionType},${t.amount},${t.status},${t.propertyId || ''},${t.paymentMethod}`
     ).join('\n');
     
     return csvHeader + csvRows;
