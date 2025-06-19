@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PropertyFeed from "@/components/PropertyFeed";
 import PropertyFeedFilters from "@/components/PropertyFeedFilters";
 import CommunityLeaderboard from "@/components/CommunityLeaderboard";
+import CommunityFeedPost from "@/components/CommunityFeedPost";
 import { Property } from "@shared/schema";
 import { 
   TrendingUp, 

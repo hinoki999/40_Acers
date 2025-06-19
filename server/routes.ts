@@ -238,6 +238,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Add payment routes
   app.use("/api/payments", paymentsRouter);
+
+  // Community API routes
+  app.get("/api/social-investors", async (req, res) => {
+    try {
+      const propertyId = req.query.propertyId ? Number(req.query.propertyId) : undefined;
+      const investors = await storage.getSocialInvestors(propertyId);
+      res.json(investors);
+    } catch (error) {
+      console.error("Error fetching social investors:", error);
+      res.status(500).json({ message: "Failed to fetch social investors" });
+    }
+  });
+
+  app.get("/api/leaderboard/:category", async (req, res) => {
+    try {
+      const category = req.params.category;
+      const limit = req.query.limit ? Number(req.query.limit) : 10;
+      const leaderboard = await storage.getLeaderboard(category, limit);
+      res.json(leaderboard);
+    } catch (error) {
+      console.error("Error fetching leaderboard:", error);
+      res.status(500).json({ message: "Failed to fetch leaderboard" });
+    }
+  });
+
+  app.get("/api/leaderboard/:category/my-rank", async (req, res) => {
+    try {
+      const category = req.params.category;
+      const userId = req.user?.claims?.sub;
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const userRank = await storage.getUserRanking(userId, category);
+      res.json(userRank);
+    } catch (error) {
+      console.error("Error fetching user rank:", error);
+      res.status(500).json({ message: "Failed to fetch user rank" });
+    }
+  });
+
+  app.get("/api/challenges", async (req, res) => {
+    try {
+      const challenges = await storage.getActiveChallenge();
+      res.json(challenges);
+    } catch (error) {
+      console.error("Error fetching challenges:", error);
+      res.status(500).json({ message: "Failed to fetch challenges" });
+    }
+  });
   
   const httpServer = createServer(app);
   return httpServer;
