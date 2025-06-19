@@ -8,6 +8,10 @@ import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/Dashboard";
+import Invest from "@/pages/Invest";
+import ListProperty from "@/pages/ListProperty";
+import Business from "@/pages/Business";
+import Documentation from "@/pages/Documentation";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,9 +27,21 @@ function Router() {
       <Header onShowLogin={handleShowLogin} onShowRegister={handleShowRegister} />
       <Switch>
         {isLoading || !isAuthenticated ? (
-          <Route path="/" component={() => <Landing onShowLogin={handleShowLogin} onShowRegister={handleShowRegister} />} />
+          <>
+            <Route path="/" component={() => <Landing onShowLogin={handleShowLogin} onShowRegister={handleShowRegister} />} />
+            <Route path="/invest" component={Invest} />
+            <Route path="/list" component={ListProperty} />
+            <Route path="/business" component={Business} />
+            <Route path="/documentation" component={Documentation} />
+          </>
         ) : (
-          <Route path="/" component={Dashboard} />
+          <>
+            <Route path="/" component={Dashboard} />
+            <Route path="/invest" component={Invest} />
+            <Route path="/list" component={ListProperty} />
+            <Route path="/business" component={Business} />
+            <Route path="/documentation" component={Documentation} />
+          </>
         )}
         <Route component={NotFound} />
       </Switch>

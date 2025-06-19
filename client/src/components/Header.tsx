@@ -30,21 +30,31 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               />
             </Link>
             <nav className="hidden md:flex space-x-6">
-              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                Getting Started
-              </Button>
-              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                Invest
-              </Button>
-              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                List
-              </Button>
-              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                Business
-              </Button>
-              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                Documentation
-              </Button>
+              <Link href="/">
+                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                  Home
+                </Button>
+              </Link>
+              <Link href="/invest">
+                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                  Invest
+                </Button>
+              </Link>
+              <Link href="/list">
+                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                  List Property
+                </Button>
+              </Link>
+              <Link href="/business">
+                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                  Business
+                </Button>
+              </Link>
+              <Link href="/documentation">
+                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                  Documentation
+                </Button>
+              </Link>
             </nav>
           </div>
           <div className="flex items-center space-x-4">
