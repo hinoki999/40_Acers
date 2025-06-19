@@ -64,7 +64,7 @@ export default function AIInsights() {
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">
           <img 
-            src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351355844.png" 
+            src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351486660.png" 
             alt="40 Acres Logo" 
             className="h-8 w-auto object-contain"
           />
