@@ -56,6 +56,19 @@ export interface IStorage {
   getInvestmentTiers(): Promise<InvestmentTier[]>;
   getMilestonePerformance(propertyId?: number): Promise<MilestonePerformance[]>;
   
+  // Payment and Wallet operations
+  getUserWallet(userId: string): Promise<Wallet | undefined>;
+  createWallet(wallet: InsertWallet): Promise<Wallet>;
+  updateWallet(id: number, updates: Partial<Wallet>): Promise<Wallet>;
+  createPaymentTransaction(transaction: InsertPaymentTransaction): Promise<PaymentTransaction>;
+  updatePaymentTransaction(id: number, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction>;
+  updatePaymentTransactionByStripeId(stripePaymentIntentId: string, updates: Partial<PaymentTransaction>): Promise<PaymentTransaction | undefined>;
+  getPaymentTransactions(userId: string): Promise<PaymentTransaction[]>;
+  createWalletTransaction(transaction: InsertWalletTransaction): Promise<WalletTransaction>;
+  createListingFee(fee: InsertListingFee): Promise<ListingFee>;
+  updateListingFeeByPaymentId(paymentTransactionId: number, updates: Partial<ListingFee>): Promise<ListingFee | undefined>;
+  updatePropertyStatus(propertyId: number, status: string): Promise<void>;
+  
   // Challenge operations
   getAllChallenges(): Promise<Challenge[]>;
   getActiveChallenge(): Promise<Challenge[]>;

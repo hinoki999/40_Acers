@@ -788,6 +788,45 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     }
   };
 
+  const handlePaymentSuccess = () => {
+    toast({
+      title: "Listing Activated!",
+      description: "Your property listing is now live and available for investment.",
+    });
+    onClose();
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setFormData({
+      address: "",
+      city: "",
+      state: "",
+      zipcode: "",
+      propertyType: "",
+      propertyValue: "",
+      description: "",
+      squareFootage: "",
+      sharePrice: "",
+      maxShares: "",
+    });
+    setDeed([]);
+    setTitle([]);
+    setLlc([]);
+    setImages([]);
+    setVideos([]);
+    setStep("form");
+    setFeeCalculation(null);
+    setTempPropertyId(null);
+  };
+
+  const handleClose = () => {
+    onClose();
+    if (step === "form") {
+      resetForm();
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -816,7 +855,8 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        {step === "form" ? (
+          <form onSubmit={handleSubmit} className="space-y-6">
           {renderStepContent()}
 
           {/* Navigation Buttons */}

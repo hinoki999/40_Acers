@@ -276,6 +276,19 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
           </div>
         </div>
       </DialogContent>
+      
+      {showPaymentModal && user && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          paymentType="investment"
+          amount={parseFloat(investmentAmount)}
+          propertyId={property.id}
+          shares={calculateShares()}
+          userId={user.id}
+          onSuccess={handlePaymentSuccess}
+        />
+      )}
     </Dialog>
   );
 }

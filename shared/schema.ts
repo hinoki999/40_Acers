@@ -226,3 +226,65 @@ export type WithdrawalRequest = typeof withdrawalRequests.$inferSelect;
 export type InsertWithdrawalRequest = typeof withdrawalRequests.$inferInsert;
 export type MilestonePerformance = typeof milestonePerformance.$inferSelect;
 export type InsertMilestonePerformance = typeof milestonePerformance.$inferInsert;
+
+// Payment and Wallet System
+export const wallets = pgTable("wallets", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  balance: text("balance").notNull().default("0"),
+  currency: text("currency").notNull().default("USD"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const paymentTransactions = pgTable("payment_transactions", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  propertyId: integer("property_id").references(() => properties.id),
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  paypalOrderId: text("paypal_order_id"),
+  transactionType: text("transaction_type").notNull(), // "listing_fee", "investment", "withdrawal"
+  amount: text("amount").notNull(),
+  currency: text("currency").notNull().default("USD"),
+  status: text("status").notNull().default("pending"), // pending, completed, failed, refunded
+  paymentMethod: text("payment_method").notNull(), // "stripe", "paypal"
+  receiptUrl: text("receipt_url"),
+  receiptNumber: text("receipt_number"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const walletTransactions = pgTable("wallet_transactions", {
+  id: serial("id").primaryKey(),
+  walletId: integer("wallet_id").notNull().references(() => wallets.id),
+  paymentTransactionId: integer("payment_transaction_id").references(() => paymentTransactions.id),
+  transactionType: text("transaction_type").notNull(), // "deposit", "withdrawal", "investment", "return"
+  amount: text("amount").notNull(),
+  balanceBefore: text("balance_before").notNull(),
+  balanceAfter: text("balance_after").notNull(),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const listingFees = pgTable("listing_fees", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull().references(() => properties.id),
+  userId: text("user_id").notNull().references(() => users.id),
+  propertyValue: text("property_value").notNull(),
+  feePercentage: decimal("fee_percentage", { precision: 5, scale: 2 }).notNull(),
+  calculatedFee: text("calculated_fee").notNull(),
+  paymentTransactionId: integer("payment_transaction_id").references(() => paymentTransactions.id),
+  status: text("status").notNull().default("pending"), // pending, paid, failed
+  paidAt: timestamp("paid_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export type Wallet = typeof wallets.$inferSelect;
+export type InsertWallet = typeof wallets.$inferInsert;
+export type PaymentTransaction = typeof paymentTransactions.$inferSelect;
+export type InsertPaymentTransaction = typeof paymentTransactions.$inferInsert;
+export type WalletTransaction = typeof walletTransactions.$inferSelect;
+export type InsertWalletTransaction = typeof walletTransactions.$inferInsert;
+export type ListingFee = typeof listingFees.$inferSelect;
+export type InsertListingFee = typeof listingFees.$inferInsert;
