@@ -58,6 +58,18 @@ export const properties = pgTable("properties", {
   thumbnailUrl: text("thumbnail_url"),
   propertyType: text("property_type").notNull().default("Townhouse"),
   description: text("description"),
+  bedrooms: integer("bedrooms"),
+  bathrooms: decimal("bathrooms", { precision: 3, scale: 1 }),
+  yearBuilt: integer("year_built"),
+  lotSize: decimal("lot_size", { precision: 10, scale: 2 }),
+  parking: text("parking"),
+  amenities: text("amenities").array(),
+  nearbySchools: text("nearby_schools").array(),
+  walkScore: integer("walk_score"),
+  crimeRating: text("crime_rating"),
+  marketTrends: text("market_trends"),
+  rentalYield: decimal("rental_yield", { precision: 5, scale: 2 }),
+  appreciationRate: decimal("appreciation_rate", { precision: 5, scale: 2 }),
   status: text("status").notNull().default("pending"), // 'pending', 'active', 'funded', 'closed'
   
   // Legal documents

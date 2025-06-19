@@ -7,7 +7,7 @@ import { Property } from "@shared/schema";
 import { useState } from "react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import TokenizationCalculator from "./TokenizationCalculator";
-import SocialInvestorNetwork from "./SocialInvestorNetwork";
+// import SocialInvestorNetwork from "./SocialInvestorNetwork";
 
 interface PropertyCardProps {
   property: Property;
@@ -173,19 +173,15 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
           </div>
         </div>
 
-        {/* Social Investors Preview */}
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Recent Investors</span>
-            <span className="text-xs text-gray-500">4 investors</span>
+        {/* Property Description */}
+        {property.description && (
+          <div className="mb-4 p-3 bg-neutral-50 rounded-lg border">
+            <h4 className="text-sm font-semibold text-neutral-900 mb-2">Property Details</h4>
+            <p className="text-sm text-neutral-700 leading-relaxed">
+              {property.description}
+            </p>
           </div>
-          <SocialInvestorNetwork 
-            propertyId={property.id} 
-            maxDisplay={4}
-            compact={true}
-            showTitle={false}
-          />
-        </div>
+        )}
 
         {/* Action Buttons */}
         <div className="space-y-2">
