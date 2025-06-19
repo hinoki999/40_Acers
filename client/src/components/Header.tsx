@@ -26,12 +26,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <img 
                 src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                 alt="40 Acres Logo" 
-                className="h-28 md:h-40 w-auto object-cover object-center critical"
-                style={{
-                  objectPosition: 'center',
-                  clipPath: 'inset(10% 10% 10% 10%)',
-                  scale: '1.2'
-                }}
+                className="h-20 md:h-32 w-auto object-contain critical"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750352435284.png";
