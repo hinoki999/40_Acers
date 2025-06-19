@@ -26,7 +26,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <img 
                 src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_1750351977219.jpg" 
                 alt="40 Acres Logo" 
-                className="h-8 w-auto object-contain"
+                className="h-12 w-auto object-contain"
               />
             </Link>
             <nav className="hidden md:flex space-x-6">

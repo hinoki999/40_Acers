@@ -10,7 +10,7 @@ export default function NotFound() {
             <img 
               src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_1750351977219.jpg" 
               alt="40 Acres Logo" 
-              className="h-16 w-auto object-contain mx-auto mb-4"
+              className="h-20 w-auto object-contain mx-auto mb-4"
             />
             <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
           </div>
