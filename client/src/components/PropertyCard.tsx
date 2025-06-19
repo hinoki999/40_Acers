@@ -2,9 +2,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { TrendingUp, MapPin, Users, Zap, Heart } from "lucide-react";
+import { TrendingUp, MapPin, Users, Zap, Heart, Video } from "lucide-react";
 import { Property } from "@shared/schema";
 import { useState } from "react";
+import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 
 interface PropertyCardProps {
   property: Property;
@@ -28,7 +29,7 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         
         {/* Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
           <Badge className="bg-secondary text-white shadow-lg backdrop-blur-sm">
             <TrendingUp className="w-3 h-3 mr-1" />
             {property.propertyType}
@@ -37,6 +38,12 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
             <Badge className="bg-accent text-white shadow-lg">
               <Zap className="w-3 h-3 mr-1" />
               Hot
+            </Badge>
+          )}
+          {property.zoomMeetingUrl && (
+            <Badge className="bg-blue-600 text-white shadow-lg">
+              <Video className="w-3 h-3 mr-1" />
+              Virtual Tour
             </Badge>
           )}
         </div>
@@ -83,16 +90,20 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
         <div className="bg-gradient-to-r from-neutral-50 to-blue-50 rounded-lg p-4 mb-4 border border-neutral-100">
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
-              <div className="text-2xl font-bold text-primary">
-                ${property.sharePrice}
-              </div>
-              <div className="text-xs text-neutral-600">Per Share</div>
+              <BitcoinPriceDisplay 
+                usdPrice={sharePrice} 
+                showBoth={true}
+                className="text-center"
+              />
+              <div className="text-xs text-neutral-600 mt-1">Per Share</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-secondary">
-                ${totalValue.toLocaleString()}
-              </div>
-              <div className="text-xs text-neutral-600">Total Value</div>
+              <BitcoinPriceDisplay 
+                usdPrice={totalValue} 
+                showBoth={true}
+                className="text-center"
+              />
+              <div className="text-xs text-neutral-600 mt-1">Total Value</div>
             </div>
           </div>
         </div>
@@ -133,13 +144,28 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
             >
               View Details
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 hover:bg-neutral-50"
-            >
-              Save
-            </Button>
+            {property.zoomMeetingUrl ? (
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1 hover:bg-blue-50 border-blue-200 text-blue-600"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(property.zoomMeetingUrl!, '_blank');
+                }}
+              >
+                <Video size={14} className="mr-1" />
+                Tour
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1 hover:bg-neutral-50"
+              >
+                Save
+              </Button>
+            )}
           </div>
         </div>
 

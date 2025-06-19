@@ -27,10 +27,13 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     thumbnailUrl: "",
     propertyType: "Townhouse",
     description: "",
+    zoomMeetingUrl: "",
+    zoomMeetingId: "",
+    zoomPassword: "",
   });
 
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 3;
+  const totalSteps = 4;
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -57,6 +60,9 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         thumbnailUrl: "",
         propertyType: "Townhouse",
         description: "",
+        zoomMeetingUrl: "",
+        zoomMeetingId: "",
+        zoomPassword: "",
       });
       setCurrentStep(1);
     },
@@ -94,6 +100,9 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         sharePrice: formData.sharePrice,
         thumbnailUrl: formData.thumbnailUrl || null,
         propertyType: formData.propertyType,
+        zoomMeetingUrl: formData.zoomMeetingUrl || null,
+        zoomMeetingId: formData.zoomMeetingId || null,
+        zoomPassword: formData.zoomPassword || null,
       });
 
       createPropertyMutation.mutate(propertyData);
@@ -313,6 +322,84 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
             </div>
           </div>
         );
+      case 4:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Video className="text-white" size={24} />
+              </div>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Zoom Meeting Setup</h3>
+              <p className="text-neutral-600">Set up virtual property tours for potential investors</p>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="zoomMeetingUrl" className="flex items-center gap-2">
+                  <Video size={16} />
+                  Zoom Meeting URL (Optional)
+                </Label>
+                <Input
+                  id="zoomMeetingUrl"
+                  type="url"
+                  placeholder="https://zoom.us/j/123456789"
+                  value={formData.zoomMeetingUrl}
+                  onChange={(e) => setFormData({ ...formData, zoomMeetingUrl: e.target.value })}
+                  className="mt-2"
+                />
+                <p className="text-xs text-neutral-500 mt-1">
+                  Provide a Zoom link for virtual property tours
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="zoomMeetingId">Meeting ID</Label>
+                  <Input
+                    id="zoomMeetingId"
+                    placeholder="123 456 789"
+                    value={formData.zoomMeetingId}
+                    onChange={(e) => setFormData({ ...formData, zoomMeetingId: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="zoomPassword">Meeting Password</Label>
+                  <Input
+                    id="zoomPassword"
+                    placeholder="password123"
+                    value={formData.zoomPassword}
+                    onChange={(e) => setFormData({ ...formData, zoomPassword: e.target.value })}
+                  />
+                </div>
+              </div>
+              
+              {formData.zoomMeetingUrl && (
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border border-blue-200">
+                  <h4 className="font-semibold text-neutral-900 mb-2">Virtual Tour Setup</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Meeting URL:</span>
+                      <span className="font-medium text-blue-600 truncate ml-2">{formData.zoomMeetingUrl}</span>
+                    </div>
+                    {formData.zoomMeetingId && (
+                      <div className="flex justify-between">
+                        <span>Meeting ID:</span>
+                        <span className="font-medium">{formData.zoomMeetingId}</span>
+                      </div>
+                    )}
+                    {formData.zoomPassword && (
+                      <div className="flex justify-between">
+                        <span>Password:</span>
+                        <span className="font-medium">{formData.zoomPassword}</span>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs text-blue-600 mt-3">
+                    Investors will be able to join virtual property tours using these details
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
       default:
         return null;
     }
@@ -336,7 +423,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
           
           {/* Progress Bar */}
           <div className="flex items-center justify-between mb-6">
-            {[1, 2, 3].map((step) => (
+            {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                   step <= currentStep 
@@ -345,7 +432,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 }`}>
                   {step}
                 </div>
-                {step < 3 && (
+                {step < 4 && (
                   <div className={`w-16 h-1 mx-2 transition-all ${
                     step < currentStep ? 'bg-primary' : 'bg-neutral-200'
                   }`}></div>

@@ -43,11 +43,16 @@ export const properties = pgTable("properties", {
   city: text("city").notNull(),
   state: text("state").notNull(),
   zipcode: text("zipcode").notNull(),
+  latitude: decimal("latitude", { precision: 10, scale: 8 }),
+  longitude: decimal("longitude", { precision: 11, scale: 8 }),
   maxShares: integer("max_shares").notNull(),
   sharePrice: decimal("share_price", { precision: 10, scale: 2 }).notNull(),
   currentShares: integer("current_shares").notNull().default(0),
   thumbnailUrl: text("thumbnail_url"),
   propertyType: text("property_type").notNull().default("Townhouse"),
+  zoomMeetingUrl: text("zoom_meeting_url"),
+  zoomMeetingId: text("zoom_meeting_id"),
+  zoomPassword: text("zoom_password"),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -94,6 +99,8 @@ export const insertPropertySchema = createInsertSchema(properties).omit({
   isActive: true,
   createdAt: true,
   updatedAt: true,
+  latitude: true,
+  longitude: true,
 });
 
 export const insertInvestmentSchema = createInsertSchema(investments).omit({

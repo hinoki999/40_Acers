@@ -14,6 +14,7 @@ import { apiRequest } from "@/lib/queryClient";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
 import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
+import PropertyHeatMap from "@/components/PropertyHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
 import { Transaction, Property } from "@shared/schema";
 
@@ -328,6 +329,13 @@ export default function Dashboard() {
             )}
           </CardContent>
         </Card>
+      )}
+
+      {/* Heat Map Section */}
+      {properties.length > 0 && (
+        <div className="mb-8">
+          <PropertyHeatMap properties={properties} />
+        </div>
       )}
 
       <CreatePropertyModal

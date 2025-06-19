@@ -3,6 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertPropertySchema, insertInvestmentSchema, insertTransactionSchema } from "@shared/schema";
+import { geocodeAddress } from "./geocoding";
+import { getBitcoinPrice } from "./bitcoin";
 import { z } from "zod";
 
 const investmentRequestSchema = z.object({
@@ -30,7 +32,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/properties', async (req, res) => {
     try {
       const properties = await storage.getAllProperties();
-      res.json(properties);
+      const bitcoinPrice = await getBitcoinPrice();
+      
+      const propertiesWithBtc = properties.map(property => ({
+        ...property,
+        sharePriceBtc: bitcoinPrice ? Number(property.sharePrice) / bitcoinPrice : null,
+        bitcoinPrice: bitcoinPrice
+      }));
+      
+      res.json(propertiesWithBtc);
     } catch (error) {
       console.error("Error fetching properties:", error);
       res.status(500).json({ message: "Failed to fetch properties" });
@@ -54,7 +64,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/properties', isAuthenticated, async (req, res) => {
     try {
       const propertyData = insertPropertySchema.parse(req.body);
-      const property = await storage.createProperty(propertyData);
+      
+      // Geocode the address
+      const coordinates = await geocodeAddress(
+        propertyData.address,
+        propertyData.city,
+        propertyData.state,
+        propertyData.zipcode
+      );
+      
+      const propertyWithCoords = {
+        ...propertyData,
+        latitude: coordinates?.latitude?.toString() || null,
+        longitude: coordinates?.longitude?.toString() || null,
+      };
+      
+      const property = await storage.createProperty(propertyWithCoords);
       res.status(201).json(property);
     } catch (error) {
       console.error("Error creating property:", error);
@@ -164,6 +189,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating transaction:", error);
       res.status(500).json({ message: "Failed to create transaction" });
+    }
+  });
+
+  // Bitcoin price endpoint
+  app.get('/api/bitcoin-price', async (req, res) => {
+    try {
+      const price = await getBitcoinPrice();
+      res.json({ price });
+    } catch (error) {
+      console.error("Error fetching Bitcoin price:", error);
+      res.status(500).json({ message: "Failed to fetch Bitcoin price" });
     }
   });
 
