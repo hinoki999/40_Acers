@@ -20,13 +20,13 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
   return (
     <header className="bg-black shadow-sm border-b border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-3">
               <img 
-                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355252128.png" 
+                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                 alt="40 Acres Logo" 
-                className="h-16 w-auto object-contain"
+                className="h-32 w-auto object-contain"
               />
             </Link>
             <nav className="hidden md:flex space-x-6">
