@@ -88,7 +88,7 @@ export default function AIInsights() {
         <Card>
           <CardContent className="p-4 text-center">
             <TrendingUp size={24} className="mx-auto mb-2 text-green-600" />
-            <div className="text-2xl font-bold text-green-600">{properties.length}</div>
+            <div className="text-2xl font-bold text-green-600">{(properties as any[]).length}</div>
             <div className="text-sm text-gray-600">Properties Analyzed</div>
           </CardContent>
         </Card>

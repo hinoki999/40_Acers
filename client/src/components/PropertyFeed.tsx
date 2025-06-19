@@ -448,7 +448,6 @@ export default function PropertyFeed({ properties, onInvest, onShare }: Property
                 </div>
                 <SocialInvestorNetwork 
                   propertyId={currentProperty.id} 
-                  maxDisplay={5}
                   compact={true}
                   showTitle={false}
                 />

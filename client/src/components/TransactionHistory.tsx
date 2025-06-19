@@ -118,7 +118,7 @@ export default function TransactionHistory() {
     );
   };
 
-  const filteredTransactions = transactions.filter((transaction: Transaction) => {
+  const filteredTransactions = (transactions as Transaction[]).filter((transaction: Transaction) => {
     if (selectedFilter === "all") return true;
     return transaction.type === selectedFilter;
   });
@@ -247,7 +247,7 @@ export default function TransactionHistory() {
       </Card>
 
       {/* Investment Summary */}
-      {investments.length > 0 && (
+      {(investments as Investment[]).length > 0 && (
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -262,7 +262,7 @@ export default function TransactionHistory() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {investments.map((investment: Investment) => (
+              {(investments as Investment[]).map((investment: Investment) => (
                 <div
                   key={investment.id}
                   className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg border"

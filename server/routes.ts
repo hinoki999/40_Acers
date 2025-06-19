@@ -266,7 +266,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/leaderboard/:category/my-rank", async (req, res) => {
     try {
       const category = req.params.category;
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.claims?.sub;
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
       }

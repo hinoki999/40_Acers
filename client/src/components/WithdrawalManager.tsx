@@ -89,10 +89,7 @@ export default function WithdrawalManager({ userId }: WithdrawalManagerProps) {
 
   const withdrawalMutation = useMutation({
     mutationFn: async (data: any) => {
-      return await apiRequest("/api/withdrawal-requests", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+      return await apiRequest("/api/withdrawal-requests", "POST", data);
     },
     onSuccess: () => {
       toast({
