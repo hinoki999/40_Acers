@@ -58,7 +58,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 <img 
                   src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_1750351977219.jpg" 
                   alt="40 Acres Logo" 
-                  className="h-32 w-auto object-contain"
+                  className="h-48 w-auto object-contain"
                 />
               </div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
