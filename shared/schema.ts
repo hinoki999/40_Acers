@@ -131,3 +131,25 @@ export const insertTransactionSchema = createInsertSchema(transactions).omit({
   createdAt: true,
   updatedAt: true,
 });
+
+// Social Media Investor Network
+export const socialInvestors = pgTable("social_investors", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  propertyId: integer("property_id").notNull().references(() => properties.id),
+  platform: text("platform").notNull(), // 'facebook' or 'instagram'
+  profileUrl: text("profile_url").notNull(),
+  profileImageUrl: text("profile_image_url"),
+  displayName: text("display_name").notNull(),
+  username: text("username").notNull(),
+  investmentAmount: text("investment_amount").notNull(),
+  sharesOwned: integer("shares_owned").notNull(),
+  investmentDate: timestamp("investment_date").defaultNow().notNull(),
+  isPublic: boolean("is_public").default(true).notNull(),
+  followerCount: integer("follower_count"),
+  verifiedAccount: boolean("verified_account").default(false),
+  location: text("location"),
+});
+
+export type SocialInvestor = typeof socialInvestors.$inferSelect;
+export type InsertSocialInvestor = typeof socialInvestors.$inferInsert;

@@ -44,6 +44,10 @@ export interface IStorage {
   createUserProfile(profile: InsertUserProfile): Promise<UserProfile>;
   updateUserProfile(userId: string, profile: Partial<InsertUserProfile>): Promise<UserProfile>;
   
+  // Social Investor operations
+  getSocialInvestors(propertyId?: number): Promise<SocialInvestor[]>;
+  createSocialInvestor(investor: InsertSocialInvestor): Promise<SocialInvestor>;
+  
   // Challenge operations
   getAllChallenges(): Promise<Challenge[]>;
   getActiveChallenge(): Promise<Challenge[]>;

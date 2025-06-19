@@ -8,6 +8,7 @@ import PropertyCard from "@/components/PropertyCard";
 import AuthModals from "@/components/AuthModals";
 import InvestmentModal from "@/components/InvestmentModal";
 import SocialShareModal from "@/components/SocialShareModal";
+import InvestorNetwork from "@/components/InvestorNetwork";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import { Property } from "@shared/schema";
 import logoImage from "@/assets/40-acres-logo.png";
