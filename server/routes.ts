@@ -212,6 +212,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Add payment routes
+  app.use("/api/payments", paymentsRouter);
+  
   const httpServer = createServer(app);
   return httpServer;
 }
