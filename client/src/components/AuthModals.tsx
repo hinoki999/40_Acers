@@ -35,7 +35,7 @@ export default function AuthModals({
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    // Redirect to Replit Auth
+    // Redirect to Replit Auth (handles both login and registration)
     window.location.href = "/api/login";
   };
 
@@ -51,33 +51,14 @@ export default function AuthModals({
             <DialogTitle className="text-2xl font-bold text-neutral-900">Welcome Back</DialogTitle>
             <p className="text-neutral-600">Enter your credentials to access your account</p>
           </DialogHeader>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <Label htmlFor="login-email">Email</Label>
-              <Input
-                id="login-email"
-                type="email"
-                placeholder="Enter your email"
-                value={loginForm.email}
-                onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="login-password">Password</Label>
-              <Input
-                id="login-password"
-                type="password"
-                placeholder="Enter your password"
-                value={loginForm.password}
-                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full bg-neutral-900 text-white hover:bg-neutral-800">
-              Login
+          <div className="space-y-4">
+            <Button 
+              onClick={handleLogin} 
+              className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
+            >
+              Sign In with Replit
             </Button>
-          </form>
+          </div>
           <div className="text-center mt-4">
             <Button variant="link" onClick={onSwitchToRegister} className="text-primary">
               Don't have an account? Register
@@ -94,46 +75,16 @@ export default function AuthModals({
               <Home className="text-white" size={20} />
             </div>
             <DialogTitle className="text-2xl font-bold text-neutral-900">Create an account</DialogTitle>
-            <p className="text-neutral-600">Enter your information to register</p>
+            <p className="text-neutral-600">Click below to sign up with Replit</p>
           </DialogHeader>
-          <form onSubmit={handleRegister} className="space-y-4">
-            <div>
-              <Label htmlFor="register-email">Email</Label>
-              <Input
-                id="register-email"
-                type="email"
-                placeholder="Enter your email"
-                value={registerForm.email}
-                onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="register-password">Password</Label>
-              <Input
-                id="register-password"
-                type="password"
-                placeholder="Create a password"
-                value={registerForm.password}
-                onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="register-confirm">Confirm Password</Label>
-              <Input
-                id="register-confirm"
-                type="password"
-                placeholder="Confirm your password"
-                value={registerForm.confirmPassword}
-                onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full bg-neutral-900 text-white hover:bg-neutral-800">
-              Create Account
+          <div className="space-y-4">
+            <Button 
+              onClick={handleRegister} 
+              className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
+            >
+              Sign Up with Replit
             </Button>
-          </form>
+          </div>
           <div className="text-center mt-4">
             <Button variant="link" onClick={onSwitchToLogin} className="text-primary">
               Already have an account? Login
