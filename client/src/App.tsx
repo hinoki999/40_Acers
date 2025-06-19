@@ -12,7 +12,7 @@ import Invest from "@/pages/Invest";
 import ListProperty from "@/pages/ListProperty";
 import Business from "@/pages/Business";
 import Documentation from "@/pages/Documentation";
-import CommunityForum from "@/pages/CommunityForum";
+import Community from "@/pages/Community";
 import Withdraw from "@/pages/Withdraw";
 import NotFound from "@/pages/not-found";
 
@@ -35,7 +35,7 @@ function Router() {
             <Route path="/list" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
-            <Route path="/community" component={CommunityForum} />
+            <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
           </>
         ) : (
@@ -45,7 +45,7 @@ function Router() {
             <Route path="/list" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
-            <Route path="/community" component={CommunityForum} />
+            <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
           </>
         )}
