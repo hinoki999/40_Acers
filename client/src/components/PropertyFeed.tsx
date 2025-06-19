@@ -439,6 +439,20 @@ export default function PropertyFeed({ properties, onInvest, onShare }: Property
                 </div>
               </div>
 
+              {/* Social Investors */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-white/90 text-sm font-medium">Recent Investors</span>
+                  <span className="text-white/70 text-xs">4 joined</span>
+                </div>
+                <SocialInvestorNetwork 
+                  propertyId={currentProperty.id} 
+                  maxDisplay={5}
+                  compact={true}
+                  showTitle={false}
+                />
+              </div>
+
               {/* Invest Button */}
               <Button
                 className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg"

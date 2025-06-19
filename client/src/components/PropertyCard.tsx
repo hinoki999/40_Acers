@@ -7,6 +7,7 @@ import { Property } from "@shared/schema";
 import { useState } from "react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import TokenizationCalculator from "./TokenizationCalculator";
+import SocialInvestorNetwork from "./SocialInvestorNetwork";
 
 interface PropertyCardProps {
   property: Property;
@@ -170,6 +171,20 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
               style={{ width: `${progressPercentage}%` }}
             ></div>
           </div>
+        </div>
+
+        {/* Social Investors Preview */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-gray-700">Recent Investors</span>
+            <span className="text-xs text-gray-500">4 investors</span>
+          </div>
+          <SocialInvestorNetwork 
+            propertyId={property.id} 
+            maxDisplay={4}
+            compact={true}
+            showTitle={false}
+          />
         </div>
 
         {/* Action Buttons */}
