@@ -152,7 +152,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
       <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Why Choose Arrived?</h2>
+            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Why Choose 40 Acres App?</h2>
             <p className="text-xl text-neutral-600">
               Professional investment platform built for modern investors
             </p>

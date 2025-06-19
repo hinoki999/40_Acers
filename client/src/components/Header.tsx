@@ -25,7 +25,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center">
                 <Home className="text-white" size={16} />
               </div>
-              <span className="text-xl font-bold text-neutral-900">Arrived</span>
+              <span className="text-xl font-bold text-neutral-900">40 Acres App</span>
             </Link>
             <nav className="hidden md:flex space-x-6">
               <Button variant="ghost" className="text-neutral-700 hover:text-primary">
