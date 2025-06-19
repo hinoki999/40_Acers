@@ -227,70 +227,94 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-secondary to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <DollarSign className="text-white" size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Investment Details</h3>
-              <p className="text-neutral-600">Set the investment structure for your property</p>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Property Valuation</h3>
+              <p className="text-neutral-600">Enter property value and size to calculate tokenization</p>
             </div>
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="maxShares" className="flex items-center gap-2">
-                  <Share size={16} />
-                  Total Shares Available
+                <Label htmlFor="propertyValue" className="flex items-center gap-2">
+                  <DollarSign size={16} />
+                  Property Value ($)
                 </Label>
                 <Input
-                  id="maxShares"
+                  id="propertyValue"
                   type="number"
-                  placeholder="1000"
-                  value={formData.maxShares}
-                  onChange={(e) => setFormData({ ...formData, maxShares: e.target.value })}
-                  className="mt-2"
+                  min="1"
+                  placeholder="500000"
+                  value={formData.propertyValue}
+                  onChange={(e) => {
+                    const newValue = e.target.value;
+                    setFormData({ ...formData, propertyValue: newValue });
+                    calculateTokenization(newValue, formData.squareFootage);
+                  }}
                   required
                 />
                 <p className="text-xs text-neutral-500 mt-1">
-                  How many shares will this property be divided into?
+                  Total market value of the property
                 </p>
               </div>
               <div>
-                <Label htmlFor="sharePrice">Price per Share</Label>
-                <div className="relative">
-                  <Input
-                    id="sharePrice"
-                    type="number"
-                    step="0.01"
-                    placeholder="25.00"
-                    value={formData.sharePrice}
-                    onChange={(e) => setFormData({ ...formData, sharePrice: e.target.value })}
-                    className="pl-8"
-                    required
-                  />
-                  <DollarSign className="absolute left-2 top-1/2 transform -translate-y-1/2 text-neutral-400" size={16} />
-                </div>
+                <Label htmlFor="squareFootage" className="flex items-center gap-2">
+                  <Home size={16} />
+                  Square Footage
+                </Label>
+                <Input
+                  id="squareFootage"
+                  type="number"
+                  min="1"
+                  placeholder="2000"
+                  value={formData.squareFootage}
+                  onChange={(e) => {
+                    const newSqFt = e.target.value;
+                    setFormData({ ...formData, squareFootage: newSqFt });
+                    calculateTokenization(formData.propertyValue, newSqFt);
+                  }}
+                  required
+                />
                 <p className="text-xs text-neutral-500 mt-1">
-                  Individual share price for investors
+                  Total square footage of the property
                 </p>
               </div>
-              {formData.maxShares && formData.sharePrice && (
-                <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg border border-primary/20">
-                  <h4 className="font-semibold text-neutral-900 mb-2">Investment Summary</h4>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>Total Shares:</span>
-                      <span className="font-medium">{formData.maxShares.toLocaleString()}</span>
+            </div>
+            
+            {formData.propertyValue && formData.squareFootage && (
+              <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg border border-green-200">
+                <h4 className="font-semibold text-neutral-900 mb-3">Tokenization Summary</h4>
+                <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <span className="text-neutral-600">Total Tokens:</span>
+                    <div className="font-bold text-lg text-green-600">
+                      {formData.maxShares ? parseInt(formData.maxShares).toLocaleString() : '0'}
                     </div>
-                    <div className="flex justify-between">
-                      <span>Price per Share:</span>
-                      <span className="font-medium">${formData.sharePrice}</span>
+                    <p className="text-xs text-neutral-500">Based on sq ft ÷ 10</p>
+                  </div>
+                  <div>
+                    <span className="text-neutral-600">Token Price:</span>
+                    <div className="font-bold text-lg text-blue-600">
+                      ${formData.sharePrice || '0'}
                     </div>
-                    <div className="flex justify-between text-lg font-bold text-primary border-t pt-2 mt-2">
-                      <span>Total Property Value:</span>
-                      <span>${(parseInt(formData.maxShares) * parseFloat(formData.sharePrice)).toLocaleString()}</span>
+                    <p className="text-xs text-neutral-500">Value ÷ tokens</p>
+                  </div>
+                  <div>
+                    <span className="text-neutral-600">Price per Sq Ft:</span>
+                    <div className="font-bold text-lg text-purple-600">
+                      ${formData.propertyValue && formData.squareFootage ? 
+                        (parseFloat(formData.propertyValue) / parseInt(formData.squareFootage)).toFixed(0) : '0'}
                     </div>
+                    <p className="text-xs text-neutral-500">Market rate</p>
                   </div>
                 </div>
-              )}
-            </div>
+                <div className="mt-3 p-3 bg-blue-50 rounded border-l-4 border-blue-400">
+                  <p className="text-sm text-blue-800">
+                    <strong>Tokenization Formula:</strong> Each 10 sq ft = 1 token. 
+                    Token price = Property value ÷ Total tokens.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         );
       case 3:

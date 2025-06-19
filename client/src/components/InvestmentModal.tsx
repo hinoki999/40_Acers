@@ -128,7 +128,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
           <div>
             <Label className="flex items-center gap-2 mb-4">
               <Calculator size={16} />
-              Number of Shares
+              Number of Tokens
             </Label>
             
             <div className="space-y-4">
