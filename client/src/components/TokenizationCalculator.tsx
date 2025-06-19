@@ -44,9 +44,11 @@ export default function TokenizationCalculator({
               <DollarSign size={16} className="text-green-600" />
               <span className="text-sm font-medium text-neutral-700">Property Value</span>
             </div>
-            <div className="text-2xl font-bold text-green-600">
-              ${propertyValue.toLocaleString()}
-            </div>
+            <BitcoinPriceDisplay 
+              usdPrice={propertyValue} 
+              showBoth={true}
+              className="text-green-600"
+            />
             <div className="text-xs text-neutral-500">total value</div>
           </div>
         </div>

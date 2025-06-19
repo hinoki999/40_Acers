@@ -78,7 +78,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 <Button
                   onClick={handleShowLogin}
                   variant="outline"
-                  className="px-8 py-4 border-2 border-white text-white font-semibold hover:bg-white hover:text-primary"
+                  className="px-8 py-4 border-2 border-white font-semibold hover:bg-white hover:text-primary bg-[#ffffff] text-[#000000]"
                   size="lg"
                 >
                   Login

@@ -115,9 +115,11 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
               </div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-primary">
-                ${sharePrice}
-              </div>
+              <BitcoinPriceDisplay 
+                usdPrice={sharePrice} 
+                showBoth={true}
+                className="text-primary"
+              />
               <div className="text-xs text-neutral-600">per token</div>
             </div>
           </div>
