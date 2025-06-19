@@ -12,8 +12,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
+import InvestmentModal from "@/components/InvestmentModal";
+import PropertyCard from "@/components/PropertyCard";
 import PortfolioChart from "@/components/PortfolioChart";
-import { Transaction } from "@shared/schema";
+import { Transaction, Property } from "@shared/schema";
 
 interface PortfolioData {
   totalValue: number;
@@ -22,6 +24,8 @@ interface PortfolioData {
 
 export default function Dashboard() {
   const [showCreateProperty, setShowCreateProperty] = useState(false);
+  const [showInvestment, setShowInvestment] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [transactionFilter, setTransactionFilter] = useState("");
   const { toast } = useToast();
   const { isAuthenticated, isLoading } = useAuth();
@@ -52,6 +56,20 @@ export default function Dashboard() {
     enabled: isAuthenticated,
     retry: false,
   });
+
+  const { data: properties = [] } = useQuery<Property[]>({
+    queryKey: ["/api/properties"],
+    enabled: isAuthenticated,
+    retry: false,
+  });
+
+  const handleInvest = (propertyId: number) => {
+    const property = properties.find(p => p.id === propertyId);
+    if (property) {
+      setSelectedProperty(property);
+      setShowInvestment(true);
+    }
+  };
 
   const notifyMutation = useMutation({
     mutationFn: async () => {
@@ -136,11 +154,10 @@ export default function Dashboard() {
           <div className="space-y-4">
             <Button
               onClick={() => setShowCreateProperty(true)}
-              variant="outline"
-              className="w-full border-dashed border-neutral-300 text-neutral-600 hover:border-primary hover:text-primary"
+              className="w-full bg-gradient-to-r from-primary to-blue-600 text-white hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all"
             >
               <Plus className="mr-2" size={16} />
-              Create Property
+              List New Property
             </Button>
             <Button
               variant="outline"
@@ -283,9 +300,48 @@ export default function Dashboard() {
         </div>
       </Card>
 
+      {/* Available Properties Section */}
+      {properties.length > 0 && (
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-neutral-900">
+              Available Investment Opportunities
+            </CardTitle>
+            <p className="text-neutral-600">Discover and invest in new properties</p>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {properties.slice(0, 3).map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  onInvest={handleInvest}
+                />
+              ))}
+            </div>
+            {properties.length > 3 && (
+              <div className="text-center mt-6">
+                <Button variant="outline" className="px-8">
+                  View All Properties
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       <CreatePropertyModal
         isOpen={showCreateProperty}
         onClose={() => setShowCreateProperty(false)}
+      />
+      
+      <InvestmentModal
+        isOpen={showInvestment}
+        onClose={() => {
+          setShowInvestment(false);
+          setSelectedProperty(null);
+        }}
+        property={selectedProperty}
       />
     </div>
   );

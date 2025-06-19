@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { DollarSign, Shield, TrendingUp, Users } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import AuthModals from "@/components/AuthModals";
+import InvestmentModal from "@/components/InvestmentModal";
 import { Property } from "@shared/schema";
 
 interface LandingProps {
@@ -16,13 +17,21 @@ interface LandingProps {
 export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showInvestment, setShowInvestment] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ["/api/properties"],
   });
 
-  const handleInvest = () => {
-    setShowLogin(true);
+  const handleInvest = (propertyId: number) => {
+    const property = properties.find(p => p.id === propertyId);
+    if (property) {
+      setSelectedProperty(property);
+      setShowInvestment(true);
+    } else {
+      setShowLogin(true);
+    }
   };
 
   const handleShowLogin = () => {
@@ -110,18 +119,36 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
 
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <Card key={i} className="animate-pulse">
-                  <div className="h-48 bg-neutral-200"></div>
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="animate-pulse overflow-hidden">
+                  <div className="h-56 bg-gradient-to-r from-neutral-200 to-neutral-300"></div>
                   <CardContent className="p-6">
                     <div className="space-y-3">
-                      <div className="h-4 bg-neutral-200 rounded w-3/4"></div>
+                      <div className="h-6 bg-neutral-200 rounded w-3/4"></div>
                       <div className="h-4 bg-neutral-200 rounded w-1/2"></div>
-                      <div className="h-8 bg-neutral-200 rounded"></div>
+                      <div className="h-20 bg-neutral-200 rounded"></div>
+                      <div className="h-10 bg-neutral-200 rounded"></div>
                     </div>
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          ) : properties.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-24 h-24 bg-gradient-to-br from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <TrendingUp className="text-white" size={32} />
+              </div>
+              <h3 className="text-2xl font-bold text-neutral-900 mb-4">No Properties Yet</h3>
+              <p className="text-neutral-600 mb-8 max-w-md mx-auto">
+                Be the first to list an investment property and start building wealth with the community!
+              </p>
+              <Button
+                onClick={handleShowLogin}
+                className="bg-gradient-to-r from-primary to-blue-600 text-white hover:from-primary/90 hover:to-blue-600/90"
+                size="lg"
+              >
+                List Your Property
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -129,7 +156,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 <PropertyCard
                   key={property.id}
                   property={property}
-                  onInvest={handleInvest}
+                  onInvest={() => handleInvest(property.id)}
                 />
               ))}
             </div>
@@ -207,6 +234,15 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           setShowRegister(false);
           setShowLogin(true);
         }}
+      />
+      
+      <InvestmentModal
+        isOpen={showInvestment}
+        onClose={() => {
+          setShowInvestment(false);
+          setSelectedProperty(null);
+        }}
+        property={selectedProperty}
       />
     </div>
   );
