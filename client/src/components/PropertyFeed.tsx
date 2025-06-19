@@ -218,6 +218,10 @@ export default function PropertyFeed({ properties, onInvest, onShare }: Property
               src={currentProperty.thumbnailUrl || "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=1200"}
               alt={currentProperty.address}
               className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=1200";
+              }}
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30"></div>
@@ -276,7 +280,13 @@ export default function PropertyFeed({ properties, onInvest, onShare }: Property
               {currentOwner && (
                 <div className="flex items-center gap-3 mb-4">
                   <Avatar className="w-10 h-10 border-2 border-white">
-                    <AvatarImage src={currentOwner.avatar} />
+                    <AvatarImage 
+                      src={currentOwner.avatar} 
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentOwner.name)}&background=random`;
+                      }}
+                    />
                     <AvatarFallback>{currentOwner.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">

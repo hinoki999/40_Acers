@@ -11,6 +11,10 @@ export default function NotFound() {
               src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750352435284.png" 
               alt="40 Acres Logo" 
               className="h-24 w-auto object-contain mx-auto mb-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png";
+              }}
             />
             <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
           </div>
