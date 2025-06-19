@@ -72,7 +72,6 @@ export default function Marketplace() {
 
     // Investment level filter
     if (filters.investmentLevel) {
-      const price = Number(property => property.sharePrice);
       switch (filters.investmentLevel) {
         case 'entry':
           filtered = filtered.filter(property => {
