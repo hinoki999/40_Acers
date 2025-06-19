@@ -153,3 +153,76 @@ export const socialInvestors = pgTable("social_investors", {
 
 export type SocialInvestor = typeof socialInvestors.$inferSelect;
 export type InsertSocialInvestor = typeof socialInvestors.$inferInsert;
+
+// Investment Tiers and Withdrawal System
+export const investmentTiers = pgTable("investment_tiers", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(), // "Starter", "Builder", "Partner"
+  minInvestment: text("min_investment").notNull(),
+  maxInvestment: text("max_investment"),
+  lockupPeriodMonths: integer("lockup_period_months").notNull(),
+  withdrawalFrequencyDays: integer("withdrawal_frequency_days").notNull(),
+  earlyWithdrawalPenalty: decimal("early_withdrawal_penalty", { precision: 5, scale: 2 }), // percentage
+  benefits: text("benefits").array(),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const userInvestmentAccounts = pgTable("user_investment_accounts", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  tierId: integer("tier_id").notNull().references(() => investmentTiers.id),
+  totalInvested: text("total_invested").notNull(),
+  availableBalance: text("available_balance").notNull(),
+  lockedBalance: text("locked_balance").notNull(),
+  lastWithdrawalDate: timestamp("last_withdrawal_date"),
+  nextEligibleWithdrawal: timestamp("next_eligible_withdrawal"),
+  accountStatus: text("account_status").notNull().default("active"), // active, suspended, closed
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const withdrawalRequests = pgTable("withdrawal_requests", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  accountId: integer("account_id").notNull().references(() => userInvestmentAccounts.id),
+  propertyId: integer("property_id").references(() => properties.id),
+  requestedAmount: text("requested_amount").notNull(),
+  availableAmount: text("available_amount").notNull(),
+  withdrawalType: text("withdrawal_type").notNull(), // "partial", "full", "emergency"
+  status: text("status").notNull().default("pending"), // pending, approved, rejected, completed
+  processingFee: text("processing_fee"),
+  penaltyAmount: text("penalty_amount"),
+  netAmount: text("net_amount"),
+  reason: text("reason"),
+  approvedBy: text("approved_by"),
+  approvedAt: timestamp("approved_at"),
+  processedAt: timestamp("processed_at"),
+  bankDetails: jsonb("bank_details"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const milestonePerformance = pgTable("milestone_performance", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull().references(() => properties.id),
+  milestoneType: text("milestone_type").notNull(), // "quarterly", "annual", "exit"
+  targetDate: timestamp("target_date").notNull(),
+  actualDate: timestamp("actual_date"),
+  targetReturn: decimal("target_return", { precision: 10, scale: 2 }),
+  actualReturn: decimal("actual_return", { precision: 10, scale: 2 }),
+  performanceScore: decimal("performance_score", { precision: 5, scale: 2 }), // 0-100
+  distributionAmount: text("distribution_amount"),
+  distributionDate: timestamp("distribution_date"),
+  status: text("status").notNull().default("pending"), // pending, achieved, missed
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export type InvestmentTier = typeof investmentTiers.$inferSelect;
+export type InsertInvestmentTier = typeof investmentTiers.$inferInsert;
+export type UserInvestmentAccount = typeof userInvestmentAccounts.$inferSelect;
+export type InsertUserInvestmentAccount = typeof userInvestmentAccounts.$inferInsert;
+export type WithdrawalRequest = typeof withdrawalRequests.$inferSelect;
+export type InsertWithdrawalRequest = typeof withdrawalRequests.$inferInsert;
+export type MilestonePerformance = typeof milestonePerformance.$inferSelect;
+export type InsertMilestonePerformance = typeof milestonePerformance.$inferInsert;

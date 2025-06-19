@@ -48,6 +48,14 @@ export interface IStorage {
   getSocialInvestors(propertyId?: number): Promise<SocialInvestor[]>;
   createSocialInvestor(investor: InsertSocialInvestor): Promise<SocialInvestor>;
   
+  // Withdrawal System operations
+  getUserInvestmentAccount(userId: string): Promise<UserInvestmentAccount | undefined>;
+  getWithdrawalRequests(userId: string): Promise<WithdrawalRequest[]>;
+  createWithdrawalRequest(request: InsertWithdrawalRequest): Promise<WithdrawalRequest>;
+  updateWithdrawalRequest(id: number, updates: Partial<WithdrawalRequest>): Promise<WithdrawalRequest>;
+  getInvestmentTiers(): Promise<InvestmentTier[]>;
+  getMilestonePerformance(propertyId?: number): Promise<MilestonePerformance[]>;
+  
   // Challenge operations
   getAllChallenges(): Promise<Challenge[]>;
   getActiveChallenge(): Promise<Challenge[]>;

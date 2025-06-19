@@ -60,6 +60,11 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   Community
                 </Button>
               </Link>
+              <Link href="/withdraw">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                  Withdraw
+                </Button>
+              </Link>
             </nav>
           </div>
           <div className="flex items-center space-x-4">

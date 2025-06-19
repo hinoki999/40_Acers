@@ -13,6 +13,7 @@ import ListProperty from "@/pages/ListProperty";
 import Business from "@/pages/Business";
 import Documentation from "@/pages/Documentation";
 import CommunityForum from "@/pages/CommunityForum";
+import Withdraw from "@/pages/Withdraw";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -35,6 +36,7 @@ function Router() {
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
             <Route path="/community" component={CommunityForum} />
+            <Route path="/withdraw" component={Withdraw} />
           </>
         ) : (
           <>
@@ -44,6 +46,7 @@ function Router() {
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
             <Route path="/community" component={CommunityForum} />
+            <Route path="/withdraw" component={Withdraw} />
           </>
         )}
         <Route component={NotFound} />
