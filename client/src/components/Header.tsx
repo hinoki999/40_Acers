@@ -31,10 +31,16 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
             </Link>
             <nav className="hidden md:flex space-x-6">
               <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                Getting started
+                Getting Started
               </Button>
               <Button variant="ghost" className="text-neutral-700 hover:text-primary">
-                Components
+                Invest
+              </Button>
+              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                List
+              </Button>
+              <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                Business
               </Button>
               <Button variant="ghost" className="text-neutral-700 hover:text-primary">
                 Documentation
