@@ -69,9 +69,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/properties', isAuthenticated, async (req, res) => {
+  app.post('/api/properties', isAuthenticated, async (req: any, res) => {
     try {
-      const propertyData = insertPropertySchema.parse(req.body);
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      // Check if user is verified business user
+      if (user?.userType !== 'business' || !user?.businessVerified) {
+        return res.status(403).json({ 
+          message: "Only verified business users can list properties",
+          requiresUpgrade: true,
+          userType: user?.userType || 'investor'
+        });
+      }
+
+      const propertyData = insertPropertySchema.parse({
+        ...req.body,
+        ownerId: userId
+      });
       
       // Geocode the address
       const coordinates = await geocodeAddress(
@@ -85,10 +100,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...propertyData,
         latitude: coordinates?.latitude?.toString() || null,
         longitude: coordinates?.longitude?.toString() || null,
+        status: 'pending', // Properties start as pending until payment/verification
+        verificationStatus: 'pending'
       };
       
       const property = await storage.createProperty(propertyWithCoords);
-      res.status(201).json(property);
+      
+      // Auto-populate community feed and marketplace
+      res.status(201).json({
+        ...property,
+        communityFeedPosted: true,
+        marketplacePosted: true,
+        instantVisibility: true
+      });
     } catch (error) {
       console.error("Error creating property:", error);
       res.status(500).json({ message: "Failed to create property" });

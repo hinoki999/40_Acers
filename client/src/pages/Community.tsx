@@ -147,11 +147,19 @@ export default function Community() {
           {/* Loop Feed Tab */}
           <TabsContent value="feed" className="mt-0">
             {filteredProperties.length > 0 ? (
-              <PropertyFeed
-                properties={filteredProperties}
-                onInvest={handleInvest}
-                onShare={handleShare}
-              />
+              <div className="space-y-6">
+                {filteredProperties.map((property) => (
+                  <CommunityFeedPost
+                    key={property.id}
+                    property={property}
+                    onInvest={handleInvest}
+                    onShare={handleShare}
+                    onLike={(propertyId) => console.log('Liked property:', propertyId)}
+                    onComment={(propertyId) => console.log('Comment on property:', propertyId)}
+                    onSave={(propertyId) => console.log('Saved property:', propertyId)}
+                  />
+                ))}
+              </div>
             ) : (
               <div className="flex items-center justify-center h-96">
                 <div className="text-center">

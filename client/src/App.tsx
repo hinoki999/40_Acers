@@ -14,6 +14,7 @@ import Business from "@/pages/Business";
 import Documentation from "@/pages/Documentation";
 import Community from "@/pages/Community";
 import Withdraw from "@/pages/Withdraw";
+import Marketplace from "@/pages/Marketplace";
 import NotFound from "@/pages/not-found";
 
 function Router() {

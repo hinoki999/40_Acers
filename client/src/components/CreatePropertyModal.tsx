@@ -116,11 +116,19 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
 
   const createProperty = useMutation({
     mutationFn: (data: any) => apiRequest("/api/properties", "POST", data),
-    onSuccess: () => {
-      toast({
-        title: "Success!",
-        description: "Property created successfully!",
-      });
+    onSuccess: (response: any) => {
+      // Check if property was successfully posted to community feed and marketplace
+      if (response.communityFeedPosted && response.marketplacePosted) {
+        toast({
+          title: "Success!",
+          description: "Property listed successfully in Community Feed and Marketplace!",
+        });
+      } else {
+        toast({
+          title: "Success!",
+          description: "Property created successfully!",
+        });
+      }
       queryClient.invalidateQueries({ queryKey: ["/api/properties"] });
       onClose();
       setFormData({
@@ -146,12 +154,20 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
       });
       setCurrentStep(1);
     },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to create property. Please try again.",
-        variant: "destructive",
-      });
+    onError: (error: any) => {
+      if (error?.message?.includes("verified business users")) {
+        toast({
+          title: "Upgrade Required",
+          description: "Only verified business users can list properties. Please upgrade your account.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to create property. Please try again.",
+          variant: "destructive",
+        });
+      }
     },
   });
 

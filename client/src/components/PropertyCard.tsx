@@ -7,7 +7,7 @@ import { Property } from "@shared/schema";
 import { useState } from "react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import TokenizationCalculator from "./TokenizationCalculator";
-// import SocialInvestorNetwork from "./SocialInvestorNetwork";
+import SocialInvestorNetwork from "./SocialInvestorNetwork";
 
 interface PropertyCardProps {
   property: Property;
