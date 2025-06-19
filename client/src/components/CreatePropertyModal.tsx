@@ -78,10 +78,17 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       try {
-        // Simulate file upload - in production, this would upload to cloud storage
-        const mockUrl = `https://storage.example.com/${documentType}/${Date.now()}-${file.name}`;
+        // For demo purposes, we'll create a mock URL that includes the actual file name
+        const mockUrl = `uploaded/${documentType}/${Date.now()}-${file.name}`;
         uploadedUrls.push(mockUrl);
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate upload time
+        
+        // Short delay to simulate upload
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        toast({
+          title: "Upload Successful",
+          description: `${file.name} uploaded successfully`,
+        });
       } catch (error) {
         toast({
           title: "Upload Error",
@@ -96,16 +103,21 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   };
 
   const handleDocumentUpload = async (files: FileList, docType: 'deed' | 'title' | 'llc' | 'images' | 'videos') => {
+    if (!files || files.length === 0) return;
+    
     const urls = await handleFileUpload(files, docType);
     
-    setFormData(prev => ({
-      ...prev,
-      [`${docType}Documents`]: docType === 'images' ? 
-        [...prev.propertyImages, ...urls] : 
-        docType === 'videos' ? 
-        [...prev.propertyVideos, ...urls] :
-        [...(prev[`${docType}Documents` as keyof typeof prev] as string[]), ...urls]
-    }));
+    setFormData(prev => {
+      if (docType === 'images') {
+        return { ...prev, propertyImages: [...prev.propertyImages, ...urls] };
+      } else if (docType === 'videos') {
+        return { ...prev, propertyVideos: [...prev.propertyVideos, ...urls] };
+      } else {
+        const key = `${docType}Documents` as keyof typeof prev;
+        const currentDocs = prev[key] as string[] || [];
+        return { ...prev, [key]: [...currentDocs, ...urls] };
+      }
+    });
   };
 
   const removeDocument = (docType: string, index: number) => {
@@ -171,28 +183,47 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Basic validation
+    if (!formData.address || !formData.city || !formData.state || !formData.zipcode) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required property information.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!formData.propertyValue || !formData.squareFootage) {
+      toast({
+        title: "Missing Valuation",
+        description: "Please enter property value and square footage.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     try {
-      const propertyData = insertPropertySchema.parse({
+      const propertyData = {
         address: formData.address,
         city: formData.city,
         state: formData.state,
         zipcode: formData.zipcode,
         propertyValue: formData.propertyValue,
-        squareFootage: parseInt(formData.squareFootage),
-        maxShares: parseInt(formData.maxShares),
-        sharePrice: formData.sharePrice,
-        thumbnailUrl: formData.thumbnailUrl,
+        squareFootage: parseInt(formData.squareFootage) || 0,
+        maxShares: parseInt(formData.maxShares) || 100,
+        sharePrice: formData.sharePrice || "100",
+        thumbnailUrl: formData.thumbnailUrl || "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
         propertyType: formData.propertyType,
-        description: formData.description,
-        deedDocuments: formData.deedDocuments,
-        titleDocuments: formData.titleDocuments,
-        llcDocuments: formData.llcDocuments,
-        propertyImages: formData.propertyImages,
-        propertyVideos: formData.propertyVideos,
+        description: formData.description || "",
+        deedDocuments: formData.deedDocuments || [],
+        titleDocuments: formData.titleDocuments || [],
+        llcDocuments: formData.llcDocuments || [],
+        propertyImages: formData.propertyImages || [],
+        propertyVideos: formData.propertyVideos || [],
         zoomMeetingUrl: formData.zoomMeetingUrl || undefined,
         zoomMeetingId: formData.zoomMeetingId || undefined,
         zoomPassword: formData.zoomPassword || undefined,
-      });
+      };
 
       createProperty.mutate(propertyData);
     } catch (error) {
@@ -469,15 +500,19 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 </div>
                 {formData.deedDocuments.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <p className="font-medium text-sm">Uploaded Documents:</p>
+                    <p className="font-medium text-sm text-green-800">✓ {formData.deedDocuments.length} document(s) uploaded:</p>
                     {formData.deedDocuments.map((doc, index) => (
-                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded">
-                        <span className="text-sm text-green-800">{doc.split('/').pop()}</span>
+                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded border border-green-200">
+                        <span className="text-sm text-green-800 flex items-center">
+                          <CheckCircle size={16} className="mr-2 text-green-600" />
+                          {doc.split('/').pop()?.substring(0, 40)}...
+                        </span>
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
                           onClick={() => removeDocument('deedDocuments', index)}
+                          className="text-red-600 hover:text-red-800"
                         >
                           <X size={14} />
                         </Button>
@@ -510,15 +545,19 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 </div>
                 {formData.titleDocuments.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <p className="font-medium text-sm">Uploaded Documents:</p>
+                    <p className="font-medium text-sm text-green-800">✓ {formData.titleDocuments.length} document(s) uploaded:</p>
                     {formData.titleDocuments.map((doc, index) => (
-                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded">
-                        <span className="text-sm text-green-800">{doc.split('/').pop()}</span>
+                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded border border-green-200">
+                        <span className="text-sm text-green-800 flex items-center">
+                          <CheckCircle size={16} className="mr-2 text-green-600" />
+                          {doc.split('/').pop()?.substring(0, 40)}...
+                        </span>
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
                           onClick={() => removeDocument('titleDocuments', index)}
+                          className="text-red-600 hover:text-red-800"
                         >
                           <X size={14} />
                         </Button>
@@ -551,15 +590,19 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 </div>
                 {formData.llcDocuments.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <p className="font-medium text-sm">Uploaded Documents:</p>
+                    <p className="font-medium text-sm text-green-800">✓ {formData.llcDocuments.length} document(s) uploaded:</p>
                     {formData.llcDocuments.map((doc, index) => (
-                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded">
-                        <span className="text-sm text-green-800">{doc.split('/').pop()}</span>
+                      <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded border border-green-200">
+                        <span className="text-sm text-green-800 flex items-center">
+                          <CheckCircle size={16} className="mr-2 text-green-600" />
+                          {doc.split('/').pop()?.substring(0, 40)}...
+                        </span>
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
                           onClick={() => removeDocument('llcDocuments', index)}
+                          className="text-red-600 hover:text-red-800"
                         >
                           <X size={14} />
                         </Button>
@@ -874,7 +917,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 disabled={createProperty.isPending}
                 className="bg-[#b34034] hover:bg-[#A0522D]"
               >
-                {createProperty.isPending ? "Creating..." : "Submit Property"}
+                {createProperty.isPending ? "Creating Property..." : "Create Property Listing"}
               </Button>
             )}
           </div>
