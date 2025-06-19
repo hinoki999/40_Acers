@@ -59,29 +59,29 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   };
 
   return (
-    <div>
+    <div className="min-h-screen-mobile">
       {/* Hero Section */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-white">
-              <div className="text-center mb-8">
+      <section className="py-10 md:py-20 bg-black">
+        <div className="container-mobile">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="text-white order-2 lg:order-1">
+              <div className="text-center lg:text-left mb-6 md:mb-8">
                 <img 
                   src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                   alt="40 Acres Logo" 
-                  className="h-144 w-auto object-contain mx-auto mb-2"
+                  className="h-24 md:h-36 lg:h-144 w-auto object-contain mx-auto lg:mx-0 mb-4 critical"
                 />
-                <h1 className="font-bold text-[48px] text-center leading-tight">
+                <h1 className="font-bold text-2xl md:text-4xl lg:text-[48px] text-center lg:text-left leading-tight">
                   Peer to Peer<br/>Investment Marketplace
                 </h1>
               </div>
-              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+              <p className="text-base md:text-xl text-blue-100 mb-6 md:mb-8 leading-relaxed text-center lg:text-left">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
                 <Button
                   onClick={handleShowRegister}
-                  className="px-8 py-4 bg-[#b34034] text-white font-semibold hover:bg-[#A0522D]"
+                  className="px-6 md:px-8 py-3 md:py-4 bg-[#b34034] text-white font-semibold hover:bg-[#A0522D] btn-touch"
                   size="lg"
                 >
                   Get Started
@@ -89,15 +89,15 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 <Button
                   onClick={handleShowLogin}
                   variant="outline"
-                  className="px-8 py-4 border-2 border-white font-semibold hover:bg-white hover:text-primary bg-[#ffffff] text-[#000000]"
+                  className="px-6 md:px-8 py-3 md:py-4 border-2 border-white font-semibold hover:bg-white hover:text-primary bg-[#ffffff] text-[#000000] btn-touch"
                   size="lg"
                 >
                   Login
                 </Button>
               </div>
             </div>
-            <div className="relative">
-              <Card className="p-8 shadow-2xl">
+            <div className="relative order-1 lg:order-2">
+              <Card className="p-4 md:p-8 shadow-2xl card-mobile">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-semibold text-neutral-900">Passive Income</h3>
                   <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
@@ -187,11 +187,11 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             </div>
           )}
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8 md:mt-12">
             <Button
               onClick={handleShowLogin}
               variant="outline"
-              className="px-8 py-4 border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white"
+              className="px-6 md:px-8 py-3 md:py-4 border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white btn-touch"
               size="lg"
             >
               View All Properties
@@ -200,22 +200,22 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         </div>
       </section>
       {/* Features Section */}
-      <section className="py-20 bg-neutral-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Why Choose Our Platform?</h2>
-            <p className="text-xl text-neutral-600">
+      <section className="py-12 md:py-20 bg-neutral-50">
+        <div className="container-mobile">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 mb-3 md:mb-4">Why Choose Our Platform?</h2>
+            <p className="text-lg md:text-xl text-neutral-600">
               Professional investment platform built for modern investors
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Shield className="text-white" size={24} />
+          <div className="grid-responsive">
+            <div className="text-center card-mobile p-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                <Shield className="text-white" size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-4">Secure Platform</h3>
-              <p className="text-neutral-600">
+              <h3 className="text-lg md:text-xl font-semibold text-neutral-900 mb-3 md:mb-4">Secure Platform</h3>
+              <p className="text-neutral-600 text-sm md:text-base">
                 Bank-level security with full regulatory compliance and investor protection
               </p>
             </div>
