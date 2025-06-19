@@ -8,7 +8,7 @@ export default function NotFound() {
         <CardContent className="pt-6">
           <div className="text-center mb-6">
             <img 
-              src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351486660.png" 
+              src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351898647.png" 
               alt="40 Acres Logo" 
               className="h-16 w-auto object-contain mx-auto mb-4"
             />

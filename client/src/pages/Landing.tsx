@@ -50,13 +50,13 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   return (
     <div>
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary to-blue-700">
+      <section className="py-20 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
               <div className="flex items-center justify-center mb-6">
                 <img 
-                  src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351645655.png" 
+                  src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351898647.png" 
                   alt="40 Acres Logo" 
                   className="h-20 w-auto object-contain"
                 />
