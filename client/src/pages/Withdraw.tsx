@@ -88,7 +88,7 @@ export default function Withdraw() {
       {/* Withdrawal Management */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <WithdrawalManager userId={user?.id || "demo-user"} />
+          <WithdrawalManager userId={(user as any)?.id || "demo-user"} />
         </div>
       </section>
 

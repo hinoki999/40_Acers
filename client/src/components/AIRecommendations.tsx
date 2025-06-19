@@ -113,7 +113,7 @@ export default function AIRecommendations() {
           </div>
         ) : (
           <div className="space-y-4">
-            {recommendations.map((rec: PropertyRecommendation, index: number) => (
+            {(recommendations as PropertyRecommendation[]).map((rec: PropertyRecommendation, index: number) => (
               <div key={rec.property.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">

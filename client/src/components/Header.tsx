@@ -89,13 +89,13 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={user?.profileImageUrl || ""} alt={user?.firstName || ""} />
+                        <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
                         <AvatarFallback>
-                          {user?.firstName?.[0] || user?.email?.[0]?.toUpperCase() || "U"}
+                          {(user as any)?.firstName?.[0] || (user as any)?.email?.[0]?.toUpperCase() || "U"}
                         </AvatarFallback>
                       </Avatar>
-                      <span className="text-sm font-medium text-neutral-700">
-                        Hi, {user?.firstName || user?.email?.split('@')[0] || "User"}
+                      <span className="text-sm font-medium text-white">
+                        Hi, {(user as any)?.firstName || (user as any)?.email?.split('@')[0] || "User"}
                       </span>
                     </div>
                     <Button variant="ghost" size="sm" onClick={handleLogout}>

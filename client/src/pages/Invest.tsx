@@ -29,7 +29,7 @@ export default function Invest() {
   });
 
   const handleInvest = (propertyId: number) => {
-    const property = properties.find((p: Property) => p.id === propertyId);
+    const property = (properties as Property[]).find((p: Property) => p.id === propertyId);
     if (property) {
       setSelectedProperty(property);
       setShowInvestment(true);
@@ -37,7 +37,7 @@ export default function Invest() {
   };
 
   const handleShare = (propertyId: number) => {
-    const property = properties.find((p: Property) => p.id === propertyId);
+    const property = (properties as Property[]).find((p: Property) => p.id === propertyId);
     if (property) {
       setSelectedProperty(property);
       setShowSocialShare(true);
@@ -66,10 +66,10 @@ export default function Invest() {
     return sum + (Number(property.propertyValue) || 0);
   }, 0);
 
-  const totalProperties = properties.length;
-  const avgFundingProgress = (properties as Property[]).reduce((sum, property) => {
+  const totalProperties = (properties as Property[]).length;
+  const avgFundingProgress = totalProperties > 0 ? (properties as Property[]).reduce((sum, property) => {
     return sum + ((property.currentShares / property.maxShares) * 100);
-  }, 0) / totalProperties;
+  }, 0) / totalProperties : 0;
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -171,10 +171,10 @@ export default function Invest() {
             </div>
           </div>
           
-          {filteredProperties.length !== properties.length && (
+          {filteredProperties.length !== (properties as Property[]).length && (
             <div className="mt-4 flex items-center gap-2">
               <Badge variant="secondary">
-                {filteredProperties.length} of {properties.length} properties
+                {filteredProperties.length} of {(properties as Property[]).length} properties
               </Badge>
               <Button 
                 variant="ghost" 
