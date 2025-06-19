@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -804,9 +804,9 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <DialogTitle className="text-2xl font-bold text-neutral-900">
                 List Your Property
               </DialogTitle>
-              <p className="text-sm text-neutral-600 mt-1">
+              <DialogDescription className="text-sm text-neutral-600 mt-1">
                 Step {currentStep} of {totalSteps}: Complete property documentation
-              </p>
+              </DialogDescription>
             </div>
           </div>
           
