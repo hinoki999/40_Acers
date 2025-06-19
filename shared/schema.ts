@@ -365,3 +365,186 @@ export type ChallengeParticipant = typeof challengeParticipants.$inferSelect;
 export type InsertChallengeParticipant = typeof challengeParticipants.$inferInsert;
 export type LeaderboardEntry = typeof leaderboard.$inferSelect;
 export type InsertLeaderboardEntry = typeof leaderboard.$inferInsert;
+
+// HubSpot Integration Tables
+export const hubspotContacts = pgTable("hubspot_contacts", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id).notNull(),
+  hubspotContactId: text("hubspot_contact_id").unique().notNull(),
+  email: text("email").notNull(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  phone: text("phone"),
+  company: text("company"),
+  jobTitle: text("job_title"),
+  leadSource: text("lead_source"),
+  lifecycleStage: text("lifecycle_stage"),
+  lastActivityDate: timestamp("last_activity_date"),
+  totalInvestments: decimal("total_investments", { precision: 12, scale: 2 }).default("0"),
+  syncStatus: text("sync_status").default("active"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const hubspotDeals = pgTable("hubspot_deals", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id).notNull(),
+  propertyId: integer("property_id").references(() => properties.id),
+  hubspotDealId: text("hubspot_deal_id").unique().notNull(),
+  dealName: text("deal_name").notNull(),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  stage: text("stage").notNull(),
+  pipeline: text("pipeline").notNull(),
+  closeDate: timestamp("close_date"),
+  probability: integer("probability").default(0),
+  dealType: text("deal_type"), // "investment", "listing", "consultation"
+  source: text("source"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Advanced Analytics Tables
+export const userSessions = pgTable("user_sessions", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id),
+  sessionId: text("session_id").unique().notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  referrer: text("referrer"),
+  landingPage: text("landing_page"),
+  exitPage: text("exit_page"),
+  duration: integer("duration"), // in seconds
+  pageViews: integer("page_views").default(1),
+  bounced: boolean("bounced").default(false),
+  converted: boolean("converted").default(false),
+  conversionType: text("conversion_type"), // "investment", "listing", "signup"
+  deviceType: text("device_type"), // "desktop", "mobile", "tablet"
+  browser: text("browser"),
+  country: text("country"),
+  city: text("city"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const propertyAnalytics = pgTable("property_analytics", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").references(() => properties.id).notNull(),
+  date: date("date").notNull(),
+  views: integer("views").default(0),
+  uniqueViews: integer("unique_views").default(0),
+  inquiries: integer("inquiries").default(0),
+  investments: integer("investments").default(0),
+  totalInvestmentAmount: decimal("total_investment_amount", { precision: 12, scale: 2 }).default("0"),
+  averageTimeOnPage: integer("average_time_on_page").default(0),
+  bounceRate: decimal("bounce_rate", { precision: 5, scale: 2 }).default("0"),
+  conversionRate: decimal("conversion_rate", { precision: 5, scale: 2 }).default("0"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Enhanced Security Tables
+export const userDevices = pgTable("user_devices", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id).notNull(),
+  deviceId: text("device_id").unique().notNull(),
+  deviceName: text("device_name"),
+  deviceType: text("device_type"), // "mobile", "desktop", "tablet"
+  browser: text("browser"),
+  os: text("os"),
+  ipAddress: text("ip_address"),
+  isVerified: boolean("is_verified").default(false),
+  isTrusted: boolean("is_trusted").default(false),
+  lastUsed: timestamp("last_used").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const securityLogs = pgTable("security_logs", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id),
+  action: text("action").notNull(), // "login", "logout", "password_change", "suspicious_activity"
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  location: text("location"),
+  riskLevel: text("risk_level").default("low"), // "low", "medium", "high"
+  blocked: boolean("blocked").default(false),
+  reason: text("reason"),
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Enhanced Payment Processing
+export const paymentMethods = pgTable("payment_methods", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id).notNull(),
+  stripePaymentMethodId: text("stripe_payment_method_id").unique().notNull(),
+  type: text("type").notNull(), // "card", "bank_account", "crypto"
+  last4: text("last4"),
+  brand: text("brand"),
+  expiryMonth: integer("expiry_month"),
+  expiryYear: integer("expiry_year"),
+  isDefault: boolean("is_default").default(false),
+  isVerified: boolean("is_verified").default(false),
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const recurringInvestments = pgTable("recurring_investments", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id).notNull(),
+  propertyId: integer("property_id").references(() => properties.id),
+  paymentMethodId: integer("payment_method_id").references(() => paymentMethods.id).notNull(),
+  amount: decimal("amount", { precision: 12, scale: 2 }).notNull(),
+  frequency: text("frequency").notNull(), // "weekly", "monthly", "quarterly"
+  nextPaymentDate: timestamp("next_payment_date").notNull(),
+  isActive: boolean("is_active").default(true),
+  totalPayments: integer("total_payments").default(0),
+  failedPayments: integer("failed_payments").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Performance Optimization Tables
+export const apiMetrics = pgTable("api_metrics", {
+  id: serial("id").primaryKey(),
+  endpoint: text("endpoint").notNull(),
+  method: text("method").notNull(),
+  responseTime: integer("response_time"), // in milliseconds
+  statusCode: integer("status_code").notNull(),
+  userId: text("user_id").references(() => users.id),
+  ipAddress: text("ip_address"),
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  errorMessage: text("error_message"),
+});
+
+export const cacheMetrics = pgTable("cache_metrics", {
+  id: serial("id").primaryKey(),
+  cacheKey: text("cache_key").notNull(),
+  hitRate: decimal("hit_rate", { precision: 5, scale: 2 }),
+  missRate: decimal("miss_rate", { precision: 5, scale: 2 }),
+  avgResponseTime: integer("avg_response_time"),
+  totalRequests: integer("total_requests").default(0),
+  date: date("date").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Type exports for new tables
+export type HubspotContact = typeof hubspotContacts.$inferSelect;
+export type InsertHubspotContact = typeof hubspotContacts.$inferInsert;
+export type HubspotDeal = typeof hubspotDeals.$inferSelect;
+export type InsertHubspotDeal = typeof hubspotDeals.$inferInsert;
+export type UserSession = typeof userSessions.$inferSelect;
+export type InsertUserSession = typeof userSessions.$inferInsert;
+export type PropertyAnalytics = typeof propertyAnalytics.$inferSelect;
+export type InsertPropertyAnalytics = typeof propertyAnalytics.$inferInsert;
+export type UserDevice = typeof userDevices.$inferSelect;
+export type InsertUserDevice = typeof userDevices.$inferInsert;
+export type SecurityLog = typeof securityLogs.$inferSelect;
+export type InsertSecurityLog = typeof securityLogs.$inferInsert;
+export type PaymentMethod = typeof paymentMethods.$inferSelect;
+export type InsertPaymentMethod = typeof paymentMethods.$inferInsert;
+export type RecurringInvestment = typeof recurringInvestments.$inferSelect;
+export type InsertRecurringInvestment = typeof recurringInvestments.$inferInsert;
+export type ApiMetric = typeof apiMetrics.$inferSelect;
+export type InsertApiMetric = typeof apiMetrics.$inferInsert;
+export type CacheMetric = typeof cacheMetrics.$inferSelect;
+export type InsertCacheMetric = typeof cacheMetrics.$inferInsert;
