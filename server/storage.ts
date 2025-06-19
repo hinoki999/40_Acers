@@ -38,6 +38,23 @@ export interface IStorage {
   getUserTransactions(userId: string): Promise<Transaction[]>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   getAllTransactions(): Promise<Transaction[]>;
+  
+  // User Profile operations
+  getUserProfile(userId: string): Promise<UserProfile | undefined>;
+  createUserProfile(profile: InsertUserProfile): Promise<UserProfile>;
+  updateUserProfile(userId: string, profile: Partial<InsertUserProfile>): Promise<UserProfile>;
+  
+  // Challenge operations
+  getAllChallenges(): Promise<Challenge[]>;
+  getActivechallenge(): Promise<Challenge[]>;
+  createChallenge(challenge: InsertChallenge): Promise<Challenge>;
+  joinChallenge(challengeId: number, userId: string): Promise<ChallengeParticipant>;
+  updateChallengeProgress(challengeId: number, userId: string, progress: number): Promise<void>;
+  
+  // Leaderboard operations
+  getLeaderboard(category: string, limit?: number): Promise<LeaderboardEntry[]>;
+  updateUserScore(userId: string, category: string, score: number): Promise<void>;
+  getUserRanking(userId: string, category: string): Promise<LeaderboardEntry | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -121,6 +138,113 @@ export class DatabaseStorage implements IStorage {
 
   async getAllTransactions(): Promise<Transaction[]> {
     return await db.select().from(transactions).orderBy(desc(transactions.createdAt));
+  }
+
+  // User Profile operations
+  async getUserProfile(userId: string): Promise<UserProfile | undefined> {
+    const [profile] = await db.select().from(userProfiles).where(eq(userProfiles.userId, userId));
+    return profile;
+  }
+
+  async createUserProfile(profile: InsertUserProfile): Promise<UserProfile> {
+    const [newProfile] = await db.insert(userProfiles).values(profile).returning();
+    return newProfile;
+  }
+
+  async updateUserProfile(userId: string, profile: Partial<InsertUserProfile>): Promise<UserProfile> {
+    const [updatedProfile] = await db
+      .update(userProfiles)
+      .set({ ...profile, updatedAt: new Date() })
+      .where(eq(userProfiles.userId, userId))
+      .returning();
+    return updatedProfile;
+  }
+
+  // Challenge operations
+  async getAllChallenges(): Promise<Challenge[]> {
+    return await db.select().from(challenges).orderBy(desc(challenges.createdAt));
+  }
+
+  async getActiveChallenge(): Promise<Challenge[]> {
+    const now = new Date();
+    return await db
+      .select()
+      .from(challenges)
+      .where(
+        and(
+          eq(challenges.isActive, true),
+          lte(challenges.startDate, now),
+          gte(challenges.endDate, now)
+        )
+      );
+  }
+
+  async createChallenge(challenge: InsertChallenge): Promise<Challenge> {
+    const [newChallenge] = await db.insert(challenges).values(challenge).returning();
+    return newChallenge;
+  }
+
+  async joinChallenge(challengeId: number, userId: string): Promise<ChallengeParticipant> {
+    const [participant] = await db
+      .insert(challengeParticipants)
+      .values({ challengeId, userId })
+      .returning();
+    return participant;
+  }
+
+  async updateChallengeProgress(challengeId: number, userId: string, progress: number): Promise<void> {
+    await db
+      .update(challengeParticipants)
+      .set({ progress, completed: progress >= 100 })
+      .where(
+        and(
+          eq(challengeParticipants.challengeId, challengeId),
+          eq(challengeParticipants.userId, userId)
+        )
+      );
+  }
+
+  // Leaderboard operations
+  async getLeaderboard(category: string, limit: number = 10): Promise<LeaderboardEntry[]> {
+    return await db
+      .select()
+      .from(leaderboard)
+      .where(eq(leaderboard.category, category))
+      .orderBy(desc(leaderboard.score))
+      .limit(limit);
+  }
+
+  async updateUserScore(userId: string, category: string, score: number): Promise<void> {
+    const existing = await db
+      .select()
+      .from(leaderboard)
+      .where(and(eq(leaderboard.userId, userId), eq(leaderboard.category, category)));
+
+    if (existing.length > 0) {
+      await db
+        .update(leaderboard)
+        .set({ score, lastUpdated: new Date() })
+        .where(and(eq(leaderboard.userId, userId), eq(leaderboard.category, category)));
+    } else {
+      await db.insert(leaderboard).values({ userId, category, score });
+    }
+
+    // Update ranks for this category
+    const allEntries = await this.getLeaderboard(category, 1000);
+    for (let i = 0; i < allEntries.length; i++) {
+      await db
+        .update(leaderboard)
+        .set({ rank: i + 1 })
+        .where(eq(leaderboard.id, allEntries[i].id));
+    }
+  }
+
+  async getUserRanking(userId: string, category: string): Promise<LeaderboardEntry | undefined> {
+    const [entry] = await db
+      .select()
+      .from(leaderboard)
+      .where(and(eq(leaderboard.userId, userId), eq(leaderboard.category, category)));
+    return entry;
   }
 }
 
