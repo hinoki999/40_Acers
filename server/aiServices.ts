@@ -50,7 +50,7 @@ export class AIPropertyRecommendationEngine {
     // Get user investment history for personalization
     const investmentHistory = userInvestments.map(inv => ({
       propertyType: properties.find(p => p.id === inv.propertyId)?.propertyType,
-      amount: inv.shares * Number(inv.sharePrice),
+      amount: inv.sharesOwned * Number(inv.totalInvested) / inv.sharesOwned, // Calculate price per share
       location: properties.find(p => p.id === inv.propertyId)?.city
     }));
 
@@ -221,7 +221,7 @@ export class OwnershipVerificationService {
     return {
       isVerified: propertyInvestments.length > 0,
       method: "bank_transfer",
-      amount: propertyInvestments.reduce((sum, inv) => sum + (inv.shares * Number(inv.sharePrice)), 0),
+      amount: propertyInvestments.reduce((sum, inv) => sum + Number(inv.totalInvested), 0),
       transactionId: `TX_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       timestamp: new Date()
     };
@@ -238,7 +238,7 @@ export class OwnershipVerificationService {
     // Simulate blockchain verification
     const investments = await storage.getUserInvestments(userId);
     const propertyInvestments = investments.filter(inv => inv.propertyId === propertyId);
-    const totalShares = propertyInvestments.reduce((sum, inv) => sum + inv.shares, 0);
+    const totalShares = propertyInvestments.reduce((sum, inv) => sum + inv.sharesOwned, 0);
     
     return {
       isVerified: totalShares > 0,

@@ -46,7 +46,7 @@ export interface IStorage {
   
   // Challenge operations
   getAllChallenges(): Promise<Challenge[]>;
-  getActivechallenge(): Promise<Challenge[]>;
+  getActiveChallenge(): Promise<Challenge[]>;
   createChallenge(challenge: InsertChallenge): Promise<Challenge>;
   joinChallenge(challengeId: number, userId: string): Promise<ChallengeParticipant>;
   updateChallengeProgress(challengeId: number, userId: string, progress: number): Promise<void>;
