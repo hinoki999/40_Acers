@@ -241,6 +241,7 @@ export default function Invest() {
                   key={property.id}
                   property={property}
                   onInvest={() => handleInvest(property.id)}
+                  onShare={() => handleInvest(property.id)}
                 />
               ))}
             </div>

@@ -7,6 +7,7 @@ import { DollarSign, Shield, TrendingUp, Users } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import AuthModals from "@/components/AuthModals";
 import InvestmentModal from "@/components/InvestmentModal";
+import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import { Property } from "@shared/schema";
 import logoImage from "@/assets/40-acres-logo.png";
@@ -20,6 +21,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showInvestment, setShowInvestment] = useState(false);
+  const [showSocialShare, setShowSocialShare] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
 
@@ -170,6 +172,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                   key={property.id}
                   property={property}
                   onInvest={() => handleInvest(property.id)}
+                  onShare={() => handleShare(property.id)}
                 />
               ))}
             </div>
@@ -250,6 +253,14 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         isOpen={showInvestment}
         onClose={() => {
           setShowInvestment(false);
+          setSelectedProperty(null);
+        }}
+        property={selectedProperty}
+      />
+      <SocialShareModal
+        isOpen={showSocialShare}
+        onClose={() => {
+          setShowSocialShare(false);
           setSelectedProperty(null);
         }}
         property={selectedProperty}

@@ -55,6 +55,11 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   Documentation
                 </Button>
               </Link>
+              <Link href="/community">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                  Community
+                </Button>
+              </Link>
             </nav>
           </div>
           <div className="flex items-center space-x-4">

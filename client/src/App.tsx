@@ -12,6 +12,7 @@ import Invest from "@/pages/Invest";
 import ListProperty from "@/pages/ListProperty";
 import Business from "@/pages/Business";
 import Documentation from "@/pages/Documentation";
+import CommunityForum from "@/pages/CommunityForum";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -33,6 +34,7 @@ function Router() {
             <Route path="/list" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
+            <Route path="/community" component={CommunityForum} />
           </>
         ) : (
           <>
@@ -41,6 +43,7 @@ function Router() {
             <Route path="/list" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
+            <Route path="/community" component={CommunityForum} />
           </>
         )}
         <Route component={NotFound} />

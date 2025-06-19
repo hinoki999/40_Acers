@@ -11,9 +11,10 @@ import TokenizationCalculator from "./TokenizationCalculator";
 interface PropertyCardProps {
   property: Property;
   onInvest: (propertyId: number) => void;
+  onShare?: (propertyId: number) => void;
 }
 
-export default function PropertyCard({ property, onInvest }: PropertyCardProps) {
+export default function PropertyCard({ property, onInvest, onShare }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
   
@@ -174,6 +175,18 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
               className="flex-1 hover:bg-neutral-50"
             >
               View Details
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 hover:bg-blue-50 border-blue-200 text-blue-600"
+              onClick={(e) => {
+                e.stopPropagation();
+                onShare?.(property.id);
+              }}
+            >
+              <Share2 size={14} className="mr-1" />
+              Share
             </Button>
             {property.zoomMeetingUrl ? (
               <Button
