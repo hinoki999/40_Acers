@@ -58,7 +58,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 <img 
                   src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                   alt="40 Acres Logo" 
-                  className="h-144 w-auto object-contain mx-auto mb-6"
+                  className="h-144 w-auto object-contain mx-auto mb-2"
                 />
                 <h1 className="font-bold text-[48px] text-center leading-tight">
                   Peer to Peer<br/>Investment Marketplace
