@@ -7,6 +7,7 @@ import PropertyFeed from "@/components/PropertyFeed";
 import PropertyFeedFilters from "@/components/PropertyFeedFilters";
 import CommunityLeaderboard from "@/components/CommunityLeaderboard";
 import CommunityFeedPost from "@/components/CommunityFeedPost";
+import InvestmentModal from "@/components/InvestmentModal";
 import { Property } from "@shared/schema";
 import { 
   TrendingUp, 
@@ -20,7 +21,6 @@ import {
   Award
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
-import InvestmentModal from "@/components/InvestmentModal";
 
 interface FilterOptions {
   location: string;

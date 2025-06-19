@@ -31,10 +31,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
 
   const investMutation = useMutation({
     mutationFn: async (data: { propertyId: number; shares: number }) => {
-      return apiRequest('/api/invest', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
+      return apiRequest('/api/invest', 'POST', data);
     },
     onSuccess: () => {
       toast({
