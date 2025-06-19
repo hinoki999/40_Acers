@@ -39,16 +39,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Property routes
   app.get('/api/properties', async (req, res) => {
     try {
-      const properties = await storage.getAllProperties();
+      const allProperties = await storage.getAllProperties();
       const bitcoinPrice = await getBitcoinPrice();
       
-      const propertiesWithBtc = properties.map(property => ({
-        ...property,
-        sharePriceBtc: bitcoinPrice ? Number(property.sharePrice) / bitcoinPrice : null,
-        bitcoinPrice: bitcoinPrice
-      }));
+      // Apply 49% ownership limit and recalculate token pricing
+      const validProperties = allProperties.map(property => {
+        const propertyValue = parseFloat(property.propertyValue);
+        const squareFootage = property.squareFootage || 1000;
+        
+        // Formula: Property Value / 49% = Total Token Supply
+        const totalTokenSupply = Math.floor(propertyValue / 0.49);
+        
+        // Token Supply / Square Footage = Token Price per Share
+        const tokenPricePerShare = totalTokenSupply / squareFootage;
+        
+        // Max shares for 49% ownership
+        const maxSharesFor49Percent = Math.floor(squareFootage * 0.49);
+        
+        // Check if 49% is still available
+        const remainingShares = maxSharesFor49Percent - property.currentShares;
+        const canOffer49Percent = remainingShares > 0;
+        
+        return {
+          ...property,
+          sharePrice: tokenPricePerShare.toFixed(2),
+          maxShares: maxSharesFor49Percent,
+          totalTokenSupply,
+          tokenPricePerShare: tokenPricePerShare.toFixed(2),
+          maxOwnershipAvailable: canOffer49Percent ? 49 : 0,
+          remainingShares49Percent: Math.max(0, remainingShares),
+          ownershipValue49Percent: propertyValue * 0.49,
+          sharePriceBtc: bitcoinPrice ? tokenPricePerShare / bitcoinPrice : null,
+          bitcoinPrice
+        };
+      }).filter(property => property.maxOwnershipAvailable > 0);
       
-      res.json(propertiesWithBtc);
+      res.json(validProperties);
     } catch (error) {
       console.error("Error fetching properties:", error);
       res.status(500).json({ message: "Failed to fetch properties" });
@@ -96,22 +122,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
         propertyData.zipcode
       );
       
+      // Apply token pricing formula: Property Value / 49% = Token Supply
+      const propertyValue = parseFloat(propertyData.propertyValue);
+      const squareFootage = propertyData.squareFootage || 1000;
+      
+      const totalTokenSupply = Math.floor(propertyValue / 0.49);
+      const tokenPricePerShare = totalTokenSupply / squareFootage;
+      const maxSharesFor49Percent = Math.floor(squareFootage * 0.49);
+      
       const propertyWithCoords = {
         ...propertyData,
         latitude: coordinates?.latitude?.toString() || null,
         longitude: coordinates?.longitude?.toString() || null,
-        status: 'pending', // Properties start as pending until payment/verification
-        verificationStatus: 'pending'
+        status: 'pending',
+        verificationStatus: 'pending',
+        sharePrice: tokenPricePerShare.toFixed(2),
+        maxShares: maxSharesFor49Percent,
+        currentShares: 0
       };
       
       const property = await storage.createProperty(propertyWithCoords);
       
-      // Auto-populate community feed and marketplace
       res.status(201).json({
         ...property,
-        communityFeedPosted: true,
-        marketplacePosted: true,
-        instantVisibility: true
+        totalTokenSupply,
+        tokenPricePerShare: tokenPricePerShare.toFixed(2),
+        maxOwnershipOffered: 49,
+        ownershipValue49Percent: propertyValue * 0.49,
+        calculationFormula: {
+          step1: `Property Value ($${propertyValue.toLocaleString()}) ÷ 49% = ${totalTokenSupply.toLocaleString()} total tokens`,
+          step2: `Total Tokens (${totalTokenSupply.toLocaleString()}) ÷ Square Footage (${squareFootage.toLocaleString()}) = $${tokenPricePerShare.toFixed(2)} per token`,
+          step3: `Max Shares for 49% = ${maxSharesFor49Percent.toLocaleString()} tokens`
+        }
       });
     } catch (error) {
       console.error("Error creating property:", error);
@@ -142,9 +184,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Property not found" });
       }
 
-      // Check if enough shares are available
-      if (property.currentShares + shares > property.maxShares) {
-        return res.status(400).json({ message: "Not enough shares available" });
+      // Calculate 49% ownership limits
+      const propertyValue = parseFloat(property.propertyValue);
+      const squareFootage = property.squareFootage || 1000;
+      const maxSharesFor49Percent = Math.floor(squareFootage * 0.49);
+      const ownershipPercentage = (shares / maxSharesFor49Percent) * 49;
+      
+      // Enforce minimum meaningful investment (5% of available 49%)
+      const minShares = Math.ceil(maxSharesFor49Percent * 0.05);
+      if (shares < minShares) {
+        return res.status(400).json({ 
+          message: "Minimum 5% of available ownership required",
+          minShares,
+          minInvestment: minShares * parseFloat(property.sharePrice),
+          maxOwnershipAvailable: 49
+        });
+      }
+
+      // Check if enough shares are available within 49% limit
+      if (property.currentShares + shares > maxSharesFor49Percent) {
+        return res.status(400).json({ 
+          message: "Exceeds 49% ownership limit",
+          maxShares: maxSharesFor49Percent,
+          availableShares: maxSharesFor49Percent - property.currentShares
+        });
       }
 
       const totalInvested = Number(property.sharePrice) * shares;
@@ -172,7 +235,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         email: req.user.claims.email,
       });
 
-      res.status(201).json(investment);
+      res.status(201).json({
+        ...investment,
+        ownershipPercentage: ownershipPercentage.toFixed(3),
+        propertyValueOwned: (propertyValue * ownershipPercentage / 100).toLocaleString(),
+        tokenDetails: {
+          tokenPrice: property.sharePrice,
+          tokensOwned: shares,
+          maxTokensFor49Percent: maxSharesFor49Percent
+        }
+      });
     } catch (error) {
       console.error("Error creating investment:", error);
       res.status(500).json({ message: "Failed to create investment" });
