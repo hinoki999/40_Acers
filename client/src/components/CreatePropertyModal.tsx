@@ -22,6 +22,8 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     city: "",
     state: "",
     zipcode: "",
+    propertyValue: "",
+    squareFootage: "",
     maxShares: "",
     sharePrice: "",
     thumbnailUrl: "",
@@ -34,6 +36,26 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+
+  // Calculate tokenization based on property value and square footage
+  const calculateTokenization = (propertyValue: string, squareFootage: string) => {
+    if (propertyValue && squareFootage) {
+      const value = parseFloat(propertyValue);
+      const sqFt = parseInt(squareFootage);
+      
+      if (value > 0 && sqFt > 0) {
+        // Each 10 square feet = 1 token
+        const totalTokens = Math.floor(sqFt / 10);
+        const tokenPrice = (value / totalTokens).toFixed(2);
+        
+        setFormData(prev => ({
+          ...prev,
+          maxShares: totalTokens.toString(),
+          sharePrice: tokenPrice
+        }));
+      }
+    }
+  };
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -60,9 +82,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         thumbnailUrl: "",
         propertyType: "Townhouse",
         description: "",
-        zoomMeetingUrl: "",
-        zoomMeetingId: "",
-        zoomPassword: "",
         zoomMeetingUrl: "",
         zoomMeetingId: "",
         zoomPassword: "",
@@ -99,6 +118,8 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         city: formData.city,
         state: formData.state,
         zipcode: formData.zipcode,
+        propertyValue: formData.propertyValue,
+        squareFootage: parseInt(formData.squareFootage),
         maxShares: parseInt(formData.maxShares),
         sharePrice: formData.sharePrice,
         thumbnailUrl: formData.thumbnailUrl || null,

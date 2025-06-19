@@ -45,6 +45,8 @@ export const properties = pgTable("properties", {
   zipcode: text("zipcode").notNull(),
   latitude: decimal("latitude", { precision: 10, scale: 8 }),
   longitude: decimal("longitude", { precision: 11, scale: 8 }),
+  propertyValue: decimal("property_value", { precision: 12, scale: 2 }).notNull(),
+  squareFootage: integer("square_footage").notNull(),
   maxShares: integer("max_shares").notNull(),
   sharePrice: decimal("share_price", { precision: 10, scale: 2 }).notNull(),
   currentShares: integer("current_shares").notNull().default(0),

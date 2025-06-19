@@ -118,7 +118,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
               <div className="text-2xl font-bold text-primary">
                 ${sharePrice}
               </div>
-              <div className="text-xs text-neutral-600">per share</div>
+              <div className="text-xs text-neutral-600">per token</div>
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
             </div>
             
             <p className="text-xs text-neutral-500 mt-2">
-              Available shares: {maxAvailableShares.toLocaleString()}
+              Available tokens: {maxAvailableShares.toLocaleString()}
             </p>
           </div>
 
@@ -197,11 +197,11 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-neutral-600">Shares:</span>
+                  <span className="text-neutral-600">Tokens:</span>
                   <span className="font-medium">{shares.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-600">Price per Share:</span>
+                  <span className="text-neutral-600">Price per Token:</span>
                   <span className="font-medium">${sharePrice}</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold text-primary border-t pt-2">
@@ -218,6 +218,12 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                   <span className="text-neutral-600">Your Ownership:</span>
                   <span className="font-medium">{((shares / property.maxShares) * 100).toFixed(2)}%</span>
                 </div>
+                {property.squareFootage && (
+                  <div className="flex justify-between">
+                    <span className="text-neutral-600">Your Sq Footage:</span>
+                    <span className="font-medium">{Math.round((shares * 10)).toLocaleString()} sq ft</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-lg font-bold text-secondary border-t pt-2">
                   <span>Potential Returns:</span>
                   <span>~${(totalInvestment * 0.08).toFixed(0)}/year</span>

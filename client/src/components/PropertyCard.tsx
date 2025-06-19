@@ -2,10 +2,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { TrendingUp, MapPin, Users, Zap, Heart, Video } from "lucide-react";
+import { TrendingUp, MapPin, Users, Zap, Heart, Video, Calculator } from "lucide-react";
 import { Property } from "@shared/schema";
 import { useState } from "react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
+import TokenizationCalculator from "./TokenizationCalculator";
 
 interface PropertyCardProps {
   property: Property;
@@ -88,25 +89,53 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
 
         {/* Investment Details */}
         <div className="bg-gradient-to-r from-neutral-50 to-blue-50 rounded-lg p-4 mb-4 border border-neutral-100">
-          <div className="grid grid-cols-2 gap-4 text-center">
+          <div className="grid grid-cols-3 gap-3 text-center">
             <div>
               <BitcoinPriceDisplay 
                 usdPrice={Number(property.sharePrice)} 
                 showBoth={true}
                 className="text-center"
               />
-              <div className="text-xs text-neutral-600 mt-1">Per Share</div>
+              <div className="text-xs text-neutral-600 mt-1">Per Token</div>
             </div>
             <div>
-              <BitcoinPriceDisplay 
-                usdPrice={totalValue} 
-                showBoth={true}
-                className="text-center"
-              />
-              <div className="text-xs text-neutral-600 mt-1">Total Value</div>
+              <div className="text-lg font-bold text-secondary">
+                {property.maxShares.toLocaleString()}
+              </div>
+              <div className="text-xs text-neutral-600 mt-1">Total Tokens</div>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-accent">
+                {property.squareFootage ? property.squareFootage.toLocaleString() : 'N/A'}
+              </div>
+              <div className="text-xs text-neutral-600 mt-1">Sq Ft</div>
             </div>
           </div>
+          
+          {property.propertyValue && property.squareFootage && (
+            <div className="mt-3 pt-3 border-t border-neutral-200">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowTokenization(!showTokenization)}
+                className="w-full text-xs text-neutral-600 hover:text-neutral-900"
+              >
+                <Calculator size={12} className="mr-1" />
+                {showTokenization ? 'Hide' : 'Show'} Tokenization Details
+              </Button>
+            </div>
+          )}
         </div>
+
+        {/* Tokenization Calculator */}
+        {showTokenization && property.propertyValue && property.squareFootage && (
+          <div className="mb-4">
+            <TokenizationCalculator
+              propertyValue={Number(property.propertyValue)}
+              squareFootage={property.squareFootage}
+            />
+          </div>
+        )}
 
         {/* Progress Bar with Labels */}
         <div className="space-y-2 mb-4">
