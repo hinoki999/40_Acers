@@ -18,7 +18,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-neutral-200">
+    <header className="bg-black shadow-sm border-b border-neutral-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
@@ -31,27 +31,27 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
             </Link>
             <nav className="hidden md:flex space-x-6">
               <Link href="/">
-                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   Home
                 </Button>
               </Link>
               <Link href="/invest">
-                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   Invest
                 </Button>
               </Link>
               <Link href="/list">
-                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   List Property
                 </Button>
               </Link>
               <Link href="/business">
-                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   Business
                 </Button>
               </Link>
               <Link href="/documentation">
-                <Button variant="ghost" className="text-neutral-700 hover:text-primary">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   Documentation
                 </Button>
               </Link>
