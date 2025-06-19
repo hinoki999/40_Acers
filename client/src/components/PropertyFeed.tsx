@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { Property } from "@shared/schema";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
+import SocialInvestorNetwork from "./SocialInvestorNetwork";
 
 interface PropertyFeedProps {
   properties: Property[];
