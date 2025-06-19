@@ -24,7 +24,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-3">
               <img 
-                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750351898647.png" 
+                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_1750351977219.jpg" 
                 alt="40 Acres Logo" 
                 className="h-8 w-auto object-contain"
               />
