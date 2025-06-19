@@ -5,13 +5,17 @@ import { createWriteStream } from "fs";
 import { promisify } from "util";
 import { pipeline } from "stream";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+// Check for Stripe configuration
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const isStripeConfigured = !!STRIPE_SECRET_KEY;
+
+if (!isStripeConfigured) {
+  console.warn('WARNING: STRIPE_SECRET_KEY is not configured. Payment functionality will be disabled.');
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = isStripeConfigured ? new Stripe(STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16" as any,
-});
+}) : null;
 
 export interface PaymentRequest {
   userId: string;
@@ -53,6 +57,10 @@ export class PaymentService {
     propertyId: number,
     propertyValue: number
   ): Promise<PaymentResult> {
+    if (!isStripeConfigured || !stripe) {
+      throw new Error('Payment processing is not available. Please contact support.');
+    }
+
     const { fee, percentage } = this.calculateListingFee(propertyValue);
     const amountCents = Math.round(fee * 100);
     
@@ -115,6 +123,10 @@ export class PaymentService {
     amount: number,
     shares: number
   ): Promise<PaymentResult> {
+    if (!isStripeConfigured || !stripe) {
+      throw new Error('Payment processing is not available. Please contact support.');
+    }
+
     const amountCents = Math.round(amount * 100);
     
     // Generate receipt number
@@ -158,6 +170,10 @@ export class PaymentService {
 
   // Process successful payment
   static async processSuccessfulPayment(paymentIntentId: string): Promise<void> {
+    if (!isStripeConfigured || !stripe) {
+      throw new Error('Payment processing is not available. Please contact support.');
+    }
+
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     
     if (paymentIntent.status !== "succeeded") {
