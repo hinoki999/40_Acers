@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,8 @@ interface CommunityFeedPostProps {
   onComment?: (propertyId: number) => void;
   onSave?: (propertyId: number) => void;
   className?: string;
+  isTikTokStyle?: boolean;
+  isActive?: boolean;
 }
 
 interface PostStats {
@@ -47,7 +49,9 @@ export default function CommunityFeedPost({
   onLike, 
   onComment, 
   onSave,
-  className = ""
+  className = "",
+  isTikTokStyle = false,
+  isActive = false
 }: CommunityFeedPostProps) {
   const [stats, setStats] = useState<PostStats>({
     likes: Math.floor(Math.random() * 50) + 10,
@@ -90,6 +94,259 @@ export default function CommunityFeedPost({
 
   const owner = getOwnerInfo();
 
+  const videoRef = useRef<HTMLDivElement>(null);
+
+  // Add touch gestures and keyboard navigation for TikTok-style
+  useEffect(() => {
+    if (!isTikTokStyle || !videoRef.current) return;
+
+    const element = videoRef.current;
+    let startY = 0;
+    let currentY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      currentY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = () => {
+      const diffY = startY - currentY;
+      const parent = element.parentElement?.parentElement;
+      
+      if (Math.abs(diffY) > 50 && parent) {
+        if (diffY > 0) {
+          // Swipe up - next video
+          parent.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        } else {
+          // Swipe down - previous video
+          parent.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+        }
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const parent = element.parentElement?.parentElement;
+      if (!parent) return;
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        parent.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        parent.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+      }
+    };
+
+    element.addEventListener('touchstart', handleTouchStart);
+    element.addEventListener('touchmove', handleTouchMove);
+    element.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      element.removeEventListener('touchstart', handleTouchStart);
+      element.removeEventListener('touchmove', handleTouchMove);
+      element.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isTikTokStyle]);
+
+  // TikTok-style full-screen layout
+  if (isTikTokStyle) {
+    return (
+      <div ref={videoRef} className={`relative w-full h-full bg-black text-white ${className}`}>
+        {/* Background Property Image */}
+        <div className="absolute inset-0">
+          <img
+            src={property.thumbnailUrl || "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=1920"}
+            alt={property.address}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=1920";
+            }}
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+        </div>
+
+        {/* Content Overlay */}
+        <div className="relative z-10 h-full flex flex-col">
+          {/* Top Section - User Info */}
+          <div className="flex-shrink-0 p-4 pt-12">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Avatar className="w-12 h-12 border-2 border-white">
+                  <AvatarImage src={owner.profileImage} />
+                  <AvatarFallback className="bg-black text-white">
+                    {owner.name.split(' ').map(n => n[0]).join('')}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-semibold text-white">{owner.name}</h4>
+                    {owner.verified && (
+                      <CheckCircle size={16} className="text-blue-400" />
+                    )}
+                  </div>
+                  <div className="text-sm text-white/80">
+                    {property.city}, {property.state}
+                  </div>
+                </div>
+              </div>
+              <Badge className="bg-white/20 text-white border-white/30">
+                {property.propertyType}
+              </Badge>
+            </div>
+          </div>
+
+          {/* Middle Section - Spacer */}
+          <div className="flex-1" />
+
+          {/* Bottom Section - Property Details & Actions */}
+          <div className="flex-shrink-0 p-4 pb-8">
+            {/* Property Info */}
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-white mb-2">
+                {property.address}
+              </h3>
+              <p className="text-white/90 text-sm leading-relaxed mb-4">
+                {property.description || `Stunning ${property.propertyType.toLowerCase()} in ${property.city}`}
+              </p>
+              
+              {/* Investment Stats */}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
+                  <div className="text-lg font-bold text-white">
+                    ${Number(property.propertyValue).toLocaleString()}
+                  </div>
+                  <div className="text-xs text-white/80">Property Value</div>
+                </div>
+                <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
+                  <BitcoinPriceDisplay 
+                    usdPrice={Number(property.sharePrice)} 
+                    showBoth={false}
+                    className="text-center text-white"
+                  />
+                  <div className="text-xs text-white/80">Per Token</div>
+                </div>
+                <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
+                  <div className="text-lg font-bold text-green-400">
+                    {Math.round(progressPercentage)}%
+                  </div>
+                  <div className="text-xs text-white/80">Funded</div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-white/20 rounded-full h-2 mb-4">
+                <div 
+                  className="bg-white rounded-full h-2 transition-all duration-500"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                {/* Like Button */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLike}
+                  className={`flex flex-col items-center gap-1 p-2 h-auto bg-black/40 backdrop-blur-sm hover:bg-black/60 ${
+                    stats.isLiked ? 'text-red-400' : 'text-white'
+                  }`}
+                >
+                  <Heart size={20} className={stats.isLiked ? 'fill-current' : ''} />
+                  <span className="text-xs">{stats.likes}</span>
+                </Button>
+
+                {/* Comment Button */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onComment?.(property.id)}
+                  className="flex flex-col items-center gap-1 p-2 h-auto bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white"
+                >
+                  <MessageCircle size={20} />
+                  <span className="text-xs">{stats.comments}</span>
+                </Button>
+
+                {/* Share Button */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onShare(property.id)}
+                  className="flex flex-col items-center gap-1 p-2 h-auto bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white"
+                >
+                  <Share2 size={20} />
+                  <span className="text-xs">{stats.shares}</span>
+                </Button>
+
+                {/* Save Button */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSave}
+                  className={`flex flex-col items-center gap-1 p-2 h-auto bg-black/40 backdrop-blur-sm hover:bg-black/60 ${
+                    stats.isSaved ? 'text-blue-400' : 'text-white'
+                  }`}
+                >
+                  <Bookmark size={20} className={stats.isSaved ? 'fill-current' : ''} />
+                  <span className="text-xs">Save</span>
+                </Button>
+              </div>
+
+              {/* Invest Button */}
+              <Button
+                onClick={() => onInvest(property.id)}
+                className="bg-white text-black hover:bg-white/90 font-semibold px-6 py-3 rounded-full"
+                size="lg"
+              >
+                <DollarSign size={18} className="mr-1" />
+                Invest Now
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Side Action Bar (right side) */}
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-4">
+          <div className="text-center">
+            <div className="bg-black/60 backdrop-blur-sm rounded-full p-3 mb-2">
+              <Eye size={20} className="text-white" />
+            </div>
+            <div className="text-white text-xs">{stats.views}</div>
+          </div>
+          {property.zoomMeetingUrl && (
+            <div className="text-center">
+              <div className="bg-black/60 backdrop-blur-sm rounded-full p-3 mb-2">
+                <Video size={20} className="text-white" />
+              </div>
+              <div className="text-white text-xs">Tour</div>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation Hints */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <div className="flex flex-col items-center text-white/60 animate-pulse">
+            <div className="text-xs mb-1">Swipe up for next</div>
+            <div className="flex flex-col items-center">
+              <div className="w-1 h-3 bg-white/40 rounded-full mb-1" />
+              <div className="w-1 h-3 bg-white/20 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Regular card layout for non-TikTok style
   return (
     <Card className={`overflow-hidden hover:shadow-lg transition-all duration-300 ${className}`}>
       {/* Post Header */}

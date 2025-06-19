@@ -145,30 +145,39 @@ export default function Community() {
             </div>
           </div>
 
-          {/* Loop Feed Tab */}
-          <TabsContent value="feed" className="mt-0">
+          {/* Loop Feed Tab - TikTok Style */}
+          <TabsContent value="feed" className="mt-0 -mx-6 -mb-6">
             {filteredProperties.length > 0 ? (
-              <div className="space-y-6">
-                {filteredProperties.map((property) => (
-                  <CommunityFeedPost
-                    key={property.id}
-                    property={property}
-                    onInvest={handleInvest}
-                    onShare={handleShare}
-                    onLike={(propertyId: number) => console.log('Liked property:', propertyId)}
-                    onComment={(propertyId: number) => console.log('Comment on property:', propertyId)}
-                    onSave={(propertyId: number) => console.log('Saved property:', propertyId)}
-                  />
+              <div 
+                className="h-screen overflow-y-auto snap-y snap-mandatory bg-black"
+                style={{
+                  scrollBehavior: 'smooth',
+                  WebkitOverflowScrolling: 'touch'
+                }}
+              >
+                {filteredProperties.map((property, index) => (
+                  <div key={property.id} className="h-screen snap-start relative">
+                    <CommunityFeedPost
+                      property={property}
+                      onInvest={handleInvest}
+                      onShare={handleShare}
+                      onLike={(propertyId: number) => console.log('Liked property:', propertyId)}
+                      onComment={(propertyId: number) => console.log('Comment on property:', propertyId)}
+                      onSave={(propertyId: number) => console.log('Saved property:', propertyId)}
+                      isTikTokStyle={true}
+                      isActive={index === 0}
+                    />
+                  </div>
                 ))}
               </div>
             ) : (
-              <div className="flex items-center justify-center h-96">
+              <div className="h-screen flex items-center justify-center bg-black text-white">
                 <div className="text-center">
-                  <div className="text-2xl mb-4">🏠</div>
-                  <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+                  <div className="text-4xl mb-4">🏠</div>
+                  <h3 className="text-xl font-semibold mb-2">
                     No Properties Available
                   </h3>
-                  <p className="text-neutral-600">
+                  <p className="text-neutral-400">
                     Check back later for new investment opportunities
                   </p>
                 </div>
