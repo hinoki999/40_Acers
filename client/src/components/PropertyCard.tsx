@@ -158,7 +158,7 @@ export default function PropertyCard({ property, onInvest }: PropertyCardProps) 
         <div className="space-y-2">
           <Button
             onClick={() => onInvest(property.id)}
-            className="w-full bg-[#b34034] text-white hover:bg-[#A0522D] transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="w-full bg-[#000000] text-white hover:bg-[#A0522D] transition-all duration-300 shadow-lg hover:shadow-xl"
             size="lg"
           >
             <div className="flex items-center justify-center gap-2">
