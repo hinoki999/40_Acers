@@ -5,6 +5,8 @@ import { LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import logoImage from "@/assets/40-acres-logo.png";
 
+import _7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed from "@assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed.png";
+
 interface HeaderProps {
   onShowLogin: () => void;
   onShowRegister: () => void;
@@ -24,7 +26,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
           <div className="flex items-center space-x-2 md:space-x-8">
             <Link href="/" className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity touch-target">
               <img 
-                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
+                src={_7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed} 
                 alt="40 Acres Logo" 
                 className="h-20 md:h-32 w-auto object-contain critical"
                 onError={(e) => {
