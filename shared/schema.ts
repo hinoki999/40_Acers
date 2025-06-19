@@ -33,12 +33,17 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  userType: text("user_type").notNull().default("investor"), // 'investor', 'business'
+  businessName: text("business_name"),
+  businessVerified: boolean("business_verified").notNull().default(false),
+  stripeCustomerId: text("stripe_customer_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const properties = pgTable("properties", {
   id: serial("id").primaryKey(),
+  ownerId: varchar("owner_id").notNull(),
   address: text("address").notNull(),
   city: text("city").notNull(),
   state: text("state").notNull(),
@@ -53,6 +58,7 @@ export const properties = pgTable("properties", {
   thumbnailUrl: text("thumbnail_url"),
   propertyType: text("property_type").notNull().default("Townhouse"),
   description: text("description"),
+  status: text("status").notNull().default("pending"), // 'pending', 'active', 'funded', 'closed'
   
   // Legal documents
   deedDocuments: text("deed_documents").array(),
@@ -79,8 +85,10 @@ export const investments = pgTable("investments", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull(),
   propertyId: integer("property_id").notNull(),
-  sharesOwned: integer("shares_owned").notNull(),
-  totalInvested: decimal("total_invested", { precision: 10, scale: 2 }).notNull(),
+  sharesPurchased: integer("shares_purchased").notNull(),
+  investmentAmount: decimal("investment_amount", { precision: 12, scale: 2 }).notNull(),
+  purchasePrice: decimal("purchase_price", { precision: 10, scale: 2 }).notNull(),
+  paymentTransactionId: integer("payment_transaction_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

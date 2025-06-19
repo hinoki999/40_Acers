@@ -20,49 +20,27 @@ interface InvestmentModalProps {
 
 export default function InvestmentModal({ isOpen, onClose, property }: InvestmentModalProps) {
   const [shares, setShares] = useState(1);
+  const [showPayment, setShowPayment] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const investMutation = useMutation({
-    mutationFn: async (data: { propertyId: number; shares: number }) => {
-      const response = await apiRequest("POST", "/api/investments", data);
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Investment Successful!",
-        description: "Your investment has been processed successfully.",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/properties"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      onClose();
-      setShares(1);
-    },
-    onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: "Unauthorized",
-          description: "You are logged out. Logging in again...",
-          variant: "destructive",
-        });
-        setTimeout(() => {
-          window.location.href = "/api/login";
-        }, 500);
-        return;
-      }
-      toast({
-        title: "Investment Failed",
-        description: "Unable to process your investment. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
   const handleInvest = () => {
     if (property && shares > 0) {
-      investMutation.mutate({ propertyId: property.id, shares });
+      setShowPayment(true);
     }
+  };
+
+  const handlePaymentSuccess = () => {
+    toast({
+      title: "Investment Successful!",
+      description: "Your investment has been processed successfully.",
+    });
+    queryClient.invalidateQueries({ queryKey: ["/api/properties"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/investments"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/payments/history"] });
+    onClose();
+    setShares(1);
+    setShowPayment(false);
   };
 
   if (!property) return null;
@@ -258,26 +236,27 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
             </Button>
             <Button
               onClick={handleInvest}
-              disabled={investMutation.isPending || shares <= 0 || shares > maxAvailableShares}
+              disabled={shares <= 0 || shares > maxAvailableShares}
               className="flex-1 bg-gradient-to-r from-primary to-blue-600 text-white hover:from-primary/90 hover:to-blue-600/90"
             >
-              {investMutation.isPending ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Processing...
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <DollarSign size={16} />
-                  Invest ${totalInvestment.toLocaleString()}
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                <CreditCard size={16} />
+                Proceed to Payment
+              </div>
             </Button>
           </div>
         </div>
       </DialogContent>
-      
-      {/* Payment integration will be handled by redirect to payment service */}
     </Dialog>
+
+    <StripePaymentModal
+      isOpen={showPayment}
+      onClose={() => setShowPayment(false)}
+      property={property}
+      investmentAmount={totalInvestment}
+      shares={shares}
+      onSuccess={handlePaymentSuccess}
+    />
+  </>
   );
 }
