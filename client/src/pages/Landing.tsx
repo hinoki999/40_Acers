@@ -62,9 +62,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 />
               </div>
               <h1 className="text-5xl font-bold leading-tight mb-6">
-                Peer to Peer<br />
-                Investment<br />
-                Marketplace
+                Peer to Peer Investment Marketplace
               </h1>
               <p className="text-xl text-blue-100 mb-8 leading-relaxed">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
