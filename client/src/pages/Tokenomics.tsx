@@ -38,14 +38,14 @@ function Tokenomics() {
   const daoTierTokens = tokenSupply - founderTierTokens - communityTierTokens;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-blue-50 p-6">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-blue-50 safe-area-inset">
+      <div className="container-mobile max-w-7xl mx-auto space-mobile py-6 sm:py-8">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold text-neutral-900">
+        <div className="text-center space-mobile">
+          <h1 className="heading-responsive font-bold text-neutral-900">
             40 Acres Tokenomics
           </h1>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="text-responsive text-neutral-600 max-w-3xl mx-auto">
             Democratizing real estate investment through compliant tokenization, 
             investor protection, and community-driven ownership
           </p>

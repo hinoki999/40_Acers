@@ -20,34 +20,34 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
   };
 
   return (
-    <header className="bg-black shadow-sm border-b border-neutral-800 sticky top-0 z-40 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
+    <header className="bg-black shadow-sm border-b border-neutral-800 sticky top-0 z-40 backdrop-blur-sm safe-area-inset">
+      <div className="container-mobile max-w-7xl mx-auto">
+        <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
           <div className="flex items-center space-x-2 md:space-x-8">
-            <Link href="/" className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity touch-target">
+            <Link href="/" className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-smooth touch-target">
               <img 
                 src={_7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed} 
                 alt="40 Acres Logo" 
-                className="h-28 md:h-40 w-auto object-contain critical"
+                className="h-20 sm:h-24 md:h-32 lg:h-40 w-auto object-contain critical"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750352435284.png";
                 }}
               />
             </Link>
-            <nav className="hidden md:flex space-x-6">
+            <nav className="hidden lg:flex space-x-4 xl:space-x-6">
               <Link href="/">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 transition-smooth btn-touch">
                   Home
                 </Button>
               </Link>
               <Link href="/invest">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 transition-smooth btn-touch">
                   Invest
                 </Button>
               </Link>
               <Link href="/list">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 transition-smooth btn-touch">
                   List Property
                 </Button>
               </Link>
