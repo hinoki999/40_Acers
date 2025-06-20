@@ -307,7 +307,7 @@ export default function Documentation() {
             {/* Recent Properties Overview */}
             {properties.length > 0 && (
               <div className="mt-12">
-                <h3 className="text-xl font-semibold mb-6 text-center">Available Investment Properties</h3>
+                <h3 className="text-xl font-semibold mb-6 text-center">Properties Pending Approval</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {properties.slice(-3).reverse().map((property: Property) => (
                     <Card key={property.id} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all">
