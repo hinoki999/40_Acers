@@ -1,260 +1,283 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Trophy, 
   Medal, 
-  Crown, 
+  Award, 
   TrendingUp, 
-  Building, 
+  DollarSign, 
   Users, 
   Target,
+  Crown,
   Star,
-  ChevronUp,
-  ChevronDown
+  Zap
 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
+import { getQueryFn } from "@/lib/queryClient";
 
-interface LeaderboardEntry {
+interface LeaderboardUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  profileImageUrl?: string;
+  totalInvestments: number;
+  totalEarnings: number;
+  communityRank: number;
+  achievementsCount: number;
+  location?: string;
+  joinedAt: string;
+  roi: number;
+  portfolioValue: number;
+}
+
+interface Achievement {
   id: number;
   userId: string;
-  category: string;
-  score: number;
-  rank: number;
-  achievements: string[];
-  lastUpdated: string;
-}
-
-interface Challenge {
-  id: number;
+  type: string;
   title: string;
   description: string;
-  type: string;
-  rules: any;
-  rewards: any;
-  startDate: string;
-  endDate: string;
-  isActive: boolean;
+  earnedAt: string;
+  isPublic: boolean;
 }
 
-const categories = [
-  { id: "total_investment", name: "Investment Volume", icon: TrendingUp },
-  { id: "properties_created", name: "Property Creation", icon: Building },
-  { id: "community_engagement", name: "Community Activity", icon: Users },
-];
-
 export default function CommunityLeaderboard() {
-  const { isAuthenticated, user } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState("total_investment");
+  const [activeTab, setActiveTab] = useState("investors");
 
-  const { data: leaderboard = [], isLoading: leaderboardLoading } = useQuery<LeaderboardEntry[]>({
-    queryKey: [`/api/leaderboard/${selectedCategory}`],
-    staleTime: 2 * 60 * 1000, // 2 minutes
+  const { data: topInvestors = [], isLoading: loadingInvestors } = useQuery({
+    queryKey: ["/api/community/leaderboard/investors"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
-  const { data: userRank } = useQuery<LeaderboardEntry>({
-    queryKey: [`/api/leaderboard/${selectedCategory}/my-rank`],
-    enabled: isAuthenticated,
-    staleTime: 2 * 60 * 1000,
+  const { data: topEarners = [], isLoading: loadingEarners } = useQuery({
+    queryKey: ["/api/community/leaderboard/earners"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
-  const { data: challenges = [] } = useQuery<Challenge[]>({
-    queryKey: ["/api/challenges"],
-    staleTime: 5 * 60 * 1000, // 5 minutes
+  const { data: recentAchievements = [], isLoading: loadingAchievements } = useQuery({
+    queryKey: ["/api/community/achievements/recent"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
-      case 1: return <Crown size={20} className="text-yellow-500" />;
-      case 2: return <Medal size={20} className="text-gray-400" />;
-      case 3: return <Medal size={20} className="text-orange-500" />;
-      default: return <span className="text-lg font-bold text-gray-600">#{rank}</span>;
-    }
-  };
-
-  const formatScore = (score: number, category: string) => {
-    switch (category) {
-      case "total_investment":
-        return `$${score.toLocaleString()}`;
-      case "properties_created":
-        return `${score} properties`;
-      case "community_engagement":
-        return `${score} points`;
+      case 1:
+        return <Crown className="h-5 w-5 text-yellow-500" />;
+      case 2:
+        return <Medal className="h-5 w-5 text-gray-400" />;
+      case 3:
+        return <Award className="h-5 w-5 text-amber-600" />;
       default:
-        return score.toString();
+        return <span className="text-lg font-bold text-neutral-600">#{rank}</span>;
     }
   };
 
-  const getUserInitials = (userId: string) => {
-    return userId.slice(0, 2).toUpperCase();
+  const getRankBadge = (rank: number) => {
+    if (rank === 1) return <Badge className="bg-yellow-100 text-yellow-800">🏆 #1</Badge>;
+    if (rank === 2) return <Badge className="bg-gray-100 text-gray-800">🥈 #2</Badge>;
+    if (rank === 3) return <Badge className="bg-amber-100 text-amber-800">🥉 #3</Badge>;
+    if (rank <= 10) return <Badge className="bg-blue-100 text-blue-800">⭐ Top 10</Badge>;
+    return <Badge variant="outline">#{rank}</Badge>;
   };
+
+  const getAchievementIcon = (type: string) => {
+    const icons = {
+      first_investment: <Target className="h-4 w-4 text-green-600" />,
+      milestone: <Trophy className="h-4 w-4 text-yellow-600" />,
+      top_earner: <DollarSign className="h-4 w-4 text-green-600" />,
+      community_star: <Star className="h-4 w-4 text-purple-600" />,
+      early_adopter: <Zap className="h-4 w-4 text-blue-600" />,
+    };
+    return icons[type as keyof typeof icons] || <Award className="h-4 w-4 text-neutral-600" />;
+  };
+
+  const LeaderboardCard = ({ user, rank, metric }: { user: LeaderboardUser; rank: number; metric: 'investment' | 'earnings' }) => (
+    <Card className={`transition-all hover:shadow-lg ${rank <= 3 ? 'border-2 border-yellow-200 bg-gradient-to-r from-yellow-50 to-amber-50' : ''}`}>
+      <CardContent className="p-4">
+        <div className="flex items-center space-x-3">
+          <div className="flex-shrink-0 flex items-center justify-center w-12 h-12">
+            {getRankIcon(rank)}
+          </div>
+          
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={user.profileImageUrl} />
+            <AvatarFallback>
+              {user.firstName?.[0]}{user.lastName?.[0]}
+            </AvatarFallback>
+          </Avatar>
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center space-x-2">
+              <h3 className="font-semibold text-neutral-900 truncate">
+                {user.firstName} {user.lastName}
+              </h3>
+              {getRankBadge(rank)}
+            </div>
+            
+            <div className="flex items-center space-x-2 text-sm text-neutral-600">
+              {user.location && <span>{user.location}</span>}
+              <span>•</span>
+              <span>{user.achievementsCount} achievements</span>
+            </div>
+            
+            <div className="mt-2">
+              {metric === 'investment' ? (
+                <div className="text-lg font-bold text-green-600">
+                  ${user.totalInvestments.toLocaleString()}
+                </div>
+              ) : (
+                <div className="text-lg font-bold text-blue-600">
+                  ${user.totalEarnings.toLocaleString()}
+                </div>
+              )}
+              <div className="text-sm text-neutral-500">
+                {metric === 'investment' ? 'Total Invested' : 'Total Earnings'} • {user.roi.toFixed(1)}% ROI
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
   return (
     <div className="space-y-6">
-      {/* Active Challenges */}
-      {challenges.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target size={20} />
-              Active Challenges
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4">
-              {challenges.slice(0, 2).map((challenge) => (
-                <div key={challenge.id} className="border rounded-lg p-4 bg-gradient-to-r from-blue-50 to-purple-50">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900">{challenge.title}</h3>
-                    <Badge variant="outline" className="bg-white">
-                      {challenge.type.replace('_', ' ')}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-3">{challenge.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-gray-500">
-                      Ends: {new Date(challenge.endDate).toLocaleDateString()}
-                    </div>
-                    <Button size="sm" variant="outline">
-                      Join Challenge
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Leaderboard */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Trophy size={20} />
-            Community Leaderboard
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-            <TabsList className="grid w-full grid-cols-3">
-              {categories.map((category) => {
-                const Icon = category.icon;
-                return (
-                  <TabsTrigger key={category.id} value={category.id} className="flex items-center gap-2">
-                    <Icon size={16} />
-                    <span className="hidden sm:inline">{category.name}</span>
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-
-            {categories.map((category) => (
-              <TabsContent key={category.id} value={category.id} className="mt-6">
-                {/* User's Rank */}
-                {isAuthenticated && userRank && (
-                  <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="w-10 h-10">
-                          <AvatarFallback>{getUserInitials(userRank.userId)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <div className="font-medium">Your Rank</div>
-                          <div className="text-sm text-gray-600">
-                            {formatScore(userRank.score, category.id)}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2 text-lg font-bold text-blue-600">
-                          {getRankIcon(userRank.rank || 0)}
-                        </div>
-                        {userRank.rank && userRank.rank <= 10 && (
-                          <Badge variant="outline" className="mt-1">
-                            Top 10
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Leaderboard Entries */}
-                <div className="space-y-3">
-                  {leaderboardLoading ? (
-                    Array.from({ length: 5 }).map((_, i) => (
-                      <div key={i} className="flex items-center gap-3 p-3 border rounded-lg">
-                        <Skeleton className="w-8 h-8" />
-                        <Skeleton className="w-10 h-10 rounded-full" />
-                        <div className="flex-1 space-y-2">
-                          <Skeleton className="h-4 w-24" />
-                          <Skeleton className="h-3 w-16" />
-                        </div>
-                        <Skeleton className="h-4 w-20" />
-                      </div>
-                    ))
-                  ) : leaderboard.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
-                      <Trophy size={48} className="mx-auto mb-3 text-gray-300" />
-                      <p>No leaderboard data available yet</p>
-                    </div>
-                  ) : (
-                    leaderboard.map((entry, index) => (
-                      <div 
-                        key={entry.id} 
-                        className={`flex items-center gap-3 p-3 border rounded-lg transition-colors hover:bg-gray-50 ${
-                          entry.userId === user?.id ? 'bg-blue-50 border-blue-200' : ''
-                        }`}
-                      >
-                        <div className="w-8 flex justify-center">
-                          {getRankIcon(entry.rank)}
-                        </div>
-                        
-                        <Avatar className="w-10 h-10">
-                          <AvatarFallback>{getUserInitials(entry.userId)}</AvatarFallback>
-                        </Avatar>
-                        
-                        <div className="flex-1">
-                          <div className="font-medium">
-                            {entry.userId === user?.id ? 'You' : `User ${entry.userId.slice(-4)}`}
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            {formatScore(entry.score, category.id)}
-                          </div>
-                        </div>
-                        
-                        <div className="text-right">
-                          <div className="flex items-center gap-1 text-sm text-gray-500">
-                            <TrendingUp size={12} />
-                            {entry.score > 0 ? (
-                              <ChevronUp size={12} className="text-green-500" />
-                            ) : (
-                              <ChevronDown size={12} className="text-red-500" />
-                            )}
-                          </div>
-                          {entry.achievements.length > 0 && (
-                            <div className="flex items-center gap-1 mt-1">
-                              <Star size={12} className="text-yellow-500" />
-                              <span className="text-xs text-gray-500">
-                                {entry.achievements.length} badges
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+      <Card className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+        <CardContent className="p-6">
+          <div className="text-center">
+            <Trophy className="h-12 w-12 mx-auto mb-4 text-yellow-300" />
+            <h2 className="text-2xl font-bold mb-2">Community Champions</h2>
+            <p className="text-purple-100">
+              Celebrating our top performers and community contributors
+            </p>
+          </div>
         </CardContent>
       </Card>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="investors">Top Investors</TabsTrigger>
+          <TabsTrigger value="earners">Top Earners</TabsTrigger>
+          <TabsTrigger value="achievements">Recent Achievements</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="investors" className="space-y-4">
+          {loadingInvestors ? (
+            <div className="space-y-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Card key={i} className="animate-pulse">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-neutral-200 rounded-full"></div>
+                      <div className="w-12 h-12 bg-neutral-200 rounded-full"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 bg-neutral-200 rounded w-32"></div>
+                        <div className="h-3 bg-neutral-200 rounded w-24"></div>
+                        <div className="h-5 bg-neutral-200 rounded w-20"></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {topInvestors.map((user: LeaderboardUser, index: number) => (
+                <LeaderboardCard 
+                  key={user.id} 
+                  user={user} 
+                  rank={index + 1} 
+                  metric="investment"
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="earners" className="space-y-4">
+          {loadingEarners ? (
+            <div className="space-y-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Card key={i} className="animate-pulse">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-neutral-200 rounded-full"></div>
+                      <div className="w-12 h-12 bg-neutral-200 rounded-full"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 bg-neutral-200 rounded w-32"></div>
+                        <div className="h-3 bg-neutral-200 rounded w-24"></div>
+                        <div className="h-5 bg-neutral-200 rounded w-20"></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {topEarners.map((user: LeaderboardUser, index: number) => (
+                <LeaderboardCard 
+                  key={user.id} 
+                  user={user} 
+                  rank={index + 1} 
+                  metric="earnings"
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="achievements" className="space-y-4">
+          {loadingAchievements ? (
+            <div className="space-y-3">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Card key={i} className="animate-pulse">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-neutral-200 rounded-full"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 bg-neutral-200 rounded w-40"></div>
+                        <div className="h-3 bg-neutral-200 rounded w-32"></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {recentAchievements.map((achievement: Achievement) => (
+                <Card key={achievement.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex-shrink-0">
+                        {getAchievementIcon(achievement.type)}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-neutral-900">
+                          {achievement.title}
+                        </h4>
+                        <p className="text-sm text-neutral-600">
+                          {achievement.description}
+                        </p>
+                        <div className="text-xs text-neutral-500 mt-1">
+                          Earned {new Date(achievement.earnedAt).toLocaleDateString()}
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="text-xs">
+                        New
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

@@ -39,8 +39,97 @@ export const users = pgTable("users", {
   businessName: text("business_name"),
   businessVerified: boolean("business_verified").notNull().default(false),
   stripeCustomerId: text("stripe_customer_id"),
+  bio: text("bio"),
+  location: text("location"),
+  investmentStyle: text("investment_style"), // 'conservative', 'moderate', 'aggressive'
+  totalInvestments: decimal("total_investments", { precision: 12, scale: 2 }).default("0"),
+  totalEarnings: decimal("total_earnings", { precision: 12, scale: 2 }).default("0"),
+  communityRank: integer("community_rank").default(0),
+  followersCount: integer("followers_count").default(0),
+  followingCount: integer("following_count").default(0),
+  isOnline: boolean("is_online").default(false),
+  lastSeen: timestamp("last_seen"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Social interactions
+export const userFollows = pgTable("user_follows", {
+  id: serial("id").primaryKey(),
+  followerId: varchar("follower_id").notNull(),
+  followingId: varchar("following_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Community posts and updates
+export const communityPosts = pgTable("community_posts", {
+  id: serial("id").primaryKey(),
+  authorId: varchar("author_id").notNull(),
+  type: text("type").notNull(), // 'investment', 'property_update', 'milestone', 'tip'
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  propertyId: integer("property_id"),
+  imageUrl: text("image_url"),
+  likesCount: integer("likes_count").default(0),
+  commentsCount: integer("comments_count").default(0),
+  sharesCount: integer("shares_count").default(0),
+  isPublic: boolean("is_public").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Post interactions
+export const postLikes = pgTable("post_likes", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  postId: integer("post_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const postComments = pgTable("post_comments", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  postId: integer("post_id").notNull(),
+  content: text("content").notNull(),
+  parentId: integer("parent_id"), // For nested comments
+  likesCount: integer("likes_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// User achievements and milestones
+export const userAchievements = pgTable("user_achievements", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  type: text("type").notNull(), // 'first_investment', 'diversified_portfolio', 'top_earner', etc.
+  title: text("title").notNull(),
+  description: text("description"),
+  earnedAt: timestamp("earned_at").defaultNow(),
+  isPublic: boolean("is_public").default(true),
+});
+
+// Cross-platform sync sessions
+export const syncSessions = pgTable("sync_sessions", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  sessionId: varchar("session_id").unique().notNull(),
+  deviceType: text("device_type").notNull(), // 'mobile', 'desktop', 'tablet'
+  deviceId: varchar("device_id"),
+  lastSyncAt: timestamp("last_sync_at").defaultNow(),
+  isActive: boolean("is_active").default(true),
+  appVersion: text("app_version"),
+  platform: text("platform"), // 'ios', 'android', 'web'
+});
+
+// User activity feed
+export const userActivity = pgTable("user_activity", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  type: text("type").notNull(), // 'investment', 'like', 'comment', 'follow', 'achievement'
+  title: text("title").notNull(),
+  description: text("description"),
+  metadata: jsonb("metadata"), // Store additional activity data
+  isPublic: boolean("is_public").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const properties = pgTable("properties", {
