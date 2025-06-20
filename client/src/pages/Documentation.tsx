@@ -231,10 +231,10 @@ export default function Documentation() {
   };
 
   const documentStats = {
-    total: mockDocuments.length,
-    verified: mockDocuments.filter(d => d.verificationStatus === "verified").length,
-    pending: mockDocuments.filter(d => d.verificationStatus === "pending").length,
-    rejected: mockDocuments.filter(d => d.verificationStatus === "rejected").length
+    total: filteredDocuments.length,
+    verified: filteredDocuments.filter(d => d.status === "approved").length,
+    pending: filteredDocuments.filter(d => d.status === "pending").length,
+    rejected: filteredDocuments.filter(d => d.status === "rejected").length
   };
 
   return (
