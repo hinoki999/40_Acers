@@ -32,14 +32,24 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const propertyValueShare = (propertyValue * ownershipPercentage) / 100;
   const totalInvestment = shares * sharePriceValue;
   
-  // Token pricing and 49% ownership calculations
+  // Corrected token pricing and 49% ownership calculations
   const squareFootage = property?.squareFootage || 1000;
-  const totalTokenSupply = property ? Math.floor(propertyValue / 0.49) : 0;
-  const tokenPrice = property ? totalTokenSupply / squareFootage : 0;
-  const maxSharesFor49Percent = property ? Math.floor(squareFootage * 0.49) : 0;
-  const adjustedOwnershipPercentage = property ? (shares / maxSharesFor49Percent) * 49 : 0;
-  const minSharesRequired = Math.ceil(maxSharesFor49Percent * 0.1); // 10% of available 49%
-  const meetsMinimumOwnership = shares >= minSharesRequired;
+  
+  // Corrected Formula: Property Value ÷ Square Footage = Token Price
+  const tokenPrice = property ? propertyValue / squareFootage : 0;
+  
+  // Token Supply = Total Listing Price × 1 × 0.49
+  const tokenSupply49Percent = property ? Math.floor(propertyValue * 0.49) : 0;
+  
+  // Max tokens available for 49% ownership
+  const maxTokensFor49Percent = property ? Math.floor(tokenSupply49Percent / tokenPrice) : 0;
+  
+  // Calculate ownership percentage (scaled to 49% max)
+  const adjustedOwnershipPercentage = property ? (shares / maxTokensFor49Percent) * 49 : 0;
+  
+  // Minimum investment: 10% of available 49% ownership
+  const minTokensRequired = Math.ceil(maxTokensFor49Percent * 0.1);
+  const meetsMinimumOwnership = shares >= minTokensRequired;
 
   const { data: bitcoinPrice } = useQuery<{ price: number | null }>({
     queryKey: ['/api/bitcoin-price'],
