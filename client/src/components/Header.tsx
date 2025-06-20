@@ -71,6 +71,11 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   Withdraw
                 </Button>
               </Link>
+              <Link href="/tokenomics">
+                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                  Tokenomics
+                </Button>
+              </Link>
             </nav>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
