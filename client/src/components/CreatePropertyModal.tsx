@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertPropertySchema } from "@shared/schema";
-import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle } from "lucide-react";
+import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle, Users, MessageSquare, TrendingUp } from "lucide-react";
 
 interface CreatePropertyModalProps {
   isOpen: boolean;
@@ -34,6 +34,12 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     zoomMeetingUrl: "",
     zoomMeetingId: "",
     zoomPassword: "",
+    // Community settings
+    communityName: "",
+    communityDescription: "",
+    targetInvestorProfile: "",
+    socialMediaStrategy: "",
+    communityGuidelines: "",
     // Document uploads
     deedDocuments: [] as string[],
     titleDocuments: [] as string[],
@@ -44,7 +50,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   });
 
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 6;
+  const totalSteps = 7;
   const [uploadingFiles, setUploadingFiles] = useState(false);
 
   // Calculate tokenization based on property value and square footage
@@ -168,6 +174,11 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         zoomMeetingUrl: "",
         zoomMeetingId: "",
         zoomPassword: "",
+        communityName: "",
+        communityDescription: "",
+        targetInvestorProfile: "",
+        socialMediaStrategy: "",
+        communityGuidelines: "",
         deedDocuments: [],
         titleDocuments: [],
         llcDocuments: [],
@@ -240,6 +251,11 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
         zoomMeetingUrl: formData.zoomMeetingUrl || undefined,
         zoomMeetingId: formData.zoomMeetingId || undefined,
         zoomPassword: formData.zoomPassword || undefined,
+        communityName: formData.communityName || `${formData.address} Community`,
+        communityDescription: formData.communityDescription || "",
+        targetInvestorProfile: formData.targetInvestorProfile || "",
+        socialMediaStrategy: formData.socialMediaStrategy || "",
+        communityGuidelines: formData.communityGuidelines || "",
       };
 
       createProperty.mutate(propertyData);
