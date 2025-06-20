@@ -132,64 +132,7 @@ export default function Documentation() {
     },
   });
 
-  // Mock document data - in production this would come from the API
-  const mockDocuments = (properties as Property[]).flatMap((property) => [
-    ...(property.deedDocuments || []).map((doc, index) => ({
-      id: `deed-${property.id}-${index}`,
-      propertyId: property.id,
-      propertyAddress: property.address,
-      type: "deed",
-      fileName: `Deed_${property.address.replace(/\s+/g, '_')}_${index + 1}.pdf`,
-      url: doc,
-      uploadedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-      verificationStatus: ["verified", "pending", "rejected"][Math.floor(Math.random() * 3)] as "verified" | "pending" | "rejected",
-      size: Math.floor(Math.random() * 5000 + 500) + " KB"
-    })),
-    ...(property.titleDocuments || []).map((doc, index) => ({
-      id: `title-${property.id}-${index}`,
-      propertyId: property.id,
-      propertyAddress: property.address,
-      type: "title",
-      fileName: `Title_${property.address.replace(/\s+/g, '_')}_${index + 1}.pdf`,
-      url: doc,
-      uploadedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-      verificationStatus: ["verified", "pending", "rejected"][Math.floor(Math.random() * 3)] as "verified" | "pending" | "rejected",
-      size: Math.floor(Math.random() * 5000 + 500) + " KB"
-    })),
-    ...(property.llcDocuments || []).map((doc, index) => ({
-      id: `llc-${property.id}-${index}`,
-      propertyId: property.id,
-      propertyAddress: property.address,
-      type: "llc",
-      fileName: `LLC_${property.address.replace(/\s+/g, '_')}_${index + 1}.pdf`,
-      url: doc,
-      uploadedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-      verificationStatus: ["verified", "pending", "rejected"][Math.floor(Math.random() * 3)] as "verified" | "pending" | "rejected",
-      size: Math.floor(Math.random() * 5000 + 500) + " KB"
-    })),
-    ...(property.propertyImages || []).map((img, index) => ({
-      id: `image-${property.id}-${index}`,
-      propertyId: property.id,
-      propertyAddress: property.address,
-      type: "image",
-      fileName: `Image_${property.address.replace(/\s+/g, '_')}_${index + 1}.jpg`,
-      url: img,
-      uploadedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-      verificationStatus: ["verified", "pending", "rejected"][Math.floor(Math.random() * 3)] as "verified" | "pending" | "rejected",
-      size: Math.floor(Math.random() * 2000 + 200) + " KB"
-    })),
-    ...(property.propertyVideos || []).map((video, index) => ({
-      id: `video-${property.id}-${index}`,
-      propertyId: property.id,
-      propertyAddress: property.address,
-      type: "video",
-      fileName: `Video_${property.address.replace(/\s+/g, '_')}_${index + 1}.mp4`,
-      url: video,
-      uploadedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-      verificationStatus: ["verified", "pending", "rejected"][Math.floor(Math.random() * 3)] as "verified" | "pending" | "rejected",
-      size: Math.floor(Math.random() * 50000 + 5000) + " KB"
-    }))
-  ]);
+
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -260,21 +203,6 @@ export default function Documentation() {
     
     return matchesSearch && matchesType && matchesStatus;
   });
-
-  const getDocumentIcon = (type: string) => {
-    switch (type) {
-      case "deed":
-      case "title":
-      case "llc":
-        return FileText;
-      case "image":
-        return Camera;
-      case "video":
-        return Video;
-      default:
-        return FileText;
-    }
-  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {

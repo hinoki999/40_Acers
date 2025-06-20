@@ -18,6 +18,8 @@ import { geocodeAddress } from "./geocoding";
 import { getBitcoinPrice } from "./bitcoin";
 import { z } from "zod";
 import paymentsRouter from "./paymentsRoutes";
+import { registerCommunityRoutes } from "./communityRoutes";
+import { registerDocumentRoutes } from "./documentRoutes";
 
 const investmentRequestSchema = z.object({
   propertyId: z.number(),
@@ -442,6 +444,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch challenges" });
     }
   });
+  
+  // Register community routes
+  registerCommunityRoutes(app);
+  
+  // Register document routes
+  registerDocumentRoutes(app);
   
   const httpServer = createServer(app);
   return httpServer;
