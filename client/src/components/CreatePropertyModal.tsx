@@ -75,27 +75,44 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     setUploadingFiles(true);
     const uploadedUrls: string[] = [];
     
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      try {
-        // For demo purposes, we'll create a mock URL that includes the actual file name
-        const mockUrl = `uploaded/${documentType}/${Date.now()}-${file.name}`;
-        uploadedUrls.push(mockUrl);
-        
-        // Short delay to simulate upload
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        toast({
-          title: "Upload Successful",
-          description: `${file.name} uploaded successfully`,
-        });
-      } catch (error) {
-        toast({
-          title: "Upload Error",
-          description: `Failed to upload ${file.name}`,
-          variant: "destructive",
-        });
+    try {
+      const formData = new FormData();
+      formData.append('documentType', documentType);
+      
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
       }
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.success) {
+        result.files.forEach((file: any) => {
+          uploadedUrls.push(file.path);
+          toast({
+            title: "Upload Successful",
+            description: `${file.originalName} uploaded successfully`,
+          });
+        });
+      } else {
+        throw new Error(result.message || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload Error",
+        description: error instanceof Error ? error.message : "Failed to upload files",
+        variant: "destructive",
+      });
     }
     
     setUploadingFiles(false);

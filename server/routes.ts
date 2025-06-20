@@ -1,6 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import express from "express";
 import Stripe from "stripe";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import PaymentService from "./paymentService";
@@ -20,9 +24,56 @@ const investmentRequestSchema = z.object({
   shares: z.number().positive(),
 });
 
+// Configure multer for file uploads
+const uploadDir = path.join(process.cwd(), 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const { documentType } = req.body;
+    const typeDir = path.join(uploadDir, documentType || 'general');
+    if (!fs.existsSync(typeDir)) {
+      fs.mkdirSync(typeDir, { recursive: true });
+    }
+    cb(null, typeDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + '-' + file.originalname);
+  }
+});
+
+const upload = multer({
+  storage: multerStorage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /\.(jpg|jpeg|png|pdf|doc|docx)$/i;
+    const extname = allowedTypes.test(path.extname(file.originalname));
+    const mimetype = /^(image|application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document)/.test(file.mimetype);
+    
+    if (extname && mimetype) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only images, PDFs, and Word documents are allowed'));
+    }
+  }
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
+
+  // Serve uploaded files statically
+  app.use('/uploads', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+  app.use('/uploads', express.static(uploadDir));
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
@@ -305,6 +356,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching Bitcoin price:", error);
       res.status(500).json({ message: "Failed to fetch Bitcoin price" });
+    }
+  });
+
+  // File upload route
+  app.post('/api/upload', isAuthenticated, upload.array('files', 10), (req: any, res) => {
+    try {
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: 'No files uploaded' });
+      }
+
+      const uploadedFiles = req.files.map((file: any) => ({
+        filename: file.filename,
+        originalName: file.originalname,
+        path: `/uploads/${req.body.documentType || 'general'}/${file.filename}`,
+        size: file.size,
+        mimetype: file.mimetype
+      }));
+
+      res.json({
+        success: true,
+        files: uploadedFiles,
+        message: `${uploadedFiles.length} file(s) uploaded successfully`
+      });
+    } catch (error) {
+      console.error('File upload error:', error);
+      res.status(500).json({ message: 'File upload failed' });
     }
   });
 
