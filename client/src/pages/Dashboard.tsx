@@ -18,6 +18,7 @@ import PropertyHeatMap from "@/components/PropertyHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import OnboardingTour from "@/components/OnboardingTour";
+import InvestorTour from "@/components/InvestorTour";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { Transaction, Property } from "@shared/schema";
@@ -34,6 +35,7 @@ export default function Dashboard() {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [transactionFilter, setTransactionFilter] = useState("");
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
+  const [showInvestorTour, setShowInvestorTour] = useState(false);
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
@@ -160,16 +162,27 @@ export default function Dashboard() {
           <p className="text-neutral-600">Manage your real estate investments</p>
         </div>
         
-        {/* Help/Onboarding Button */}
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={startOnboarding}
-          className="flex items-center space-x-2"
-        >
-          <HelpCircle className="h-4 w-4" />
-          <span>Take Tour</span>
-        </Button>
+        {/* Help/Onboarding Buttons */}
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setShowInvestorTour(true)}
+            className="flex items-center space-x-2"
+          >
+            <TrendingUp className="h-4 w-4" />
+            <span>Investor Guide</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={startOnboarding}
+            className="flex items-center space-x-2"
+          >
+            <HelpCircle className="h-4 w-4" />
+            <span>General Tour</span>
+          </Button>
+        </div>
       </div>
 
       {/* Welcome Banner for new users */}
@@ -407,6 +420,15 @@ export default function Dashboard() {
         isOpen={showOnboarding}
         onClose={() => setShowOnboarding(false)}
         onComplete={completeOnboarding}
+      />
+      <InvestorTour
+        isOpen={showInvestorTour}
+        onClose={() => setShowInvestorTour(false)}
+        onComplete={() => setShowInvestorTour(false)}
+        onStartInvesting={() => {
+          setShowInvestorTour(false);
+          window.location.href = '/invest';
+        }}
       />
     </div>
   );

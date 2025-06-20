@@ -81,13 +81,24 @@ export default function ListProperty() {
               Transform your real estate into fractional investment opportunities. 
               Unlock liquidity while maintaining ownership and earning from your property.
             </p>
-            <Button 
-              onClick={() => setShowCreateModal(true)}
-              size="lg"
-              className="bg-white text-green-600 hover:bg-green-50 font-semibold px-8 py-4 text-lg"
-            >
-              Start Property Listing
-            </Button>
+            <div className="flex items-center gap-4 justify-center">
+              <Button 
+                onClick={() => setShowCreateModal(true)}
+                size="lg"
+                className="bg-white text-green-600 hover:bg-green-50 font-semibold px-8 py-4 text-lg"
+              >
+                Start Property Listing
+              </Button>
+              <Button 
+                onClick={() => setShowBusinessTour(true)}
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-green-600 font-semibold px-6 py-4"
+              >
+                <HelpCircle className="h-5 w-5 mr-2" />
+                How It Works
+              </Button>
+            </div>
           </div>
         </div>
       </section>

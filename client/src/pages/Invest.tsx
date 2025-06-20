@@ -275,6 +275,14 @@ export default function Invest() {
         }}
         property={selectedProperty}
       />
+      <InvestorTour
+        isOpen={showInvestorTour}
+        onClose={() => setShowInvestorTour(false)}
+        onComplete={() => setShowInvestorTour(false)}
+        onStartInvesting={() => {
+          setShowInvestorTour(false);
+        }}
+      />
     </div>
   );
 }
