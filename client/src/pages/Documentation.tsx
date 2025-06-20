@@ -419,11 +419,11 @@ export default function Documentation() {
                           <div className="space-y-3">
                             <div className="flex justify-between text-sm text-neutral-600">
                               <span>Size:</span>
-                              <span>{document.size}</span>
+                              <span>{formatFileSize(document.fileSize)}</span>
                             </div>
                             <div className="flex justify-between text-sm text-neutral-600">
                               <span>Uploaded:</span>
-                              <span>{new Date(document.uploadedAt).toLocaleDateString()}</span>
+                              <span>{new Date(document.createdAt).toLocaleDateString()}</span>
                             </div>
                             <div className="flex gap-2 pt-2">
                               <Button variant="outline" size="sm" className="flex-1">
