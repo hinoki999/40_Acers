@@ -83,7 +83,6 @@ export default function EnhancedHeatMap({ properties }: EnhancedHeatMapProps) {
         { x: 240, y: 180, lng: -111.8910, lat: 40.7608, value: 2900000, intensity: 0.68, marketTrend: 31, roi: 16.3,
           address: "Salt Lake City Hub", region: "Mountain West", category: 'medium', property: {} as Property }
       ];
-
     }
 
     return validProperties.map((property, index) => {
