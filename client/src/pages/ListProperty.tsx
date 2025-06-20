@@ -247,6 +247,15 @@ export default function ListProperty() {
               Start Listing Process
             </Button>
             <Button 
+              onClick={() => setShowBusinessTour(true)}
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-green-600 font-semibold px-6 py-4"
+            >
+              <HelpCircle className="mr-2" size={20} />
+              Take Business Owner Tour
+            </Button>
+            <Button 
               variant="outline"
               size="lg"
               className="border-white text-white hover:bg-white hover:text-green-600 font-semibold px-8 py-4"
@@ -260,6 +269,15 @@ export default function ListProperty() {
       <CreatePropertyModal 
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
+      />
+      <BusinessOwnerTour
+        isOpen={showBusinessTour}
+        onClose={() => setShowBusinessTour(false)}
+        onComplete={() => setShowBusinessTour(false)}
+        onStartListing={() => {
+          setShowBusinessTour(false);
+          setShowCreateModal(true);
+        }}
       />
     </div>
   );
