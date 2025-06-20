@@ -403,6 +403,11 @@ export default function Dashboard() {
         }}
         property={selectedProperty}
       />
+      <OnboardingTour
+        isOpen={showOnboarding}
+        onClose={() => setShowOnboarding(false)}
+        onComplete={completeOnboarding}
+      />
     </div>
   );
 }
