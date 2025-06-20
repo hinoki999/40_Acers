@@ -150,8 +150,9 @@ export default function PropertyCommunityHub({ property, isOwner = false }: Prop
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="chat">Live Chat</TabsTrigger>
           <TabsTrigger value="investors">Investors</TabsTrigger>
           <TabsTrigger value="activity">Activity</TabsTrigger>
           <TabsTrigger value="social">Social Hub</TabsTrigger>
@@ -261,6 +262,13 @@ export default function PropertyCommunityHub({ property, isOwner = false }: Prop
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="chat" className="space-y-6">
+          <PropertyChat 
+            propertyId={property.id} 
+            propertyAddress={property.address}
+          />
         </TabsContent>
 
         <TabsContent value="investors" className="space-y-6">
