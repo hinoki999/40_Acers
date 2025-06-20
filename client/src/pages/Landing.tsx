@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Shield, TrendingUp, Users, Smartphone, Download } from "lucide-react";
+import { DollarSign, Shield, TrendingUp, Users, Smartphone, Download, Zap } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import AuthModals from "@/components/AuthModals";
 import InvestmentModal from "@/components/InvestmentModal";
@@ -209,7 +209,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             </p>
           </div>
 
-          <div className="grid-responsive">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             <div className="text-center card-mobile p-6">
               <div className="w-12 h-12 md:w-16 md:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
                 <Shield className="text-white" size={20} />
@@ -220,23 +220,33 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                <TrendingUp className="text-white" size={24} />
+            <div className="text-center card-mobile p-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                <TrendingUp className="text-white" size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-4">Passive Income</h3>
-              <p className="text-neutral-600">
+              <h3 className="text-lg md:text-xl font-semibold text-neutral-900 mb-3 md:mb-4">Passive Income</h3>
+              <p className="text-neutral-600 text-sm md:text-base">
                 Earn rental income without property management responsibilities
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="text-white" size={24} />
+            <div className="text-center card-mobile p-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                <Users className="text-white" size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-4">Community Driven</h3>
-              <p className="text-neutral-600">
+              <h3 className="text-lg md:text-xl font-semibold text-neutral-900 mb-3 md:mb-4">Community Driven</h3>
+              <p className="text-neutral-600 text-sm md:text-base">
                 Join thousands of investors building wealth through real estate
+              </p>
+            </div>
+
+            <div className="text-center card-mobile p-6">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                <Zap className="text-white" size={20} />
+              </div>
+              <h3 className="text-lg md:text-xl font-semibold text-neutral-900 mb-3 md:mb-4">Next Generation Technology</h3>
+              <p className="text-neutral-600 text-sm md:text-base">
+                Enabled from release to scale - the platform grows with users
               </p>
             </div>
           </div>
