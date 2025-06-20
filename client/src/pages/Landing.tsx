@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Shield, TrendingUp, Users } from "lucide-react";
+import { DollarSign, Shield, TrendingUp, Users, Smartphone, Download } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import AuthModals from "@/components/AuthModals";
 import InvestmentModal from "@/components/InvestmentModal";
@@ -242,6 +242,83 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
+
+      {/* Mobile App Download Section */}
+      <section className="py-16 bg-gradient-to-r from-primary to-accent">
+        <div className="container-mobile text-center">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-8">
+              <Smartphone className="h-16 w-16 text-white mx-auto mb-4" />
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Take 40 Acres with you everywhere
+              </h2>
+              <p className="text-xl text-blue-100 mb-8">
+                Download our mobile app to manage your investments, track property performance, and discover new opportunities on the go.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              {/* App Store Button */}
+              <a 
+                href="https://apps.apple.com/app/40-acres" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-black text-white px-8 py-4 rounded-xl hover:bg-gray-800 transition-colors min-w-[200px]"
+              >
+                <div className="flex items-center space-x-3">
+                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="text-xs">Download on the</div>
+                    <div className="text-lg font-semibold -mt-1">App Store</div>
+                  </div>
+                </div>
+              </a>
+              
+              {/* Google Play Button */}
+              <a 
+                href="https://play.google.com/store/apps/details?id=com.40acres" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-black text-white px-8 py-4 rounded-xl hover:bg-gray-800 transition-colors min-w-[200px]"
+              >
+                <div className="flex items-center space-x-3">
+                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 20.5v-17c0-.35.18-.65.46-.84L12.5 12l-9.04 9.34c-.28-.19-.46-.49-.46-.84z"/>
+                    <path d="M21 12l-2.5-1.45L14.5 12l4 1.45L21 12z"/>
+                    <path d="M12.5 12L3.46 2.66c.08-.05.17-.1.28-.13.1-.03.2-.03.3 0l13.08 7.59L12.5 12z"/>
+                    <path d="M12.5 12l4.62 2.88L3.04 22.47c-.1.03-.2.03-.3 0-.11-.03-.2-.08-.28-.13L12.5 12z"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="text-xs">Get it on</div>
+                    <div className="text-lg font-semibold -mt-1">Google Play</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
+              <div className="text-center">
+                <Download className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Instant Access</h3>
+                <p className="text-sm text-blue-100">View your portfolio anytime, anywhere</p>
+              </div>
+              <div className="text-center">
+                <TrendingUp className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Real-time Updates</h3>
+                <p className="text-sm text-blue-100">Get notifications on property performance</p>
+              </div>
+              <div className="text-center">
+                <Shield className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Secure Investing</h3>
+                <p className="text-sm text-blue-100">Bank-level security for your investments</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <AuthModals
         showLogin={showLogin}
         showRegister={showRegister}
