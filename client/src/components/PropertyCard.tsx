@@ -10,6 +10,8 @@ import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import TokenizationCalculator from "./TokenizationCalculator";
 import SocialInvestorNetwork from "./SocialInvestorNetwork";
 import PropertyDetailsModal from "./PropertyDetailsModal";
+import PropertyQuickChat from "./PropertyQuickChat";
+import LiveChatIndicator from "./LiveChatIndicator";
 
 interface PropertyCardProps {
   property: Property;
@@ -161,6 +163,12 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
           </div>
         )}
 
+        {/* Quick Chat Access */}
+        <PropertyQuickChat 
+          propertyId={property.id}
+          propertyAddress={property.address}
+        />
+
         {/* Progress Bar with Labels */}
         <div className="space-y-2 mb-4">
           <div className="flex justify-between text-sm text-neutral-600">
@@ -185,6 +193,11 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
             </p>
           </div>
         )}
+
+        {/* Live Chat Indicator */}
+        <div className="mb-3">
+          <LiveChatIndicator propertyId={property.id} />
+        </div>
 
         {/* Action Buttons */}
         <div className="space-y-2">

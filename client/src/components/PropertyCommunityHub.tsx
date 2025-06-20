@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { FaLinkedin, FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import { Property } from "@shared/schema";
+import PropertyChat from "./PropertyChat";
 
 interface PropertyCommunityHubProps {
   property: Property;

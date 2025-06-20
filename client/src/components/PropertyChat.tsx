@@ -75,6 +75,10 @@ export default function PropertyChat({ propertyId, propertyAddress }: PropertyCh
     
     ws.onopen = () => {
       console.log('Connected to property chat');
+      toast({
+        title: "Connected to Chat",
+        description: "You're now connected to the property chat room.",
+      });
     };
     
     ws.onmessage = (event) => {
@@ -93,9 +97,19 @@ export default function PropertyChat({ propertyId, propertyAddress }: PropertyCh
             break;
           case 'zoom_room_created':
             setActiveZoomRooms(prev => [...prev, data.room]);
+            toast({
+              title: "New Zoom Room",
+              description: `${data.room.roomName} is now available to join.`,
+            });
             break;
           case 'zoom_room_removed':
             setActiveZoomRooms(prev => prev.filter(room => room.id !== data.roomId));
+            break;
+          case 'user_joined':
+            toast({
+              title: "User Joined",
+              description: `Someone joined the chat.`,
+            });
             break;
         }
       } catch (error) {
@@ -109,6 +123,11 @@ export default function PropertyChat({ propertyId, propertyAddress }: PropertyCh
     
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
+      toast({
+        title: "Connection Error", 
+        description: "Unable to connect to chat. Using demo mode.",
+        variant: "destructive"
+      });
     };
 
     // Cleanup on unmount
@@ -505,12 +524,33 @@ export default function PropertyChat({ propertyId, propertyAddress }: PropertyCh
             </Button>
           </div>
 
+          {/* Quick Actions */}
+          <div className="mt-3 flex gap-2">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setShowZoomCreator(true)}
+              className="flex-1"
+            >
+              <Video size={14} className="mr-1" />
+              Quick Zoom
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="flex-1"
+            >
+              <Users size={14} className="mr-1" />
+              Invite Friends
+            </Button>
+          </div>
+
           {/* Chat Guidelines */}
           <div className="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
             <h5 className="font-semibold text-yellow-800 text-sm mb-1">Community Guidelines</h5>
             <p className="text-yellow-700 text-xs">
-              Keep discussions focused on the property and investment opportunity. 
-              Be respectful and professional in all communications.
+              Real-time discussions about {propertyAddress}. Create Zoom rooms instantly, 
+              ask questions, and connect with investors. Be professional and respectful.
             </p>
           </div>
         </CardContent>
