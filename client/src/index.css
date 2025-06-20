@@ -98,6 +98,57 @@ img.critical {
 }
 
 /* Mobile-first utilities */
+.container-mobile {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+/* Responsive text scaling */
+.text-responsive {
+  @apply text-sm sm:text-base md:text-lg;
+}
+
+.heading-responsive {
+  @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+}
+
+/* Mobile-optimized spacing */
+.space-mobile {
+  @apply space-y-4 sm:space-y-6 md:space-y-8;
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent layout shifts */
+.aspect-ratio-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+/* Smooth animations for better UX */
+.transition-smooth {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  button {
+    border: 2px solid;
+  }
+}
 .safe-area-inset {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);

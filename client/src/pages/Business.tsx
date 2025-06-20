@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Building, TrendingUp, Shield, Users, Calendar, Phone, Mail, Briefcase, Bitcoin, DollarSign, CheckCircle } from "lucide-react";
 
-export default function Business() {
+function Business() {
   const [formData, setFormData] = useState({
     companyName: "",
     contactName: "",
@@ -404,3 +404,5 @@ export default function Business() {
     </div>
   );
 }
+
+export default Business;

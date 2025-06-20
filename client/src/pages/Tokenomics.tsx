@@ -17,7 +17,7 @@ import {
   Zap
 } from "lucide-react";
 
-export default function Tokenomics() {
+function Tokenomics() {
   const exampleProperty = {
     value: 400000,
     squareFootage: 2000,
@@ -471,3 +471,5 @@ export default function Tokenomics() {
     </div>
   );
 }
+
+export default Tokenomics;

@@ -56,7 +56,7 @@ interface DocumentReview {
   estimatedReviewTime: number;
 }
 
-export default function Documentation() {
+function Documentation() {
   const [searchTerm, setSearchTerm] = useState("");
   const [documentType, setDocumentType] = useState("all");
   const [verificationStatus, setVerificationStatus] = useState("all");
@@ -663,3 +663,5 @@ export default function Documentation() {
     </div>
   );
 }
+
+export default Documentation;

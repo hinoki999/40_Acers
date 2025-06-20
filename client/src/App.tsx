@@ -51,7 +51,6 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
-            <Route path="/tokenomics" component={Tokenomics} />
           </>
         )}
         <Route component={NotFound} />
