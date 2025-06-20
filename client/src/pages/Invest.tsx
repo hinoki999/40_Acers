@@ -81,6 +81,15 @@ export default function Invest() {
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
               Discover fractional real estate investments and build your portfolio with verified properties
             </p>
+            <Button 
+              onClick={() => setShowInvestorTour(true)}
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-primary font-semibold px-6 py-3"
+            >
+              <HelpCircle className="h-5 w-5 mr-2" />
+              New to Investing? Take the Tour
+            </Button>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
@@ -281,6 +290,12 @@ export default function Invest() {
         onComplete={() => setShowInvestorTour(false)}
         onStartInvesting={() => {
           setShowInvestorTour(false);
+          // Automatically open investment modal for the first property
+          if (properties && properties.length > 0) {
+            const firstProperty = properties[0];
+            setSelectedProperty(firstProperty);
+            setShowInvestment(true);
+          }
         }}
       />
     </div>

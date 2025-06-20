@@ -427,7 +427,14 @@ export default function Dashboard() {
         onComplete={() => setShowInvestorTour(false)}
         onStartInvesting={() => {
           setShowInvestorTour(false);
-          window.location.href = '/invest';
+          // Find the first available property and open investment modal
+          if (properties && properties.length > 0) {
+            const firstProperty = properties[0];
+            setSelectedProperty(firstProperty);
+            setShowInvestment(true);
+          } else {
+            window.location.href = '/invest';
+          }
         }}
       />
     </div>

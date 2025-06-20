@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building, FileText, Shield, Camera, Video, CheckCircle, Clock, Upload, Users, DollarSign } from "lucide-react";
+import { Building, FileText, Shield, Camera, Video, CheckCircle, Clock, Upload, Users, DollarSign, HelpCircle } from "lucide-react";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
+import BusinessOwnerTour from "@/components/BusinessOwnerTour";
 
 export default function ListProperty() {
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showBusinessTour, setShowBusinessTour] = useState(false);
 
   const steps = [
     {
