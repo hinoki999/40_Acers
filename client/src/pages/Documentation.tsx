@@ -1,22 +1,135 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getQueryFn } from "@/lib/queryClient";
+import { useState, useRef } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getQueryFn, apiRequest } from "@/lib/queryClient";
 import { Property } from "@shared/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, Eye, Shield, Building, Camera, Video, Search, Filter, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { FileText, Download, Eye, Shield, Building, Camera, Video, Search, Filter, Clock, CheckCircle, AlertCircle, Upload, Plus, X, FileCheck, User, MessageSquare } from "lucide-react";
+
+interface Document {
+  id: number;
+  filename: string;
+  originalName: string;
+  fileUrl: string;
+  fileSize: number;
+  mimeType: string;
+  documentType: string;
+  category: string;
+  status: string;
+  verificationNotes?: string;
+  verifiedBy?: string;
+  verifiedAt?: string;
+  rejectionReason?: string;
+  tags: string[];
+  propertyId?: number;
+  property?: {
+    address: string;
+    city: string;
+    state: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface DocumentReview {
+  id: number;
+  documentId: number;
+  reviewerId: string;
+  reviewer: {
+    firstName: string;
+    lastName: string;
+    role: string;
+    specializations: string[];
+  };
+  status: string;
+  comments: string;
+  checklist: any;
+  reviewedAt: string;
+  estimatedReviewTime: number;
+}
 
 export default function Documentation() {
   const [searchTerm, setSearchTerm] = useState("");
   const [documentType, setDocumentType] = useState("all");
   const [verificationStatus, setVerificationStatus] = useState("all");
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
+  const [dragActive, setDragActive] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const { data: properties = [], isLoading } = useQuery({
+  const { data: properties = [], isLoading: loadingProperties } = useQuery({
     queryKey: ["/api/properties"],
     queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  const { data: documents = [], isLoading: loadingDocuments } = useQuery({
+    queryKey: ["/api/documents", searchTerm, documentType, verificationStatus],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  const { data: documentReviews = [] } = useQuery({
+    queryKey: ["/api/documents/reviews", selectedDocument?.id],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+    enabled: !!selectedDocument,
+  });
+
+  const uploadMutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const response = await fetch("/api/documents/upload", {
+        method: "POST",
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Document Uploaded",
+        description: "Your document has been uploaded successfully and is now under review.",
+      });
+      setShowUploadModal(false);
+      setIsUploading(false);
+      setUploadProgress(0);
+      queryClient.invalidateQueries({ queryKey: ["/api/documents"] });
+    },
+    onError: () => {
+      toast({
+        title: "Upload Failed",
+        description: "There was an error uploading your document. Please try again.",
+        variant: "destructive",
+      });
+      setIsUploading(false);
+      setUploadProgress(0);
+    },
+  });
+
+  const requestReviewMutation = useMutation({
+    mutationFn: async (documentId: number) => 
+      apiRequest(`/api/documents/${documentId}/request-review`, { method: "POST" }),
+    onSuccess: () => {
+      toast({
+        title: "Review Requested",
+        description: "A lawyer has been notified to review your document.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/documents"] });
+    },
   });
 
   // Mock document data - in production this would come from the API
@@ -78,11 +191,72 @@ export default function Documentation() {
     }))
   ]);
 
-  const filteredDocuments = mockDocuments.filter((doc) => {
-    const matchesSearch = doc.fileName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         doc.propertyAddress.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = documentType === "all" || doc.type === documentType;
-    const matchesStatus = verificationStatus === "all" || doc.verificationStatus === verificationStatus;
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "approved":
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case "under_review":
+        return <Clock className="h-4 w-4 text-yellow-600" />;
+      case "rejected":
+        return <X className="h-4 w-4 text-red-600" />;
+      case "needs_revision":
+        return <AlertCircle className="h-4 w-4 text-orange-600" />;
+      case "pending":
+        return <AlertCircle className="h-4 w-4 text-neutral-400" />;
+      default:
+        return <FileText className="h-4 w-4 text-neutral-400" />;
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "approved":
+        return <Badge className="bg-green-100 text-green-800">Approved</Badge>;
+      case "under_review":
+        return <Badge className="bg-yellow-100 text-yellow-800">Under Review</Badge>;
+      case "rejected":
+        return <Badge className="bg-red-100 text-red-800">Rejected</Badge>;
+      case "needs_revision":
+        return <Badge className="bg-orange-100 text-orange-800">Needs Revision</Badge>;
+      case "pending":
+        return <Badge className="bg-neutral-100 text-neutral-800">Pending</Badge>;
+      default:
+        return <Badge variant="outline">Unknown</Badge>;
+    }
+  };
+
+  const getDocumentIcon = (type: string) => {
+    switch (type) {
+      case "deed":
+        return <Building className="h-5 w-5 text-blue-600" />;
+      case "title":
+        return <Shield className="h-5 w-5 text-green-600" />;
+      case "llc":
+        return <FileText className="h-5 w-5 text-purple-600" />;
+      case "financial":
+        return <FileText className="h-5 w-5 text-orange-600" />;
+      case "image":
+        return <Camera className="h-5 w-5 text-pink-600" />;
+      case "video":
+        return <Video className="h-5 w-5 text-red-600" />;
+      default:
+        return <FileText className="h-5 w-5 text-neutral-600" />;
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const filteredDocuments = documents.filter((doc: Document) => {
+    const matchesSearch = doc.originalName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         doc.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesType = documentType === "all" || doc.documentType === documentType;
+    const matchesStatus = verificationStatus === "all" || doc.status === verificationStatus;
     
     return matchesSearch && matchesType && matchesStatus;
   });

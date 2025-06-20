@@ -132,6 +132,69 @@ export const userActivity = pgTable("user_activity", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Document management and verification
+export const documents = pgTable("documents", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  propertyId: integer("property_id"),
+  filename: text("filename").notNull(),
+  originalName: text("original_name").notNull(),
+  fileUrl: text("file_url").notNull(),
+  fileSize: integer("file_size").notNull(),
+  mimeType: text("mime_type").notNull(),
+  documentType: text("document_type").notNull(), // 'deed', 'title', 'llc', 'financial', 'other'
+  category: text("category"), // 'property_listing', 'tokenization', 'verification', 'general'
+  status: text("status").notNull().default("pending"), // 'pending', 'under_review', 'approved', 'rejected', 'needs_revision'
+  verificationNotes: text("verification_notes"),
+  verifiedBy: varchar("verified_by"), // lawyer/admin user id
+  verifiedAt: timestamp("verified_at"),
+  rejectionReason: text("rejection_reason"),
+  tags: text("tags").array(),
+  isPublic: boolean("is_public").default(false),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Document verification workflow
+export const documentReviews = pgTable("document_reviews", {
+  id: serial("id").primaryKey(),
+  documentId: integer("document_id").notNull(),
+  reviewerId: varchar("reviewer_id").notNull(), // lawyer/admin id
+  status: text("status").notNull(), // 'approved', 'rejected', 'needs_revision'
+  comments: text("comments"),
+  checklist: jsonb("checklist"), // verification checklist items
+  reviewedAt: timestamp("reviewed_at").defaultNow(),
+  estimatedReviewTime: integer("estimated_review_time"), // in hours
+});
+
+// Lawyer/admin users for verification
+export const verifiers = pgTable("verifiers", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  role: text("role").notNull(), // 'lawyer', 'admin', 'specialist'
+  specializations: text("specializations").array(), // 'real_estate', 'corporate', 'compliance'
+  licenseNumber: text("license_number"),
+  barAssociation: text("bar_association"),
+  isActive: boolean("is_active").default(true),
+  reviewCount: integer("review_count").default(0),
+  averageReviewTime: decimal("average_review_time", { precision: 5, scale: 2 }),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Document templates and requirements
+export const documentTemplates = pgTable("document_templates", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  documentType: text("document_type").notNull(),
+  description: text("description"),
+  requirements: jsonb("requirements"), // list of required fields/sections
+  templateUrl: text("template_url"),
+  isRequired: boolean("is_required").default(false),
+  orderIndex: integer("order_index").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const properties = pgTable("properties", {
   id: serial("id").primaryKey(),
   ownerId: varchar("owner_id").notNull(),
