@@ -51,7 +51,7 @@ export default function SocialShareModal({ isOpen, onClose, property }: SocialSh
       case "linkedin":
         return {
           ...baseContent,
-          text: `🏢 Professional Real Estate Investment Opportunity
+          text: `🏢 40 ACRES: Professional Real Estate Investment Opportunity
 
 📍 ${baseContent.location}
 🏡 ${baseContent.propertyType} • $${baseContent.value} total value
@@ -59,70 +59,88 @@ export default function SocialShareModal({ isOpen, onClose, property }: SocialSh
 📈 Expected ROI: ${baseContent.roi} annually
 ⏱️ ${baseContent.funding}% funded • ${baseContent.remaining} shares remaining
 
-Join the future of fractional real estate investing. Build wealth through verified properties with transparent ownership.
+40 Acres is democratizing real estate investing through fractional ownership. Build wealth through verified properties with blockchain-powered transparent ownership.
 
-#RealEstateInvestment #FractionalOwnership #PropertyInvestment #WealthBuilding #40Acres`
+🚀 Why 40 Acres?
+✅ SEC-compliant fractional ownership
+✅ Professional property management
+✅ Transparent blockchain records
+✅ Start with minimal capital
+
+#40Acres #RealEstateInvestment #FractionalOwnership #PropertyInvestment #WealthBuilding #PropTech`
         };
       
       case "facebook":
         return {
           ...baseContent,
-          text: `🏡 Amazing Real Estate Investment Opportunity!
+          text: `🏡 40 ACRES: Amazing Real Estate Investment Opportunity!
 
 ${property.address}
 ${baseContent.location}
 
-💡 What makes this special:
+💡 What makes 40 Acres special:
 • ${baseContent.propertyType} property worth $${baseContent.value}
-• Start with just $${baseContent.sharePrice} per share
+• Start with just $${baseContent.sharePrice} per share through 40 Acres platform
 • Expected returns: ${baseContent.roi} per year
-• ${baseContent.funding}% already funded by investors
+• ${baseContent.funding}% already funded by smart investors
 • Only ${baseContent.remaining} shares left!
 
-This is how everyday people are building wealth through real estate. No need to buy entire properties - own a piece and earn returns!
+40 Acres is changing how everyday people build wealth through real estate. No need to buy entire properties - own a piece through our platform and earn returns!
 
-Perfect for anyone looking to diversify their portfolio with real estate. 
+🌟 40 Acres Benefits:
+✨ Fractional ownership made simple
+✨ Professional property management
+✨ Blockchain transparency
+✨ Community-driven investing
 
-#RealEstate #Investment #PassiveIncome #WealthBuilding`
+Perfect for anyone looking to diversify with real estate through 40 Acres! 
+
+#40Acres #RealEstate #Investment #PassiveIncome #WealthBuilding #PropTech`
         };
       
       case "twitter":
         return {
           ...baseContent,
-          text: `🏡 New investment drop! 
+          text: `🏡 40 ACRES: New investment drop! 
 
 ${property.address}, ${baseContent.location}
 
-💰 $${baseContent.sharePrice}/share
+💰 $${baseContent.sharePrice}/share via @40Acres
 📈 ${baseContent.roi} expected ROI
 ⚡ ${baseContent.funding}% funded
 🎯 ${baseContent.remaining} shares left
 
-Fractional real estate investing made simple. Own property, earn returns, build wealth.
+40 Acres makes fractional real estate investing simple. Own property, earn returns, build wealth. 🚀
 
-#RealEstate #Investment #PropTech #WealthBuilding`
+#40Acres #RealEstate #Investment #PropTech #WealthBuilding #FractionalOwnership`
         };
       
       case "instagram":
         return {
           ...baseContent,
-          text: `🏡✨ NEW INVESTMENT OPPORTUNITY ✨
+          text: `🏡✨ 40 ACRES: NEW INVESTMENT OPPORTUNITY ✨
 
 📍 ${property.address}
 🌆 ${baseContent.location}
 
-💰 Investment Details:
+💰 40 Acres Investment Details:
 • Property Value: $${baseContent.value}
 • Share Price: $${baseContent.sharePrice}
 • Expected ROI: ${baseContent.roi}
 • Funding Progress: ${baseContent.funding}%
 
-🎯 Why This Matters:
-Real estate investing used to require hundreds of thousands. Now you can start with just $${baseContent.sharePrice} and own a piece of quality property!
+🎯 Why 40 Acres Matters:
+Real estate investing used to require hundreds of thousands. Now with 40 Acres, you can start with just $${baseContent.sharePrice} and own a piece of quality property!
 
-💪 Build wealth the smart way - one share at a time.
+🚀 40 Acres Features:
+✅ Fractional ownership platform
+✅ Blockchain transparency  
+✅ Professional management
+✅ Community-driven investing
 
-#RealEstateInvesting #PropertyInvestment #WealthBuilding #PassiveIncome #Investment #40Acres #PropTech #FinancialFreedom`
+💪 Build wealth the smart way with 40 Acres - one share at a time.
+
+#40Acres #RealEstateInvesting #PropertyInvestment #WealthBuilding #PassiveIncome #Investment #PropTech #FinancialFreedom #FractionalOwnership`
         };
       
       default:
@@ -151,7 +169,6 @@ Real estate investing used to require hundreds of thousands. Now you can start w
 
     switch (platform) {
       case "linkedin":
-        // LinkedIn sharing with title and summary
         url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&title=${encodedTitle}&summary=${encodeURIComponent(content.text.substring(0, 256))}`;
         windowFeatures = "width=520,height=570";
         break;
@@ -160,12 +177,10 @@ Real estate investing used to require hundreds of thousands. Now you can start w
         windowFeatures = "width=550,height=420";
         break;
       case "facebook":
-        // Facebook with quote parameter for better content sharing
         url = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
         windowFeatures = "width=580,height=400";
         break;
       case "instagram":
-        // Copy to clipboard since Instagram doesn't support direct URL sharing
         navigator.clipboard.writeText(`${content.text}\n\n${shareUrl}`);
         toast({
           title: "Content Copied!",
@@ -177,12 +192,10 @@ Real estate investing used to require hundreds of thousands. Now you can start w
     if (url) {
       const popup = window.open(url, '_blank', windowFeatures);
       
-      // Focus the popup window
       if (popup) {
         popup.focus();
       }
       
-      // Track sharing action
       setTimeout(() => {
         setShareStats(prev => ({
           ...prev,
@@ -190,12 +203,75 @@ Real estate investing used to require hundreds of thousands. Now you can start w
         }));
       }, 2000);
       
-      // Show success message
       toast({
         title: "Shared Successfully!",
         description: `Property shared on ${platform.charAt(0).toUpperCase() + platform.slice(1)}`,
       });
     }
+  };
+
+  const handleShareToAll = () => {
+    const platforms = ['linkedin', 'facebook', 'twitter'];
+    let popupCount = 0;
+    
+    platforms.forEach((platform, index) => {
+      setTimeout(() => {
+        const content = getShareContent(platform);
+        const encodedUrl = encodeURIComponent(shareUrl);
+        const encodedText = encodeURIComponent(content.text);
+        const encodedTitle = encodeURIComponent(content.title);
+        
+        let url = "";
+        let windowFeatures = "";
+        
+        // Calculate popup positions to avoid overlap
+        const offsetX = (index % 3) * 50;
+        const offsetY = Math.floor(index / 3) * 50;
+        
+        switch (platform) {
+          case "linkedin":
+            url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&title=${encodedTitle}&summary=${encodeURIComponent(content.text.substring(0, 256))}`;
+            windowFeatures = `width=520,height=570,left=${100 + offsetX},top=${100 + offsetY}`;
+            break;
+          case "facebook":
+            url = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
+            windowFeatures = `width=580,height=400,left=${200 + offsetX},top=${200 + offsetY}`;
+            break;
+          case "twitter":
+            url = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
+            windowFeatures = `width=550,height=420,left=${300 + offsetX},top=${300 + offsetY}`;
+            break;
+        }
+        
+        if (url) {
+          const popup = window.open(url, `${platform}_share`, windowFeatures);
+          if (popup) {
+            popup.focus();
+            popupCount++;
+          }
+        }
+      }, index * 500); // Stagger popup opening by 500ms
+    });
+    
+    // Handle Instagram separately (copy to clipboard)
+    const instagramContent = getShareContent('instagram');
+    navigator.clipboard.writeText(`${instagramContent.text}\n\n${shareUrl}`);
+    
+    // Update stats for all platforms
+    setTimeout(() => {
+      setShareStats(prev => ({
+        linkedinViews: prev.linkedinViews + Math.floor(Math.random() * 15 + 5),
+        facebookViews: prev.facebookViews + Math.floor(Math.random() * 12 + 3),
+        twitterViews: prev.twitterViews + Math.floor(Math.random() * 10 + 2),
+        directViews: prev.directViews + Math.floor(Math.random() * 8 + 1)
+      }));
+    }, 3000);
+    
+    toast({
+      title: "40 Acres Property Shared!",
+      description: "Property shared to LinkedIn, Facebook, and Twitter. Instagram content copied to clipboard!",
+      duration: 5000,
+    });
   };
 
   return (
@@ -311,7 +387,16 @@ Real estate investing used to require hundreds of thousands. Now you can start w
 
           {/* Share Actions */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-neutral-900">Share on Social Media</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-neutral-900">Share on Social Media</h3>
+              <Button
+                onClick={handleShareToAll}
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-6 py-2 shadow-lg transition-smooth"
+              >
+                <Share2 size={16} className="mr-2" />
+                Share to All Platforms
+              </Button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               <Button
                 onClick={() => handleSocialShare("linkedin")}
@@ -416,8 +501,16 @@ Real estate investing used to require hundreds of thousands. Now you can start w
                   </ul>
                 </div>
               </div>
-              <div className="mt-3 p-2 bg-yellow-100 rounded text-xs">
-                <strong>Pro Tip:</strong> Each platform shows different property details automatically. LinkedIn focuses on professional investment metrics, Facebook emphasizes community benefits, and Twitter provides quick investment facts.
+              <div className="mt-3 p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">40</span>
+                  </div>
+                  <strong className="text-orange-800">40 Acres Branding:</strong>
+                </div>
+                <p className="text-xs text-orange-700">
+                  All shared content includes 40 Acres branding and platform-specific messaging. Use "Share to All Platforms" for maximum reach with one click - opens LinkedIn, Facebook, and Twitter simultaneously, plus copies Instagram content to clipboard.
+                </p>
               </div>
             </CardContent>
           </Card>
