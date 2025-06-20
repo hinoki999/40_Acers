@@ -15,6 +15,7 @@ import Documentation from "@/pages/Documentation";
 import Community from "@/pages/Community";
 import Withdraw from "@/pages/Withdraw";
 import Marketplace from "@/pages/Marketplace";
+import Tokenomics from "@/pages/Tokenomics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -38,6 +39,7 @@ function Router() {
             <Route path="/documentation" component={Documentation} />
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
+            <Route path="/tokenomics" component={Tokenomics} />
           </>
         ) : (
           <>
@@ -48,6 +50,7 @@ function Router() {
             <Route path="/documentation" component={Documentation} />
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
+            <Route path="/tokenomics" component={Tokenomics} />
           </>
         )}
         <Route component={NotFound} />

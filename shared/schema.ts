@@ -255,6 +255,46 @@ export const investments = pgTable("investments", {
   investmentAmount: decimal("investment_amount", { precision: 12, scale: 2 }).notNull(),
   purchasePrice: decimal("purchase_price", { precision: 10, scale: 2 }).notNull(),
   paymentTransactionId: integer("payment_transaction_id"),
+  investorTier: text("investor_tier").notNull().default("dao"), // 'founder', 'community', 'dao'
+  tierBenefitsActive: boolean("tier_benefits_active").default(true),
+  lockupEndDate: timestamp("lockup_end_date"), // 6-12 months from purchase
+  isEarlyInvestor: boolean("is_early_investor").default(false), // First 10% buyers
+  bonusTokensEarned: integer("bonus_tokens_earned").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Investor tier tracking and benefits
+export const investorTiers = pgTable("investor_tiers", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull(),
+  propertyId: integer("property_id").notNull(),
+  currentTier: text("current_tier").notNull().default("dao"), // 'founder', 'community', 'dao'
+  totalTokensOwned: integer("total_tokens_owned").default(0),
+  tierAchievedAt: timestamp("tier_achieved_at").defaultNow(),
+  nftCertificateIssued: boolean("nft_certificate_issued").default(false),
+  lifetimeYieldBonus: decimal("lifetime_yield_bonus", { precision: 5, scale: 2 }).default("0"),
+  votingRights: boolean("voting_rights").default(false),
+  exclusiveAccess: boolean("exclusive_access").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Token pricing and supply tracking
+export const tokenomicsConfig = pgTable("tokenomics_config", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull(),
+  maxTokenizedValue: decimal("max_tokenized_value", { precision: 12, scale: 2 }).notNull(), // 49% of property value
+  baseTokenPrice: decimal("base_token_price", { precision: 10, scale: 2 }).notNull(),
+  platformFeePercentage: decimal("platform_fee_percentage", { precision: 5, scale: 2 }).default("5.00"),
+  finalTokenPrice: decimal("final_token_price", { precision: 10, scale: 2 }).notNull(),
+  maxTokenSupply: integer("max_token_supply").notNull(),
+  currentTokensSold: integer("current_tokens_sold").default(0),
+  scarcityModel: boolean("scarcity_model").default(false), // true for <$500k properties
+  founderTierCap: integer("founder_tier_cap").notNull(), // 10% of supply
+  communityTierCap: integer("community_tier_cap").notNull(), // 30% of supply
+  softCapPercentage: decimal("soft_cap_percentage", { precision: 5, scale: 2 }).default("60.00"),
+  lockupPeriodMonths: integer("lockup_period_months").default(12),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
