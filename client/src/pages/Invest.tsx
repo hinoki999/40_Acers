@@ -92,7 +92,7 @@ export default function Invest() {
               <HelpCircle className="h-5 w-5 mr-2" />
               New to Investing? Take the Tour
             </Button>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
                   <DollarSign className="mx-auto mb-4 text-yellow-300" size={32} />
@@ -120,28 +120,34 @@ export default function Invest() {
       </section>
 
       {/* Search and Filters */}
-      <section className="py-8 bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="flex items-center gap-4 flex-1">
-              <div className="relative flex-1 max-w-md">
+      <section className="py-6 sm:py-8 bg-white shadow-sm">
+        <div className="container-mobile max-w-7xl mx-auto">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            {/* Mobile-first search section */}
+            <div className="w-full">
+              <div className="relative w-full sm:max-w-md">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" size={20} />
                 <Input
                   placeholder="Search by location or property..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-12 sm:h-10"
                 />
               </div>
-              <CurrencyToggle 
-                currentCurrency={currency}
-                onCurrencyChange={setCurrency}
-              />
             </div>
             
-            <div className="flex items-center gap-4">
+            {/* Mobile filters section */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
+              <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-1">
+                <CurrencyToggle 
+                  currentCurrency={currency}
+                  onCurrencyChange={setCurrency}
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-4 order-1 sm:order-2">
               <Select value={propertyType} onValueChange={setPropertyType}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10">
                   <SelectValue placeholder="Property Type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -155,7 +161,7 @@ export default function Invest() {
               </Select>
 
               <Select value={priceRange} onValueChange={setPriceRange}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10">
                   <SelectValue placeholder="Price Range" />
                 </SelectTrigger>
                 <SelectContent>
@@ -167,7 +173,7 @@ export default function Invest() {
               </Select>
 
               <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10">
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent>
@@ -179,17 +185,19 @@ export default function Invest() {
                   <SelectItem value="IL">Illinois</SelectItem>
                 </SelectContent>
               </Select>
+              </div>
             </div>
           </div>
           
           {filteredProperties.length !== (properties as Property[]).length && (
-            <div className="mt-4 flex items-center gap-2">
-              <Badge variant="secondary">
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2">
+              <Badge variant="secondary" className="w-fit">
                 {filteredProperties.length} of {(properties as Property[]).length} properties
               </Badge>
               <Button 
                 variant="ghost" 
                 size="sm"
+                className="w-fit h-10"
                 onClick={() => {
                   setSearchTerm("");
                   setPropertyType("all");
@@ -205,10 +213,10 @@ export default function Invest() {
       </section>
 
       {/* Properties Grid */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-8 sm:py-12">
+        <div className="container-mobile max-w-7xl mx-auto">
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <Card key={i} className="animate-pulse overflow-hidden">
                   <div className="h-56 bg-gradient-to-r from-neutral-200 to-neutral-300"></div>
@@ -256,7 +264,7 @@ export default function Invest() {
               ) : null}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {filteredProperties.map((property) => (
                 <PropertyCard
                   key={property.id}
