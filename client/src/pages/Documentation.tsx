@@ -273,6 +273,37 @@ export default function Documentation() {
                 </CardContent>
               </Card>
             </div>
+            
+            {/* Recent Properties Overview */}
+            {properties.length > 0 && (
+              <div className="mt-12">
+                <h3 className="text-xl font-semibold mb-6 text-center">Available Investment Properties</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {properties.slice(-3).reverse().map((property: Property) => (
+                    <Card key={property.id} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all">
+                      <CardContent className="p-6 text-center">
+                        <div className="text-lg font-bold text-white">{property.address}</div>
+                        <div className="text-indigo-200 text-sm mb-2">{property.city}, {property.state}</div>
+                        <div className="text-2xl font-bold text-white mb-1">
+                          ${Number(property.propertyValue).toLocaleString()}
+                        </div>
+                        <div className="text-indigo-200 text-xs mb-3">
+                          {property.propertyType} • {property.squareFootage?.toLocaleString()} sq ft
+                        </div>
+                        <div className="flex justify-center items-center gap-4 text-sm">
+                          <div className="text-green-300 font-semibold">
+                            {property.rentalYield}% Yield
+                          </div>
+                          <div className="text-indigo-200">
+                            ${Number(property.sharePrice).toFixed(2)}/share
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
