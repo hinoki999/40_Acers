@@ -204,7 +204,7 @@ export default function Documentation() {
     return matchesSearch && matchesType && matchesStatus;
   });
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIconComponent = (status: string) => {
     switch (status) {
       case "verified":
         return CheckCircle;
@@ -320,10 +320,10 @@ export default function Documentation() {
             </div>
           </div>
           
-          {filteredDocuments.length !== mockDocuments.length && (
+          {filteredDocuments.length !== documents.length && (
             <div className="mt-4 flex items-center gap-2">
               <Badge variant="secondary">
-                {filteredDocuments.length} of {mockDocuments.length} documents
+                {filteredDocuments.length} of {documents.length} documents
               </Badge>
               <Button 
                 variant="ghost" 
@@ -358,7 +358,7 @@ export default function Documentation() {
             </div>
 
             <div className="space-y-6">
-              {isLoading ? (
+              {loadingDocuments ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
                     <Card key={i} className="animate-pulse">
@@ -388,8 +388,8 @@ export default function Documentation() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredDocuments.map((document) => {
-                    const IconComponent = getDocumentIcon(document.type);
-                    const StatusIcon = getStatusIcon(document.verificationStatus);
+                    const IconComponent = getDocumentIcon(document.documentType);
+                    const StatusIcon = getStatusIconComponent(document.status);
                     
                     return (
                       <Card key={document.id} className="hover:shadow-lg transition-shadow">
@@ -400,18 +400,18 @@ export default function Documentation() {
                                 <IconComponent className="text-white" size={20} />
                               </div>
                               <div>
-                                <CardTitle className="text-lg truncate">{document.fileName}</CardTitle>
-                                <p className="text-sm text-neutral-600">{document.propertyAddress}</p>
+                                <CardTitle className="text-lg truncate">{document.originalName}</CardTitle>
+                                <p className="text-sm text-neutral-600">{document.property?.address || 'No property linked'}</p>
                               </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 mt-2">
-                            <Badge className={`text-xs ${getStatusColor(document.verificationStatus)}`}>
+                            <Badge className={`text-xs ${getStatusColor(document.status)}`}>
                               <StatusIcon size={12} className="mr-1" />
-                              {document.verificationStatus.charAt(0).toUpperCase() + document.verificationStatus.slice(1)}
+                              {document.status.charAt(0).toUpperCase() + document.status.slice(1)}
                             </Badge>
                             <Badge variant="outline" className="text-xs">
-                              {document.type.toUpperCase()}
+                              {document.documentType.toUpperCase()}
                             </Badge>
                           </div>
                         </CardHeader>
