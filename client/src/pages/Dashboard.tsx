@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star } from "lucide-react";
+import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { isUnauthorizedError } from "@/lib/authUtils";
@@ -17,6 +17,9 @@ import PropertyCard from "@/components/PropertyCard";
 import PropertyHeatMap from "@/components/PropertyHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
 import CurrencyToggle from "@/components/CurrencyToggle";
+import OnboardingTour from "@/components/OnboardingTour";
+import WelcomeBanner from "@/components/WelcomeBanner";
+import { useOnboarding } from "@/hooks/useOnboarding";
 import { Transaction, Property } from "@shared/schema";
 import logoImage from "@/assets/40-acres-logo.png";
 
@@ -32,8 +35,15 @@ export default function Dashboard() {
   const [transactionFilter, setTransactionFilter] = useState("");
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
   const { toast } = useToast();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
+  const { 
+    showOnboarding, 
+    isFirstVisit, 
+    completeOnboarding, 
+    startOnboarding, 
+    setShowOnboarding 
+  } = useOnboarding();
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -145,11 +155,30 @@ export default function Dashboard() {
           alt="40 Acres Logo" 
           className="h-20 w-auto object-contain"
         />
-        <div>
+        <div className="flex-1">
           <h1 className="text-3xl font-bold text-neutral-900">Dashboard</h1>
           <p className="text-neutral-600">Manage your real estate investments</p>
         </div>
+        
+        {/* Help/Onboarding Button */}
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={startOnboarding}
+          className="flex items-center space-x-2"
+        >
+          <HelpCircle className="h-4 w-4" />
+          <span>Take Tour</span>
+        </Button>
       </div>
+
+      {/* Welcome Banner for new users */}
+      <WelcomeBanner 
+        userName={user?.email?.split('@')[0]} 
+        onStartTour={startOnboarding}
+        isFirstVisit={isFirstVisit}
+      />
+
       {/* Portfolio Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Portfolio Value Card */}
