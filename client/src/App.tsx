@@ -13,6 +13,7 @@ import ListProperty from "@/pages/ListProperty";
 import Business from "@/pages/Business";
 import Documentation from "@/pages/Documentation";
 import Community from "@/pages/Community";
+import PropertyCommunity from "@/pages/PropertyCommunity";
 import Withdraw from "@/pages/Withdraw";
 import Marketplace from "@/pages/Marketplace";
 import Tokenomics from "@/pages/Tokenomics";
@@ -40,6 +41,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
+            <Route path="/community/:id" component={PropertyCommunity} />
           </>
         ) : (
           <>
@@ -48,6 +50,7 @@ function Router() {
             <Route path="/list" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
+            <Route path="/community/:id" component={PropertyCommunity} />
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
