@@ -8,10 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, TrendingUp, MapPin, DollarSign } from "lucide-react";
+import { Search, Filter, TrendingUp, MapPin, DollarSign, HelpCircle } from "lucide-react";
 import InvestmentModal from "@/components/InvestmentModal";
 import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
+import InvestorTour from "@/components/InvestorTour";
 
 export default function Invest() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +22,7 @@ export default function Invest() {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [showInvestment, setShowInvestment] = useState(false);
   const [showSocialShare, setShowSocialShare] = useState(false);
+  const [showInvestorTour, setShowInvestorTour] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
 
   const { data: properties = [], isLoading } = useQuery({
