@@ -205,7 +205,7 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
               >
                 <div className="flex items-center justify-center gap-2">
                   <TrendingUp size={16} />
-                  {canInvest ? "Invest Now (49% Min)" : "Insufficient Shares Available"}
+                  {canInvest ? "Invest Now" : "Insufficient Shares Available"}
                 </div>
               </Button>
             );

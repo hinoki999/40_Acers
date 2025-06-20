@@ -123,7 +123,7 @@ export default function Business() {
                 className="border-white text-white hover:bg-white hover:text-blue-900 font-semibold px-8 py-4"
               >
                 <Phone className="mr-2" size={20} />
-                Call Now: (555) 123-4567
+                Call Now: 248-250-4510
               </Button>
             </div>
           </div>
@@ -384,7 +384,7 @@ export default function Business() {
                 <Phone className="text-blue-600" size={24} />
                 <div>
                   <div className="font-semibold">Call Us</div>
-                  <div className="text-neutral-600">(555) 123-4567</div>
+                  <div className="text-neutral-600">248-250-4510</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">

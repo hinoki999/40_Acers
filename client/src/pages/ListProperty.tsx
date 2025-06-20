@@ -87,7 +87,7 @@ export default function ListProperty() {
               <Button 
                 onClick={() => setShowCreateModal(true)}
                 size="lg"
-                className="bg-white text-green-600 hover:bg-green-50 font-semibold px-8 py-4 text-lg"
+                className="bg-[#000000] text-white hover:bg-green-50 font-semibold px-8 py-4 text-lg"
               >
                 Start Property Listing
               </Button>
@@ -258,7 +258,7 @@ export default function ListProperty() {
             <Button 
               variant="outline"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-green-600 font-semibold px-8 py-4"
+              className="bg-[#000000] border-white text-white hover:bg-white hover:text-green-600 font-semibold px-8 py-4"
             >
               Schedule Consultation
             </Button>
