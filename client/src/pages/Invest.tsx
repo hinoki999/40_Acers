@@ -76,11 +76,11 @@ export default function Invest() {
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">Investment Opportunities</h1>
-            <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+      <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-12 sm:py-16 safe-area-inset">
+        <div className="container-mobile max-w-7xl mx-auto">
+          <div className="text-center space-mobile">
+            <h1 className="heading-responsive font-bold mb-4">Investment Opportunities</h1>
+            <p className="text-responsive text-blue-100 mb-6 sm:mb-8 max-w-3xl mx-auto">
               Discover fractional real estate investments and build your portfolio with verified properties
             </p>
             <Button 

@@ -179,8 +179,29 @@ img.critical {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .container-mobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .space-mobile > * + * {
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .space-mobile > * + * {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .space-mobile > * + * {
+    margin-top: 2rem;
+  }
 }
 
 /* Responsive container */
