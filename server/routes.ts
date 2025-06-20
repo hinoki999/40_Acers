@@ -64,9 +64,6 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
-
   // Serve uploaded files statically
   app.use('/uploads', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -74,6 +71,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
   app.use('/uploads', express.static(uploadDir));
+
+  // File upload route (before auth middleware)
+  app.post('/api/upload', upload.array('files', 10), (req: any, res) => {
+    try {
+      console.log('Upload request received:', req.files?.length || 0, 'files');
+      
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: 'No files uploaded' });
+      }
+
+      const uploadedFiles = req.files.map((file: any) => ({
+        filename: file.filename,
+        originalName: file.originalname,
+        path: `/uploads/${req.body.documentType || 'general'}/${file.filename}`,
+        size: file.size,
+        mimetype: file.mimetype
+      }));
+
+      console.log('Files uploaded successfully:', uploadedFiles.length);
+      
+      res.json({
+        success: true,
+        files: uploadedFiles,
+        message: `${uploadedFiles.length} file(s) uploaded successfully`
+      });
+    } catch (error) {
+      console.error('File upload error:', error);
+      res.status(500).json({ message: 'File upload failed' });
+    }
+  });
+
+  // Auth middleware
+  await setupAuth(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
@@ -359,31 +389,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // File upload route
-  app.post('/api/upload', isAuthenticated, upload.array('files', 10), (req: any, res) => {
-    try {
-      if (!req.files || req.files.length === 0) {
-        return res.status(400).json({ message: 'No files uploaded' });
-      }
 
-      const uploadedFiles = req.files.map((file: any) => ({
-        filename: file.filename,
-        originalName: file.originalname,
-        path: `/uploads/${req.body.documentType || 'general'}/${file.filename}`,
-        size: file.size,
-        mimetype: file.mimetype
-      }));
-
-      res.json({
-        success: true,
-        files: uploadedFiles,
-        message: `${uploadedFiles.length} file(s) uploaded successfully`
-      });
-    } catch (error) {
-      console.error('File upload error:', error);
-      res.status(500).json({ message: 'File upload failed' });
-    }
-  });
 
   // Add payment routes
   app.use("/api/payments", paymentsRouter);
