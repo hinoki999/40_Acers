@@ -2,12 +2,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { TrendingUp, MapPin, Users, Zap, Heart, Video, Calculator, Share2, PieChart } from "lucide-react";
+import { TrendingUp, MapPin, Users, Zap, Heart, Video, Calculator, Share2, PieChart, Eye } from "lucide-react";
 import { Property } from "@shared/schema";
 import { useState } from "react";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import TokenizationCalculator from "./TokenizationCalculator";
 import SocialInvestorNetwork from "./SocialInvestorNetwork";
+import PropertyDetailsModal from "./PropertyDetailsModal";
 
 interface PropertyCardProps {
   property: Property;
@@ -18,6 +19,7 @@ interface PropertyCardProps {
 export default function PropertyCard({ property, onInvest, onShare }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const totalValue = Number(property.sharePrice) * property.maxShares;
@@ -214,7 +216,12 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
               variant="outline"
               size="sm"
               className="flex-1 hover:bg-neutral-50"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowDetails(true);
+              }}
             >
+              <Eye size={14} className="mr-1" />
               View Details
             </Button>
             <Button
@@ -263,6 +270,13 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
           </div>
         )}
       </CardContent>
+      
+      <PropertyDetailsModal
+        property={property}
+        isOpen={showDetails}
+        onClose={() => setShowDetails(false)}
+        onInvest={onInvest}
+      />
     </Card>
   );
 }
