@@ -10,7 +10,9 @@ import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/Dashboard";
 import Invest from "@/pages/Invest";
 import ListProperty from "@/pages/ListProperty";
-
+import Business from "@/pages/Business";
+import Documentation from "@/pages/Documentation";
+import Tokenomics from "@/pages/Tokenomics";
 import Community from "@/pages/Community";
 import Withdraw from "@/pages/Withdraw";
 import Marketplace from "@/pages/Marketplace";

@@ -1,8 +1,14 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut } from "lucide-react";
+import { LogOut, ChevronDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import logoImage from "@/assets/40-acres-logo.png";
 
 import _7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed from "@assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed.png";
@@ -51,21 +57,50 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   List Property
                 </Button>
               </Link>
-              <Link href="/platform">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Platform
-                </Button>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 flex items-center gap-1">
+                    About
+                    <ChevronDown size={16} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white border border-gray-200 shadow-lg">
+                  <DropdownMenuItem asChild>
+                    <Link href="/business" className="w-full cursor-pointer">
+                      Business
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/documentation" className="w-full cursor-pointer">
+                      Documentation
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/tokenomics" className="w-full cursor-pointer">
+                      Tokenomics
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              {isAuthenticated && (
+                <Link href="/platform">
+                  <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                    Platform
+                  </Button>
+                </Link>
+              )}
               <Link href="/community">
                 <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   Community
                 </Button>
               </Link>
-              <Link href="/withdraw">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Withdraw
-                </Button>
-              </Link>
+              {isAuthenticated && (
+                <Link href="/withdraw">
+                  <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
+                    Withdraw
+                  </Button>
+                </Link>
+              )}
             </nav>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
