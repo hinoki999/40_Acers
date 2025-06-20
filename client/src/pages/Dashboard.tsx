@@ -14,7 +14,7 @@ import { apiRequest } from "@/lib/queryClient";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
 import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
-import PropertyHeatMap from "@/components/PropertyHeatMap";
+import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import OnboardingTour from "@/components/OnboardingTour";
@@ -399,7 +399,7 @@ export default function Dashboard() {
       {/* Heat Map Section */}
       {properties.length > 0 && (
         <div className="mb-8">
-          <PropertyHeatMap properties={properties} />
+          <EnhancedHeatMap properties={properties} />
         </div>
       )}
 

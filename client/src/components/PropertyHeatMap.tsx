@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, TrendingUp, DollarSign, Target, Layers } from "lucide-react";
+import { MapPin, TrendingUp, DollarSign, Target, Layers, Map, Satellite, BarChart3 } from "lucide-react";
 import { Property } from "@shared/schema";
 import * as d3 from "d3";
 
