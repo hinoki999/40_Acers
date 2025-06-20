@@ -98,25 +98,99 @@ export default function PropertyHeatMap({ properties }: PropertyHeatMapProps) {
         const maxLng = Math.max(...validProperties.map(p => parseFloat(p.longitude!)));
         const minLng = Math.min(...validProperties.map(p => parseFloat(p.longitude!)));
         
+        // Add padding to prevent edge clipping
+        const latRange = maxLat - minLat || 0.01;
+        const lngRange = maxLng - minLng || 0.01;
+        
         validProperties.forEach((property, index) => {
           const lat = parseFloat(property.latitude!);
           const lng = parseFloat(property.longitude!);
           
-          // Normalize coordinates to SVG space
-          const x = 50 + ((lng - minLng) / (maxLng - minLng)) * 700;
-          const y = 80 + ((maxLat - lat) / (maxLat - minLat)) * 250;
+          // Normalize coordinates to SVG space with padding
+          const x = 100 + ((lng - minLng) / lngRange) * 600;
+          const y = 80 + ((maxLat - lat) / latRange) * 250;
           
+          // Create property marker
           const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
           circle.setAttribute('cx', x.toString());
           circle.setAttribute('cy', y.toString());
-          circle.setAttribute('r', '6');
+          circle.setAttribute('r', '8');
           circle.setAttribute('fill', '#10B981');
           circle.setAttribute('stroke', 'white');
           circle.setAttribute('stroke-width', '2');
-          circle.setAttribute('title', `${property.address}, ${property.city}`);
+          circle.style.cursor = 'pointer';
+          
+          // Add hover effects
+          circle.addEventListener('mouseenter', () => {
+            circle.setAttribute('r', '12');
+            circle.setAttribute('fill', '#059669');
+          });
+          circle.addEventListener('mouseleave', () => {
+            circle.setAttribute('r', '8');
+            circle.setAttribute('fill', '#10B981');
+          });
+          
+          // Add property label
+          const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          text.setAttribute('x', x.toString());
+          text.setAttribute('y', (y + 25).toString());
+          text.setAttribute('text-anchor', 'middle');
+          text.setAttribute('fill', '#374151');
+          text.setAttribute('font-size', '10');
+          text.setAttribute('font-weight', 'bold');
+          text.textContent = `${property.city}`;
+          
+          // Add property value
+          const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          valueText.setAttribute('x', x.toString());
+          valueText.setAttribute('y', (y + 37).toString());
+          valueText.setAttribute('text-anchor', 'middle');
+          valueText.setAttribute('fill', '#6B7280');
+          valueText.setAttribute('font-size', '8');
+          valueText.textContent = `$${(Number(property.propertyValue) / 1000).toFixed(0)}K`;
           
           svg.appendChild(circle);
+          svg.appendChild(text);
+          svg.appendChild(valueText);
         });
+        
+        // Add legend
+        const legend = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const legendBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        legendBg.setAttribute('x', '20');
+        legendBg.setAttribute('y', '320');
+        legendBg.setAttribute('width', '150');
+        legendBg.setAttribute('height', '60');
+        legendBg.setAttribute('fill', 'white');
+        legendBg.setAttribute('stroke', '#E5E7EB');
+        legendBg.setAttribute('rx', '4');
+        
+        const legendTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        legendTitle.setAttribute('x', '30');
+        legendTitle.setAttribute('y', '340');
+        legendTitle.setAttribute('fill', '#374151');
+        legendTitle.setAttribute('font-size', '12');
+        legendTitle.setAttribute('font-weight', 'bold');
+        legendTitle.textContent = 'Properties';
+        
+        const legendDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        legendDot.setAttribute('cx', '35');
+        legendDot.setAttribute('cy', '355');
+        legendDot.setAttribute('r', '4');
+        legendDot.setAttribute('fill', '#10B981');
+        
+        const legendText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        legendText.setAttribute('x', '45');
+        legendText.setAttribute('y', '360');
+        legendText.setAttribute('fill', '#6B7280');
+        legendText.setAttribute('font-size', '10');
+        legendText.textContent = 'Investment Opportunity';
+        
+        legend.appendChild(legendBg);
+        legend.appendChild(legendTitle);
+        legend.appendChild(legendDot);
+        legend.appendChild(legendText);
+        svg.appendChild(legend);
       }
       
       mapContainer.appendChild(svg);
