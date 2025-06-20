@@ -168,6 +168,36 @@ export default function Documentation() {
     }
   };
 
+  const handleFileUpload = async (file: File) => {
+    setIsUploading(true);
+    setUploadProgress(0);
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('documentType', 'other');
+    formData.append('category', 'general');
+    
+    try {
+      // Simulate upload progress
+      const interval = setInterval(() => {
+        setUploadProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(interval);
+            return prev;
+          }
+          return prev + 10;
+        });
+      }, 200);
+      
+      await uploadMutation.mutateAsync(formData);
+      clearInterval(interval);
+      setUploadProgress(100);
+    } catch (error) {
+      setIsUploading(false);
+      setUploadProgress(0);
+    }
+  };
+
   const getDocumentIcon = (type: string) => {
     switch (type) {
       case "deed":
@@ -386,6 +416,14 @@ export default function Documentation() {
               <Button variant="ghost" size="sm">
                 Verification Records
               </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setShowUploadModal(true)}
+              >
+                <Upload size={16} className="mr-1" />
+                Upload Document
+              </Button>
             </div>
 
             <div className="space-y-6">
@@ -477,6 +515,151 @@ export default function Documentation() {
           </div>
         </div>
       </section>
+
+      {/* Upload Document Modal */}
+      <Dialog open={showUploadModal} onOpenChange={setShowUploadModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Upload size={20} />
+              Upload Document
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                  Property
+                </label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select property" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {properties.map((property: Property) => (
+                      <SelectItem key={property.id} value={property.id.toString()}>
+                        {property.address}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                  Document Type
+                </label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="deed">Property Deed</SelectItem>
+                    <SelectItem value="title">Title Document</SelectItem>
+                    <SelectItem value="llc">LLC Document</SelectItem>
+                    <SelectItem value="image">Image</SelectItem>
+                    <SelectItem value="video">Video</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-neutral-700 mb-2">
+                Description (Optional)
+              </label>
+              <Textarea 
+                placeholder="Add a description for this document..."
+                rows={3}
+              />
+            </div>
+
+            <div 
+              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                dragActive 
+                  ? 'border-blue-400 bg-blue-50' 
+                  : 'border-neutral-300 hover:border-neutral-400'
+              }`}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragActive(true);
+              }}
+              onDragLeave={() => setDragActive(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragActive(false);
+                const files = Array.from(e.dataTransfer.files);
+                if (files.length > 0) {
+                  handleFileUpload(files[0]);
+                }
+              }}
+            >
+              <div className="space-y-4">
+                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mx-auto">
+                  <Upload className="text-neutral-400" size={24} />
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-neutral-900">
+                    Drop your file here, or click to browse
+                  </p>
+                  <p className="text-sm text-neutral-600">
+                    Supports PDF, DOC, DOCX, JPG, PNG, MP4 (Max 10MB)
+                  </p>
+                </div>
+                <Button 
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                >
+                  <Plus size={16} className="mr-2" />
+                  Choose File
+                </Button>
+              </div>
+              
+              <input
+                ref={fileInputRef}
+                type="file"
+                className="hidden"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.mp4"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleFileUpload(file);
+                  }
+                }}
+              />
+            </div>
+
+            {isUploading && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Uploading...</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <Progress value={uploadProgress} className="w-full" />
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowUploadModal(false)}
+                disabled={isUploading}
+              >
+                Cancel
+              </Button>
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700"
+                disabled={isUploading}
+              >
+                {isUploading ? "Uploading..." : "Upload Document"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

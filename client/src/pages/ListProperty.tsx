@@ -250,7 +250,7 @@ export default function ListProperty() {
               onClick={() => setShowBusinessTour(true)}
               variant="outline"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-green-600 font-semibold px-6 py-4"
+              className="border-white text-[#000000] hover:bg-white hover:text-green-600 font-semibold px-6 py-4"
             >
               <HelpCircle className="mr-2" size={20} />
               Take Business Owner Tour
@@ -258,7 +258,7 @@ export default function ListProperty() {
             <Button 
               variant="outline"
               size="lg"
-              className="bg-[#000000] border-white text-white hover:bg-white hover:text-green-600 font-semibold px-8 py-4"
+              className="bg-[#000000] border-white text-[#000000] hover:bg-white hover:text-green-600 font-semibold px-8 py-4"
             >
               Schedule Consultation
             </Button>
