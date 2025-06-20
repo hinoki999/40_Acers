@@ -250,17 +250,17 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             <div className="mb-8">
               <Smartphone className="h-16 w-16 text-white mx-auto mb-4" />
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Take 40 Acres with you everywhere
+                Download the 40 Acres Wallet App
               </h2>
               <p className="text-xl text-blue-100 mb-8">
-                Download our mobile app to manage your investments, track property performance, and discover new opportunities on the go.
+                Get our secure digital wallet to manage your real estate investments, track property performance, and make instant transactions from anywhere.
               </p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               {/* App Store Button */}
               <a 
-                href="https://apps.apple.com/app/40-acres" 
+                href="https://apps.apple.com/app/40-acres-wallet" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-black text-white px-8 py-4 rounded-xl hover:bg-gray-800 transition-colors min-w-[200px]"
@@ -270,7 +270,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
                   </svg>
                   <div className="text-left">
-                    <div className="text-xs">Download on the</div>
+                    <div className="text-xs">Download Wallet on</div>
                     <div className="text-lg font-semibold -mt-1">App Store</div>
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               
               {/* Google Play Button */}
               <a 
-                href="https://play.google.com/store/apps/details?id=com.40acres" 
+                href="https://play.google.com/store/apps/details?id=com.40acres.wallet" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-black text-white px-8 py-4 rounded-xl hover:bg-gray-800 transition-colors min-w-[200px]"
@@ -291,7 +291,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                     <path d="M12.5 12l4.62 2.88L3.04 22.47c-.1.03-.2.03-.3 0-.11-.03-.2-.08-.28-.13L12.5 12z"/>
                   </svg>
                   <div className="text-left">
-                    <div className="text-xs">Get it on</div>
+                    <div className="text-xs">Get Wallet on</div>
                     <div className="text-lg font-semibold -mt-1">Google Play</div>
                   </div>
                 </div>
@@ -300,19 +300,19 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
               <div className="text-center">
-                <Download className="h-8 w-8 mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Instant Access</h3>
-                <p className="text-sm text-blue-100">View your portfolio anytime, anywhere</p>
+                <DollarSign className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Digital Wallet</h3>
+                <p className="text-sm text-blue-100">Store and manage your real estate tokens securely</p>
               </div>
               <div className="text-center">
                 <TrendingUp className="h-8 w-8 mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Real-time Updates</h3>
-                <p className="text-sm text-blue-100">Get notifications on property performance</p>
+                <h3 className="font-semibold mb-1">Portfolio Tracking</h3>
+                <p className="text-sm text-blue-100">Monitor your investments and earnings in real-time</p>
               </div>
               <div className="text-center">
                 <Shield className="h-8 w-8 mx-auto mb-2" />
-                <h3 className="font-semibold mb-1">Secure Investing</h3>
-                <p className="text-sm text-blue-100">Bank-level security for your investments</p>
+                <h3 className="font-semibold mb-1">Secure Transactions</h3>
+                <p className="text-sm text-blue-100">Bank-level encryption for all wallet transactions</p>
               </div>
             </div>
           </div>
