@@ -87,7 +87,7 @@ export default function Invest() {
               onClick={() => setShowInvestorTour(true)}
               variant="outline"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary font-semibold px-6 py-3"
+              className="border-white text-white hover:bg-white hover:text-primary font-semibold px-6 py-3 bg-[#000000]"
             >
               <HelpCircle className="h-5 w-5 mr-2" />
               New to Investing? Take the Tour
