@@ -129,7 +129,6 @@ export default function Business() {
           </div>
         </div>
       </section>
-
       {/* Services Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -169,7 +168,6 @@ export default function Business() {
           </div>
         </div>
       </section>
-
       {/* Consultation Types */}
       <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -215,7 +213,6 @@ export default function Business() {
           </div>
         </div>
       </section>
-
       {/* Consultation Form */}
       <section id="consultation-form" className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -373,7 +370,6 @@ export default function Business() {
           </Card>
         </div>
       </section>
-
       {/* Contact Information */}
       <section className="py-16 bg-neutral-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -391,7 +387,7 @@ export default function Business() {
                 <Mail className="text-blue-600" size={24} />
                 <div>
                   <div className="font-semibold">Email Us</div>
-                  <div className="text-neutral-600">business@40acres.com</div>
+                  <div className="text-neutral-600">info@40acresapp.com</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
