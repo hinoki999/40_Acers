@@ -10,12 +10,11 @@ import Landing from "@/pages/Landing";
 import Dashboard from "@/pages/Dashboard";
 import Invest from "@/pages/Invest";
 import ListProperty from "@/pages/ListProperty";
-import Business from "@/pages/Business";
-import Documentation from "@/pages/Documentation";
+
 import Community from "@/pages/Community";
 import Withdraw from "@/pages/Withdraw";
 import Marketplace from "@/pages/Marketplace";
-import Tokenomics from "@/pages/Tokenomics";
+import Platform from "@/pages/Platform";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -46,12 +45,9 @@ function Router() {
             <Route path="/" component={Dashboard} />
             <Route path="/invest" component={Invest} />
             <Route path="/list" component={ListProperty} />
-            <Route path="/business" component={Business} />
-            <Route path="/documentation" component={Documentation} />
+            <Route path="/platform" component={Platform} />
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
-            <Route path="/tokenomics" component={Tokenomics} />
-            <Route path="/tokenomics" component={Tokenomics} />
           </>
         )}
         <Route component={NotFound} />

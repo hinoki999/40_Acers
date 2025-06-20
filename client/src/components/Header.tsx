@@ -51,14 +51,9 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   List Property
                 </Button>
               </Link>
-              <Link href="/business">
+              <Link href="/platform">
                 <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Business
-                </Button>
-              </Link>
-              <Link href="/documentation">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Documentation
+                  Platform
                 </Button>
               </Link>
               <Link href="/community">
@@ -69,11 +64,6 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <Link href="/withdraw">
                 <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
                   Withdraw
-                </Button>
-              </Link>
-              <Link href="/tokenomics">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Tokenomics
                 </Button>
               </Link>
             </nav>
