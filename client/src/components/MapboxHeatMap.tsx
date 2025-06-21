@@ -331,27 +331,45 @@ export default function EnhancedHeatMap({ properties }: EnhancedHeatMapProps) {
       tooltipRef.current.style.opacity = "1";
       tooltipRef.current.style.left = (position[0] + 20) + "px";
       tooltipRef.current.style.top = (position[1] - 10) + "px";
-      tooltipRef.current.innerHTML = `
-        <div class="font-semibold text-sm mb-2">${data.address}</div>
-        <div class="space-y-1 text-xs">
-          <div class="flex justify-between">
-            <span>Value:</span>
-            <span class="font-semibold">$${(data.value / 1000000).toFixed(2)}M</span>
-          </div>
-          <div class="flex justify-between">
-            <span>ROI:</span>
-            <span class="font-semibold text-green-600">${data.roi.toFixed(1)}%</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Market Trend:</span>
-            <span class="font-semibold text-blue-600">+${data.marketTrend.toFixed(1)}%</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Category:</span>
-            <span class="font-semibold capitalize">${data.category}</span>
-          </div>
-        </div>
-      `;
+      
+      // Clear existing content
+      tooltipRef.current.textContent = '';
+      
+      // Create elements safely
+      const addressDiv = document.createElement('div');
+      addressDiv.className = 'font-semibold text-sm mb-2';
+      addressDiv.textContent = data.address;
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'space-y-1 text-xs';
+      
+      // Value row
+      const valueRow = document.createElement('div');
+      valueRow.className = 'flex justify-between';
+      valueRow.innerHTML = `<span>Value:</span><span class="font-semibold">$${(data.value / 1000000).toFixed(2)}M</span>`;
+      
+      // ROI row
+      const roiRow = document.createElement('div');
+      roiRow.className = 'flex justify-between';
+      roiRow.innerHTML = `<span>ROI:</span><span class="font-semibold text-green-600">${data.roi.toFixed(1)}%</span>`;
+      
+      // Market trend row
+      const trendRow = document.createElement('div');
+      trendRow.className = 'flex justify-between';
+      trendRow.innerHTML = `<span>Market Trend:</span><span class="font-semibold text-blue-600">+${data.marketTrend.toFixed(1)}%</span>`;
+      
+      // Category row
+      const categoryRow = document.createElement('div');
+      categoryRow.className = 'flex justify-between';
+      categoryRow.innerHTML = `<span>Category:</span><span class="font-semibold capitalize">${data.category}</span>`;
+      
+      contentDiv.appendChild(valueRow);
+      contentDiv.appendChild(roiRow);
+      contentDiv.appendChild(trendRow);
+      contentDiv.appendChild(categoryRow);
+      
+      tooltipRef.current.appendChild(addressDiv);
+      tooltipRef.current.appendChild(contentDiv);
     };
 
     const showRegionalTooltip = (region: string, metrics: any, position: [number, number]) => {
