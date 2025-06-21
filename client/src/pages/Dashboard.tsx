@@ -432,6 +432,12 @@ export default function Dashboard() {
         }}
       />
 
+      <SocialShareModal 
+        isOpen={showSocialShare}
+        onClose={() => setShowSocialShare(false)}
+        property={null}
+      />
+
       <InvestorSocialNetwork
         isOpen={showSocialNetwork}
         onClose={() => setShowSocialNetwork(false)}

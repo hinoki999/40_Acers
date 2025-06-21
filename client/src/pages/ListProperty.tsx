@@ -9,6 +9,10 @@ import BusinessOwnerTour from "@/components/BusinessOwnerTour";
 export default function ListProperty() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showBusinessTour, setShowBusinessTour] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  
+  // Mock authentication state for this component
+  const isAuthenticated = false;
 
   const steps = [
     {

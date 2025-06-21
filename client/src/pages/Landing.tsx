@@ -49,11 +49,13 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   };
 
   const handleShowLogin = () => {
+    console.log('Login button clicked');
     onShowLogin();
     setShowLogin(true);
   };
 
   const handleShowRegister = () => {
+    console.log('Register button clicked');
     onShowRegister();
     setShowRegister(true);
   };
