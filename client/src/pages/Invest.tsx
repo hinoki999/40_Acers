@@ -13,8 +13,11 @@ import InvestmentModal from "@/components/InvestmentModal";
 import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import InvestorTour from "@/components/InvestorTour";
+import AuthModals from "@/components/AuthModals";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Invest() {
+  const { isAuthenticated, user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [propertyType, setPropertyType] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
@@ -23,6 +26,8 @@ export default function Invest() {
   const [showInvestment, setShowInvestment] = useState(false);
   const [showSocialShare, setShowSocialShare] = useState(false);
   const [showInvestorTour, setShowInvestorTour] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
   const [isGoldMember, setIsGoldMember] = useState(false);
   const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
@@ -33,6 +38,10 @@ export default function Invest() {
   });
 
   const handleInvest = (propertyId: number) => {
+    if (!isAuthenticated) {
+      setShowLogin(true);
+      return;
+    }
     const property = (properties as Property[]).find((p: Property) => p.id === propertyId);
     if (property) {
       setSelectedProperty(property);

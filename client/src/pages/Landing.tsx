@@ -361,7 +361,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <img 
                 src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                 alt="40 Acres Logo" 
-                className="h-16 w-auto object-contain mb-4"
+                className="h-20 w-auto object-contain mb-4"
               />
               <p className="text-gray-300 mb-4">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.

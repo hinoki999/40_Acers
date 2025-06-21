@@ -60,17 +60,26 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <>
                 {!isAuthenticated ? (
                   <div className="flex items-center space-x-2 sm:space-x-3">
-                    <Button onClick={onShowRegister} size="sm" className="bg-black text-white hover:bg-red-600 text-sm">
+                    <Button 
+                      onClick={() => window.location.href = '/login'} 
+                      size="sm" 
+                      className="bg-black text-white hover:bg-[#ff5724] text-sm"
+                    >
                       Get Started
                     </Button>
-                    <Button variant="outline" size="sm" onClick={onShowLogin} className="hover:bg-red-600 hover:text-white text-sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => window.location.href = '/login'} 
+                      className="hover:bg-[#ff5724] hover:text-white text-sm"
+                    >
                       Login
                     </Button>
                   </div>
                 ) : (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-red-600">
+                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-[#ff5724]">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
                           <AvatarFallback>

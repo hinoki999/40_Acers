@@ -293,20 +293,18 @@ export default function Dashboard() {
         <CardHeader className="border-b border-neutral-200">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-2xl font-bold text-neutral-900">Transactions</CardTitle>
-              <p className="text-neutral-600">View All Transactions You Are Involved In</p>
+              <CardTitle className="text-xl font-semibold">Recent Activity</CardTitle>
+              <p className="text-sm text-neutral-600">Your latest transactions and investments</p>
             </div>
             <div className="flex items-center gap-2">
-              <select className="px-3 py-2 border rounded-lg text-sm">
-                <option>All Properties</option>
-                <option>Residential</option>
-                <option>Commercial</option>
-              </select>
-              <select className="px-3 py-2 border rounded-lg text-sm">
-                <option>Last 30 days</option>
-                <option>Last 90 days</option>
-                <option>This year</option>
-              </select>
+              <Input
+                placeholder="Search by property name..."
+                className="w-64"
+              />
+              <Button variant="outline" size="sm">
+                <Filter className="h-4 w-4 mr-2" />
+                Filters
+              </Button>
             </div>
           </div>
         </CardHeader>

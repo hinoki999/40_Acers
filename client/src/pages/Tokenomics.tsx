@@ -468,6 +468,48 @@ function Tokenomics() {
           </div>
         </div>
       </div>
+      
+      {/* Download App Section */}
+      <section className="py-16 bg-neutral-900">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="text-white text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Download the 40 Acres Wallet App</h2>
+              <p className="text-lg text-white mb-6">
+                Take your real estate investments anywhere. Manage your portfolio, track earnings, and invest on the go with our secure mobile wallet.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button className="bg-white text-black hover:bg-gray-200 flex items-center gap-2 px-6 py-3">
+                  <Smartphone size={20} />
+                  Download for iOS
+                </Button>
+                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black flex items-center gap-2 px-6 py-3">
+                  <Download size={20} />
+                  Download for Android
+                </Button>
+              </div>
+            </div>
+            
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
+              <div className="text-center">
+                <DollarSign className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Digital Wallet</h3>
+                <p className="text-sm text-white">Store and manage your real estate tokens securely</p>
+              </div>
+              <div className="text-center">
+                <TrendingUp className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Portfolio Tracking</h3>
+                <p className="text-sm text-white">Monitor your investments and earnings in real-time</p>
+              </div>
+              <div className="text-center">
+                <Shield className="h-8 w-8 mx-auto mb-2" />
+                <h3 className="font-semibold mb-1">Secure Transactions</h3>
+                <p className="text-sm text-white">Bank-level encryption for all wallet transactions</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
