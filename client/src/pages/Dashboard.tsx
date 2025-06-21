@@ -210,13 +210,21 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-4">
-            <Button
-              onClick={() => setShowCreateProperty(true)}
-              className="w-full bg-black text-white hover:bg-gray-200 hover:text-black shadow-lg hover:shadow-xl transition-all"
-            >
-              <Plus className="mr-2" size={16} />
-              List New Property
-            </Button>
+            {/* Show different buttons based on user type */}
+            {(user as any)?.userType === 'business' ? (
+              <Button
+                onClick={() => setShowCreateProperty(true)}
+                className="w-full bg-black text-white hover:bg-gray-200 hover:text-black shadow-lg hover:shadow-xl transition-all"
+              >
+                <Plus className="mr-2" size={16} />
+                List Your Property
+              </Button>
+            ) : (
+              <div className="text-center p-4 bg-gray-100 rounded-lg">
+                <p className="text-gray-600 text-sm">Coming Soon</p>
+                <p className="text-gray-500 text-xs">Investor Portal</p>
+              </div>
+            )}
             <Button
               variant="outline"
               className="w-full bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
@@ -266,29 +274,7 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Ticker Display */}
-      <div className="bg-neutral-900 rounded-2xl p-4 mb-8 overflow-hidden">
-        <div className="flex items-center space-x-8 animate-marquee">
-          {[
-            { symbol: "JMK", price: "175.00" },
-            { symbol: "REI", price: "225.50" },
-            { symbol: "APT", price: "189.75" },
-            { symbol: "JMK", price: "175.00" },
-            { symbol: "REI", price: "225.50" },
-            { symbol: "APT", price: "189.75" },
-          ].map((stock, index) => (
-            <div key={index} className="flex items-center space-x-2 text-white whitespace-nowrap">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <span className="text-xs font-bold text-neutral-900">{stock.symbol}</span>
-              </div>
-              <span className="font-medium">{stock.symbol}</span>
-              <span className="text-secondary">${stock.price}</span>
-              <span className="text-secondary">p/s</span>
-              <Star className="text-accent" size={16} />
-            </div>
-          ))}
-        </div>
-      </div>
+
 
       {/* Transactions Section */}
       <Card>
@@ -319,10 +305,9 @@ export default function Dashboard() {
                 <TableHead className="w-12">
                   <Checkbox />
                 </TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Property</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Type</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -331,16 +316,9 @@ export default function Dashboard() {
                   <TableCell>
                     <Checkbox />
                   </TableCell>
-                  <TableCell>{getStatusBadge(transaction.status)}</TableCell>
-                  <TableCell>{transaction.email}</TableCell>
-                  <TableCell className="font-medium">
-                    ${Number(transaction.amount).toLocaleString()}
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm">
-                      <i className="fas fa-ellipsis-h"></i>
-                    </Button>
-                  </TableCell>
+                  <TableCell>Property #{transaction.propertyId || 'N/A'}</TableCell>
+                  <TableCell>{new Date(transaction.createdAt || Date.now()).toLocaleDateString()}</TableCell>
+                  <TableCell>{transaction.transactionType || 'Investment'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -365,9 +343,11 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-2xl font-bold text-neutral-900">
-                  Available Investment Opportunities
+                  {(user as any)?.userType === 'business' ? 'My Listed Properties' : 'Available Investment Opportunities'}
                 </CardTitle>
-                <p className="text-neutral-600">Discover and invest in new properties</p>
+                <p className="text-neutral-600">
+                  {(user as any)?.userType === 'business' ? 'Manage your property listings' : 'Discover and invest in new properties'}
+                </p>
               </div>
               <CurrencyToggle 
                 currentCurrency={currency}

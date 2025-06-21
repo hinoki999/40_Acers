@@ -255,41 +255,41 @@ export default function PropertyCard({ property, onInvest, onShare, isGoldMember
             );
           })()}
           
-          <div className="flex gap-2">
+          <div className="flex gap-1">
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 hover:bg-black hover:text-white border-black"
+              className="flex-1 text-xs px-2 py-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowDetails(true);
               }}
             >
-              <Eye size={14} className="mr-1" />
-              View Details
+              <Eye size={12} className="mr-1" />
+              Details
             </Button>
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 hover:bg-black hover:text-white border-black"
+              className="flex-1 text-xs px-2 py-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
                 onShare?.(property.id);
               }}
             >
-              <Share2 size={14} className="mr-1" />
+              <Share2 size={12} className="mr-1" />
               Share
             </Button>
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 hover:bg-black hover:text-white border-black"
+              className="flex-1 text-xs px-2 py-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
                 setSaved(!saved);
               }}
             >
-              <Bookmark size={14} className={`mr-1 ${saved ? 'fill-current' : ''}`} />
+              <Bookmark size={12} className={`mr-1 ${saved ? 'fill-current' : ''}`} />
               Save
             </Button>
           </div>

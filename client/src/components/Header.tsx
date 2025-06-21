@@ -60,11 +60,11 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <>
                 {!isAuthenticated ? (
                   <div className="flex items-center space-x-2 sm:space-x-3">
+                    <Button onClick={onShowRegister} size="sm" className="bg-neutral-900 text-white hover:bg-neutral-800 text-sm">
+                      Get Started
+                    </Button>
                     <Button variant="ghost" size="sm" onClick={onShowLogin} className="text-sm">
                       Login
-                    </Button>
-                    <Button onClick={onShowRegister} size="sm" className="bg-neutral-900 text-white hover:bg-neutral-800 text-sm">
-                      Register
                     </Button>
                   </div>
                 ) : (

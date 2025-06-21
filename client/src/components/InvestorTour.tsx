@@ -245,8 +245,8 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
               <div className="flex gap-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">1</div>
                 <div>
-                  <h5 className="font-semibold text-blue-900">Choose Token Amount</h5>
-                  <p className="text-blue-800 text-sm">Select how many tokens you want to purchase. See real-time calculation of ownership percentage and expected returns.</p>
+                  <h5 className="font-semibold text-blue-900">Choose Share Amount</h5>
+                  <p className="text-blue-800 text-sm">Select how many shares you want to purchase. See real-time calculation of ownership percentage and expected returns.</p>
                 </div>
               </div>
               
@@ -262,7 +262,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
                 <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">3</div>
                 <div>
                   <h5 className="font-semibold text-purple-900">Instant Ownership</h5>
-                  <p className="text-purple-800 text-sm">Receive your tokens immediately. Track your investment in your personal dashboard.</p>
+                  <p className="text-purple-800 text-sm">Receive your shares immediately. Track your investment in your personal dashboard.</p>
                 </div>
               </div>
             </div>
@@ -285,10 +285,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
                     <CheckCircle className="h-4 w-4 text-green-600" />
                     <span>Digital Wallets</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <span>Cryptocurrency</span>
-                  </div>
+
                 </div>
               </CardContent>
             </Card>
@@ -465,9 +462,14 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-2xl font-bold text-primary">Investor Guide</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
-              <X className="h-4 w-4" />
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
+                Skip Tutorial
+              </Button>
+              <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
           
           <div className="space-y-2">

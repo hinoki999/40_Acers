@@ -568,17 +568,17 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           <div className="flex gap-4 pt-6 border-t">
             <Button
               onClick={() => onInvest && onInvest(property.id)}
-              className="flex-1"
+              className="flex-1 bg-black text-white hover:bg-gray-200 hover:text-black"
               size="lg"
             >
               <DollarSign className="h-4 w-4 mr-2" />
               Invest in This Property
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="hover:bg-gray-200 hover:text-black">
               <Clock className="h-4 w-4 mr-2" />
               Schedule Tour
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="hover:bg-gray-200 hover:text-black">
               <Calculator className="h-4 w-4 mr-2" />
               Calculate Returns
             </Button>
