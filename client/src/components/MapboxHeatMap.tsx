@@ -346,17 +346,35 @@ export default function EnhancedHeatMap({ properties }: EnhancedHeatMapProps) {
       // Value row
       const valueRow = document.createElement('div');
       valueRow.className = 'flex justify-between';
-      valueRow.innerHTML = `<span>Value:</span><span class="font-semibold">$${(data.value / 1000000).toFixed(2)}M</span>`;
+      const valueLabel = document.createElement('span');
+      valueLabel.textContent = 'Value:';
+      const valueAmount = document.createElement('span');
+      valueAmount.className = 'font-semibold';
+      valueAmount.textContent = `$${(data.value / 1000000).toFixed(2)}M`;
+      valueRow.appendChild(valueLabel);
+      valueRow.appendChild(valueAmount);
       
       // ROI row
       const roiRow = document.createElement('div');
       roiRow.className = 'flex justify-between';
-      roiRow.innerHTML = `<span>ROI:</span><span class="font-semibold text-green-600">${data.roi.toFixed(1)}%</span>`;
+      const roiLabel = document.createElement('span');
+      roiLabel.textContent = 'ROI:';
+      const roiValue = document.createElement('span');
+      roiValue.className = 'font-semibold text-green-600';
+      roiValue.textContent = `${data.roi.toFixed(1)}%`;
+      roiRow.appendChild(roiLabel);
+      roiRow.appendChild(roiValue);
       
       // Market trend row
       const trendRow = document.createElement('div');
       trendRow.className = 'flex justify-between';
-      trendRow.innerHTML = `<span>Market Trend:</span><span class="font-semibold text-blue-600">+${data.marketTrend.toFixed(1)}%</span>`;
+      const trendLabel = document.createElement('span');
+      trendLabel.textContent = 'Market Trend:';
+      const trendValue = document.createElement('span');
+      trendValue.className = 'font-semibold text-blue-600';
+      trendValue.textContent = `+${data.marketTrend.toFixed(1)}%`;
+      trendRow.appendChild(trendLabel);
+      trendRow.appendChild(trendValue);
       
       // Category row
       const categoryRow = document.createElement('div');
