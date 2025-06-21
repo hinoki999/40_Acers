@@ -68,7 +68,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             backgroundImage: "url('/attached_assets/eleg_home_1750483966934.jpeg')"
           }}
         ></div>
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 opacity-50 text-[#ffffff] bg-[#000000]"></div>
         <div className="container-mobile">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-white order-2 lg:order-1">
@@ -234,7 +234,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-
       {/* Mobile App Download Section */}
       <section className="py-16 bg-gradient-to-r from-primary to-accent">
         <div className="container-mobile text-center">
@@ -310,7 +309,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-
       <AuthModals
         showLogin={showLogin}
         showRegister={showRegister}
@@ -343,7 +341,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         }}
         property={selectedProperty}
       />
-
       {/* Footer */}
       <footer className="bg-black text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
