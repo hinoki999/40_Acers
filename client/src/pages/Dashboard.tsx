@@ -164,15 +164,27 @@ export default function Dashboard() {
         
         {/* Help/Onboarding Buttons */}
         <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => setShowInvestorTour(true)}
-            className="flex items-center space-x-2"
-          >
-            <TrendingUp className="h-4 w-4" />
-            <span>Investor Guide</span>
-          </Button>
+          {(user as any)?.userType === 'business' ? (
+            <Button 
+              className="bg-black hover:bg-red-600 text-white"
+              asChild
+            >
+              <Link href="/list-property">
+                <Plus className="h-4 w-4 mr-2" />
+                List Your Property
+              </Link>
+            </Button>
+          ) : (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setShowInvestorTour(true)}
+              className="flex items-center space-x-2"
+            >
+              <TrendingUp className="h-4 w-4" />
+              <span>Investor Guide</span>
+            </Button>
+          )}
           <Button 
             variant="outline" 
             size="sm" 
@@ -284,16 +296,17 @@ export default function Dashboard() {
               <CardTitle className="text-2xl font-bold text-neutral-900">Transactions</CardTitle>
               <p className="text-neutral-600">View All Transactions You Are Involved In</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <Input
-                placeholder="Filter emails..."
-                value={transactionFilter}
-                onChange={(e) => setTransactionFilter(e.target.value)}
-                className="w-64"
-              />
-              <Button variant="outline">
-                Columns <i className="fas fa-chevron-down ml-1"></i>
-              </Button>
+            <div className="flex items-center gap-2">
+              <select className="px-3 py-2 border rounded-lg text-sm">
+                <option>All Properties</option>
+                <option>Residential</option>
+                <option>Commercial</option>
+              </select>
+              <select className="px-3 py-2 border rounded-lg text-sm">
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+                <option>This year</option>
+              </select>
             </div>
           </div>
         </CardHeader>
@@ -376,8 +389,8 @@ export default function Dashboard() {
         </Card>
       )}
 
-      {/* Heat Map Section */}
-      {properties.length > 0 && (
+      {/* Heat Map Section - Only for Gold Members */}
+      {properties.length > 0 && (user as any)?.membershipType === 'gold' && (
         <div className="mb-8">
           <EnhancedHeatMap properties={properties} />
         </div>

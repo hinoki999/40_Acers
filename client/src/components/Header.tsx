@@ -37,19 +37,19 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 }}
               />
             </Link>
-            <nav className="hidden lg:flex space-x-4 xl:space-x-6">
+            <nav className="hidden lg:flex space-x-4 xl:space-x-6 flex-1 justify-center">
               <Link href="/">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-neutral-800 transition-smooth btn-touch">
+                <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
                   Home
                 </Button>
               </Link>
               <Link href="/invest">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-neutral-800 transition-smooth btn-touch">
+                <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
                   Invest
                 </Button>
               </Link>
-              <Link href="/list">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-neutral-800 transition-smooth btn-touch">
+              <Link href="/list-property">
+                <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
                   List Property
                 </Button>
               </Link>
@@ -60,17 +60,17 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <>
                 {!isAuthenticated ? (
                   <div className="flex items-center space-x-2 sm:space-x-3">
-                    <Button onClick={onShowRegister} size="sm" className="bg-neutral-900 text-white hover:bg-neutral-800 text-sm">
+                    <Button onClick={onShowRegister} size="sm" className="bg-black text-white hover:bg-red-600 text-sm">
                       Get Started
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={onShowLogin} className="text-sm">
+                    <Button variant="outline" size="sm" onClick={onShowLogin} className="hover:bg-red-600 hover:text-white text-sm">
                       Login
                     </Button>
                   </div>
                 ) : (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2">
+                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-red-600">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
                           <AvatarFallback>

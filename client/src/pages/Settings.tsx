@@ -184,27 +184,7 @@ export default function Settings() {
               <CardTitle>Payment Methods</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {!isGoldMember && (
-                <Card className="border-yellow-200 bg-yellow-50">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold flex items-center gap-2">
-                          <Crown className="h-5 w-5 text-yellow-600" />
-                          Upgrade to Gold Member
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Access Web3 properties and exclusive blockchain-protected ownership features
-                        </p>
-                        <p className="text-2xl font-bold text-yellow-600 mt-2">$99/month</p>
-                      </div>
-                      <Button onClick={handleUpgradeToGold} className="bg-yellow-500 text-white hover:bg-yellow-600">
-                        Upgrade Now
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+
               
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Credit & Debit Cards</h3>
@@ -284,6 +264,90 @@ export default function Settings() {
                     Enable 2FA
                   </Button>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="membership">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Crown className="h-5 w-5 text-yellow-600" />
+                Membership Plans
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {!isGoldMember ? (
+                <Card className="border-yellow-200 bg-yellow-50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Crown className="h-5 w-5 text-yellow-600" />
+                          Upgrade to Gold Member
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Access Web3 properties and exclusive blockchain-protected ownership features
+                        </p>
+                        <p className="text-2xl font-bold text-yellow-600 mt-2">$99/month</p>
+                      </div>
+                      <Button onClick={handleUpgradeToGold} className="bg-yellow-500 text-white hover:bg-yellow-600">
+                        Upgrade Now
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="border-yellow-200 bg-yellow-50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <Crown className="h-5 w-5 text-yellow-600" />
+                          Gold Member
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          You have access to Web3 properties and exclusive features
+                        </p>
+                        <p className="text-lg font-medium text-yellow-600 mt-2">Active Subscription</p>
+                      </div>
+                      <Button variant="outline" className="border-yellow-500 text-yellow-600 hover:bg-yellow-50">
+                        Manage Subscription
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold mb-4">Standard Features</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li>• Traditional property investments</li>
+                      <li>• Basic portfolio tracking</li>
+                      <li>• Standard market data</li>
+                      <li>• Email support</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-yellow-200">
+                  <CardContent className="p-6">
+                    <h4 className="font-semibold mb-4 flex items-center gap-2">
+                      <Crown className="h-4 w-4 text-yellow-600" />
+                      Gold Member Features
+                    </h4>
+                    <ul className="space-y-2 text-sm">
+                      <li>• Web3 and blockchain properties</li>
+                      <li>• Advanced market heat maps</li>
+                      <li>• Priority customer support</li>
+                      <li>• Exclusive investment opportunities</li>
+                      <li>• Enhanced security features</li>
+                    </ul>
+                  </CardContent>
+                </Card>
               </div>
             </CardContent>
           </Card>

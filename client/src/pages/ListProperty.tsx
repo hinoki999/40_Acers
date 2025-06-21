@@ -239,7 +239,13 @@ export default function ListProperty() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              onClick={() => setShowCreateModal(true)}
+              onClick={() => {
+                if (!user) {
+                  window.location.href = '/login';
+                  return;
+                }
+                setShowCreateModal(true);
+              }}
               size="lg"
               className="bg-white text-black hover:bg-gray-200 font-semibold px-8 py-4"
             >
