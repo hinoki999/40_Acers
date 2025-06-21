@@ -61,7 +61,14 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   return (
     <div className="min-h-screen-mobile">
       {/* Hero Section */}
-      <section className="py-10 md:py-20 bg-black">
+      <section className="py-10 md:py-20 bg-black relative">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{
+            backgroundImage: "url('/attached_assets/eleg_home_1750483966934.jpeg')"
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="container-mobile">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-white order-2 lg:order-1">
@@ -345,7 +352,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <img 
                 src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                 alt="40 Acres Logo" 
-                className="h-20 w-auto object-contain mb-4"
+                className="h-26 w-auto object-contain mb-4"
               />
               <p className="text-gray-300 mb-4">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.

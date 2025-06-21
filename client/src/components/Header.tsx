@@ -37,23 +37,25 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 }}
               />
             </Link>
-            <nav className="hidden lg:flex space-x-4 xl:space-x-6 flex-1 justify-center">
-              <Link href="/">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
-                  Home
-                </Button>
-              </Link>
-              <Link href="/invest">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
-                  Invest
-                </Button>
-              </Link>
-              <Link href="/list-property">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
-                  List Property
-                </Button>
-              </Link>
-            </nav>
+            <div className="flex-1 flex justify-center">
+              <nav className="hidden lg:flex space-x-4 xl:space-x-6">
+                <Link href="/">
+                  <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
+                    Home
+                  </Button>
+                </Link>
+                <Link href="/invest">
+                  <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
+                    Invest
+                  </Button>
+                </Link>
+                <Link href="/list-property">
+                  <Button variant="ghost" className="text-white hover:text-black hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded">
+                    List Property
+                  </Button>
+                </Link>
+              </nav>
+            </div>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
             {!isLoading && (
@@ -61,7 +63,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 {!isAuthenticated ? (
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <Button 
-                      onClick={() => window.location.href = '/login'} 
+                      onClick={onShowRegister} 
                       size="sm" 
                       className="bg-black text-white hover:bg-[#ff5724] text-sm"
                     >
@@ -70,7 +72,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      onClick={() => window.location.href = '/login'} 
+                      onClick={onShowLogin} 
                       className="hover:bg-[#ff5724] hover:text-white text-sm"
                     >
                       Login
