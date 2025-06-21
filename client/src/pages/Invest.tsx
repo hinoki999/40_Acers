@@ -119,22 +119,22 @@ export default function Invest() {
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
                   <DollarSign className="mx-auto mb-4 text-yellow-300" size={32} />
-                  <div className="text-2xl font-bold">${totalInvestmentValue.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-white">${totalInvestmentValue.toLocaleString()}</div>
                   <div className="text-white">Total Investment Value</div>
                 </CardContent>
               </Card>
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
                   <TrendingUp className="mx-auto mb-4 text-green-300" size={32} />
-                  <div className="text-2xl font-bold">{totalProperties}</div>
-                  <div className="text-blue-100">Available Properties</div>
+                  <div className="text-2xl font-bold text-white">{totalProperties}</div>
+                  <div className="text-white">Available Properties</div>
                 </CardContent>
               </Card>
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
                   <MapPin className="mx-auto mb-4 text-blue-300" size={32} />
-                  <div className="text-2xl font-bold">{avgFundingProgress.toFixed(0)}%</div>
-                  <div className="text-blue-100">Avg. Funding Progress</div>
+                  <div className="text-2xl font-bold text-white">{avgFundingProgress.toFixed(0)}%</div>
+                  <div className="text-white">Avg. Funding Progress</div>
                 </CardContent>
               </Card>
             </div>
@@ -162,10 +162,6 @@ export default function Invest() {
             {/* Mobile filters section */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
               <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-1">
-                <CurrencyToggle 
-                  currentCurrency={currency}
-                  onCurrencyChange={setCurrency}
-                />
               </div>
               
               <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-4 order-1 sm:order-2">
