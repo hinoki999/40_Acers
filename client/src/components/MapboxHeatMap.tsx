@@ -361,7 +361,13 @@ export default function EnhancedHeatMap({ properties }: EnhancedHeatMapProps) {
       // Category row
       const categoryRow = document.createElement('div');
       categoryRow.className = 'flex justify-between';
-      categoryRow.innerHTML = `<span>Category:</span><span class="font-semibold capitalize">${data.category}</span>`;
+      const categoryLabel = document.createElement('span');
+      categoryLabel.textContent = 'Category:';
+      const categoryValue = document.createElement('span');
+      categoryValue.className = 'font-semibold capitalize';
+      categoryValue.textContent = data.category;
+      categoryRow.appendChild(categoryLabel);
+      categoryRow.appendChild(categoryValue);
       
       contentDiv.appendChild(valueRow);
       contentDiv.appendChild(roiRow);
@@ -378,27 +384,70 @@ export default function EnhancedHeatMap({ properties }: EnhancedHeatMapProps) {
       tooltipRef.current.style.opacity = "1";
       tooltipRef.current.style.left = (position[0] + 20) + "px";
       tooltipRef.current.style.top = (position[1] - 10) + "px";
-      tooltipRef.current.innerHTML = `
-        <div class="font-semibold text-sm mb-2">${region} Region</div>
-        <div class="space-y-1 text-xs">
-          <div class="flex justify-between">
-            <span>Total Value:</span>
-            <span class="font-semibold">$${(metrics.totalValue / 1000000).toFixed(1)}M</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Avg ROI:</span>
-            <span class="font-semibold text-green-600">${metrics.avgROI.toFixed(1)}%</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Growth Rate:</span>
-            <span class="font-semibold text-blue-600">+${metrics.marketTrend.toFixed(1)}%</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Properties:</span>
-            <span class="font-semibold">${metrics.pointCount}</span>
-          </div>
-        </div>
-      `;
+      
+      // Clear existing content
+      tooltipRef.current.textContent = '';
+      
+      // Create header
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'font-semibold text-sm mb-2';
+      headerDiv.textContent = `${region} Region`;
+      
+      // Create content container
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'space-y-1 text-xs';
+      
+      // Total Value row
+      const valueRow = document.createElement('div');
+      valueRow.className = 'flex justify-between';
+      const valueLabel = document.createElement('span');
+      valueLabel.textContent = 'Total Value:';
+      const valueAmount = document.createElement('span');
+      valueAmount.className = 'font-semibold';
+      valueAmount.textContent = `$${(metrics.totalValue / 1000000).toFixed(1)}M`;
+      valueRow.appendChild(valueLabel);
+      valueRow.appendChild(valueAmount);
+      
+      // Avg ROI row
+      const roiRow = document.createElement('div');
+      roiRow.className = 'flex justify-between';
+      const roiLabel = document.createElement('span');
+      roiLabel.textContent = 'Avg ROI:';
+      const roiValue = document.createElement('span');
+      roiValue.className = 'font-semibold text-green-600';
+      roiValue.textContent = `${metrics.avgROI.toFixed(1)}%`;
+      roiRow.appendChild(roiLabel);
+      roiRow.appendChild(roiValue);
+      
+      // Growth Rate row
+      const growthRow = document.createElement('div');
+      growthRow.className = 'flex justify-between';
+      const growthLabel = document.createElement('span');
+      growthLabel.textContent = 'Growth Rate:';
+      const growthValue = document.createElement('span');
+      growthValue.className = 'font-semibold text-blue-600';
+      growthValue.textContent = `+${metrics.marketTrend.toFixed(1)}%`;
+      growthRow.appendChild(growthLabel);
+      growthRow.appendChild(growthValue);
+      
+      // Properties count row
+      const propertiesRow = document.createElement('div');
+      propertiesRow.className = 'flex justify-between';
+      const propertiesLabel = document.createElement('span');
+      propertiesLabel.textContent = 'Properties:';
+      const propertiesCount = document.createElement('span');
+      propertiesCount.className = 'font-semibold';
+      propertiesCount.textContent = `${metrics.pointCount}`;
+      propertiesRow.appendChild(propertiesLabel);
+      propertiesRow.appendChild(propertiesCount);
+      
+      contentDiv.appendChild(valueRow);
+      contentDiv.appendChild(roiRow);
+      contentDiv.appendChild(growthRow);
+      contentDiv.appendChild(propertiesRow);
+      
+      tooltipRef.current.appendChild(headerDiv);
+      tooltipRef.current.appendChild(contentDiv);
     };
 
     const hideTooltip = () => {
