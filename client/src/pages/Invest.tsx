@@ -24,6 +24,8 @@ export default function Invest() {
   const [showSocialShare, setShowSocialShare] = useState(false);
   const [showInvestorTour, setShowInvestorTour] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
+  const [isGoldMember, setIsGoldMember] = useState(false);
+  const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
 
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["/api/properties"],
@@ -76,28 +78,40 @@ export default function Invest() {
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-12 sm:py-16 safe-area-inset">
+      <section className="bg-black text-white py-12 sm:py-16 safe-area-inset">
         <div className="container-mobile max-w-7xl mx-auto">
           <div className="text-center space-mobile">
             <h1 className="heading-responsive font-bold mb-4">Investment Opportunities</h1>
-            <p className="text-responsive text-blue-100 mb-6 sm:mb-8 max-w-3xl mx-auto">
+            <p className="text-responsive text-white mb-6 sm:mb-8 max-w-3xl mx-auto">
               Discover fractional real estate investments and build your portfolio with verified properties
             </p>
-            <Button 
-              onClick={() => setShowInvestorTour(true)}
-              variant="outline"
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary font-semibold px-6 py-3 bg-[#000000]"
-            >
-              <HelpCircle className="h-5 w-5 mr-2" />
-              New to Investing? Take the Tour
-            </Button>
+            <div className="flex gap-4">
+              <Button 
+                onClick={() => setShowInvestorTour(true)}
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-black font-semibold px-6 py-3 bg-[#000000]"
+              >
+                <HelpCircle className="h-5 w-5 mr-2" />
+                New to Investing? Take the Tour
+              </Button>
+              {!isGoldMember && (
+                <Button 
+                  onClick={() => setShowGoldUpgrade(true)}
+                  size="lg"
+                  className="bg-yellow-500 text-white hover:bg-yellow-600 font-semibold px-6 py-3"
+                >
+                  <Crown className="h-5 w-5 mr-2" />
+                  Upgrade to Gold
+                </Button>
+              )}
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
                   <DollarSign className="mx-auto mb-4 text-yellow-300" size={32} />
                   <div className="text-2xl font-bold">${totalInvestmentValue.toLocaleString()}</div>
-                  <div className="text-blue-100">Total Investment Value</div>
+                  <div className="text-white">Total Investment Value</div>
                 </CardContent>
               </Card>
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
@@ -271,6 +285,7 @@ export default function Invest() {
                   property={property}
                   onInvest={() => handleInvest(property.id)}
                   onShare={() => handleShare(property.id)}
+                  isGoldMember={isGoldMember}
                 />
               ))}
             </div>
@@ -300,14 +315,44 @@ export default function Invest() {
         onComplete={() => setShowInvestorTour(false)}
         onStartInvesting={() => {
           setShowInvestorTour(false);
-          // Automatically open investment modal for the first property
-          if (properties && properties.length > 0) {
-            const firstProperty = properties[0];
-            setSelectedProperty(firstProperty);
-            setShowInvestment(true);
-          }
         }}
       />
+
+      {/* Gold Member Upgrade Dialog */}
+      {showGoldUpgrade && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <Card className="max-w-md w-full">
+            <CardContent className="p-6 text-center">
+              <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Upgrade to Gold Member</h3>
+              <p className="text-gray-600 mb-4">
+                Access exclusive properties with blockchain protection of ownership and advanced Web3 features.
+              </p>
+              <div className="text-3xl font-bold text-yellow-600 mb-4">$99/month</div>
+              <div className="space-y-2 mb-6">
+                <Button 
+                  className="w-full bg-yellow-500 text-white hover:bg-yellow-600"
+                  onClick={() => {
+                    setIsGoldMember(true);
+                    setShowGoldUpgrade(false);
+                  }}
+                >
+                  Upgrade Now
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full border-black text-black hover:bg-gray-200"
+                  onClick={() => setShowGoldUpgrade(false)}
+                >
+                  Maybe Later
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

@@ -65,23 +65,23 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         <div className="container-mobile">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-white order-2 lg:order-1">
-              <div className="text-center lg:text-left mb-6 md:mb-8">
+              <div className="text-left mb-6 md:mb-8">
                 <img 
                   src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                   alt="40 Acres Logo" 
-                  className="h-24 md:h-36 lg:h-144 w-auto object-contain mx-auto lg:mx-0 mb-4 critical"
+                  className="h-24 md:h-36 lg:h-144 w-auto object-contain mb-4 critical"
                 />
-                <h1 className="font-bold text-2xl md:text-4xl lg:text-[48px] text-center lg:text-left leading-tight">
+                <h1 className="font-bold text-2xl md:text-4xl lg:text-[48px] text-left leading-tight">
                   Peer to Peer<br/>Investment Marketplace
                 </h1>
               </div>
-              <p className="text-base md:text-xl text-white mb-6 md:mb-8 leading-relaxed text-center lg:text-left">
+              <p className="text-base md:text-xl text-white mb-6 md:mb-8 leading-relaxed text-left">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-start">
                 <Button
                   onClick={handleShowRegister}
-                  className="px-6 md:px-8 py-3 md:py-4 bg-black text-white font-semibold hover:bg-gray-200 hover:text-black btn-touch"
+                  className="px-6 md:px-8 py-3 md:py-4 bg-black text-white font-semibold hover:bg-gray-200 hover:text-white btn-touch"
                   size="lg"
                 >
                   Get Started

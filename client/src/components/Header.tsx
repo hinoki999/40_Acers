@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { LogOut, User, CreditCard, Shield, Settings } from "lucide-react";
@@ -15,6 +15,7 @@ interface HeaderProps {
 
 export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
   const { user, isAuthenticated, isLoading } = useAuth();
+  const [location, setLocation] = useLocation();
 
   const handleLogout = () => {
     window.location.href = "/api/logout";
@@ -82,15 +83,15 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setLocation('/settings')}>
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setLocation('/settings')}>
                         <CreditCard className="mr-2 h-4 w-4" />
                         Payment Methods
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setLocation('/settings')}>
                         <Shield className="mr-2 h-4 w-4" />
                         Security
                       </DropdownMenuItem>

@@ -17,19 +17,21 @@ interface PropertyCardProps {
   property: Property;
   onInvest: (propertyId: number) => void;
   onShare?: (propertyId: number) => void;
+  isGoldMember?: boolean;
 }
 
-export default function PropertyCard({ property, onInvest, onShare }: PropertyCardProps) {
+export default function PropertyCard({ property, onInvest, onShare, isGoldMember = false }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [saved, setSaved] = useState(false);
   
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const totalValue = Number(property.sharePrice) * property.maxShares;
   const availableShares = property.maxShares - property.currentShares;
 
   return (
-    <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white border-0 shadow-lg">
+    <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white border border-black border-opacity-50 shadow-lg">
       <div className="relative overflow-hidden">
         <img
           src={property.thumbnailUrl || "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400"}
@@ -117,18 +119,30 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
         <div className="bg-gradient-to-r from-neutral-50 to-blue-50 rounded-lg p-4 mb-4 border border-neutral-100">
           <div className="grid grid-cols-3 gap-3 text-center">
             <div>
-              <BitcoinPriceDisplay 
-                usdPrice={Number(property.sharePrice)} 
-                showBoth={true}
-                className="text-center"
-              />
-              <div className="text-xs text-neutral-600 mt-1">Per Token</div>
+              {isGoldMember ? (
+                <BitcoinPriceDisplay 
+                  usdPrice={Number(property.sharePrice)} 
+                  showBoth={true}
+                  className="text-center"
+                />
+              ) : (
+                <div className="text-lg font-bold text-secondary">
+                  ${Number(property.sharePrice).toFixed(2)}
+                </div>
+              )}
+              <div className="text-xs text-neutral-600 mt-1">Per Share</div>
             </div>
             <div>
-              <div className="text-lg font-bold text-secondary">
-                {property.maxShares.toLocaleString()}
-              </div>
-              <div className="text-xs text-neutral-600 mt-1">Total Tokens</div>
+              {isGoldMember ? (
+                <div className="text-lg font-bold text-secondary">
+                  {property.maxShares.toLocaleString()}
+                </div>
+              ) : (
+                <div className="text-lg font-bold text-secondary">
+                  {Math.round(property.maxShares / 1000)}K+
+                </div>
+              )}
+              <div className="text-xs text-neutral-600 mt-1">{isGoldMember ? 'Total Tokens' : 'Shares Available'}</div>
             </div>
             <div>
               <div className="text-lg font-bold text-accent">
@@ -138,7 +152,7 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
             </div>
           </div>
           
-          {property.propertyValue && property.squareFootage && (
+          {isGoldMember && property.propertyValue && property.squareFootage && (
             <div className="mt-3 pt-3 border-t border-neutral-200">
               <Button
                 variant="ghost"
@@ -153,8 +167,8 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
           )}
         </div>
 
-        {/* Tokenization Calculator */}
-        {showTokenization && property.propertyValue && property.squareFootage && (
+        {/* Tokenization Calculator - Gold Members Only */}
+        {showTokenization && isGoldMember && property.propertyValue && property.squareFootage && (
           <div className="mb-4">
             <TokenizationCalculator
               propertyValue={Number(property.propertyValue)}
@@ -163,11 +177,27 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
           </div>
         )}
 
-        {/* Quick Chat Access */}
-        <PropertyQuickChat 
-          propertyId={property.id}
-          propertyAddress={property.address}
-        />
+        {/* Gold Member Upgrade Hint for Non-Gold Users */}
+        {!isGoldMember && (
+          <div className="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+            <div className="text-center">
+              <div className="text-sm text-yellow-700 mb-2">
+                Unlock advanced features with Gold membership
+              </div>
+              <div className="text-xs text-yellow-600">
+                Access tokenization details, blockchain protection, and exclusive properties
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Chat Access - Gold Members Only */}
+        {isGoldMember && (
+          <PropertyQuickChat 
+            propertyId={property.id}
+            propertyAddress={property.address}
+          />
+        )}
 
         {/* Progress Bar with Labels */}
         <div className="space-y-2 mb-4">
@@ -212,7 +242,7 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
                 disabled={!canInvest}
                 className={`w-full transition-all duration-300 shadow-lg hover:shadow-xl btn-touch ${
                   canInvest 
-                    ? "bg-green-600 text-white hover:bg-green-700" 
+                    ? "bg-black text-white hover:bg-gray-200 hover:text-black" 
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"
                 }`}
                 size="lg"
@@ -229,7 +259,7 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 hover:bg-neutral-50"
+              className="flex-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowDetails(true);
@@ -241,7 +271,7 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 hover:bg-blue-50 border-blue-200 text-blue-600"
+              className="flex-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
                 onShare?.(property.id);
@@ -250,28 +280,18 @@ export default function PropertyCard({ property, onInvest, onShare }: PropertyCa
               <Share2 size={14} className="mr-1" />
               Share
             </Button>
-            {property.zoomMeetingUrl ? (
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 hover:bg-blue-50 border-blue-200 text-blue-600"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.open(property.zoomMeetingUrl!, '_blank');
-                }}
-              >
-                <Video size={14} className="mr-1" />
-                Tour
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 hover:bg-neutral-50"
-              >
-                Save
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 hover:bg-black hover:text-white border-black"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSaved(!saved);
+              }}
+            >
+              <Bookmark size={14} className={`mr-1 ${saved ? 'fill-current' : ''}`} />
+              Save
+            </Button>
           </div>
         </div>
 

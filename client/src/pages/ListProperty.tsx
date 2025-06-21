@@ -75,11 +75,11 @@ export default function ListProperty() {
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20">
+      <section className="bg-black text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl font-bold mb-6">List Your Property</h1>
-            <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
               Transform your real estate into fractional investment opportunities. 
               Unlock liquidity while maintaining ownership and earning from your property.
             </p>
@@ -87,7 +87,7 @@ export default function ListProperty() {
               <Button 
                 onClick={() => setShowCreateModal(true)}
                 size="lg"
-                className="bg-[#000000] text-white hover:bg-green-50 font-semibold px-8 py-4 text-lg"
+                className="bg-white text-black hover:bg-gray-200 font-semibold px-8 py-4 text-lg"
               >
                 Start Property Listing
               </Button>
@@ -95,7 +95,7 @@ export default function ListProperty() {
                 onClick={() => setShowBusinessTour(true)}
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-green-600 font-semibold px-6 py-4"
+                className="border-white text-white hover:bg-white hover:text-black font-semibold px-6 py-4"
               >
                 <HelpCircle className="h-5 w-5 mr-2" />
                 How It Works
@@ -231,17 +231,17 @@ export default function ListProperty() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-600 to-blue-600 text-white">
+      <section className="py-20 bg-black text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to List Your Property?</h2>
-          <p className="text-xl text-green-100 mb-8">
+          <p className="text-xl text-white mb-8">
             Join thousands of property owners who have unlocked liquidity through fractional real estate investment
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               onClick={() => setShowCreateModal(true)}
               size="lg"
-              className="bg-white text-green-600 hover:bg-green-50 font-semibold px-8 py-4"
+              className="bg-white text-black hover:bg-gray-200 font-semibold px-8 py-4"
             >
               <Upload className="mr-2" size={20} />
               Start Listing Process
@@ -250,7 +250,7 @@ export default function ListProperty() {
               onClick={() => setShowBusinessTour(true)}
               variant="outline"
               size="lg"
-              className="border-white text-[#000000] hover:bg-white hover:text-green-600 font-semibold px-6 py-4"
+              className="border-white text-white hover:bg-white hover:text-black font-semibold px-6 py-4"
             >
               <HelpCircle className="mr-2" size={20} />
               Take Business Owner Tour
@@ -258,7 +258,7 @@ export default function ListProperty() {
             <Button 
               variant="outline"
               size="lg"
-              className="bg-[#000000] border-white text-[#000000] hover:bg-white hover:text-green-600 font-semibold px-8 py-4"
+              className="border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-4"
             >
               Schedule Consultation
             </Button>

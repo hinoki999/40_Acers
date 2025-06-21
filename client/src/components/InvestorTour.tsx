@@ -465,7 +465,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-2xl font-bold text-primary">Investor Guide</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={onClose}>
+            <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
               <X className="h-4 w-4" />
             </Button>
           </div>
@@ -497,7 +497,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 border-black text-black hover:bg-gray-200"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Previous</span>
