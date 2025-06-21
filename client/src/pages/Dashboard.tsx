@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, Users, Shield } from "lucide-react";
+import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { isUnauthorizedError } from "@/lib/authUtils";
@@ -244,12 +244,9 @@ export default function Dashboard() {
               <ArrowDown className="mr-2" size={16} />
               Withdraw Funds
             </Button>
-            <Button 
-              onClick={() => setShowSocialNetwork(true)}
-              className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
-            >
-              <Users className="mr-2" size={16} />
-              Social Network
+            <Button className="w-full bg-neutral-900 text-white hover:bg-neutral-800">
+              <Search className="mr-2" size={16} />
+              Explore
             </Button>
           </div>
 
@@ -430,32 +427,6 @@ export default function Dashboard() {
             window.location.href = '/invest';
           }
         }}
-      />
-
-      <SocialShareModal 
-        isOpen={showSocialShare}
-        onClose={() => setShowSocialShare(false)}
-        property={null}
-      />
-
-      <InvestorSocialNetwork
-        isOpen={showSocialNetwork}
-        onClose={() => setShowSocialNetwork(false)}
-        currentUserId={user?.id || ""}
-      />
-
-      <PropertyVerificationWorkflow
-        isOpen={showVerification}
-        onClose={() => setShowVerification(false)}
-        propertyId={selectedPropertyId || 0}
-        userRole="investor"
-      />
-
-      <RealTimeCollaboration
-        isOpen={showCollaboration}
-        onClose={() => setShowCollaboration(false)}
-        propertyId={selectedPropertyId || 0}
-        currentUser={user}
       />
     </div>
   );

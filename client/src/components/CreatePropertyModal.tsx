@@ -11,9 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { insertPropertySchema } from "@shared/schema";
-import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle, Users, MessageSquare, TrendingUp, Clock } from "lucide-react";
-import PropertyVerificationWorkflow from "./PropertyVerificationWorkflow";
-import RealTimeCollaboration from "./RealTimeCollaboration";
+import { Home, MapPin, DollarSign, Share, Camera, Sparkles, Video, FileText, Upload, X, Building, Shield, CheckCircle, Users, MessageSquare, TrendingUp } from "lucide-react";
 
 interface CreatePropertyModalProps {
   isOpen: boolean;
@@ -50,12 +48,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     propertyImages: [] as string[],
     propertyVideos: [] as string[],
   });
-
-  const [uploadedFiles, setUploadedFiles] = useState<Record<string, File>>({});
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
-  const [showVerificationWorkflow, setShowVerificationWorkflow] = useState(false);
-  const [showCollaboration, setShowCollaboration] = useState(false);
-  const [createdPropertyId, setCreatedPropertyId] = useState<number | null>(null);
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 7;

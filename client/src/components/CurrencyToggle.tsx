@@ -1,27 +1,39 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Bitcoin, DollarSign } from "lucide-react";
 
 interface CurrencyToggleProps {
-  currentCurrency: 'USD' | 'BTC';
   onCurrencyChange: (currency: 'USD' | 'BTC') => void;
+  currentCurrency: 'USD' | 'BTC';
 }
 
-export default function CurrencyToggle({ currentCurrency, onCurrencyChange }: CurrencyToggleProps) {
+export default function CurrencyToggle({ onCurrencyChange, currentCurrency }: CurrencyToggleProps) {
   return (
-    <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+    <div className="flex items-center bg-neutral-100 rounded-lg p-1">
       <Button
-        size="sm"
         variant={currentCurrency === 'USD' ? 'default' : 'ghost'}
+        size="sm"
         onClick={() => onCurrencyChange('USD')}
-        className="h-8 px-3"
+        className={`flex items-center gap-1 ${
+          currentCurrency === 'USD' 
+            ? 'bg-white shadow-sm' 
+            : 'hover:bg-neutral-200'
+        }`}
       >
+        <DollarSign size={14} />
         USD
       </Button>
       <Button
-        size="sm"
         variant={currentCurrency === 'BTC' ? 'default' : 'ghost'}
+        size="sm"
         onClick={() => onCurrencyChange('BTC')}
-        className="h-8 px-3"
+        className={`flex items-center gap-1 ${
+          currentCurrency === 'BTC' 
+            ? 'bg-orange-100 text-orange-700 border-orange-200' 
+            : 'hover:bg-neutral-200'
+        }`}
       >
+        <Bitcoin size={14} />
         BTC
       </Button>
     </div>
