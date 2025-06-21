@@ -2,13 +2,38 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building, FileText, Shield, Camera, Video, CheckCircle, Clock, Upload, Users, DollarSign, HelpCircle } from "lucide-react";
+import { Building, FileText, Shield, Camera, Video, CheckCircle, Clock, Upload, Users, DollarSign, HelpCircle, Plus } from "lucide-react";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
 import BusinessOwnerTour from "@/components/BusinessOwnerTour";
+import DocumentUpload from "@/components/DocumentUpload";
+import PropertyDocumentManager from "@/components/PropertyDocumentManager";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function ListProperty() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showBusinessTour, setShowBusinessTour] = useState(false);
+  const [showListingForm, setShowListingForm] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [propertyData, setPropertyData] = useState({
+    address: '',
+    city: '',
+    state: '',
+    zipcode: '',
+    propertyType: '',
+    propertyValue: '',
+    sharePrice: '',
+    maxShares: '',
+    description: '',
+    expectedROI: '',
+    rentalIncome: '',
+    managementFee: ''
+  });
+  const [uploadedDocuments, setUploadedDocuments] = useState([]);
+  const [documentUploadCompleted, setDocumentUploadCompleted] = useState(false);
 
   const steps = [
     {

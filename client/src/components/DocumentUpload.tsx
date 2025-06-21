@@ -107,7 +107,13 @@ export default function DocumentUpload({ propertyId, onUploadComplete, existingD
       newDocuments.push(document);
     });
 
-    setDocuments(prev => [...prev, ...newDocuments]);
+    if (newDocuments.length > 0) {
+      setDocuments(prev => [...prev, ...newDocuments]);
+      toast({
+        title: "Files added",
+        description: `${newDocuments.length} file(s) ready for upload`,
+      });
+    }
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -218,12 +224,22 @@ export default function DocumentUpload({ propertyId, onUploadComplete, existingD
   const uploadAllDocuments = async () => {
     const pendingDocuments = documents.filter(doc => doc.status === 'pending');
     
+    if (pendingDocuments.length === 0) {
+      toast({
+        title: "No documents to upload",
+        description: "Please add some documents first",
+        variant: "destructive",
+      });
+      return;
+    }
+
     for (const document of pendingDocuments) {
       await uploadDocument(document);
     }
 
     if (onUploadComplete) {
-      onUploadComplete(documents);
+      const completedDocuments = documents.filter(doc => doc.status === 'completed');
+      onUploadComplete(completedDocuments);
     }
   };
 

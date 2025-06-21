@@ -130,6 +130,11 @@ export default function PropertyDocumentManager({
     }
   };
 
+  const handleUploadClick = (category: string) => {
+    setSelectedCategory(category);
+    setShowUploader(true);
+  };
+
   const calculateProgress = () => {
     const total = requirements.length;
     const completed = requirements.filter(req => 
@@ -262,12 +267,24 @@ export default function PropertyDocumentManager({
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setSelectedCategory(requirement.category);
-                          setShowUploader(true);
+                          handleUploadClick(requirement.category);
                         }}
                       >
                         <Upload className="h-4 w-4 mr-2" />
                         Upload
+                      </Button>
+                    )}
+                    {requirement.status !== 'missing' && requirement.status !== 'verified' && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleUploadClick(requirement.category);
+                        }}
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Replace
                       </Button>
                     )}
                   </div>
@@ -279,14 +296,19 @@ export default function PropertyDocumentManager({
       </Card>
 
       {/* Document Upload Dialog */}
-      {showUploader && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+      {showUploader && selectedCategory && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold">
-                  Upload Document: {requirements.find(r => r.category === selectedCategory)?.name}
-                </h3>
+                <div>
+                  <h3 className="text-lg font-semibold">
+                    Upload Document: {requirements.find(r => r.category === selectedCategory)?.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {requirements.find(r => r.category === selectedCategory)?.description}
+                  </p>
+                </div>
                 <Button
                   variant="outline"
                   onClick={() => {
