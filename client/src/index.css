@@ -46,13 +46,13 @@
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
 
@@ -148,6 +148,46 @@ img.critical {
   button {
     border: 2px solid;
   }
+}
+
+/* Global color replacements - Change all blue to black */
+.text-blue-600 { @apply text-black; }
+.text-blue-800 { @apply text-black; }
+.text-blue-900 { @apply text-black; }
+.bg-blue-50 { @apply bg-gray-50; }
+.bg-blue-500 { @apply bg-black; }
+.bg-blue-600 { @apply bg-black; }
+.border-blue-200 { @apply border-gray-200; }
+.border-blue-600 { @apply border-black; }
+
+/* Remove yellow colors and replace with gray */
+.bg-yellow-500 { @apply bg-gray-400; }
+.text-yellow-600 { @apply text-gray-600; }
+.hover:bg-yellow-400 { @apply hover:bg-gray-300; }
+
+/* Replace red buttons with black/gray */
+.bg-red-500 { @apply bg-black; }
+.hover:bg-red-600 { @apply hover:bg-gray-200; }
+
+/* Investor portal coming soon styling */
+.investor-portal-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  position: relative;
+}
+
+.investor-portal-disabled::after {
+  content: "Coming Soon";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 /* Safe area support for mobile devices */

@@ -307,9 +307,8 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-2xl font-bold">Getting Started</DialogTitle>
-            <Button variant="ghost" size="sm" onClick={handleSkip}>
-              <X className="h-4 w-4" />
-              Skip Tour
+            <Button variant="ghost" size="sm" onClick={handleSkip} className="bg-white text-black border-black hover:bg-gray-200">
+              Skip Tutorial
             </Button>
           </div>
           
@@ -340,7 +339,7 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 0}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 bg-white text-black border-black hover:bg-gray-200"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Previous</span>
@@ -363,7 +362,7 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
 
             <Button
               onClick={handleNext}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 bg-black text-white hover:bg-gray-200 hover:text-black"
             >
               <span>{currentStep === steps.length - 1 ? 'Complete' : 'Next'}</span>
               <ArrowRight className="h-4 w-4" />

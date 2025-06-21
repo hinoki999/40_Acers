@@ -180,7 +180,7 @@ export default function Dashboard() {
             className="flex items-center space-x-2"
           >
             <HelpCircle className="h-4 w-4" />
-            <span>General Tour</span>
+            <span>Help Tutorial</span>
           </Button>
         </div>
       </div>
@@ -212,7 +212,7 @@ export default function Dashboard() {
           <div className="space-y-4">
             <Button
               onClick={() => setShowCreateProperty(true)}
-              className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white shadow-lg hover:shadow-xl transition-all"
+              className="w-full bg-black text-white hover:bg-gray-200 hover:text-black shadow-lg hover:shadow-xl transition-all"
             >
               <Plus className="mr-2" size={16} />
               List New Property

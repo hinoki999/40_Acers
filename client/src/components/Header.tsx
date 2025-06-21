@@ -1,8 +1,9 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut } from "lucide-react";
+import { LogOut, User, CreditCard, Shield, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import logoImage from "@/assets/40-acres-logo.png";
 
 import _7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed from "@assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed.png";
@@ -28,7 +29,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               <img 
                 src={_7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed} 
                 alt="40 Acres Logo" 
-                className="h-20 sm:h-24 md:h-32 lg:h-40 w-auto object-contain critical"
+                className="h-28 sm:h-34 md:h-45 lg:h-56 w-auto object-contain critical"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750352435284.png";
@@ -37,43 +38,18 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
             </Link>
             <nav className="hidden lg:flex space-x-4 xl:space-x-6">
               <Link href="/">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 transition-smooth btn-touch">
+                <Button variant="ghost" className="text-white hover:text-black hover:bg-neutral-800 transition-smooth btn-touch">
                   Home
                 </Button>
               </Link>
               <Link href="/invest">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 transition-smooth btn-touch">
+                <Button variant="ghost" className="text-white hover:text-black hover:bg-neutral-800 transition-smooth btn-touch">
                   Invest
                 </Button>
               </Link>
               <Link href="/list">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800 transition-smooth btn-touch">
+                <Button variant="ghost" className="text-white hover:text-black hover:bg-neutral-800 transition-smooth btn-touch">
                   List Property
-                </Button>
-              </Link>
-              <Link href="/business">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Business
-                </Button>
-              </Link>
-              <Link href="/documentation">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Documentation
-                </Button>
-              </Link>
-              <Link href="/community">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Community
-                </Button>
-              </Link>
-              <Link href="/withdraw">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Withdraw
-                </Button>
-              </Link>
-              <Link href="/tokenomics">
-                <Button variant="ghost" className="text-white hover:text-[#b34034] hover:bg-neutral-800">
-                  Tokenomics
                 </Button>
               </Link>
             </nav>
@@ -91,22 +67,40 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                     </Button>
                   </div>
                 ) : (
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-2">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
-                        <AvatarFallback>
-                          {(user as any)?.firstName?.[0] || (user as any)?.email?.[0]?.toUpperCase() || "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="text-sm font-medium text-white">
-                        Hi, {(user as any)?.firstName || (user as any)?.email?.split('@')[0] || "User"}
-                      </span>
-                    </div>
-                    <Button variant="ghost" size="sm" onClick={handleLogout}>
-                      <LogOut size={16} />
-                    </Button>
-                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
+                          <AvatarFallback>
+                            {(user as any)?.firstName?.[0] || (user as any)?.email?.[0]?.toUpperCase() || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="text-sm font-medium text-white">
+                          Hi, {(user as any)?.firstName || (user as any)?.email?.split('@')[0] || "User"}
+                        </span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem>
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        Payment Methods
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Shield className="mr-2 h-4 w-4" />
+                        Security
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
               </>
             )}

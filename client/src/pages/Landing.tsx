@@ -75,13 +75,13 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                   Peer to Peer<br/>Investment Marketplace
                 </h1>
               </div>
-              <p className="text-base md:text-xl text-blue-100 mb-6 md:mb-8 leading-relaxed text-center lg:text-left">
+              <p className="text-base md:text-xl text-white mb-6 md:mb-8 leading-relaxed text-center lg:text-left">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
                 <Button
                   onClick={handleShowRegister}
-                  className="px-6 md:px-8 py-3 md:py-4 bg-[#b34034] text-white font-semibold hover:bg-[#A0522D] btn-touch"
+                  className="px-6 md:px-8 py-3 md:py-4 bg-black text-white font-semibold hover:bg-gray-200 hover:text-black btn-touch"
                   size="lg"
                 >
                   Get Started
@@ -112,11 +112,11 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                     <span className="text-neutral-600">Withdraw Funds</span>
                     <span className="text-neutral-900 font-semibold">Max Amount $2000.00</span>
                   </div>
-                  <div className="text-3xl font-bold text-neutral-900">$0.00</div>
+                  <div className="text-3xl font-bold text-neutral-900">$2,500</div>
                   <div className="w-full bg-neutral-200 rounded-full h-2">
                     <div className="bg-secondary h-2 rounded-full w-0"></div>
                   </div>
-                  <Button className="w-full bg-neutral-900 text-white hover:bg-neutral-800">
+                  <Button disabled className="w-full bg-gray-400 text-white cursor-not-allowed">
                     Withdraw
                   </Button>
                 </div>
@@ -312,17 +312,17 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <div className="text-center">
                 <DollarSign className="h-8 w-8 mx-auto mb-2" />
                 <h3 className="font-semibold mb-1">Digital Wallet</h3>
-                <p className="text-sm text-blue-100">Store and manage your real estate tokens securely</p>
+                <p className="text-sm text-white">Store and manage your real estate tokens securely</p>
               </div>
               <div className="text-center">
                 <TrendingUp className="h-8 w-8 mx-auto mb-2" />
                 <h3 className="font-semibold mb-1">Portfolio Tracking</h3>
-                <p className="text-sm text-blue-100">Monitor your investments and earnings in real-time</p>
+                <p className="text-sm text-white">Monitor your investments and earnings in real-time</p>
               </div>
               <div className="text-center">
                 <Shield className="h-8 w-8 mx-auto mb-2" />
                 <h3 className="font-semibold mb-1">Secure Transactions</h3>
-                <p className="text-sm text-blue-100">Bank-level encryption for all wallet transactions</p>
+                <p className="text-sm text-white">Bank-level encryption for all wallet transactions</p>
               </div>
             </div>
           </div>
@@ -361,6 +361,46 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
         }}
         property={selectedProperty}
       />
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="col-span-1 md:col-span-2">
+              <img 
+                src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
+                alt="40 Acres Logo" 
+                className="h-16 w-auto object-contain mb-4"
+              />
+              <p className="text-gray-300 mb-4">
+                Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li><a href="/business" className="text-gray-300 hover:text-white transition-colors">Business</a></li>
+                <li><a href="/community" className="text-gray-300 hover:text-white transition-colors">Community</a></li>
+                <li><a href="/tokenomics" className="text-gray-300 hover:text-white transition-colors">Tokenomics</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Legal Disclaimer</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 40 Acres. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
