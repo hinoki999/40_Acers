@@ -49,6 +49,88 @@ const uploadDocument = multer({
 });
 
 export function registerDocumentRoutes(app: Express): void {
+  // Get required documents for property listing
+  app.get("/api/documents/requirements", isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const requirements = [
+        {
+          category: 'property-deed',
+          name: 'Property Deed',
+          description: 'Legal document proving property ownership',
+          required: true,
+          acceptedFormats: ['PDF', 'JPG', 'PNG']
+        },
+        {
+          category: 'title-insurance',
+          name: 'Title Insurance Policy',
+          description: 'Insurance policy protecting against property title defects',
+          required: true,
+          acceptedFormats: ['PDF']
+        },
+        {
+          category: 'property-survey',
+          name: 'Property Survey',
+          description: 'Professional survey showing property boundaries',
+          required: true,
+          acceptedFormats: ['PDF', 'JPG', 'PNG']
+        },
+        {
+          category: 'inspection-report',
+          name: 'Property Inspection Report',
+          description: 'Professional inspection report detailing property condition',
+          required: true,
+          acceptedFormats: ['PDF']
+        },
+        {
+          category: 'appraisal',
+          name: 'Property Appraisal',
+          description: 'Professional appraisal determining property value',
+          required: true,
+          acceptedFormats: ['PDF']
+        },
+        {
+          category: 'insurance',
+          name: 'Property Insurance',
+          description: 'Current property insurance policy',
+          required: true,
+          acceptedFormats: ['PDF']
+        },
+        {
+          category: 'financial-statements',
+          name: 'Financial Statements',
+          description: 'Property financial performance and projections',
+          required: false,
+          acceptedFormats: ['PDF', 'XLSX', 'DOC']
+        },
+        {
+          category: 'rental-agreement',
+          name: 'Rental Agreements',
+          description: 'Current tenant lease agreements (if applicable)',
+          required: false,
+          acceptedFormats: ['PDF', 'DOC']
+        },
+        {
+          category: 'property-photos',
+          name: 'Property Photos',
+          description: 'High-quality photos of the property',
+          required: true,
+          acceptedFormats: ['JPG', 'PNG', 'WEBP']
+        },
+        {
+          category: 'floor-plans',
+          name: 'Floor Plans',
+          description: 'Architectural floor plans of the property',
+          required: false,
+          acceptedFormats: ['PDF', 'JPG', 'PNG']
+        }
+      ];
+
+      res.json(requirements);
+    } catch (error) {
+      console.error('Error fetching document requirements:', error);
+      res.status(500).json({ error: "Failed to fetch document requirements" });
+    }
+  });
   
   // Get user documents
   app.get("/api/documents", isAuthenticated, async (req: Request, res: Response) => {
