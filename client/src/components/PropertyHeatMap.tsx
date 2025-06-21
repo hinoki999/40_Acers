@@ -238,11 +238,26 @@ export default function PropertyHeatMap({ properties }: PropertyHeatMapProps) {
             tooltipRef.current.style.opacity = "1";
             tooltipRef.current.style.left = (event.pageX + 10) + "px";
             tooltipRef.current.style.top = (event.pageY - 10) + "px";
-            tooltipRef.current.innerHTML = `
-              <div class="font-semibold">${d.region}</div>
-              <div class="text-sm">Value: $${(d.value / 1000000).toFixed(2)}M</div>
-              <div class="text-sm">Intensity: ${(d.intensity * 100).toFixed(0)}%</div>
-            `;
+            
+            // Clear existing content
+            tooltipRef.current.innerHTML = '';
+            
+            // Create elements safely using DOM methods
+            const regionDiv = document.createElement('div');
+            regionDiv.className = 'font-semibold';
+            regionDiv.textContent = d.region;
+            
+            const valueDiv = document.createElement('div');
+            valueDiv.className = 'text-sm';
+            valueDiv.textContent = `Value: $${(d.value / 1000000).toFixed(2)}M`;
+            
+            const intensityDiv = document.createElement('div');
+            intensityDiv.className = 'text-sm';
+            intensityDiv.textContent = `Intensity: ${(d.intensity * 100).toFixed(0)}%`;
+            
+            tooltipRef.current.appendChild(regionDiv);
+            tooltipRef.current.appendChild(valueDiv);
+            tooltipRef.current.appendChild(intensityDiv);
           }
         })
         .on("mouseleave", function() {
