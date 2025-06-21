@@ -36,7 +36,7 @@ function Router() {
           <>
             <Route path="/" component={() => <Landing onShowLogin={handleShowLogin} onShowRegister={handleShowRegister} />} />
             <Route path="/invest" component={Invest} />
-            <Route path="/list" component={ListProperty} />
+            <Route path="/list-property" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
             <Route path="/community" component={Community} />
@@ -48,7 +48,7 @@ function Router() {
           <>
             <Route path="/" component={Dashboard} />
             <Route path="/invest" component={Invest} />
-            <Route path="/list" component={ListProperty} />
+            <Route path="/list-property" component={ListProperty} />
             <Route path="/business" component={Business} />
             <Route path="/documentation" component={Documentation} />
             <Route path="/community/:id" component={PropertyCommunity} />

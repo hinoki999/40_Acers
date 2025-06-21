@@ -73,23 +73,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <p className="text-base md:text-xl text-white mb-6 md:mb-8 leading-relaxed text-left">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-start">
-                <Button
-                  onClick={handleShowRegister}
-                  className="px-6 md:px-8 py-3 md:py-4 bg-black text-white font-semibold hover:bg-gray-200 hover:text-white btn-touch"
-                  size="lg"
-                >
-                  Get Started
-                </Button>
-                <Button
-                  onClick={handleShowLogin}
-                  variant="outline"
-                  className="px-6 md:px-8 py-3 md:py-4 border-2 border-white font-semibold hover:bg-white hover:text-primary bg-[#ffffff] text-[#000000] btn-touch"
-                  size="lg"
-                >
-                  Login
-                </Button>
-              </div>
+
             </div>
             <div className="relative order-1 lg:order-2">
               <Card className="p-4 md:p-8 shadow-2xl card-mobile">
