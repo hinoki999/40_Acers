@@ -288,9 +288,9 @@ export default function ListProperty() {
               How It Works
             </Button>
             <Button 
-              variant="outline"
+              onClick={() => setShowBusinessTour(true)}
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-4"
+              className="bg-black text-white hover:bg-[#A52A2A] font-semibold px-8 py-4"
             >
               Schedule Consultation
             </Button>
@@ -311,6 +311,8 @@ export default function ListProperty() {
           setShowCreateModal(true);
         }}
       />
+      
+      <Footer />
     </div>
   );
 }

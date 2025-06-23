@@ -15,6 +15,7 @@ import CurrencyToggle from "@/components/CurrencyToggle";
 import InvestorTour from "@/components/InvestorTour";
 import AuthModals from "@/components/AuthModals";
 import { useAuth } from "@/hooks/useAuth";
+import Footer from "@/components/Footer";
 
 export default function Invest() {
   const { isAuthenticated, user } = useAuth();
@@ -108,7 +109,7 @@ export default function Invest() {
                 <Button 
                   onClick={() => setShowGoldUpgrade(true)}
                   size="lg"
-                  className="bg-yellow-500 text-white hover:bg-yellow-600 font-semibold px-6 py-3"
+                  className="bg-yellow-500 text-black hover:bg-yellow-600 font-semibold px-6 py-3"
                 >
                   <Crown className="h-5 w-5 mr-2" />
                   Upgrade to Gold
@@ -329,7 +330,7 @@ export default function Invest() {
           <Card className="max-w-md w-full">
             <CardContent className="p-6 text-center">
               <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <DollarSign className="h-8 w-8 text-white" />
+                <DollarSign className="h-8 w-8 text-black" />
               </div>
               <h3 className="text-xl font-bold mb-2">Upgrade to Gold Member</h3>
               <p className="text-gray-600 mb-4">
@@ -338,7 +339,7 @@ export default function Invest() {
               <div className="text-3xl font-bold text-yellow-600 mb-4">$99/month</div>
               <div className="space-y-2 mb-6">
                 <Button 
-                  className="w-full bg-yellow-500 text-white hover:bg-yellow-600"
+                  className="w-full bg-yellow-500 text-black hover:bg-yellow-600"
                   onClick={() => {
                     setIsGoldMember(true);
                     setShowGoldUpgrade(false);
@@ -358,6 +359,8 @@ export default function Invest() {
           </Card>
         </div>
       )}
+      
+      <Footer />
     </div>
   );
 }
