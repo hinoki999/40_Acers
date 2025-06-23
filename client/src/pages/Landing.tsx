@@ -80,23 +80,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <p className="text-base md:text-xl text-white mb-6 md:mb-8 leading-relaxed text-left drop-shadow-lg">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-start">
-                <Button
-                  onClick={handleShowLogin}
-                  variant="outline"
-                  className="px-6 md:px-8 py-3 md:py-4 border-2 border-white text-white font-semibold hover:bg-white hover:text-black btn-touch"
-                  size="lg"
-                >
-                  Login
-                </Button>
-                <Button
-                  onClick={() => window.location.href = '/invest'}
-                  className="px-6 md:px-8 py-3 md:py-4 bg-white text-black font-semibold hover:bg-[#A52A2A] hover:text-white btn-touch"
-                  size="lg"
-                >
-                  View Properties
-                </Button>
-              </div>
+
             </div>
             <div className="relative order-1 lg:order-2">
               <Card className="p-4 md:p-8 shadow-2xl card-mobile">
@@ -185,16 +169,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             </div>
           )}
 
-          <div className="text-center mt-8 md:mt-12">
-            <Button
-              onClick={handleShowLogin}
-              variant="outline"
-              className="px-6 md:px-8 py-3 md:py-4 border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white btn-touch"
-              size="lg"
-            >
-              View All Properties
-            </Button>
-          </div>
+
         </div>
       </section>
       {/* Features Section */}

@@ -282,10 +282,10 @@ export default function ListProperty() {
               onClick={() => setShowBusinessTour(true)}
               variant="outline"
               size="lg"
-              className="border-white text-black bg-white hover:bg-gray-200 font-semibold px-6 py-4"
+              className="border-white text-black bg-white hover:bg-white hover:text-black font-semibold px-6 py-4"
             >
-              <HelpCircle className="mr-2" size={20} />
-              How It Works
+              <HelpCircle className="mr-2 text-black" size={20} />
+              <span className="text-black">How It Works</span>
             </Button>
             <Button 
               onClick={() => setShowBusinessTour(true)}

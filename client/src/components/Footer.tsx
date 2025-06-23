@@ -3,11 +3,11 @@ export default function Footer() {
     <footer className="bg-black text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
+          <div className="col-span-1 md:col-span-2 flex flex-col">
             <img 
               src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
               alt="40 Acres Logo" 
-              className="h-26 w-auto object-contain mb-4"
+              className="h-12 w-auto object-contain mb-4 self-start"
             />
             <p className="text-gray-300 mb-4">
               Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
