@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Building, FileText, Shield, Camera, Video, CheckCircle, Clock, Upload, Users, DollarSign, HelpCircle, Plus } from "lucide-react";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
 import BusinessOwnerTour from "@/components/BusinessOwnerTour";
+import Footer from "@/components/Footer";
 import DocumentUpload from "@/components/DocumentUpload";
 import PropertyDocumentManager from "@/components/PropertyDocumentManager";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -160,7 +161,7 @@ export default function ListProperty() {
       <section className="py-20 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Simple 6-Step Process</h2>
+            <h2 className="text-4xl font-bold text-black mb-4">How It Works</h2>
             <p className="text-xl text-neutral-600">
               From documentation to going live - we guide you through every step
             </p>

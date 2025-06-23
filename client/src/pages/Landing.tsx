@@ -82,19 +82,19 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-start">
                 <Button
-                  onClick={handleShowRegister}
-                  className="px-6 md:px-8 py-3 md:py-4 bg-white text-black font-semibold hover:bg-gray-200 btn-touch"
-                  size="lg"
-                >
-                  Get Started
-                </Button>
-                <Button
                   onClick={handleShowLogin}
                   variant="outline"
                   className="px-6 md:px-8 py-3 md:py-4 border-2 border-white text-white font-semibold hover:bg-white hover:text-black btn-touch"
                   size="lg"
                 >
                   Login
+                </Button>
+                <Button
+                  onClick={() => window.location.href = '/invest'}
+                  className="px-6 md:px-8 py-3 md:py-4 bg-white text-black font-semibold hover:bg-[#A52A2A] hover:text-white btn-touch"
+                  size="lg"
+                >
+                  View Properties
                 </Button>
               </div>
             </div>
