@@ -200,7 +200,7 @@ function Business() {
                     ))}
                   </div>
                   <Button 
-                    className="w-full mt-6 bg-[#b34034] hover:bg-[#A0522D]"
+                    className="w-full mt-6 bg-[#A52A2A] hover:bg-[#A0522D]"
                     onClick={() => {
                       setFormData(prev => ({ ...prev, consultationType: consultation.type }));
                       document.getElementById('consultation-form')?.scrollIntoView({ behavior: 'smooth' });
