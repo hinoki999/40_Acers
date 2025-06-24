@@ -72,8 +72,8 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
     },
     {
       id: 2,
-      title: "How Tokenization Works",
-      description: "Understanding fractional real estate ownership",
+      title: "How Real Estate Crowdfunding Works",
+      description: "Understanding crowdfunded real estate investments",
       icon: <DollarSign className="h-8 w-8 text-green-600" />,
       content: (
         <div className="space-y-4">
@@ -81,38 +81,38 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
             <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <DollarSign className="h-8 w-8 text-white" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Real Estate Tokenization</h3>
+            <h3 className="text-xl font-semibold mb-2">Real Estate Crowdfunding</h3>
           </div>
           
           <div className="space-y-3">
             <div className="flex items-start space-x-3 p-3 bg-neutral-50 rounded-lg">
               <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold">1</div>
               <div>
-                <p className="font-medium">Property Division</p>
-                <p className="text-sm text-neutral-600">Each property is divided into digital tokens representing ownership shares</p>
+                <p className="font-medium">Pool Your Investment</p>
+                <p className="text-sm text-neutral-600">Multiple investors contribute funds to collectively purchase high-value real estate properties</p>
               </div>
             </div>
             
             <div className="flex items-start space-x-3 p-3 bg-neutral-50 rounded-lg">
               <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold">2</div>
               <div>
-                <p className="font-medium">Token Formula</p>
-                <p className="text-sm text-neutral-600">Every 10 square feet = 1 token (up to 49% ownership available)</p>
+                <p className="font-medium">Fractional Ownership</p>
+                <p className="text-sm text-neutral-600">Own a percentage of the property based on your investment amount (minimum $10)</p>
               </div>
             </div>
             
             <div className="flex items-start space-x-3 p-3 bg-neutral-50 rounded-lg">
               <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold">3</div>
               <div>
-                <p className="font-medium">Earn Income</p>
-                <p className="text-sm text-neutral-600">Receive rental income proportional to your token ownership</p>
+                <p className="font-medium">Passive Income</p>
+                <p className="text-sm text-neutral-600">Earn rental income and property appreciation without property management responsibilities</p>
               </div>
             </div>
           </div>
           
           <div className="mt-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
             <p className="text-sm text-blue-800">
-              <strong>Example:</strong> A 1,000 sq ft property = 100 tokens. Buy 10 tokens = 10% ownership
+              <strong>Example:</strong> Invest $1,000 in a $100,000 property = 1% ownership and 1% of rental income
             </p>
           </div>
         </div>
@@ -175,57 +175,9 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
         </div>
       )
     },
+
     {
       id: 4,
-      title: "Your Digital Wallet",
-      description: "Manage your investments securely",
-      icon: <Smartphone className="h-8 w-8 text-purple-600" />,
-      content: (
-        <div className="space-y-4">
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Smartphone className="h-8 w-8 text-white" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">40 Acres Wallet</h3>
-            <p className="text-neutral-600">Your secure digital wallet for real estate investments</p>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="p-4 border rounded-lg">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium">Portfolio Value</span>
-                <span className="text-xl font-bold text-green-600">$0</span>
-              </div>
-              <div className="grid grid-cols-2 gap-4 text-sm text-neutral-600">
-                <div>Properties: 0</div>
-                <div>Total Tokens: 0</div>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="text-center p-3 bg-blue-50 rounded-lg">
-                <DollarSign className="h-6 w-6 text-blue-600 mx-auto mb-1" />
-                <p className="text-xs font-medium">Track Earnings</p>
-              </div>
-              <div className="text-center p-3 bg-green-50 rounded-lg">
-                <TrendingUp className="h-6 w-6 text-green-600 mx-auto mb-1" />
-                <p className="text-xs font-medium">Monitor Performance</p>
-              </div>
-              <div className="text-center p-3 bg-purple-50 rounded-lg">
-                <Shield className="h-6 w-6 text-purple-600 mx-auto mb-1" />
-                <p className="text-xs font-medium">Secure Storage</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-4 p-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg text-center">
-            <p className="text-sm font-medium">Download our mobile app to access your wallet anywhere!</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 5,
       title: "Community & Support",
       description: "Connect with fellow investors and get help",
       icon: <Users className="h-8 w-8 text-orange-600" />,
@@ -306,10 +258,11 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-2xl font-bold">Getting Started</DialogTitle>
             <Button variant="ghost" size="sm" onClick={handleSkip} className="bg-white text-black border-black hover:bg-gray-200">
               Skip Tutorial
             </Button>
+            <DialogTitle className="text-2xl font-bold">Getting Started</DialogTitle>
+            <div className="w-20"></div>
           </div>
           
           <div className="space-y-2">

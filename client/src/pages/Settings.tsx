@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, CreditCard, Shield, Crown } from "lucide-react";
+import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 
@@ -171,6 +171,53 @@ export default function Settings() {
               <CardTitle>Payment Methods</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">40 Acres Wallet</h3>
+                <div className="border-2 border-purple-200 rounded-lg p-6 bg-gradient-to-br from-purple-50 to-pink-50">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-12 w-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold">
+                        <Smartphone className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Connect Your Cryptocurrency Wallet</h4>
+                        <p className="text-sm text-gray-600">Secure digital wallet for real estate investments</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3 mb-4">
+                    <div className="p-3 bg-white rounded-lg border">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">Portfolio Value</span>
+                        <span className="text-lg font-bold text-green-600">$0</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mt-2">
+                        <div>Properties: 0</div>
+                        <div>Total Tokens: 0</div>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="text-center p-3 bg-white rounded-lg border">
+                        <DollarSign className="h-5 w-5 text-blue-600 mx-auto mb-1" />
+                        <p className="text-xs font-medium">Track Earnings</p>
+                      </div>
+                      <div className="text-center p-3 bg-white rounded-lg border">
+                        <TrendingUp className="h-5 w-5 text-green-600 mx-auto mb-1" />
+                        <p className="text-xs font-medium">Monitor Performance</p>
+                      </div>
+                      <div className="text-center p-3 bg-white rounded-lg border">
+                        <Shield className="h-5 w-5 text-purple-600 mx-auto mb-1" />
+                        <p className="text-xs font-medium">Secure Storage</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700">Connect Cryptocurrency Wallet</Button>
+                </div>
+              </div>
+
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Credit/Debit Cards</h3>
                 <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">

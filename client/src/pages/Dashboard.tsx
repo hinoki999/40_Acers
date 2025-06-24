@@ -334,7 +334,7 @@ export default function Dashboard() {
             </div>
             {properties.length > 3 && (
               <div className="text-center mt-6">
-                <Button variant="outline" className="px-8">
+                <Button variant="outline" className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]">
                   View All Properties
                 </Button>
               </div>
