@@ -245,27 +245,10 @@ export default function Dashboard() {
               <ArrowDown className="mr-2" size={16} />
               Withdraw Funds
             </Button>
-            <Button className="w-full bg-neutral-900 text-white hover:bg-neutral-800">
-              <Search className="mr-2" size={16} />
-              Explore
-            </Button>
+            
           </div>
 
-          <Card className="mt-8 bg-neutral-50">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-neutral-900 mb-4">
-                Get Notified When We Launch! 🚀
-              </h3>
-              <p className="text-neutral-600 mb-4">Sign up to receive an email when we go live.</p>
-              <Button
-                onClick={() => notifyMutation.mutate()}
-                disabled={notifyMutation.isPending}
-                className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
-              >
-                {notifyMutation.isPending ? "Signing up..." : "Notify Me"}
-              </Button>
-            </CardContent>
-          </Card>
+          
         </Card>
 
         {/* Total Assets Chart */}
@@ -314,13 +297,11 @@ export default function Dashboard() {
           <Table>
             <TableHeader>
               <TableRow className="bg-neutral-50">
-                <TableHead>Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction) => (
                 <TableRow key={transaction.id} className="hover:bg-neutral-50">
-                  <TableCell>{new Date(transaction.createdAt || Date.now()).toLocaleDateString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
