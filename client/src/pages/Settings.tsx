@@ -19,7 +19,8 @@ export default function Settings() {
     lastName: "",
     email: "",
     companyName: "",
-    userType: "investor"
+    userType: "investor",
+    profileImage: ""
   });
   const [security, setSecurity] = useState({
     currentPassword: "",
@@ -28,6 +29,7 @@ export default function Settings() {
   });
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [isGoldMember, setIsGoldMember] = useState(false);
+  const [membershipTier, setMembershipTier] = useState<"Free" | "Gold">("Free");
 
   useEffect(() => {
     if (user) {
@@ -111,6 +113,54 @@ export default function Settings() {
               <CardTitle>Profile Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Profile Picture Section */}
+              <div className="flex items-center gap-6 mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                    {profile.profileImage ? (
+                      <img src={profile.profileImage} alt="Profile" className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="h-12 w-12 text-gray-400" />
+                    )}
+                  </div>
+                  <Button 
+                    size="sm" 
+                    className="absolute -bottom-2 -right-2 rounded-full h-8 w-8 p-0"
+                    onClick={() => document.getElementById('profile-upload')?.click()}
+                  >
+                    +
+                  </Button>
+                  <input
+                    id="profile-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                          setProfile({...profile, profileImage: e.target?.result as string});
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">{profile.firstName} {profile.lastName}</h3>
+                  <p className="text-gray-600">{user?.email}</p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mt-2"
+                    onClick={() => document.getElementById('profile-upload')?.click()}
+                  >
+                    Upload Photo
+                  </Button>
+                </div>
+              </div>
+              
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
@@ -172,53 +222,6 @@ export default function Settings() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-3">
-                <h3 className="text-lg font-semibold">40 Acres Wallet</h3>
-                <div className="border-2 border-purple-200 rounded-lg p-6 bg-gradient-to-br from-purple-50 to-pink-50">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-12 w-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold">
-                        <Smartphone className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Connect Your Cryptocurrency Wallet</h4>
-                        <p className="text-sm text-gray-600">Secure digital wallet for real estate investments</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-3 mb-4">
-                    <div className="p-3 bg-white rounded-lg border">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">Portfolio Value</span>
-                        <span className="text-lg font-bold text-green-600">$0</span>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mt-2">
-                        <div>Properties: 0</div>
-                        <div>Total Tokens: 0</div>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-3">
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <DollarSign className="h-5 w-5 text-blue-600 mx-auto mb-1" />
-                        <p className="text-xs font-medium">Track Earnings</p>
-                      </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <TrendingUp className="h-5 w-5 text-green-600 mx-auto mb-1" />
-                        <p className="text-xs font-medium">Monitor Performance</p>
-                      </div>
-                      <div className="text-center p-3 bg-white rounded-lg border">
-                        <Shield className="h-5 w-5 text-purple-600 mx-auto mb-1" />
-                        <p className="text-xs font-medium">Secure Storage</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700">Connect Cryptocurrency Wallet</Button>
-                </div>
-              </div>
-
-              <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Credit/Debit Cards</h3>
                 <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
                   <div className="h-12 w-12 bg-blue-500 rounded-lg mx-auto mb-4 flex items-center justify-center text-white font-bold">
@@ -237,6 +240,71 @@ export default function Settings() {
                   </div>
                   <p className="text-gray-500 mb-4">PayPal not connected</p>
                   <Button variant="outline">Connect PayPal</Button>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold">40 Acres Wallet</h3>
+                <div className={`border-2 rounded-lg p-6 ${membershipTier === 'Gold' ? 'border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50' : 'border-gray-300 bg-gray-100'}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`h-12 w-12 rounded-lg flex items-center justify-center text-white font-bold ${membershipTier === 'Gold' ? 'bg-gradient-to-br from-purple-600 to-pink-600' : 'bg-gray-400'}`}>
+                        <Smartphone className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h4 className={`font-semibold ${membershipTier !== 'Gold' ? 'text-gray-500' : ''}`}>Connect Your 40 Acres Wallet</h4>
+                        <p className={`text-sm ${membershipTier === 'Gold' ? 'text-gray-600' : 'text-gray-400'}`}>
+                          {membershipTier === 'Gold' ? 'Secure digital wallet for real estate investments' : 'Requires Gold Member subscription'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {membershipTier !== 'Gold' && (
+                    <div className="text-center py-4">
+                      <p className="text-gray-500 mb-3">Upgrade to Gold Member to access the 40 Acres Wallet</p>
+                      <Button 
+                        className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                        onClick={handleUpgradeToGold}
+                      >
+                        Upgrade to Gold - $99.99/month
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {membershipTier === 'Gold' && (
+                    <>
+                      <div className="space-y-3 mb-4">
+                        <div className="p-3 bg-white rounded-lg border">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium">Portfolio Value</span>
+                            <span className="text-lg font-bold text-green-600">$0</span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mt-2">
+                            <div>Properties: 0</div>
+                            <div>Total Tokens: 0</div>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-3 gap-3">
+                          <div className="text-center p-3 bg-white rounded-lg border">
+                            <DollarSign className="h-5 w-5 text-blue-600 mx-auto mb-1" />
+                            <p className="text-xs font-medium">Track Earnings</p>
+                          </div>
+                          <div className="text-center p-3 bg-white rounded-lg border">
+                            <TrendingUp className="h-5 w-5 text-green-600 mx-auto mb-1" />
+                            <p className="text-xs font-medium">Monitor Performance</p>
+                          </div>
+                          <div className="text-center p-3 bg-white rounded-lg border">
+                            <Shield className="h-5 w-5 text-purple-600 mx-auto mb-1" />
+                            <p className="text-xs font-medium">Secure Storage</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700">Connect 40 Acres Wallet</Button>
+                    </>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -318,7 +386,7 @@ export default function Settings() {
                     </div>
                   </div>
                   <div className="mt-4">
-                    <div className="text-2xl font-bold">$29.99/month</div>
+                    <div className="text-2xl font-bold">$99.99/month</div>
                     <Button onClick={handleUpgradeToGold} className="w-full mt-3 bg-yellow-500 hover:bg-yellow-600 text-black">
                       Upgrade to Gold
                     </Button>

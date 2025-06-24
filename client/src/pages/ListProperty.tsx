@@ -129,7 +129,7 @@ export default function ListProperty() {
                 onClick={() => setShowBusinessTour(true)}
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-black font-semibold px-6 py-4"
+                className="border-white text-[#000000] hover:bg-white hover:text-black font-semibold px-6 py-4 bg-white"
               >
                 <HelpCircle className="h-5 w-5 mr-2" />
                 How It Works
