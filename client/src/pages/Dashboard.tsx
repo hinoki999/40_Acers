@@ -175,7 +175,7 @@ export default function Dashboard() {
               variant="outline" 
               size="sm" 
               onClick={() => setShowInvestorTour(true)}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 hover:bg-[#A52A2A] hover:text-white"
             >
               <TrendingUp className="h-4 w-4" />
               <span>Investor Guide</span>
@@ -185,7 +185,7 @@ export default function Dashboard() {
             variant="outline" 
             size="sm" 
             onClick={startOnboarding}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 hover:bg-[#A52A2A] hover:text-white"
           >
             <HelpCircle className="h-4 w-4" />
             <span>Help Tutorial</span>

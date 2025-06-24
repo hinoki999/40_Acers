@@ -87,7 +87,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 ) : (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-[#ff5724]">
+                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-[#A52A2A]">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
                           <AvatarFallback>
