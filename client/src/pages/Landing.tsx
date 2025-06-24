@@ -225,7 +225,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-
       <AuthModals
         showLogin={showLogin}
         showRegister={showRegister}
@@ -266,7 +265,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
               <img 
                 src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750355342962.png" 
                 alt="40 Acres Logo" 
-                className="h-26 w-auto object-contain mb-4"
+                className="h-26 w-auto object-contain mt-[-158px] mb-[-158px]"
               />
               <p className="text-gray-300 mb-4">
                 Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
