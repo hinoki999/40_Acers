@@ -322,9 +322,9 @@ export default function Dashboard() {
               <PieChart width={200} height={200}>
                 <Pie
                   data={[
-                    { name: 'Daily Need', value: 50, color: '#dc6844' },
-                    { name: 'Savings', value: 32, color: '#f4c2a1' },
-                    { name: 'Shopping', value: 18, color: '#d1d5db' }
+                    { name: 'Residential', value: 50, color: '#A52A2A' },
+                    { name: 'Commercial', value: 32, color: '#D2691E' },
+                    { name: 'Other', value: 18, color: '#d1d5db' }
                   ]}
                   cx={100}
                   cy={100}
@@ -335,9 +335,9 @@ export default function Dashboard() {
                   dataKey="value"
                 >
                   {[
-                    { name: 'Daily Need', value: 50, color: '#dc6844' },
-                    { name: 'Savings', value: 32, color: '#f4c2a1' },
-                    { name: 'Shopping', value: 18, color: '#d1d5db' }
+                    { name: 'Residential', value: 50, color: '#A52A2A' },
+                    { name: 'Commercial', value: 32, color: '#D2691E' },
+                    { name: 'Other', value: 18, color: '#d1d5db' }
                   ].map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -354,22 +354,22 @@ export default function Dashboard() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#dc6844]"></div>
-                <span className="text-sm text-gray-600">Daily Need (50%)</span>
+                <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
+                <span className="text-sm text-gray-600">Residential (50%)</span>
               </div>
               <span className="text-sm font-medium text-gray-900">$2,120.63</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#f4c2a1]"></div>
-                <span className="text-sm text-gray-600">Savings (32%)</span>
+                <div className="w-3 h-3 rounded-full bg-[#D2691E]"></div>
+                <span className="text-sm text-gray-600">Commercial (32%)</span>
               </div>
               <span className="text-sm font-medium text-gray-900">$1,361.23</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
-                <span className="text-sm text-gray-600">Shopping (18%)</span>
+                <span className="text-sm text-gray-600">Other (18%)</span>
               </div>
               <span className="text-sm font-medium text-gray-900">$339.24</span>
             </div>
@@ -388,62 +388,68 @@ export default function Dashboard() {
             </div>
           </div>
           
-          {/* Donut Chart */}
+          {/* Debit Card Design */}
           <div className="flex items-center justify-center mb-6">
-            <div className="relative">
-              <PieChart width={200} height={200}>
-                <Pie
-                  data={[
-                    { name: 'Properties', value: 45, color: '#dc6844' },
-                    { name: 'Tokens', value: 35, color: '#f4c2a1' },
-                    { name: 'Available', value: 20, color: '#d1d5db' }
-                  ]}
-                  cx={100}
-                  cy={100}
-                  innerRadius={60}
-                  outerRadius={90}
-                  startAngle={90}
-                  endAngle={450}
-                  dataKey="value"
-                >
-                  {[
-                    { name: 'Properties', value: 45, color: '#dc6844' },
-                    { name: 'Tokens', value: 35, color: '#f4c2a1' },
-                    { name: 'Available', value: 20, color: '#d1d5db' }
-                  ].map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-              </PieChart>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-xs text-gray-500">WALLET</div>
-                <div className="text-2xl font-bold text-gray-900">${portfolio?.totalValue?.toLocaleString() || "0.00"}</div>
+            <div className="relative w-80 h-48 bg-gradient-to-br from-[#A52A2A] to-[#8B1A1A] rounded-2xl shadow-lg overflow-hidden">
+              {/* Card Background Pattern */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-4 right-4 w-8 h-8 border-2 border-white rounded-full"></div>
+                <div className="absolute top-4 right-16 w-8 h-8 border-2 border-white rounded-full"></div>
+              </div>
+              
+              {/* Card Content */}
+              <div className="relative p-6 h-full flex flex-col justify-between text-white">
+                {/* Logo and Chip */}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <img src={logoImage} alt="40 Acres" className="w-10 h-10 rounded-lg bg-white p-1" />
+                    <span className="font-bold text-lg">40 ACRES</span>
+                  </div>
+                  <div className="w-12 h-8 bg-yellow-400 rounded-md flex items-center justify-center">
+                    <div className="w-8 h-6 bg-yellow-300 rounded-sm"></div>
+                  </div>
+                </div>
+                
+                {/* Balance */}
+                <div className="space-y-2">
+                  <div className="text-sm opacity-80">BALANCE</div>
+                  <div className="text-3xl font-bold">${portfolio?.totalValue?.toLocaleString() || "0.00"}</div>
+                </div>
+                
+                {/* Card Details */}
+                <div className="flex justify-between items-end">
+                  <div className="space-y-1">
+                    <div className="text-xs opacity-60">VALID THRU</div>
+                    <div className="text-sm font-mono">12/27</div>
+                  </div>
+                  <div className="text-lg font-bold tracking-wider">VISA</div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Legend */}
+          {/* Updated Legend */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#dc6844]"></div>
-                <span className="text-sm text-gray-600">Properties (45%)</span>
+                <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
+                <span className="text-sm text-gray-600">Balance</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">${((portfolio?.totalValue || 0) * 0.45).toLocaleString()}</span>
+              <span className="text-sm font-medium text-gray-900">${portfolio?.totalValue?.toLocaleString() || "0.00"}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-[#f4c2a1]"></div>
-                <span className="text-sm text-gray-600">Tokens (35%)</span>
+                <div className="w-3 h-3 rounded-full bg-[#D2691E]"></div>
+                <span className="text-sm text-gray-600">Due</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">{portfolio?.sharesOwned || 0} tokens</span>
+              <span className="text-sm font-medium text-gray-900">$0.00</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
-                <span className="text-sm text-gray-600">Available (20%)</span>
+                <span className="text-sm text-gray-600">Available</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">${((portfolio?.totalValue || 0) * 0.20).toLocaleString()}</span>
+              <span className="text-sm font-medium text-gray-900">${((portfolio?.totalValue || 0) * 0.80).toLocaleString()}</span>
             </div>
           </div>
         </Card>
