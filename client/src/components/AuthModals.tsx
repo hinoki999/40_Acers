@@ -3,8 +3,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Home, Users, Building } from "lucide-react";
+import { Home, Users, Building, ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface AuthModalsProps {
   showLogin: boolean;
@@ -23,11 +24,16 @@ export default function AuthModals({
 }: AuthModalsProps) {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [registerForm, setRegisterForm] = useState({ 
+    firstName: "",
+    lastName: "",
     email: "", 
     password: "", 
     confirmPassword: "",
     userType: ""
   });
+  const [showAccountType, setShowAccountType] = useState(false);
+  const [showInvestmentPreference, setShowInvestmentPreference] = useState(false);
+  const [investmentPreference, setInvestmentPreference] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,9 +41,22 @@ export default function AuthModals({
     window.location.href = "/api/login";
   };
 
+  const handleAccountTypeSelection = (type: string) => {
+    setRegisterForm({ ...registerForm, userType: type });
+    setShowAccountType(false);
+  };
+
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    // Redirect to Replit Auth (handles both login and registration)
+    if (registerForm.password !== registerForm.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    setShowInvestmentPreference(true);
+  };
+
+  const handleInvestmentPreferenceSubmit = () => {
+    // Redirect to Replit Auth after collecting preferences
     window.location.href = "/api/login";
   };
 
@@ -53,14 +72,34 @@ export default function AuthModals({
             <DialogTitle className="text-2xl font-bold text-neutral-900">Welcome Back</DialogTitle>
             <p className="text-neutral-600">Enter your credentials to access your account</p>
           </DialogHeader>
-          <div className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                value={loginForm.email}
+                onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={loginForm.password}
+                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                required
+              />
+            </div>
             <Button 
-              onClick={handleLogin} 
+              type="submit"
               className="w-full bg-neutral-900 text-white hover:bg-neutral-800"
             >
-              Sign In with Replit
+              Sign In
             </Button>
-          </div>
+          </form>
           <div className="text-center mt-4">
             <Button variant="link" onClick={onSwitchToRegister} className="text-primary">
               Don't have an account? Register

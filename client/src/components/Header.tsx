@@ -70,10 +70,10 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                       Get Started
                     </Button>
                     <Button 
-                      variant="outline" 
+                      variant="ghost" 
                       size="sm" 
                       onClick={onShowLogin} 
-                      className="hover:bg-[#A52A2A] hover:text-white text-sm"
+                      className="text-white hover:bg-[#A52A2A] hover:text-white text-sm border-0"
                     >
                       Login
                     </Button>

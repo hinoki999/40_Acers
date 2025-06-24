@@ -13,8 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ListProperty() {
+  const { user, isAuthenticated } = useAuth();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showBusinessTour, setShowBusinessTour] = useState(false);
   const [showListingForm, setShowListingForm] = useState(false);

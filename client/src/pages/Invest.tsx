@@ -111,7 +111,7 @@ export default function Invest() {
                   size="lg"
                   className="bg-yellow-500 text-black hover:bg-yellow-600 font-semibold px-6 py-3"
                 >
-                  <Crown className="h-5 w-5 mr-2" />
+                  <Crown className="h-5 w-5 mr-2 text-black" />
                   Upgrade to Gold
                 </Button>
               )}
