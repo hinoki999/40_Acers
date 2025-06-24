@@ -191,12 +191,12 @@ export default function Settings() {
               <div>
                 <Label htmlFor="userType">Account Type</Label>
                 <Select value={profile.userType} onValueChange={(value) => setProfile({...profile, userType: value})}>
-                  <SelectTrigger>
+                  <SelectTrigger className="hover:border-[#A52A2A] focus:border-[#A52A2A] focus:ring-[#A52A2A]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="investor">Investor</SelectItem>
-                    <SelectItem value="business">Business</SelectItem>
+                    <SelectItem value="investor" className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">Investor</SelectItem>
+                    <SelectItem value="business" className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">Business</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -210,7 +210,7 @@ export default function Settings() {
                   />
                 </div>
               )}
-              <Button onClick={handleProfileSave}>Save Changes</Button>
+              <Button onClick={handleProfileSave} className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white">Save Changes</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -228,7 +228,7 @@ export default function Settings() {
                     💳
                   </div>
                   <p className="text-gray-500 mb-4">No payment methods added</p>
-                  <Button variant="outline">Add Payment Method</Button>
+                  <Button variant="outline" className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white">Add Payment Method</Button>
                 </div>
               </div>
               
@@ -239,7 +239,7 @@ export default function Settings() {
                     PP
                   </div>
                   <p className="text-gray-500 mb-4">PayPal not connected</p>
-                  <Button variant="outline">Connect PayPal</Button>
+                  <Button variant="outline" className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white">Connect PayPal</Button>
                 </div>
               </div>
 
