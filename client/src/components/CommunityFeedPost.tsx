@@ -168,8 +168,8 @@ export default function CommunityFeedPost({
               target.src = "https://images.unsplash.com/photo-1560184897-ae75f418493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&h=1920";
             }}
           />
-          {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
+          {/* Dark overlay for text readability with 35% black overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/55 to-black/35" />
         </div>
 
         {/* Content Overlay */}

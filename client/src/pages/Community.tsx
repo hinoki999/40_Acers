@@ -157,7 +157,7 @@ export default function Community() {
                 }}
               >
                 {filteredProperties.map((property, index) => (
-                  <div key={property.id} className="h-screen snap-start relative">
+                  <div key={property.id} className="h-[70vh] snap-start relative">
                     <CommunityFeedPost
                       property={property}
                       onInvest={handleInvest}
@@ -319,6 +319,9 @@ export default function Community() {
         }}
         property={selectedProperty}
       />
+      
+      {/* Footer - Only show on non-feed tabs */}
+      {activeTab !== "feed" && <Footer />}
     </div>
   );
 }
