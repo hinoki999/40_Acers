@@ -319,7 +319,7 @@ export default function Dashboard() {
                   {(user as any)?.userType === 'business' ? 'My Listed Properties' : 'My Investments'}
                 </CardTitle>
                 <p className="text-neutral-600">
-                  {(user as any)?.userType === 'business' ? 'Manage your property listings' : 'Discover and invest in new properties'}
+                  {(user as any)?.userType === 'business' ? 'Manage your property listings' : 'View the investments you\'ve made'}
                 </p>
               </div>
               <CurrencyToggle 
