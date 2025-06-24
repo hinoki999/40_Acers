@@ -151,14 +151,9 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Dashboard Header with Logo */}
+      {/* Dashboard Header */}
       <div className="flex items-center space-x-4 mb-8">
-        <img 
-          src="/attached_assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed_1750352435284.png" 
-          alt="40 Acres Logo" 
-          className="h-20 w-auto object-contain"
-        />
-        <div className="flex-1">
+        <div className="flex-1"></div>
           <h1 className="text-3xl font-bold text-neutral-900">Dashboard</h1>
           <p className="text-neutral-600">Manage your real estate investments</p>
         </div>
