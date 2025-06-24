@@ -121,10 +121,10 @@ function Business() {
               <Button 
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-blue-900 font-semibold px-8 py-4 bg-transparent"
+                className="border-white text-white hover:bg-white hover:text-black font-semibold px-8 py-4 bg-transparent"
               >
-                <Phone className="mr-2" size={20} />
-                <span className="text-white">Call Now: 248-250-4510</span>
+                <Phone className="mr-2 hover:text-black" size={20} />
+                <span className="hover:text-black">Call Now: 248-250-4510</span>
               </Button>
             </div>
           </div>
