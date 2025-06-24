@@ -224,7 +224,7 @@ export default function Dashboard() {
 
           <div className="space-y-4">
             {/* Show different buttons based on user type */}
-            {(user as any)?.userType === 'business' ? (
+            {(user as any)?.userType === 'business' && (
               <Button
                 onClick={() => setShowCreateProperty(true)}
                 className="w-full bg-black text-white hover:bg-gray-200 hover:text-black shadow-lg hover:shadow-xl transition-all"
@@ -232,11 +232,6 @@ export default function Dashboard() {
                 <Plus className="mr-2" size={16} />
                 List Your Property
               </Button>
-            ) : (
-              <div className="text-center p-4 bg-gray-100 rounded-lg">
-                <p className="text-gray-600 text-sm">Coming Soon</p>
-                <p className="text-gray-500 text-xs">Investor Portal</p>
-              </div>
             )}
             <Button
               variant="outline"
