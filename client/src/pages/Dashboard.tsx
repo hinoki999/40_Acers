@@ -230,7 +230,7 @@ export default function Dashboard() {
             )}
             <Button
               variant="outline"
-              className="w-full bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+              className="w-full bg-neutral-100 text-neutral-600 hover:bg-neutral-200 bg-[#A52A2A] text-[#ffffff]"
             >
               <ArrowDown className="mr-2" size={16} />
               Withdraw Funds
