@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter } from "lucide-react";
+import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
@@ -37,6 +37,7 @@ export default function Dashboard() {
   const [transactionFilter, setTransactionFilter] = useState("");
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
   const [showInvestorTour, setShowInvestorTour] = useState(false);
+  const [timePeriod, setTimePeriod] = useState<'Day' | 'Week' | 'Month'>('Day');
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
@@ -200,27 +201,112 @@ export default function Dashboard() {
       />
       {/* Portfolio Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Portfolio Value Card */}
-        <Card className="p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-neutral-900">Portfolio Value</h2>
-            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[#000000]">
-              <Wallet className="text-white" />
+        {/* Portfolio Value Card - Budget Overview Style */}
+        <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
+          {/* Header with title and time period tabs */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-semibold text-gray-900">Budget Overview</h2>
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              {['Day', 'Week', 'Month'].map((period) => (
+                <button
+                  key={period}
+                  onClick={() => setTimePeriod(period as 'Day' | 'Week' | 'Month')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                    timePeriod === period
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  {period}
+                </button>
+              ))}
             </div>
           </div>
-          <div className="text-5xl font-bold text-neutral-900 mb-2">
-            ${portfolio?.totalValue?.toLocaleString() || "0.00"}
-          </div>
-          <div className="text-neutral-600 mb-8">
-            {portfolio?.sharesOwned || 0} Shares Owned
+
+          {/* Main value and percentage */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="text-4xl font-bold text-gray-900">
+              ${portfolio?.totalValue?.toLocaleString() || "8,237.00"}
+            </div>
+            <div className="flex items-center gap-1 text-green-600">
+              <TrendingUp className="h-4 w-4" />
+              <span className="text-sm font-medium">2.6%</span>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            {/* Show different buttons based on user type */}
+          {/* Legend */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-orange-400"></div>
+                <span className="text-sm text-gray-600">Income</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-gray-800"></div>
+                <span className="text-sm text-gray-600">Expenses</span>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" className="p-1">
+              <MoreHorizontal className="h-4 w-4 text-gray-400" />
+            </Button>
+          </div>
+
+          {/* Chart Area */}
+          <div className="h-48 relative mb-6">
+            <svg className="w-full h-full" viewBox="0 0 400 160" preserveAspectRatio="none">
+              {/* Grid lines */}
+              <defs>
+                <pattern id="grid" width="40" height="32" patternUnits="userSpaceOnUse">
+                  <path d="M 40 0 L 0 0 0 32" fill="none" stroke="#f3f4f6" strokeWidth="1"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+              
+              {/* Income line (orange) */}
+              <path
+                d="M 0 120 Q 50 100 100 110 T 200 90 T 300 95 T 400 80"
+                fill="none"
+                stroke="#fb923c"
+                strokeWidth="2"
+                className="drop-shadow-sm"
+              />
+              
+              {/* Expenses line (black) */}
+              <path
+                d="M 0 140 Q 50 130 100 125 Q 150 115 200 120 Q 250 125 300 110 Q 350 95 400 100"
+                fill="none"
+                stroke="#1f2937"
+                strokeWidth="2"
+                className="drop-shadow-sm"
+              />
+              
+              {/* Interactive point */}
+              <circle cx="200" cy="120" r="4" fill="#1f2937" className="drop-shadow-sm" />
+              
+              {/* Tooltip */}
+              <g transform="translate(200, 100)">
+                <rect x="-25" y="-20" width="50" height="20" rx="4" fill="#1f2937" />
+                <text x="0" y="-8" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">
+                  $6,121
+                </text>
+              </g>
+            </svg>
+          </div>
+
+          {/* Date labels */}
+          <div className="flex justify-between text-xs text-gray-500 mb-6">
+            <span>8/04</span>
+            <span>9/04</span>
+            <span>10/04</span>
+            <span>10/04</span>
+          </div>
+
+          {/* Action buttons */}
+          <div className="space-y-3">
             {(user as any)?.userType === 'business' && (
               <Button
                 onClick={() => setShowCreateProperty(true)}
-                className="w-full bg-black text-white hover:bg-gray-200 hover:text-black shadow-lg hover:shadow-xl transition-all"
+                className="w-full bg-black text-white hover:bg-gray-800 shadow-sm"
               >
                 <Plus className="mr-2" size={16} />
                 List Your Property
@@ -228,15 +314,12 @@ export default function Dashboard() {
             )}
             <Button
               variant="outline"
-              className="w-full bg-neutral-100 text-neutral-600 hover:bg-neutral-200 bg-[#A52A2A] text-[#ffffff]"
+              className="w-full border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
             >
               <ArrowDown className="mr-2" size={16} />
               Withdraw Funds
             </Button>
-            
           </div>
-
-          
         </Card>
 
         {/* Total Assets Chart */}
