@@ -314,17 +314,13 @@ export default function Dashboard() {
           <Table>
             <TableHeader>
               <TableRow className="bg-neutral-50">
-                <TableHead>Property</TableHead>
                 <TableHead>Date</TableHead>
-                <TableHead>Type</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction) => (
                 <TableRow key={transaction.id} className="hover:bg-neutral-50">
-                  <TableCell>Property #{transaction.propertyId || 'N/A'}</TableCell>
                   <TableCell>{new Date(transaction.createdAt || Date.now()).toLocaleDateString()}</TableCell>
-                  <TableCell>{transaction.transactionType || 'Investment'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
