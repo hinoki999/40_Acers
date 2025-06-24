@@ -153,7 +153,7 @@ export default function Dashboard() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Dashboard Header */}
       <div className="flex items-center space-x-4 mb-8">
-        <div className="flex-1"></div>
+        <div className="flex-1">
           <h1 className="text-3xl font-bold text-neutral-900">Dashboard</h1>
           <p className="text-neutral-600">Manage your real estate investments</p>
         </div>
@@ -356,42 +356,44 @@ export default function Dashboard() {
         </div>
       )}
 
-      <CreatePropertyModal
-        isOpen={showCreateProperty}
-        onClose={() => setShowCreateProperty(false)}
-      />
-      
-      <InvestmentModal
-        isOpen={showInvestment}
-        onClose={() => {
-          setShowInvestment(false);
-          setSelectedProperty(null);
-        }}
-        property={selectedProperty}
-      />
-      <OnboardingTour
-        isOpen={showOnboarding}
-        onClose={() => setShowOnboarding(false)}
-        onComplete={completeOnboarding}
-      />
-      <InvestorTour
-        isOpen={showInvestorTour}
-        onClose={() => setShowInvestorTour(false)}
-        onComplete={() => setShowInvestorTour(false)}
-        onStartInvesting={() => {
-          setShowInvestorTour(false);
-          // Find the first available property and open investment modal
-          if (properties && properties.length > 0) {
-            const firstProperty = properties[0];
-            setSelectedProperty(firstProperty);
-            setShowInvestment(true);
-          } else {
-            window.location.href = '/invest';
-          }
-        }}
-      />
-      
-      <Footer />
+      <>
+        <CreatePropertyModal
+          isOpen={showCreateProperty}
+          onClose={() => setShowCreateProperty(false)}
+        />
+        
+        <InvestmentModal
+          isOpen={showInvestment}
+          onClose={() => {
+            setShowInvestment(false);
+            setSelectedProperty(null);
+          }}
+          property={selectedProperty}
+        />
+        <OnboardingTour
+          isOpen={showOnboarding}
+          onClose={() => setShowOnboarding(false)}
+          onComplete={completeOnboarding}
+        />
+        <InvestorTour
+          isOpen={showInvestorTour}
+          onClose={() => setShowInvestorTour(false)}
+          onComplete={() => setShowInvestorTour(false)}
+          onStartInvesting={() => {
+            setShowInvestorTour(false);
+            // Find the first available property and open investment modal
+            if (properties && properties.length > 0) {
+              const firstProperty = properties[0];
+              setSelectedProperty(firstProperty);
+              setShowInvestment(true);
+            } else {
+              window.location.href = '/invest';
+            }
+          }}
+        />
+        
+        <Footer />
+      </>
     </div>
   );
 }

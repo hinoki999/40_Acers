@@ -19,8 +19,6 @@ interface LandingProps {
 }
 
 export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
   const [showInvestment, setShowInvestment] = useState(false);
   const [showSocialShare, setShowSocialShare] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
@@ -36,7 +34,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
       setSelectedProperty(property);
       setShowInvestment(true);
     } else {
-      setShowLogin(true);
+      onShowLogin();
     }
   };
 
@@ -50,12 +48,10 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
 
   const handleShowLogin = () => {
     onShowLogin();
-    setShowLogin(true);
   };
 
   const handleShowRegister = () => {
     onShowRegister();
-    setShowRegister(true);
   };
 
   return (
