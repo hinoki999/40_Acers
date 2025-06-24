@@ -201,18 +201,29 @@ export default function Dashboard() {
       {/* Portfolio Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Portfolio Value Card */}
-        <Card className="p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-neutral-900">Portfolio Value</h2>
-            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[#000000]">
-              <Wallet className="text-white" />
+        <Card className="relative overflow-hidden border-0 shadow-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative p-8 text-white">
+            <div className="flex items-center justify-between mb-8">
+              <div className="space-y-2">
+                <h2 className="text-xl font-medium text-white/90">Portfolio Value</h2>
+                <div className="w-12 h-0.5 bg-white/40 rounded-full"></div>
+              </div>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-sm border border-white/30">
+                <Wallet className="text-white" size={24} />
+              </div>
             </div>
-          </div>
-          <div className="text-5xl font-bold text-neutral-900 mb-2">
-            ${portfolio?.totalValue?.toLocaleString() || "0.00"}
-          </div>
-          <div className="text-neutral-600 mb-8">
-            {portfolio?.sharesOwned || 0} Shares Owned
+            <div className="space-y-4">
+              <div className="text-5xl font-bold tracking-tight">
+                ${portfolio?.totalValue?.toLocaleString() || "0.00"}
+              </div>
+              <div className="flex items-center gap-3 text-white/80">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-lg">{portfolio?.sharesOwned || 0} Shares Owned</span>
+              </div>
+            </div>
+            <div className="absolute bottom-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mb-16"></div>
+            <div className="absolute top-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-12 -mt-12"></div>
           </div>
 
           <div className="space-y-4">
@@ -240,20 +251,34 @@ export default function Dashboard() {
         </Card>
 
         {/* Total Assets Chart */}
-        <Card className="p-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-neutral-900">Total Assets</h2>
-              <p className="text-neutral-600">Showing total visitors for the last 6 months</p>
+        <Card className="relative overflow-hidden border-0 shadow-xl bg-gradient-to-br from-emerald-50 via-white to-blue-50">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5"></div>
+          <div className="relative p-8">
+            <div className="flex items-center justify-between mb-8">
+              <div className="space-y-2">
+                <h2 className="text-xl font-bold text-neutral-900">Total Assets</h2>
+                <p className="text-neutral-600 text-sm">Performance overview for the last 6 months</p>
+                <div className="w-12 h-0.5 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full"></div>
+              </div>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-emerald-500 to-blue-500 shadow-lg">
+                <TrendingUp className="text-white" size={24} />
+              </div>
             </div>
-          </div>
-          <PortfolioChart />
-          <div className="mt-4 flex items-center text-sm">
-            <div className="flex items-center text-secondary">
-              <TrendingUp className="mr-1" size={16} />
-              <span className="font-medium">Trending up by 5.2% this month</span>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/60 shadow-lg">
+              <PortfolioChart />
             </div>
-            <span className="text-neutral-500 ml-2">January - June 2024</span>
+            
+            <div className="mt-6 flex items-center justify-between">
+              <div className="flex items-center gap-2 px-4 py-2 bg-green-100 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-green-700 font-medium text-sm">+5.2% this month</span>
+              </div>
+              <span className="text-neutral-500 text-sm">Jan - Jun 2024</span>
+            </div>
+            
+            <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-blue-200/20 to-transparent rounded-full -mr-20 -mb-20"></div>
+            <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-emerald-200/20 to-transparent rounded-full -ml-16 -mt-16"></div>
           </div>
         </Card>
       </div>
