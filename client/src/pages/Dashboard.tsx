@@ -192,21 +192,19 @@ export default function Dashboard() {
           </Button>
         </div>
       </div>
-
       {/* Welcome Banner for new users */}
       <WelcomeBanner 
         userName={user?.email?.split('@')[0]} 
         onStartTour={startOnboarding}
         isFirstVisit={isFirstVisit}
       />
-
       {/* Portfolio Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Portfolio Value Card */}
         <Card className="p-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-neutral-900">Portfolio Value</h2>
-            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[#000000]">
               <Wallet className="text-white" />
             </div>
           </div>
@@ -259,9 +257,6 @@ export default function Dashboard() {
           </div>
         </Card>
       </div>
-
-
-
       {/* Transactions Section */}
       <Card>
         <CardHeader className="border-b border-neutral-200">
@@ -308,7 +303,6 @@ export default function Dashboard() {
           </div>
         </div>
       </Card>
-
       {/* Available Properties Section */}
       {properties.length > 0 && (
         <Card className="mb-8">
@@ -348,14 +342,12 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       )}
-
       {/* Heat Map Section - Only for Gold Members */}
       {properties.length > 0 && (user as any)?.membershipType === 'gold' && (
         <div className="mb-8">
           <EnhancedHeatMap properties={properties} />
         </div>
       )}
-
       <>
         <CreatePropertyModal
           isOpen={showCreateProperty}
