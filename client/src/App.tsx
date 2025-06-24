@@ -18,6 +18,8 @@ import Withdraw from "@/pages/Withdraw";
 import Marketplace from "@/pages/Marketplace";
 import Tokenomics from "@/pages/Tokenomics";
 import Settings from "@/pages/Settings";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
 import NotFound from "@/pages/not-found";
 import AuthModals from "@/components/AuthModals";
 
@@ -49,6 +51,8 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/terms-of-service" component={TermsOfService} />
             <Route path="/community/:id" component={PropertyCommunity} />
           </>
         ) : (
@@ -62,6 +66,8 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/terms-of-service" component={TermsOfService} />
             <Route path="/settings" component={Settings} />
           </>
         )}

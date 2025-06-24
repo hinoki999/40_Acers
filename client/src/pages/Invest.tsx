@@ -181,7 +181,7 @@ export default function Invest() {
               </Select>
 
               <Select value={priceRange} onValueChange={setPriceRange}>
-                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white">
                   <SelectValue placeholder="Price Range" />
                 </SelectTrigger>
                 <SelectContent>
