@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { FileText, Download, Eye, Shield, Building, Camera, Video, Search, Filter, Clock, CheckCircle, AlertCircle, Upload, Plus, X, FileCheck, User, MessageSquare } from "lucide-react";
+import Footer from "@/components/Footer";
 
 interface Document {
   id: number;

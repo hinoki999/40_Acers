@@ -21,6 +21,7 @@ import {
   Award
 } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
+import Footer from "@/components/Footer";
 
 interface FilterOptions {
   location: string;

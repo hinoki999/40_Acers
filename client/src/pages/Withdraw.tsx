@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, ArrowLeft, Shield, Info } from "lucide-react";
 import { Link } from "wouter";
+import Footer from "@/components/Footer";
 
 export default function Withdraw() {
   const { user, isAuthenticated, isLoading } = useAuth();

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Building, TrendingUp, Shield, Users, Calendar, Phone, Mail, Briefcase, Bitcoin, DollarSign, CheckCircle } from "lucide-react";
+import Footer from "@/components/Footer";
 
 function Business() {
   const [formData, setFormData] = useState({

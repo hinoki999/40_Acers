@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import Footer from "@/components/Footer";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import CreatePropertyModal from "@/components/CreatePropertyModal";

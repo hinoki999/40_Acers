@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   Zap
 } from "lucide-react";
+import Footer from "@/components/Footer";
 
 function Tokenomics() {
   const exampleProperty = {

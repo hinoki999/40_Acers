@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DollarSign, Shield, TrendingUp, Users, Smartphone, Download, Zap } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
-import AuthModals from "@/components/AuthModals";
+import Footer from "@/components/Footer";
 import InvestmentModal from "@/components/InvestmentModal";
 import SocialShareModal from "@/components/SocialShareModal";
 import InvestorNetwork from "@/components/InvestorNetwork";
@@ -225,22 +225,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </section>
-      <AuthModals
-        showLogin={showLogin}
-        showRegister={showRegister}
-        onClose={() => {
-          setShowLogin(false);
-          setShowRegister(false);
-        }}
-        onSwitchToRegister={() => {
-          setShowLogin(false);
-          setShowRegister(true);
-        }}
-        onSwitchToLogin={() => {
-          setShowRegister(false);
-          setShowLogin(true);
-        }}
-      />
+
       <InvestmentModal
         isOpen={showInvestment}
         onClose={() => {
@@ -296,6 +281,8 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
           </div>
         </div>
       </footer>
+
+      <Footer />
     </div>
   );
 }
