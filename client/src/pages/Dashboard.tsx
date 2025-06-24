@@ -316,7 +316,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-2xl font-bold text-neutral-900">
-                  {(user as any)?.userType === 'business' ? 'My Listed Properties' : 'Available Investment Opportunities'}
+                  {(user as any)?.userType === 'business' ? 'My Listed Properties' : 'My Investments'}
                 </CardTitle>
                 <p className="text-neutral-600">
                   {(user as any)?.userType === 'business' ? 'Manage your property listings' : 'Discover and invest in new properties'}
