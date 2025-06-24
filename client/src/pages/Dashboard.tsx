@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal } from "lucide-react";
+import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
@@ -17,6 +17,7 @@ import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
 import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import CurrencyToggle from "@/components/CurrencyToggle";
 import OnboardingTour from "@/components/OnboardingTour";
 import InvestorTour from "@/components/InvestorTour";
@@ -205,7 +206,7 @@ export default function Dashboard() {
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           {/* Header with title and time period tabs */}
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-semibold text-gray-900">Budget Overview</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Earnings</h2>
             <div className="flex bg-gray-100 rounded-lg p-1">
               {['Day', 'Week', 'Month'].map((period) => (
                 <button
@@ -252,54 +253,37 @@ export default function Dashboard() {
           </div>
 
           {/* Chart Area */}
-          <div className="h-48 relative mb-6">
-            <svg className="w-full h-full" viewBox="0 0 400 160" preserveAspectRatio="none">
-              {/* Grid lines */}
-              <defs>
-                <pattern id="grid" width="40" height="32" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 32" fill="none" stroke="#f3f4f6" strokeWidth="1"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-              
-              {/* Income line (orange) */}
-              <path
-                d="M 0 120 Q 50 100 100 110 T 200 90 T 300 95 T 400 80"
-                fill="none"
-                stroke="#fb923c"
-                strokeWidth="2"
-                className="drop-shadow-sm"
-              />
-              
-              {/* Expenses line (black) */}
-              <path
-                d="M 0 140 Q 50 130 100 125 Q 150 115 200 120 Q 250 125 300 110 Q 350 95 400 100"
-                fill="none"
-                stroke="#1f2937"
-                strokeWidth="2"
-                className="drop-shadow-sm"
-              />
-              
-              {/* Interactive point */}
-              <circle cx="200" cy="120" r="4" fill="#1f2937" className="drop-shadow-sm" />
-              
-              {/* Tooltip */}
-              <g transform="translate(200, 100)">
-                <rect x="-25" y="-20" width="50" height="20" rx="4" fill="#1f2937" />
-                <text x="0" y="-8" textAnchor="middle" fill="white" fontSize="12" fontWeight="500">
-                  $6,121
-                </text>
-              </g>
-            </svg>
+          <div className="h-48 mb-6">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={[
+                { name: '8/04', income: 6000, expenses: 4500 },
+                { name: '9/04', income: 6800, expenses: 5200 },
+                { name: '10/04', income: 6121, expenses: 4800 },
+                { name: '11/04', income: 7200, expenses: 5500 }
+              ]}>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9CA3AF' }} />
+                <YAxis hide />
+                <Line 
+                  type="monotone" 
+                  dataKey="income" 
+                  stroke="#fb923c" 
+                  strokeWidth={2} 
+                  dot={{ fill: '#fb923c', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: '#fb923c' }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="expenses" 
+                  stroke="#1f2937" 
+                  strokeWidth={2} 
+                  dot={{ fill: '#1f2937', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: '#1f2937' }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
 
-          {/* Date labels */}
-          <div className="flex justify-between text-xs text-gray-500 mb-6">
-            <span>8/04</span>
-            <span>9/04</span>
-            <span>10/04</span>
-            <span>10/04</span>
-          </div>
+
 
           {/* Action buttons */}
           <div className="space-y-3">
@@ -322,24 +306,149 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        {/* Total Assets Chart */}
-        <Card className="p-8">
+        {/* Expense Breakdown Chart */}
+        <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-neutral-900">Total Assets</h2>
-              <p className="text-neutral-600">Showing total visitors for the last 6 months</p>
+            <h2 className="text-xl font-semibold text-gray-900">Expense breakdown</h2>
+            <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
+              <span>Last 30 days</span>
+              <ChevronDown className="h-4 w-4" />
             </div>
           </div>
-          <PortfolioChart />
-          <div className="mt-4 flex items-center text-sm">
-            <div className="flex items-center text-secondary">
-              <TrendingUp className="mr-1" size={16} />
-              <span className="font-medium">Trending up by 5.2% this month</span>
+          
+          {/* Donut Chart */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="relative">
+              <PieChart width={200} height={200}>
+                <Pie
+                  data={[
+                    { name: 'Daily Need', value: 50, color: '#dc6844' },
+                    { name: 'Savings', value: 32, color: '#f4c2a1' },
+                    { name: 'Shopping', value: 18, color: '#d1d5db' }
+                  ]}
+                  cx={100}
+                  cy={100}
+                  innerRadius={60}
+                  outerRadius={90}
+                  startAngle={90}
+                  endAngle={450}
+                  dataKey="value"
+                >
+                  {[
+                    { name: 'Daily Need', value: 50, color: '#dc6844' },
+                    { name: 'Savings', value: 32, color: '#f4c2a1' },
+                    { name: 'Shopping', value: 18, color: '#d1d5db' }
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="text-xs text-gray-500">SPEND</div>
+                <div className="text-2xl font-bold text-gray-900">$3,800.00</div>
+              </div>
             </div>
-            <span className="text-neutral-500 ml-2">January - June 2024</span>
+          </div>
+
+          {/* Legend */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#dc6844]"></div>
+                <span className="text-sm text-gray-600">Daily Need (50%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">$2,120.63</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#f4c2a1]"></div>
+                <span className="text-sm text-gray-600">Savings (32%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">$1,361.23</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
+                <span className="text-sm text-gray-600">Shopping (18%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">$339.24</span>
+            </div>
           </div>
         </Card>
       </div>
+      
+      {/* 40 Card Container */}
+      <div className="mb-8">
+        <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">40 Acres Wallet</h2>
+            <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
+              <span>Last 30 days</span>
+              <ChevronDown className="h-4 w-4" />
+            </div>
+          </div>
+          
+          {/* Donut Chart */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="relative">
+              <PieChart width={200} height={200}>
+                <Pie
+                  data={[
+                    { name: 'Properties', value: 45, color: '#dc6844' },
+                    { name: 'Tokens', value: 35, color: '#f4c2a1' },
+                    { name: 'Available', value: 20, color: '#d1d5db' }
+                  ]}
+                  cx={100}
+                  cy={100}
+                  innerRadius={60}
+                  outerRadius={90}
+                  startAngle={90}
+                  endAngle={450}
+                  dataKey="value"
+                >
+                  {[
+                    { name: 'Properties', value: 45, color: '#dc6844' },
+                    { name: 'Tokens', value: 35, color: '#f4c2a1' },
+                    { name: 'Available', value: 20, color: '#d1d5db' }
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="text-xs text-gray-500">WALLET</div>
+                <div className="text-2xl font-bold text-gray-900">${portfolio?.totalValue?.toLocaleString() || "0.00"}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#dc6844]"></div>
+                <span className="text-sm text-gray-600">Properties (45%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">${((portfolio?.totalValue || 0) * 0.45).toLocaleString()}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#f4c2a1]"></div>
+                <span className="text-sm text-gray-600">Tokens (35%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">{portfolio?.sharesOwned || 0} tokens</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
+                <span className="text-sm text-gray-600">Available (20%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">${((portfolio?.totalValue || 0) * 0.20).toLocaleString()}</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+      
       {/* Transactions Section */}
       <Card>
         <CardHeader className="border-b border-neutral-200">
