@@ -63,7 +63,10 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 {!isAuthenticated ? (
                   <div className="flex items-center space-x-2 sm:space-x-3">
                     <Button 
-                      onClick={onShowRegister} 
+                      onClick={() => {
+                        console.log('Get Started clicked');
+                        onShowRegister();
+                      }} 
                       size="sm" 
                       className="bg-black text-white hover:bg-[#A52A2A] text-sm"
                     >
@@ -72,7 +75,10 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                     <Button 
                       variant="ghost" 
                       size="sm" 
-                      onClick={onShowLogin} 
+                      onClick={() => {
+                        console.log('Login clicked');
+                        onShowLogin();
+                      }} 
                       className="text-white hover:bg-[#A52A2A] hover:text-white text-sm border-0"
                     >
                       Login

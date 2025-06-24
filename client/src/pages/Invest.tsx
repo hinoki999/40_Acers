@@ -186,9 +186,10 @@ export default function Invest() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Prices</SelectItem>
-                  <SelectItem value="low">Under $100</SelectItem>
-                  <SelectItem value="medium">$100 - $500</SelectItem>
-                  <SelectItem value="high">$500+</SelectItem>
+                  <SelectItem value="low">Less than $5,000</SelectItem>
+                  <SelectItem value="medium">$5,001-$100,000</SelectItem>
+                  <SelectItem value="high">$101,000-$500,000</SelectItem>
+                  <SelectItem value="premium">$1M+</SelectItem>
                 </SelectContent>
               </Select>
 

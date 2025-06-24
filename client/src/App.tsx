@@ -19,14 +19,21 @@ import Marketplace from "@/pages/Marketplace";
 import Tokenomics from "@/pages/Tokenomics";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/not-found";
+import AuthModals from "@/components/AuthModals";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
-  const handleShowLogin = () => setShowLogin(true);
-  const handleShowRegister = () => setShowRegister(true);
+  const handleShowLogin = () => {
+    console.log('handleShowLogin called');
+    setShowLogin(true);
+  };
+  const handleShowRegister = () => {
+    console.log('handleShowRegister called');
+    setShowRegister(true);
+  };
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -60,6 +67,23 @@ function Router() {
         )}
         <Route component={NotFound} />
       </Switch>
+      
+      <AuthModals 
+        showLogin={showLogin}
+        showRegister={showRegister}
+        onClose={() => {
+          setShowLogin(false);
+          setShowRegister(false);
+        }}
+        onSwitchToRegister={() => {
+          setShowLogin(false);
+          setShowRegister(true);
+        }}
+        onSwitchToLogin={() => {
+          setShowRegister(false);
+          setShowLogin(true);
+        }}
+      />
     </div>
   );
 }
