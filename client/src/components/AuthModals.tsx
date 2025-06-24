@@ -31,7 +31,6 @@ export default function AuthModals({
     confirmPassword: "",
     userType: ""
   });
-  const [showAccountType, setShowAccountType] = useState(false);
   const [showInvestmentPreference, setShowInvestmentPreference] = useState(false);
   const [investmentPreference, setInvestmentPreference] = useState("");
 
@@ -43,7 +42,6 @@ export default function AuthModals({
 
   const handleAccountTypeSelection = (type: string) => {
     setRegisterForm({ ...registerForm, userType: type });
-    setShowAccountType(false);
   };
 
   const handleRegister = (e: React.FormEvent) => {
@@ -108,61 +106,178 @@ export default function AuthModals({
         </DialogContent>
       </Dialog>
 
-      {/* Register Modal */}
-      <Dialog open={showRegister} onOpenChange={onClose}>
-        <DialogContent className="max-w-lg">
+      {/* Register Modal - Account Type Selection */}
+      <Dialog open={showRegister && !registerForm.userType && !showInvestmentPreference} onOpenChange={onClose}>
+        <DialogContent className="max-w-md">
           <DialogHeader className="text-center">
-            <div className="w-12 h-12 bg-neutral-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Home className="text-white" size={20} />
+            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+              <Users className="text-white" size={20} />
             </div>
-            <DialogTitle className="text-2xl font-bold text-neutral-900">Choose Account Type</DialogTitle>
-            <p className="text-neutral-600">Select the type of account you want to create</p>
+            <DialogTitle className="text-2xl font-bold text-neutral-900">Join 40 Acres</DialogTitle>
+            <p className="text-neutral-600">Choose your account type to get started</p>
           </DialogHeader>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-            <Card 
-              className={`cursor-pointer border-2 transition-all ${
-                registerForm.userType === 'investor' 
-                  ? 'border-black bg-gray-50' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              onClick={() => setRegisterForm({...registerForm, userType: 'investor'})}
-            >
+          <div className="space-y-4">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary" 
+                  onClick={() => handleAccountTypeSelection("investor")}>
               <CardContent className="p-6 text-center">
-                <Users className="h-12 w-12 mx-auto mb-4 text-black" />
-                <h3 className="text-xl font-semibold mb-2">Investor</h3>
-                <p className="text-sm text-neutral-600">Invest in Properties</p>
+                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Users className="text-white" size={20} />
+                </div>
+                <h3 className="text-lg font-semibold text-neutral-900 mb-2">Investor</h3>
+                <p className="text-neutral-600 text-sm">
+                  Invest in fractional real estate and build wealth through property ownership
+                </p>
               </CardContent>
             </Card>
             
-            <Card 
-              className={`cursor-pointer border-2 transition-all ${
-                registerForm.userType === 'business' 
-                  ? 'border-black bg-gray-50' 
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-              onClick={() => setRegisterForm({...registerForm, userType: 'business'})}
-            >
+            <Card className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary"
+                  onClick={() => handleAccountTypeSelection("business")}>
               <CardContent className="p-6 text-center">
-                <Building className="h-12 w-12 mx-auto mb-4 text-black" />
-                <h3 className="text-xl font-semibold mb-2">Business</h3>
-                <p className="text-sm text-neutral-600">List Your Properties</p>
+                <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Building className="text-white" size={20} />
+                </div>
+                <h3 className="text-lg font-semibold text-neutral-900 mb-2">Business Owner</h3>
+                <p className="text-neutral-600 text-sm">
+                  List your properties for fractional investment and access capital
+                </p>
               </CardContent>
             </Card>
           </div>
           
-          <div className="space-y-4">
-            <Button 
-              onClick={handleRegister} 
-              disabled={!registerForm.userType}
-              className="w-full bg-black text-white hover:bg-gray-200 hover:text-black disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              Sign Up with Replit
+          <div className="text-center mt-4">
+            <Button variant="link" onClick={onSwitchToLogin} className="text-primary">
+              Already have an account? Sign In
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Registration Form */}
+      <Dialog open={showRegister && registerForm.userType && !showInvestmentPreference} onOpenChange={onClose}>
+        <DialogContent className="max-w-md">
+          <DialogHeader className="text-center">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setRegisterForm({ ...registerForm, userType: "" })}
+              className="absolute left-4 top-4"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+              {registerForm.userType === "investor" ? <Users className="text-white" size={20} /> : <Building className="text-white" size={20} />}
+            </div>
+            <DialogTitle className="text-2xl font-bold text-neutral-900">Create Account</DialogTitle>
+            <p className="text-neutral-600">Complete your {registerForm.userType} registration</p>
+          </DialogHeader>
+          
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  value={registerForm.firstName}
+                  onChange={(e) => setRegisterForm({ ...registerForm, firstName: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  value={registerForm.lastName}
+                  onChange={(e) => setRegisterForm({ ...registerForm, lastName: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                value={registerForm.email}
+                onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="password">Create Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={registerForm.password}
+                onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={registerForm.confirmPassword}
+                onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
+                required
+              />
+            </div>
+            <Button 
+              type="submit"
+              className="w-full bg-primary text-white hover:bg-primary/90"
+            >
+              Continue
+            </Button>
+          </form>
+          
           <div className="text-center mt-4">
-            <Button variant="link" onClick={onSwitchToLogin} className="text-black">
-              Already have an account? Login
+            <Button variant="link" onClick={onSwitchToLogin} className="text-primary">
+              Already have an account? Sign In
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Investment Preference */}
+      <Dialog open={showInvestmentPreference} onOpenChange={onClose}>
+        <DialogContent className="max-w-md">
+          <DialogHeader className="text-center">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setShowInvestmentPreference(false)}
+              className="absolute left-4 top-4"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+              <Building className="text-white" size={20} />
+            </div>
+            <DialogTitle className="text-2xl font-bold text-neutral-900">Investment Preferences</DialogTitle>
+            <p className="text-neutral-600">What type of investments are you looking to make?</p>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="investmentType">Investment Type</Label>
+              <Select value={investmentPreference} onValueChange={setInvestmentPreference}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select investment type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="residential">Residential</SelectItem>
+                  <SelectItem value="commercial">Commercial</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button 
+              onClick={handleInvestmentPreferenceSubmit}
+              className="w-full bg-primary text-white hover:bg-primary/90"
+              disabled={!investmentPreference}
+            >
+              Complete Registration
             </Button>
           </div>
         </DialogContent>
