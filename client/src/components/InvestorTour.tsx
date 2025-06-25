@@ -458,7 +458,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto [&>button[aria-label='Close']]:hidden">
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-2xl font-bold text-primary">Investor Guide</DialogTitle>
