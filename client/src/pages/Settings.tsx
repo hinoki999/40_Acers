@@ -30,6 +30,17 @@ export default function Settings() {
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [isGoldMember, setIsGoldMember] = useState(false);
   const [membershipTier, setMembershipTier] = useState<"Free" | "Gold">("Free");
+  const [showAddPayment, setShowAddPayment] = useState(false);
+  const [newPaymentMethod, setNewPaymentMethod] = useState({
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+    nameOnCard: "",
+    billingAddress: "",
+    city: "",
+    state: "",
+    zipCode: ""
+  });
 
   useEffect(() => {
     if (user) {
@@ -70,6 +81,37 @@ export default function Settings() {
     toast({
       title: "Upgrade to Gold",
       description: "Redirecting to payment page...",
+    });
+  };
+
+  const handleAddPaymentMethod = () => {
+    // Simulate adding payment method
+    const newMethod = {
+      id: Date.now(),
+      type: "card",
+      last4: newPaymentMethod.cardNumber.slice(-4),
+      brand: "Visa", // Could be determined from card number
+      expiryMonth: newPaymentMethod.expiryDate.split('/')[0],
+      expiryYear: newPaymentMethod.expiryDate.split('/')[1],
+      isDefault: paymentMethods.length === 0
+    };
+    
+    setPaymentMethods([...paymentMethods, newMethod]);
+    setShowAddPayment(false);
+    setNewPaymentMethod({
+      cardNumber: "",
+      expiryDate: "",
+      cvv: "",
+      nameOnCard: "",
+      billingAddress: "",
+      city: "",
+      state: "",
+      zipCode: ""
+    });
+    
+    toast({
+      title: "Payment Method Added",
+      description: "Your payment method has been saved successfully.",
     });
   };
 

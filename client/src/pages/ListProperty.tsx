@@ -43,37 +43,37 @@ export default function ListProperty() {
       icon: Building,
       title: "Property Details",
       description: "Provide basic information about your property including location, type, and valuation",
-      color: "from-blue-600 to-purple-600"
+      color: "from-black to-gray-800"
     },
     {
       icon: FileText,
       title: "Legal Documentation",
       description: "Upload property deeds, title documents, and LLC formation papers",
-      color: "from-red-600 to-orange-600"
+      color: "from-black to-gray-800"
     },
     {
       icon: Camera,
       title: "Property Media",
       description: "Add high-quality photos and videos to showcase your property",
-      color: "from-purple-600 to-pink-600"
+      color: "from-black to-gray-800"
     },
     {
       icon: Video,
       title: "Virtual Tours",
       description: "Set up virtual property tours for potential investors",
-      color: "from-green-600 to-blue-600"
+      color: "from-black to-gray-800"
     },
     {
       icon: Shield,
       title: "Verification",
       description: "Our team reviews your documentation for authenticity and compliance",
-      color: "from-orange-600 to-red-600"
+      color: "from-black to-gray-800"
     },
     {
       icon: CheckCircle,
       title: "Go Live",
       description: "Your property goes live for fractional investment opportunities",
-      color: "from-green-600 to-emerald-600"
+      color: "from-black to-gray-800"
     }
   ];
 

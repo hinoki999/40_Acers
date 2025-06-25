@@ -84,8 +84,8 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
     },
     {
       id: 2,
-      title: "How Fractional Investing Works",
-      description: "Understanding tokens and ownership shares",
+      title: "How Crowdfunding Real Estate Works",
+      description: "Understanding how multiple investors pool money to buy rental properties",
       icon: <Target className="h-8 w-8 text-blue-600" />,
       content: (
         <div className="space-y-6">
@@ -93,7 +93,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
             <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="h-8 w-8 text-white" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Property Tokens Explained</h3>
+            <h3 className="text-xl font-semibold mb-2">How Crowdfunding Real Estate Works</h3>
           </div>
 
           <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
@@ -106,14 +106,14 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
                     <ul className="text-sm space-y-1">
                       <li>• Total Value: $400,000</li>
                       <li>• Size: 1,600 sq ft</li>
-                      <li>• Total Tokens: 160</li>
-                      <li>• Price per Token: $2,500</li>
+                      <li>• Total Shares: 160</li>
+                      <li>• Price per Share: $2,500</li>
                     </ul>
                   </div>
                   <div className="p-4 bg-white rounded border">
                     <h5 className="font-semibold text-neutral-900 mb-2">Your Investment</h5>
                     <ul className="text-sm space-y-1">
-                      <li>• Buy 4 tokens = $10,000</li>
+                      <li>• Buy 4 shares = $10,000</li>
                       <li>• Your ownership: 2.5%</li>
                       <li>• Monthly income: ~$167</li>
                       <li>• Annual yield: ~8.5%</li>
@@ -122,10 +122,10 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
                 </div>
                 
                 <div className="p-4 bg-gradient-to-r from-green-100 to-blue-100 rounded border border-green-300">
-                  <h5 className="font-semibold text-green-800 mb-2">Why This Works</h5>
+                  <h5 className="font-semibold text-green-800 mb-2">Why Crowdfunding Works</h5>
                   <p className="text-green-700 text-sm">
-                    You get proportional rental income, property appreciation, and can sell your tokens 
-                    anytime without the hassles of property management, maintenance, or tenant issues.
+                    Multiple investors pool their money to buy rental properties. You get proportional rental income, 
+                    property appreciation, and professional management without the hassles of being a landlord.
                   </p>
                 </div>
               </div>
