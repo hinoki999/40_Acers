@@ -463,7 +463,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <DialogTitle className="text-2xl font-bold text-primary">Investor Guide</DialogTitle>
-              <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
+              <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200 hover:text-black">
                 Skip Tutorial
               </Button>
             </div>
