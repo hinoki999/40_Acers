@@ -17,6 +17,7 @@ import PropertyCommunity from "@/pages/PropertyCommunity";
 import Withdraw from "@/pages/Withdraw";
 import Marketplace from "@/pages/Marketplace";
 import Tokenomics from "@/pages/Tokenomics";
+import Learn from "@/pages/Learn";
 import Settings from "@/pages/Settings";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";

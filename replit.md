@@ -118,6 +118,15 @@
 - CDN-ready static asset organization
 - Database connection pooling for high concurrency
 
+## Recent Changes
+- June 25, 2025: Fixed footer width to span full page across all pages
+- June 25, 2025: Modernized Community page Loop Feed with timeline view
+- June 25, 2025: Changed "Leaderboard" to "Open Houses" with zip code search functionality
+- June 25, 2025: Moved "Tokenomics" from footer to header navigation
+- June 25, 2025: Changed footer "Tokenomics" to "Learn" and created comprehensive Learn page
+- June 25, 2025: Removed duplicate close buttons from tutorial popup windows
+- June 25, 2025: Applied consistent #A52A2A burgundy color scheme across all UI elements
+
 ## Changelog
 - June 21, 2025. Initial setup
 

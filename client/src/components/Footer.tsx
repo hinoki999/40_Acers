@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="bg-black text-white py-16 w-full -mx-4 sm:-mx-6 lg:-mx-8 ml-[0px] mr-[0px]">
-      <div className="max-w-none px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-black text-white py-16 w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
           <div className="col-span-1 md:col-span-2 flex flex-col">
             <img 
               src="/attached_assets/white_40_1750724342243.png" 
@@ -19,7 +19,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><a href="/business" className="text-gray-300 hover:text-white transition-colors">Schedule Consultation</a></li>
               <li><a href="/community" className="text-gray-300 hover:text-white transition-colors">Community</a></li>
-              <li><a href="/tokenomics" className="text-gray-300 hover:text-white transition-colors">Tokenomics</a></li>
+              <li><a href="/learn" className="text-gray-300 hover:text-white transition-colors">Learn</a></li>
             </ul>
           </div>
           
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 max-w-7xl mx-auto">
           <p>© 2025 40 Acres App Inc. All Rights Reserved.</p>
         </div>
       </div>
