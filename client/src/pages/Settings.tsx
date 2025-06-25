@@ -7,9 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp } from "lucide-react";
+import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
+import AddPaymentMethodModal from "@/components/AddPaymentMethodModal";
 
 export default function Settings() {
   const { user, isAuthenticated } = useAuth();
@@ -27,10 +28,10 @@ export default function Settings() {
     newPassword: "",
     confirmPassword: ""
   });
-  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [isGoldMember, setIsGoldMember] = useState(false);
   const [membershipTier, setMembershipTier] = useState<"Free" | "Gold">("Free");
-  const [showAddPayment, setShowAddPayment] = useState(false);
+  const [showAddPaymentModal, setShowAddPaymentModal] = useState(false);
   const [newPaymentMethod, setNewPaymentMethod] = useState({
     cardNumber: "",
     expiryDate: "",
@@ -84,35 +85,12 @@ export default function Settings() {
     });
   };
 
-  const handleAddPaymentMethod = () => {
-    // Simulate adding payment method
-    const newMethod = {
-      id: Date.now(),
-      type: "card",
-      last4: newPaymentMethod.cardNumber.slice(-4),
-      brand: "Visa", // Could be determined from card number
-      expiryMonth: newPaymentMethod.expiryDate.split('/')[0],
-      expiryYear: newPaymentMethod.expiryDate.split('/')[1],
-      isDefault: paymentMethods.length === 0
-    };
-    
-    setPaymentMethods([...paymentMethods, newMethod]);
-    setShowAddPayment(false);
-    setNewPaymentMethod({
-      cardNumber: "",
-      expiryDate: "",
-      cvv: "",
-      nameOnCard: "",
-      billingAddress: "",
-      city: "",
-      state: "",
-      zipCode: ""
-    });
-    
-    toast({
-      title: "Payment Method Added",
-      description: "Your payment method has been saved successfully.",
-    });
+  const handleAddPaymentMethod = (paymentMethod: any) => {
+    setPaymentMethods([...paymentMethods, paymentMethod]);
+  };
+
+  const handleRemovePaymentMethod = (paymentMethodId: number) => {
+    setPaymentMethods(paymentMethods.filter(pm => pm.id !== paymentMethodId));
   };
 
   if (!isAuthenticated) {
@@ -499,6 +477,12 @@ export default function Settings() {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <AddPaymentMethodModal
+        isOpen={showAddPaymentModal}
+        onClose={() => setShowAddPaymentModal(false)}
+        onSave={handleAddPaymentMethod}
+      />
       
       <Footer />
     </div>
