@@ -239,7 +239,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-orange-400"></div>
+                <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
                 <span className="text-sm text-gray-600">Income</span>
               </div>
               <div className="flex items-center gap-2">
@@ -266,10 +266,10 @@ export default function Dashboard() {
                 <Line 
                   type="monotone" 
                   dataKey="income" 
-                  stroke="#fb923c" 
+                  stroke="#A52A2A" 
                   strokeWidth={2} 
-                  dot={{ fill: '#fb923c', strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, fill: '#fb923c' }}
+                  dot={{ fill: '#A52A2A', strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: '#A52A2A' }}
                 />
                 <Line 
                   type="monotone" 
@@ -309,7 +309,7 @@ export default function Dashboard() {
         {/* Expense Breakdown Chart */}
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Expense breakdown</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Investment breakdown</h2>
             <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
               <span>Last 30 days</span>
               <ChevronDown className="h-4 w-4" />
@@ -345,7 +345,7 @@ export default function Dashboard() {
               </PieChart>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <div className="text-xs text-gray-500">SPEND</div>
-                <div className="text-2xl font-bold text-gray-900">$3,800.00</div>
+                <div className="text-sm font-bold text-gray-900" style={{ fontSize: '14pt' }}>$3,800.00</div>
               </div>
             </div>
           </div>
@@ -402,7 +402,9 @@ export default function Dashboard() {
                 {/* Logo and Chip */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <img src={logoImage} alt="40 Acres" className="w-10 h-10 rounded-lg bg-white p-1" />
+                    <div className="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center">
+                      <img src={logoImage} alt="40 Acres" className="w-8 h-8 object-contain" />
+                    </div>
                     <span className="font-bold text-lg">40 ACRES</span>
                   </div>
                   <div className="w-12 h-8 bg-yellow-400 rounded-md flex items-center justify-center">

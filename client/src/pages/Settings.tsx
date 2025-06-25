@@ -125,7 +125,7 @@ export default function Settings() {
                   </div>
                   <Button 
                     size="sm" 
-                    className="absolute -bottom-2 -right-2 rounded-full h-8 w-8 p-0"
+                    className="absolute -bottom-2 -right-2 rounded-full h-8 w-8 p-0 bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
                     onClick={() => document.getElementById('profile-upload')?.click()}
                   >
                     +
@@ -153,7 +153,7 @@ export default function Settings() {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="mt-2"
+                    className="mt-2 border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
                     onClick={() => document.getElementById('profile-upload')?.click()}
                   >
                     Upload Photo
@@ -450,7 +450,7 @@ export default function Settings() {
                 />
               </div>
               
-              <Button onClick={handlePasswordChange} className="w-fit">
+              <Button onClick={handlePasswordChange} className="w-fit bg-[#A52A2A] hover:bg-[#8B1A1A] text-white">
                 Update Password
               </Button>
             </CardContent>
