@@ -243,13 +243,65 @@ export default function Settings() {
             <CardContent className="space-y-6">
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold">Credit/Debit Cards</h3>
-                <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
-                  <div className="h-12 w-12 bg-blue-500 rounded-lg mx-auto mb-4 flex items-center justify-center text-white font-bold">
-                    💳
+                {paymentMethods.length === 0 ? (
+                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+                    <div className="h-12 w-12 bg-blue-500 rounded-lg mx-auto mb-4 flex items-center justify-center text-white font-bold">
+                      💳
+                    </div>
+                    <p className="text-gray-500 mb-4">No payment methods added</p>
+                    <Button 
+                      onClick={() => setShowAddPaymentModal(true)}
+                      variant="outline" 
+                      className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+                    >
+                      Add Payment Method
+                    </Button>
                   </div>
-                  <p className="text-gray-500 mb-4">No payment methods added</p>
-                  <Button variant="outline" className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white">Add Payment Method</Button>
-                </div>
+                ) : (
+                  <div className="space-y-3">
+                    {paymentMethods.map((pm) => (
+                      <Card key={pm.id} className="bg-gray-50">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <CreditCard className="h-5 w-5 text-gray-600" />
+                              <div>
+                                <p className="font-medium">**** **** **** {pm.last4}</p>
+                                <p className="text-sm text-gray-600">
+                                  {pm.type} • Expires {pm.expiryMonth}/{pm.expiryYear}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  {pm.billingAddress.city}, {pm.billingAddress.state} {pm.billingAddress.zipCode}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {pm.isDefault && (
+                                <Badge variant="secondary">Default</Badge>
+                              )}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleRemovePaymentMethod(pm.id)}
+                                className="text-red-600 hover:text-red-800"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                    
+                    <Button
+                      onClick={() => setShowAddPaymentModal(true)}
+                      className="w-full bg-black text-white hover:bg-gray-800"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add New Payment Method
+                    </Button>
+                  </div>
+                )}
               </div>
               
               <div className="space-y-3">
