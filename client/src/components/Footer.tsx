@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="bg-black text-white py-16 w-full">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+    <footer className="bg-black text-white py-16 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2 flex flex-col">
             <img 
               src="/attached_assets/white_40_1750724342243.png" 
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 max-w-7xl mx-auto">
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
           <p>© 2025 40 Acres App Inc. All Rights Reserved.</p>
         </div>
       </div>

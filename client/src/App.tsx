@@ -52,6 +52,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
+            <Route path="/learn" component={Learn} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
             <Route path="/community/:id" component={PropertyCommunity} />
@@ -67,6 +68,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/tokenomics" component={Tokenomics} />
+            <Route path="/learn" component={Learn} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
             <Route path="/settings" component={Settings} />

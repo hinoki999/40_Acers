@@ -14,7 +14,8 @@ import {
   FileText,
   CheckCircle,
   AlertTriangle,
-  Zap
+  Zap,
+  Smartphone
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
