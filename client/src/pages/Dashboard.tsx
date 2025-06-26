@@ -494,8 +494,7 @@ export default function Dashboard() {
                 {/* Logo and Chip */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center">
-                    </div>
+                    
                     <span className="font-bold text-lg">40 ACRES</span>
                   </div>
                   <div className="w-12 h-8 flex items-center justify-center">
