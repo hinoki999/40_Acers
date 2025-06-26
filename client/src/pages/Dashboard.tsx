@@ -443,7 +443,6 @@ export default function Dashboard() {
           </div>
         </Card>
       </div>
-      
       {/* 40 Card Container */}
       <div className="mb-8">
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
@@ -497,7 +496,7 @@ export default function Dashboard() {
                     
                     <span className="font-bold text-lg">40 ACRES</span>
                   </div>
-                  <div className="w-12 h-8 flex items-center justify-center">
+                  <div className="w-12 h-8 flex items-center justify-center pt-[0px] pb-[0px] mt-[0px] mb-[0px] ml-[11px] mr-[11px]">
                     <img 
                       src="/attached_assets/white_40_1750724342243.png" 
                       alt="40 Acres Logo" 
@@ -556,7 +555,6 @@ export default function Dashboard() {
           </div>
         </Card>
       </div>
-      
       {/* Transactions Section */}
       <Card>
         <CardHeader className="border-b border-neutral-200">
