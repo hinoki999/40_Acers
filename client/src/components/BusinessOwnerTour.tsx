@@ -285,6 +285,67 @@ export default function BusinessOwnerTour({ isOpen, onClose, onComplete, onStart
     },
     {
       id: 5,
+      title: "Business Verification & Review",
+      description: "Complete verification and pay listing fee",
+      icon: <Shield className="h-8 w-8 text-orange-600" />,
+      content: (
+        <div className="space-y-6">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Business Verification Required</h3>
+            <p className="text-neutral-600">Final verification step before going live</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="border-l-4 border-l-amber-400">
+              <CardContent className="p-4">
+                <h4 className="font-semibold text-amber-900 mb-3 flex items-center gap-2">
+                  <Building className="h-5 w-5" />
+                  Business Status Check
+                </h4>
+                <ul className="space-y-2 text-sm text-amber-800">
+                  <li>• LLC documents review</li>
+                  <li>• Property deed verification</li>
+                  <li>• Title insurance validation</li>
+                  <li>• Property media approval</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="border-l-4 border-l-green-400">
+              <CardContent className="p-4">
+                <h4 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
+                  Listing Fee Structure
+                </h4>
+                <ul className="space-y-2 text-sm text-green-800">
+                  <li>• Under $100k: 3% of property value</li>
+                  <li>• $100k-$500k: 2.5% of property value</li>
+                  <li>• $500k-$1M: 2% of property value</li>
+                  <li>• Over $1M: 1.5% of property value</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="flex gap-3">
+              <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h5 className="font-semibold text-blue-800">What Happens Next</h5>
+                <p className="text-blue-700 text-sm">
+                  Once verification is complete and the listing fee is paid, your property will be reviewed by our team within 24-48 hours and then go live on the marketplace.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 6,
       title: "Launch & Manage Your Listing",
       description: "Go live and start attracting investors",
       icon: <TrendingUp className="h-8 w-8 text-green-600" />,

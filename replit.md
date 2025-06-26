@@ -119,6 +119,8 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Updated Schedule Consultation button in Footer to have white background with black text for better visibility on Invest page
+- June 26, 2025: Added Step 5 "Business Verification & Review" to BusinessOwnerTour to match CreatePropertyModal's 6-step structure
 - June 26, 2025: Changed 40 Acres credit card graphic to black color on Dashboard page
 - June 26, 2025: Fixed Download import error on Learn (Tokenomics) page by adding Download to lucide-react imports
 - June 26, 2025: Removed Step 6 "Build Your Community" from List Your Property modal, reducing total steps from 7 to 6
