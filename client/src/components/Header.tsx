@@ -38,24 +38,24 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
               />
             </Link>
             <div className="absolute left-1/2 transform -translate-x-1/2">
-              <nav className="hidden lg:flex space-x-4 xl:space-x-6">
+              <nav className="hidden md:flex space-x-2 lg:space-x-4 xl:space-x-6">
                 <Link href="/">
-                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-3 py-2 rounded">
+                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-2 md:px-3 py-2 rounded text-sm md:text-base">
                     Home
                   </Button>
                 </Link>
                 <Link href="/invest">
-                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-3 py-2 rounded">
+                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-2 md:px-3 py-2 rounded text-sm md:text-base">
                     Invest
                   </Button>
                 </Link>
                 <Link href="/list-property">
-                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-3 py-2 rounded">
+                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-2 md:px-3 py-2 rounded text-sm md:text-base">
                     List Property
                   </Button>
                 </Link>
                 <Link href="/tokenomics">
-                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-3 py-2 rounded">Learn</Button>
+                  <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-2 md:px-3 py-2 rounded text-sm md:text-base">Learn</Button>
                 </Link>
               </nav>
             </div>

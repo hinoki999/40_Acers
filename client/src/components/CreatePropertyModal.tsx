@@ -454,25 +454,33 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <div className="w-16 h-16 bg-gradient-to-br from-accent to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Camera className="text-white" size={24} />
               </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Visual Appeal</h3>
-              <p className="text-neutral-600">Make your property stand out to investors</p>
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Property Details</h3>
+              <p className="text-neutral-600">Complete your property documentation</p>
             </div>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="thumbnailUrl" className="flex items-center gap-2">
-                  <Camera size={16} />
-                  Property Image URL
+                <Label htmlFor="featuredImage" className="flex items-center gap-2">
+                  <Upload size={16} />
+                  Featured Image
                 </Label>
                 <Input
-                  id="thumbnailUrl"
-                  type="url"
-                  placeholder="https://example.com/beautiful-property.jpg"
-                  value={formData.thumbnailUrl}
-                  onChange={(e) => setFormData({ ...formData, thumbnailUrl: e.target.value })}
+                  id="featuredImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                        setFormData({ ...formData, thumbnailUrl: e.target?.result as string });
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
                   className="mt-2"
                 />
                 <p className="text-xs text-neutral-500 mt-1">
-                  Add a high-quality image to attract investors
+                  Upload a high-quality image to attract investors
                 </p>
               </div>
               <div>
@@ -486,37 +494,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 />
               </div>
               
-              <div>
-                <Label htmlFor="propertyScreenshots" className="flex items-center gap-2">
-                  <Camera size={16} />
-                  Property Screenshots (Up to 75 photos)
-                </Label>
-                <Input
-                  id="propertyScreenshots"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files || []);
-                    if (files.length > 75) {
-                      alert('You can upload up to 75 photos maximum');
-                      return;
-                    }
-                    setPropertyScreenshots(files);
-                  }}
-                  className="mt-2"
-                />
-                <p className="text-xs text-neutral-500 mt-1">
-                  Upload high-quality photos showcasing different angles and features of your property
-                </p>
-                {propertyScreenshots.length > 0 && (
-                  <div className="mt-3 p-3 bg-green-50 rounded border border-green-200">
-                    <p className="text-sm text-green-800">
-                      {propertyScreenshots.length} photo{propertyScreenshots.length > 1 ? 's' : ''} selected
-                    </p>
-                  </div>
-                )}
-              </div>
+
               {formData.thumbnailUrl && (
                 <div className="border border-neutral-200 rounded-lg overflow-hidden">
                   <img
@@ -1067,6 +1045,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 1}
+              className="hover:bg-black hover:text-white"
             >
               Previous
             </Button>
@@ -1075,7 +1054,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <Button
                 type="button"
                 onClick={handleNext}
-                className="bg-[#b34034] hover:bg-[#A0522D]"
+                className="bg-[#b34034] hover:bg-black hover:text-white"
               >
                 Next Step
               </Button>
@@ -1083,7 +1062,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <Button
                 type="submit"
                 disabled={createProperty.isPending}
-                className="bg-[#b34034] hover:bg-[#A0522D]"
+                className="bg-[#b34034] hover:bg-black hover:text-white"
               >
                 {createProperty.isPending ? "Creating Property..." : "Create Property Listing"}
               </Button>
