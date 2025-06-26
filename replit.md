@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Fixed Community page Loop Feed to display as modern social media timeline with investor posts and property showcases
 - June 26, 2025: Added cryptocurrency payment support to Investment modal with USD/Bitcoin payment method selector
 - June 26, 2025: Implemented cryptocurrency wallet connection functionality for Bitcoin investments
 - June 26, 2025: Added USD/Bitcoin switcher to 40 Acres Wallet container on Dashboard
@@ -126,7 +127,6 @@
 - June 26, 2025: Added USD/Bitcoin (BTC) currency switcher to Dashboard Investment Breakdown and Earnings containers with Bitcoin icon
 - June 26, 2025: Added Property Screenshots upload section (up to 75 photos) to List Your Property form
 - June 26, 2025: Added "Land" as new property type option in property listing form
-- June 26, 2025: Fixed Community page loading and modernized Loop Feed with 20% zoom out and enhanced aesthetics
 - June 26, 2025: Added comprehensive tokenization education step to all tutorials covering cryptocurrency investing and blockchain benefits
 - June 25, 2025: Created comprehensive Legal Disclaimer page for real estate crowdfunding and cryptocurrency investments
 - June 25, 2025: Implemented payment method modal popup in Settings with full card entry form and billing address
