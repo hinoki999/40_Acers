@@ -21,13 +21,7 @@ export default function Settings() {
   // Get tab from URL parameters
   const [activeTab, setActiveTab] = useState('profile');
   
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tabFromUrl = urlParams.get('tab');
-    if (tabFromUrl && ['profile', 'payment', 'membership', 'security'].includes(tabFromUrl)) {
-      setActiveTab(tabFromUrl);
-    }
-  }, [location]);
+
   
   const [profile, setProfile] = useState({
     firstName: "",
@@ -113,6 +107,27 @@ export default function Settings() {
     url.searchParams.set('tab', tab);
     window.history.pushState({}, '', url.toString());
   };
+
+  // Watch for URL changes and update active tab accordingly
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabFromUrl = urlParams.get('tab');
+      if (tabFromUrl && ['profile', 'payment', 'membership', 'security'].includes(tabFromUrl)) {
+        setActiveTab(tabFromUrl);
+      }
+    };
+
+    // Listen for browser navigation events
+    window.addEventListener('popstate', handleUrlChange);
+    
+    // Also check URL on component mount and when location changes
+    handleUrlChange();
+
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+    };
+  }, [location]);
 
   if (!isAuthenticated) {
     return (
