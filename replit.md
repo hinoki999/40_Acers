@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Updated Learn page banner to match website color palette (changed from blue/purple gradient to black background) and adjusted heading font size to be consistent with other page headings
 - June 26, 2025: Fixed Learn page navigation URL from /tokenomics to /learn in Header component
 - June 26, 2025: Reverted Learn page back to original content with articles and guides on crowdfunding and real estate investing, moved tokenomics section to bottom
 - June 26, 2025: Removed white background from Schedule Consultation link in footer, restored original gray text styling
