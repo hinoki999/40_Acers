@@ -499,8 +499,12 @@ export default function Dashboard() {
                     </div>
                     <span className="font-bold text-lg">40 ACRES</span>
                   </div>
-                  <div className="w-12 h-8 bg-yellow-400 rounded-md flex items-center justify-center">
-                    <div className="w-8 h-6 bg-yellow-300 rounded-sm"></div>
+                  <div className="w-12 h-8 flex items-center justify-center">
+                    <img 
+                      src="/attached_assets/white_40_1750724342243.png" 
+                      alt="40 Acres Logo" 
+                      className="w-10 h-6 object-contain"
+                    />
                   </div>
                 </div>
                 
