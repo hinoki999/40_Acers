@@ -110,7 +110,7 @@ export default function AuthModals({
       <Dialog open={showRegister && !registerForm.userType && !showInvestmentPreference} onOpenChange={onClose}>
         <DialogContent className="max-w-md">
           <DialogHeader className="text-center">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
               <Users className="text-white" size={20} />
             </div>
             <DialogTitle className="text-2xl font-bold text-neutral-900">Join 40 Acres</DialogTitle>
@@ -121,7 +121,7 @@ export default function AuthModals({
             <Card className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary" 
                   onClick={() => handleAccountTypeSelection("investor")}>
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Users className="text-white" size={20} />
                 </div>
                 <h3 className="text-lg font-semibold text-neutral-900 mb-2">Investor</h3>
@@ -134,7 +134,7 @@ export default function AuthModals({
             <Card className="cursor-pointer hover:shadow-md transition-shadow border-2 hover:border-primary"
                   onClick={() => handleAccountTypeSelection("business")}>
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Building className="text-white" size={20} />
                 </div>
                 <h3 className="text-lg font-semibold text-neutral-900 mb-2">Business Owner</h3>
@@ -154,7 +154,7 @@ export default function AuthModals({
       </Dialog>
 
       {/* Registration Form */}
-      <Dialog open={showRegister && registerForm.userType && !showInvestmentPreference} onOpenChange={onClose}>
+      <Dialog open={showRegister && Boolean(registerForm.userType) && !showInvestmentPreference} onOpenChange={onClose}>
         <DialogContent className="max-w-md">
           <DialogHeader className="text-center">
             <Button 
@@ -165,7 +165,7 @@ export default function AuthModals({
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
               {registerForm.userType === "investor" ? <Users className="text-white" size={20} /> : <Building className="text-white" size={20} />}
             </div>
             <DialogTitle className="text-2xl font-bold text-neutral-900">Create Account</DialogTitle>
@@ -225,7 +225,7 @@ export default function AuthModals({
             </div>
             <Button 
               type="submit"
-              className="w-full bg-primary text-white hover:bg-primary/90"
+              className="w-full bg-black text-white hover:bg-neutral-800"
             >
               Continue
             </Button>
@@ -251,30 +251,57 @@ export default function AuthModals({
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
               <Building className="text-white" size={20} />
             </div>
-            <DialogTitle className="text-2xl font-bold text-neutral-900">Investment Preferences</DialogTitle>
-            <p className="text-neutral-600">What type of investments are you looking to make?</p>
+            <DialogTitle className="text-2xl font-bold text-neutral-900">
+              {registerForm.userType === "business" ? "Property Listing Preferences" : "Investment Preferences"}
+            </DialogTitle>
+            <p className="text-neutral-600">
+              {registerForm.userType === "business" 
+                ? "What type of properties do you plan to list?" 
+                : "What type of investments are you looking to make?"}
+            </p>
           </DialogHeader>
           
           <div className="space-y-4">
             <div>
-              <Label htmlFor="investmentType">Investment Type</Label>
+              <Label htmlFor="investmentType">
+                {registerForm.userType === "business" ? "Property Type" : "Investment Type"}
+              </Label>
               <Select value={investmentPreference} onValueChange={setInvestmentPreference}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select investment type" />
+                <SelectTrigger className="hover:[&>div]:bg-[#A52A2A] hover:[&>div]:text-white transition-colors">
+                  <SelectValue placeholder={
+                    registerForm.userType === "business" 
+                      ? "Select property type" 
+                      : "Select investment type"
+                  } />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="residential">Residential</SelectItem>
-                  <SelectItem value="commercial">Commercial</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  {registerForm.userType === "business" ? (
+                    <>
+                      <SelectItem value="single-family" className="hover:bg-[#A52A2A] hover:text-white">Single Family Home</SelectItem>
+                      <SelectItem value="multi-family" className="hover:bg-[#A52A2A] hover:text-white">Multi-Family</SelectItem>
+                      <SelectItem value="condo" className="hover:bg-[#A52A2A] hover:text-white">Condominium</SelectItem>
+                      <SelectItem value="townhouse" className="hover:bg-[#A52A2A] hover:text-white">Townhouse</SelectItem>
+                      <SelectItem value="apartment" className="hover:bg-[#A52A2A] hover:text-white">Apartment Building</SelectItem>
+                      <SelectItem value="commercial" className="hover:bg-[#A52A2A] hover:text-white">Commercial</SelectItem>
+                      <SelectItem value="land" className="hover:bg-[#A52A2A] hover:text-white">Land</SelectItem>
+                      <SelectItem value="other" className="hover:bg-[#A52A2A] hover:text-white">Other</SelectItem>
+                    </>
+                  ) : (
+                    <>
+                      <SelectItem value="residential" className="hover:bg-[#A52A2A] hover:text-white">Residential</SelectItem>
+                      <SelectItem value="commercial" className="hover:bg-[#A52A2A] hover:text-white">Commercial</SelectItem>
+                      <SelectItem value="other" className="hover:bg-[#A52A2A] hover:text-white">Other</SelectItem>
+                    </>
+                  )}
                 </SelectContent>
               </Select>
             </div>
             <Button 
               onClick={handleInvestmentPreferenceSubmit}
-              className="w-full bg-primary text-white hover:bg-primary/90"
+              className="w-full bg-black text-white hover:bg-neutral-800"
               disabled={!investmentPreference}
             >
               Complete Registration
