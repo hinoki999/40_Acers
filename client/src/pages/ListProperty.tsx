@@ -299,7 +299,7 @@ export default function ListProperty() {
             <Button 
               onClick={() => setShowBusinessTour(true)}
               size="lg"
-              className="bg-black text-white hover:bg-[#A52A2A] font-semibold px-8 py-4"
+              className="bg-white text-black hover:bg-gray-100 font-semibold px-8 py-4"
             >
               Schedule Consultation
             </Button>
