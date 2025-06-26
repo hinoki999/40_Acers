@@ -1,635 +1,173 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import { 
-  BookOpen, 
-  GraduationCap, 
-  TrendingUp, 
-  DollarSign, 
-  Home, 
-  Users, 
-  Shield, 
-  Calculator,
-  PieChart,
-  Building,
-  Coins,
-  Target,
-  FileText,
-  Play,
+  BookOpen,
+  PlayCircle,
   ExternalLink,
   Clock,
-  Star,
-  ArrowLeft
+  Calculator,
+  Shield,
+  Crown,
+  Users,
+  TrendingUp,
+  DollarSign,
+  Lock,
+  RefreshCw,
+  FileText,
+  CheckCircle,
+  AlertTriangle,
+  Zap,
+  Smartphone,
+  Download
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
-interface LearningResource {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  duration: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
-  type: "Article" | "Video" | "Guide" | "Calculator";
-  featured?: boolean;
-  content?: string;
-}
-
-const learningResources: LearningResource[] = [
-  {
-    id: 1,
-    title: "What is Real Estate Crowdfunding?",
-    description: "Learn the basics of pooling money with other investors to buy real estate properties.",
-    category: "crowdfunding",
-    duration: "5 min read",
-    difficulty: "Beginner",
-    type: "Article",
-    featured: true,
-    content: `# What is Real Estate Crowdfunding?
-
-Real estate crowdfunding is a revolutionary approach to property investment that allows multiple investors to pool their money together to purchase and own shares of real estate properties. This innovative model breaks down traditional barriers to real estate investment, making it accessible to a broader range of investors.
-
-## How It Works
-
-In traditional real estate investing, you would need substantial capital to purchase an entire property. With crowdfunding, you can invest as little as $10 to own a fraction of a property. Here's how the process typically works:
-
-1. **Property Selection**: Professional real estate teams identify and vet investment opportunities
-2. **Investment Offering**: Properties are listed on the platform with detailed information about potential returns
-3. **Investor Participation**: Multiple investors contribute funds to reach the property's funding goal
-4. **Shared Ownership**: Each investor owns a percentage of the property based on their investment amount
-5. **Ongoing Returns**: Investors receive their share of rental income and property appreciation
-
-## Benefits of Real Estate Crowdfunding
-
-### Lower Barrier to Entry
-Traditional real estate investment often requires tens or hundreds of thousands of dollars. Crowdfunding platforms typically allow investments starting from $10-$1,000, making real estate accessible to more people.
-
-### Diversification
-Instead of putting all your money into one property, you can spread your investment across multiple properties, locations, and property types to reduce risk.
-
-### Professional Management
-Properties are typically managed by experienced real estate professionals, so you don't need to deal with tenants, maintenance, or day-to-day property management.
-
-### Liquidity Options
-Some platforms offer secondary markets where you can sell your shares before the property is sold, providing more liquidity than traditional real estate ownership.
-
-## Types of Real Estate Crowdfunding
-
-### Equity Crowdfunding
-Investors own actual shares of the property and receive returns from both rental income and property appreciation when the property is eventually sold.
-
-### Debt Crowdfunding
-Investors lend money for real estate projects and receive fixed returns through interest payments, similar to being a bank for real estate developers.
-
-### Hybrid Models
-Some platforms combine elements of both equity and debt crowdfunding to provide different risk and return profiles.
-
-## Considerations and Risks
-
-While real estate crowdfunding offers many advantages, it's important to understand the risks:
-
-- **Illiquidity**: Your investment may be tied up for several years
-- **Market Risk**: Property values can decrease
-- **Platform Risk**: The crowdfunding platform itself could face difficulties
-- **Lack of Control**: You typically have no say in property management decisions
-
-## Getting Started
-
-Before investing in real estate crowdfunding, consider:
-- Your risk tolerance and investment timeline
-- The platform's track record and fee structure
-- The specific property's location, condition, and market prospects
-- How this investment fits into your overall portfolio
-
-Real estate crowdfunding represents a democratization of real estate investing, allowing more people to participate in an asset class that was previously accessible only to wealthy individuals and institutions.`
-  },
-  {
-    id: 2,
-    title: "Understanding Fractional Ownership",
-    description: "How owning a fraction of a property works and what it means for your investment.",
-    category: "fractional",
-    duration: "8 min read",
-    difficulty: "Beginner",
-    type: "Article",
-    featured: true,
-    content: `# Understanding Fractional Ownership
-
-Fractional ownership revolutionizes real estate investing by allowing multiple investors to own shares of a single property. This approach democratizes access to real estate markets that were previously available only to wealthy individuals or institutions.
-
-## What is Fractional Ownership?
-
-Fractional ownership means that instead of purchasing an entire property, you buy a percentage or "fraction" of it. Each fraction represents a proportional share of the property's value, rental income, and potential appreciation.
-
-## How Fractional Ownership Works
-
-### Share Structure
-- Properties are divided into shares (e.g., 1,000 shares per property)
-- Each share represents a percentage of ownership
-- Minimum investment typically starts at $10-$100 per share
-- You can purchase multiple shares to increase your ownership percentage
-
-### Legal Framework
-Fractional ownership is typically structured through:
-- **Limited Liability Companies (LLCs)**: Most common structure
-- **Real Estate Investment Trusts (REITs)**: For larger portfolios
-- **Tokenized Securities**: Blockchain-based fractional ownership
-
-## Benefits of Fractional Ownership
-
-### Accessibility
-- Lower minimum investment requirements
-- Access to premium properties previously out of reach
-- Ability to invest in multiple properties with limited capital
-
-### Diversification
-- Spread risk across multiple properties and markets
-- Invest in different property types (residential, commercial, industrial)
-- Geographic diversification across cities and states
-
-### Professional Management
-- Property management handled by experienced professionals
-- No direct involvement in day-to-day operations
-- Maintenance and tenant relations managed for you
-
-### Liquidity Options
-- Some platforms offer secondary markets for trading shares
-- More liquid than traditional real estate ownership
-- Ability to sell partial holdings
-
-## Types of Returns
-
-### Rental Income
-- Receive proportional share of monthly rental income
-- Payments typically made quarterly or monthly
-- Income distributed after expenses and management fees
-
-### Capital Appreciation
-- Benefit from property value increases over time
-- Realized when property is sold or refinanced
-- Long-term wealth building potential
-
-## Considerations and Risks
-
-### Limited Control
-- No decision-making power in property management
-- Cannot choose tenants or set rental rates
-- Exit strategy dependent on platform policies
-
-### Fees and Costs
-- Management fees (typically 1-2% annually)
-- Platform fees for transactions
-- Property-specific expenses reduce returns
-
-### Market Risk
-- Property values can decrease
-- Rental income may fluctuate
-- Local market conditions affect performance
-
-## Getting Started with Fractional Ownership
-
-### Research Platforms
-- Compare fee structures and investment minimums
-- Review track record and property types
-- Understand liquidity options and exit strategies
-
-### Due Diligence
-- Analyze property financials and market conditions
-- Review property management team experience
-- Understand the legal structure and your rights
-
-### Portfolio Strategy
-- Start with small investments to learn the process
-- Diversify across properties and markets
-- Consider your overall investment timeline and goals
-
-Fractional ownership represents a fundamental shift in real estate investing, making it possible for anyone to build a diversified real estate portfolio regardless of their starting capital.`
-  },
-  {
-    id: 3,
-    title: "Cryptocurrency Tokenization Explained",
-    description: "Discover how blockchain technology enables secure fractional property ownership.",
-    category: "tokenization",
-    duration: "12 min read",
-    difficulty: "Intermediate",
-    type: "Guide",
-    featured: true,
-    content: `# Cryptocurrency Tokenization Explained
-
-Cryptocurrency tokenization represents the cutting edge of real estate investing, combining blockchain technology with traditional property ownership to create a more transparent, efficient, and accessible investment ecosystem.
-
-## What is Tokenization?
-
-Tokenization is the process of converting real-world assets, like real estate properties, into digital tokens on a blockchain. Each token represents a fractional ownership stake in the underlying asset.
-
-## How Blockchain Enables Real Estate Tokenization
-
-### Immutable Records
-- All ownership records stored on blockchain
-- Transparent transaction history
-- Cannot be altered or falsified
-- Provides clear chain of ownership
-
-### Smart Contracts
-- Automated execution of investment terms
-- Instant distribution of rental income
-- Reduced need for intermediaries
-- Lower transaction costs
-
-### Global Accessibility
-- 24/7 trading capabilities
-- Access from anywhere in the world
-- Reduced geographic barriers
-- Cross-border investment opportunities
-
-## Types of Real Estate Tokens
-
-### Security Tokens
-- Represent actual ownership in real estate
-- Subject to securities regulations
-- Provide rights to income and appreciation
-- Most common type for real estate
-
-### Utility Tokens
-- Provide access to platform services
-- May offer discounts or special features
-- Not direct ownership of property
-- Less regulatory oversight
-
-### Stablecoins
-- Cryptocurrency pegged to stable assets
-- Often used for transactions
-- Reduces volatility concerns
-- Facilitates easier trading
-
-## Benefits of Tokenized Real Estate
-
-### Enhanced Liquidity
-- Trade tokens on secondary markets
-- No need to sell entire property position
-- Faster settlement times (minutes vs. weeks)
-- More flexible exit strategies
-
-### Fractional Ownership Made Simple
-- Easily divisible into small units
-- Precise ownership percentages
-- Automated dividend distributions
-- Clear ownership verification
-
-### Reduced Costs
-- Lower transaction fees
-- Eliminated need for many intermediaries
-- Automated compliance and reporting
-- Reduced paperwork and processing time
-
-### Global Investment Access
-- Invest in international properties
-- Access to previously restricted markets
-- 24/7 trading availability
-- Cross-border diversification
-
-## Technical Infrastructure
-
-### Blockchain Platforms
-- **Ethereum**: Most popular for real estate tokens
-- **Polygon**: Lower fees, faster transactions
-- **Solana**: High-speed, low-cost alternative
-- **Private Blockchains**: Enterprise-focused solutions
-
-### Token Standards
-- **ERC-20**: Standard for fungible tokens
-- **ERC-1400**: Designed for security tokens
-- **ERC-721**: For unique property tokens (NFTs)
-- **Custom Standards**: Platform-specific solutions
-
-## Regulatory Landscape
-
-### Securities Compliance
-- Most real estate tokens are securities
-- Must comply with SEC regulations
-- KYC/AML requirements for investors
-- Restricted to accredited investors in some cases
-
-### International Considerations
-- Different regulations by country
-- Cross-border compliance challenges
-- Evolving regulatory framework
-- Legal uncertainty in some jurisdictions
-
-## Investment Process
-
-### Platform Registration
-- Complete KYC verification
-- Link cryptocurrency wallet
-- Fund account with digital assets
-- Review available properties
-
-### Token Purchase
-- Select property tokens to purchase
-- Execute trade through smart contract
-- Tokens transferred to your wallet
-- Ownership recorded on blockchain
-
-### Ongoing Management
-- Automatic rental income distribution
-- Real-time portfolio tracking
-- Voting rights on major decisions
-- Easy portfolio rebalancing
-
-## Risks and Considerations
-
-### Technology Risks
-- Smart contract vulnerabilities
-- Blockchain network issues
-- Wallet security concerns
-- Platform technical failures
-
-### Regulatory Uncertainty
-- Evolving legal framework
-- Potential restriction changes
-- Compliance requirements
-- Tax implications
-
-### Market Volatility
-- Cryptocurrency price fluctuations
-- Property value changes
-- Liquidity variations
-- Platform-specific risks
-
-## Future of Tokenized Real Estate
-
-### Emerging Trends
-- Integration with DeFi protocols
-- Automated property management
-- AI-powered investment decisions
-- Enhanced transparency and reporting
-
-### Institutional Adoption
-- Major real estate firms exploring tokenization
-- Traditional banks offering crypto services
-- Government pilot programs
-- Integration with existing financial systems
-
-Cryptocurrency tokenization represents the future of real estate investing, offering unprecedented accessibility, transparency, and efficiency while creating new opportunities for global property investment.`
-  },
-  {
-    id: 4,
-    title: "Real Estate Investment ROI Calculator",
-    description: "Calculate potential returns on your real estate investments with various scenarios.",
-    category: "realestate",
-    duration: "Interactive",
-    difficulty: "Beginner",
-    type: "Calculator"
-  },
-  {
-    id: 5,
-    title: "Building a Diversified Real Estate Portfolio",
-    description: "Strategies for spreading risk across different property types and locations.",
-    category: "realestate",
-    duration: "15 min read",
-    difficulty: "Intermediate",
-    type: "Guide"
-  },
-  {
-    id: 6,
-    title: "How Property Tokens Work",
-    description: "Deep dive into the technical aspects of tokenized real estate investments.",
-    category: "tokenization",
-    duration: "18 min video",
-    difficulty: "Advanced",
-    type: "Video"
-  },
-  {
-    id: 7,
-    title: "Risks and Rewards of Crowdfunded Real Estate",
-    description: "Understanding the potential benefits and drawbacks of real estate crowdfunding.",
-    category: "crowdfunding",
-    duration: "10 min read",
-    difficulty: "Intermediate",
-    type: "Article"
-  },
-  {
-    id: 8,
-    title: "Legal Framework of Fractional Ownership",
-    description: "The legal structure behind fractional real estate ownership and investor rights.",
-    category: "fractional",
-    duration: "20 min read",
-    difficulty: "Advanced",
-    type: "Guide"
-  },
-  {
-    id: 9,
-    title: "Market Analysis and Property Selection",
-    description: "How to evaluate markets and choose the right properties for investment.",
-    category: "realestate",
-    duration: "25 min read",
-    difficulty: "Intermediate",
-    type: "Guide"
-  },
-  {
-    id: 10,
-    title: "Smart Contracts in Real Estate",
-    description: "How blockchain smart contracts automate and secure real estate transactions.",
-    category: "tokenization",
-    duration: "14 min video",
-    difficulty: "Advanced",
-    type: "Video"
-  }
-];
-
-const categories = [
-  {
-    id: "crowdfunding",
-    name: "Crowdfunding Basics",
-    icon: <Users className="h-6 w-6" />,
-    description: "Learn about pooling investments with other investors"
-  },
-  {
-    id: "fractional",
-    name: "Fractional Ownership",
-    icon: <PieChart className="h-6 w-6" />,
-    description: "Understanding partial property ownership structures"
-  },
-  {
-    id: "tokenization",
-    name: "Cryptocurrency Tokenization",
-    icon: <Coins className="h-6 w-6" />,
-    description: "Blockchain technology for real estate investments"
-  },
-  {
-    id: "realestate",
-    name: "Real Estate Investing",
-    icon: <Building className="h-6 w-6" />,
-    description: "General real estate investment knowledge and strategies"
-  }
-];
-
-export default function Learn() {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+function Learn() {
+  const articles = [
+    {
+      id: 1,
+      title: "Real Estate Crowdfunding: A Beginner's Guide",
+      description: "Learn the fundamentals of real estate crowdfunding and how it democratizes property investment",
+      readTime: "8 min read",
+      category: "Basics",
+      featured: true,
+      content: "Understanding the basics of real estate crowdfunding and how it opens investment opportunities to everyone."
+    },
+    {
+      id: 2,
+      title: "How to Evaluate Investment Properties",
+      description: "Key metrics and analysis techniques for assessing real estate investment opportunities",
+      readTime: "12 min read",
+      category: "Analysis",
+      featured: true,
+      content: "Learn to analyze cap rates, cash flow, location factors, and market trends for smart investments."
+    },
+    {
+      id: 3,
+      title: "Understanding Real Estate Market Cycles",
+      description: "Navigate market ups and downs with knowledge of real estate cycles and timing",
+      readTime: "10 min read",
+      category: "Market",
+      featured: false,
+      content: "Master the four phases of real estate cycles to optimize your investment timing and strategy."
+    },
+    {
+      id: 4,
+      title: "Building a Diversified Real Estate Portfolio",
+      description: "Strategies for spreading risk across different property types and locations",
+      readTime: "15 min read",
+      category: "Strategy",
+      featured: true,
+      content: "Learn diversification strategies across property types, markets, and investment structures."
+    },
+    {
+      id: 5,
+      title: "Legal Considerations in Real Estate Crowdfunding",
+      description: "Important legal frameworks, regulations, and protections for investors",
+      readTime: "18 min read",
+      category: "Legal",
+      featured: false,
+      content: "Navigate SEC regulations, investor protections, and legal structures in crowdfunding."
+    },
+    {
+      id: 6,
+      title: "Tax Benefits of Real Estate Investment",
+      description: "Maximize your returns through understanding real estate tax advantages",
+      readTime: "14 min read",
+      category: "Tax",
+      featured: false,
+      content: "Explore depreciation, 1031 exchanges, and other tax strategies for real estate investors."
     }
-  };
+  ];
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "Beginner": return "bg-green-100 text-green-800";
-      case "Intermediate": return "bg-yellow-100 text-yellow-800";
-      case "Advanced": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+  const guides = [
+    {
+      title: "Getting Started with 40 Acres",
+      description: "Step-by-step guide to making your first real estate investment",
+      steps: 4,
+      duration: "5 minutes"
+    },
+    {
+      title: "Investment Screening Process",
+      description: "How we evaluate and select properties for the platform",
+      steps: 6,
+      duration: "8 minutes"
+    },
+    {
+      title: "Managing Your Portfolio",
+      description: "Track performance and optimize your real estate investments",
+      steps: 5,
+      duration: "6 minutes"
     }
+  ];
+
+  // Tokenomics example data
+  const exampleProperty = {
+    value: 400000,
+    squareFootage: 2000,
+    address: "1909 E Ferry Street, Detroit"
   };
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case "Article": return <FileText className="h-4 w-4" />;
-      case "Video": return <Play className="h-4 w-4" />;
-      case "Guide": return <BookOpen className="h-4 w-4" />;
-      case "Calculator": return <Calculator className="h-4 w-4" />;
-      default: return <FileText className="h-4 w-4" />;
-    }
-  };
-
-  const filteredResources = (category: string) => {
-    return learningResources.filter(resource => resource.category === category);
-  };
-
-  const featuredResources = learningResources.filter(resource => resource.featured);
+  const baseTokenPrice = exampleProperty.value / exampleProperty.squareFootage; // $200
+  const maxTokenizedValue = exampleProperty.value * 0.49; // $196,000
+  const platformFee = 0.05;
+  const finalTokenPrice = baseTokenPrice * (1 + platformFee); // $210
+  const tokenSupply = Math.floor(maxTokenizedValue / baseTokenPrice); // 980 tokens
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-black text-white py-16">
+      <section className="bg-gradient-to-br from-blue-900 to-purple-900 text-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <div className="p-4 bg-white/10 rounded-full">
-                <GraduationCap className="h-12 w-12 text-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
               Learn Real Estate Investing
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Master the fundamentals of crowdfunding, fractional ownership, and cryptocurrency tokenization 
-              in real estate. Build your knowledge with our comprehensive learning resources.
+            <p className="text-xl sm:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto">
+              Master the fundamentals of real estate crowdfunding and build wealth through informed investment decisions
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button 
-                size="lg" 
-                className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
-                onClick={() => scrollToSection('featured-resources')}
-              >
-                <BookOpen className="h-5 w-5 mr-2" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-semibold px-8 py-4">
+                <BookOpen className="mr-2" size={20} />
                 Start Learning
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-white text-black bg-white hover:bg-gray-100 hover:text-black"
-                onClick={() => scrollToSection('investment-calculator')}
-              >
-                <Calculator className="h-5 w-5 mr-2" />
-                Investment Calculator
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-900 font-semibold px-8 py-4">
+                <PlayCircle className="mr-2" size={20} />
+                Watch Video Guide
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Resources */}
-      <section id="featured-resources" className="py-16">
+      {/* Featured Articles */}
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Learning Resources</h2>
-            <p className="text-lg text-gray-600">Start with these essential guides to real estate investing</p>
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">Featured Articles</h2>
+            <p className="text-xl text-neutral-600">Essential knowledge for real estate investors</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {featuredResources.map((resource) => (
-              <Card key={resource.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-[#A52A2A]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {articles.filter(article => article.featured).map((article) => (
+              <Card key={article.id} className="hover:shadow-lg transition-shadow cursor-pointer">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary" className={getDifficultyColor(resource.difficulty)}>
-                      {resource.difficulty}
-                    </Badge>
-                    <div className="flex items-center text-sm text-gray-500">
-                      {getTypeIcon(resource.type)}
-                      <span className="ml-1">{resource.type}</span>
+                    <Badge variant="secondary">{article.category}</Badge>
+                    <div className="flex items-center text-sm text-neutral-500">
+                      <Clock size={14} className="mr-1" />
+                      {article.readTime}
                     </div>
                   </div>
-                  <CardTitle className="text-xl">{resource.title}</CardTitle>
+                  <CardTitle className="text-xl">{article.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-4">{resource.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm text-gray-500">
-                      <Clock className="h-4 w-4 mr-1" />
-                      {resource.duration}
-                    </div>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button size="sm" className="bg-[#A52A2A] hover:bg-[#8B1A1A]">
-                          <span className="mr-1">Read</span>
-                          <ExternalLink className="h-3 w-3" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-4xl max-h-[80vh]">
-                        <DialogHeader>
-                          <DialogTitle>{resource.title}</DialogTitle>
-                        </DialogHeader>
-                        <ScrollArea className="mt-4 h-[60vh]">
-                          <div className="prose prose-sm max-w-none">
-                            {resource.content ? (
-                              <div className="prose prose-lg max-w-none">
-                                {resource.content.split('\n\n').map((paragraph, index) => {
-                                  if (paragraph.startsWith('# ')) {
-                                    return <h1 key={index} className="text-2xl font-bold mb-4 mt-6">{paragraph.replace('# ', '')}</h1>;
-                                  } else if (paragraph.startsWith('## ')) {
-                                    return <h2 key={index} className="text-xl font-semibold mb-3 mt-5">{paragraph.replace('## ', '')}</h2>;
-                                  } else if (paragraph.startsWith('### ')) {
-                                    return <h3 key={index} className="text-lg font-medium mb-2 mt-4">{paragraph.replace('### ', '')}</h3>;
-                                  } else if (paragraph.startsWith('- ')) {
-                                    const listItems = paragraph.split('\n').filter(item => item.startsWith('- '));
-                                    return (
-                                      <ul key={index} className="list-disc pl-6 mb-4">
-                                        {listItems.map((item, i) => (
-                                          <li key={i} className="mb-1">{item.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>
-                                        ))}
-                                      </ul>
-                                    );
-                                  } else if (paragraph.match(/^\d+\./)) {
-                                    const listItems = paragraph.split('\n').filter(item => item.match(/^\d+\./));
-                                    return (
-                                      <ol key={index} className="list-decimal pl-6 mb-4">
-                                        {listItems.map((item, i) => (
-                                          <li key={i} className="mb-1" dangerouslySetInnerHTML={{
-                                            __html: item.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                          }} />
-                                        ))}
-                                      </ol>
-                                    );
-                                  } else if (paragraph.trim()) {
-                                    return (
-                                      <p key={index} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{
-                                        __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                      }} />
-                                    );
-                                  }
-                                  return null;
-                                })}
-                              </div>
-                            ) : (
-                              <p>Full article content coming soon...</p>
-                            )}
-                          </div>
-                        </ScrollArea>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
+                  <p className="text-neutral-600 mb-4">{article.description}</p>
+                  <Button variant="outline" className="w-full">
+                    Read Article
+                    <ExternalLink size={16} className="ml-2" />
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -637,163 +175,159 @@ export default function Learn() {
         </div>
       </section>
 
-      {/* Learning Categories */}
+      {/* Quick Start Guides */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Learning Categories</h2>
-            <p className="text-lg text-gray-600">Explore different aspects of real estate investing</p>
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">Quick Start Guides</h2>
+            <p className="text-xl text-neutral-600">Interactive guides to get you started</p>
           </div>
-
-          <Tabs defaultValue="crowdfunding" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8">
-              {categories.map((category) => (
-                <TabsTrigger 
-                  key={category.id} 
-                  value={category.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-[#A52A2A] data-[state=active]:text-white"
-                >
-                  {category.icon}
-                  <span className="hidden sm:inline">{category.name}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {categories.map((category) => (
-              <TabsContent key={category.id} value={category.id}>
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{category.name}</h3>
-                  <p className="text-gray-600">{category.description}</p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredResources(category.id).map((resource) => (
-                    <Card key={resource.id} className="hover:shadow-md transition-shadow">
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center justify-between mb-2">
-                          <Badge variant="secondary" className={getDifficultyColor(resource.difficulty)}>
-                            {resource.difficulty}
-                          </Badge>
-                          <div className="flex items-center text-sm text-gray-500">
-                            {getTypeIcon(resource.type)}
-                            <span className="ml-1">{resource.type}</span>
-                          </div>
-                        </div>
-                        <CardTitle className="text-lg">{resource.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-gray-600 text-sm mb-4">{resource.description}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-gray-500">
-                            <Clock className="h-4 w-4 mr-1" />
-                            {resource.duration}
-                          </div>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button size="sm" variant="outline" className="hover:bg-[#A52A2A] hover:text-white">
-                                {resource.type === "Calculator" ? "Use Tool" : "Learn More"}
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-4xl max-h-[80vh]">
-                              <DialogHeader>
-                                <DialogTitle>{resource.title}</DialogTitle>
-                              </DialogHeader>
-                              <ScrollArea className="mt-4 h-[60vh]">
-                                <div className="prose prose-sm max-w-none">
-                                  {resource.content ? (
-                                    <div className="prose prose-lg max-w-none">
-                                      {resource.content.split('\n\n').map((paragraph, index) => {
-                                        if (paragraph.startsWith('# ')) {
-                                          return <h1 key={index} className="text-2xl font-bold mb-4 mt-6">{paragraph.replace('# ', '')}</h1>;
-                                        } else if (paragraph.startsWith('## ')) {
-                                          return <h2 key={index} className="text-xl font-semibold mb-3 mt-5">{paragraph.replace('## ', '')}</h2>;
-                                        } else if (paragraph.startsWith('### ')) {
-                                          return <h3 key={index} className="text-lg font-medium mb-2 mt-4">{paragraph.replace('### ', '')}</h3>;
-                                        } else if (paragraph.startsWith('- ')) {
-                                          const listItems = paragraph.split('\n').filter(item => item.startsWith('- '));
-                                          return (
-                                            <ul key={index} className="list-disc pl-6 mb-4">
-                                              {listItems.map((item, i) => (
-                                                <li key={i} className="mb-1" dangerouslySetInnerHTML={{
-                                                  __html: item.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                                }} />
-                                              ))}
-                                            </ul>
-                                          );
-                                        } else if (paragraph.match(/^\d+\./)) {
-                                          const listItems = paragraph.split('\n').filter(item => item.match(/^\d+\./));
-                                          return (
-                                            <ol key={index} className="list-decimal pl-6 mb-4">
-                                              {listItems.map((item, i) => (
-                                                <li key={i} className="mb-1" dangerouslySetInnerHTML={{
-                                                  __html: item.replace(/^\d+\.\s/, '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                                }} />
-                                              ))}
-                                            </ol>
-                                          );
-                                        } else if (paragraph.trim()) {
-                                          return (
-                                            <p key={index} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{
-                                              __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                            }} />
-                                          );
-                                        }
-                                        return null;
-                                      })}
-                                    </div>
-                                  ) : (
-                                    <p>Full article content coming soon...</p>
-                                  )}
-                                </div>
-                              </ScrollArea>
-                            </DialogContent>
-                          </Dialog>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {guides.map((guide, index) => (
+              <Card key={index} className="border-2 border-blue-200 hover:border-blue-400 transition-colors">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                      {index + 1}
+                    </div>
+                    {guide.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-neutral-600 mb-4">{guide.description}</p>
+                  <div className="flex items-center justify-between text-sm text-neutral-500 mb-4">
+                    <span>{guide.steps} steps</span>
+                    <span>{guide.duration}</span>
+                  </div>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                    Start Guide
+                  </Button>
+                </CardContent>
+              </Card>
             ))}
-          </Tabs>
-        </div>
-      </section>
-
-      {/* Investment Calculator Section */}
-      <section id="investment-calculator" className="py-16 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Investment Calculator</h2>
-          <p className="text-xl mb-8 text-gray-600">
-            Calculate potential returns on your real estate investments.
-          </p>
-          <div className="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
-            <p className="text-gray-600 mb-4">Interactive calculator coming soon...</p>
-            <Button className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white">
-              <Calculator className="h-5 w-5 mr-2" />
-              Launch Calculator
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-16 bg-[#A52A2A] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Investing?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            Apply what you've learned and begin building your real estate portfolio today.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-white text-black bg-white hover:bg-gray-100 hover:text-black"
-              onClick={() => window.location.href = '/invest'}
-            >
-              <Target className="h-5 w-5 mr-2" />
-              Browse Properties
-            </Button>
+      {/* All Articles */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">All Articles</h2>
+            <p className="text-xl text-neutral-600">Comprehensive learning library</p>
           </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {articles.map((article) => (
+              <Card key={article.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <Badge variant="outline">{article.category}</Badge>
+                    <div className="flex items-center text-sm text-neutral-500">
+                      <Clock size={14} className="mr-1" />
+                      {article.readTime}
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{article.title}</h3>
+                  <p className="text-neutral-600 mb-4">{article.content}</p>
+                  <Button variant="ghost" className="p-0 h-auto font-semibold text-blue-600 hover:text-blue-800">
+                    Read More →
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tokenomics Section */}
+      <section className="py-16 bg-gradient-to-br from-neutral-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-neutral-900 mb-4">40 Acres Tokenomics</h2>
+            <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+              Democratizing real estate investment through compliant tokenization, 
+              investor protection, and community-driven ownership
+            </p>
+            <div className="flex justify-center gap-4 mt-6">
+              <Badge className="bg-green-600 text-white px-4 py-2">
+                <Shield size={16} className="mr-2" />
+                SEC Reg CF Compliant
+              </Badge>
+              <Badge className="bg-blue-600 text-white px-4 py-2">
+                <CheckCircle size={16} className="mr-2" />
+                NMTC Compatible
+              </Badge>
+            </div>
+          </div>
+
+          {/* Core Formula */}
+          <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200 mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl">
+                <Calculator size={24} />
+                Core Tokenization Formula
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">1. Token Price</h3>
+                  <div className="space-y-2">
+                    <div className="text-sm text-neutral-600">Property Value ÷ Square Footage</div>
+                    <div className="text-2xl font-bold text-purple-600">
+                      ${baseTokenPrice.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-neutral-500">
+                      ${exampleProperty.value.toLocaleString()} ÷ {exampleProperty.squareFootage.toLocaleString()} sq ft
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">2. Max Tokenized Value</h3>
+                  <div className="space-y-2">
+                    <div className="text-sm text-neutral-600">49% of Property Value</div>
+                    <div className="text-2xl font-bold text-green-600">
+                      ${maxTokenizedValue.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-neutral-500">
+                      Legal compliance protection
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">3. Token Supply</h3>
+                  <div className="space-y-2">
+                    <div className="text-sm text-neutral-600">Max Value ÷ Token Price</div>
+                    <div className="text-2xl font-bold text-blue-600">
+                      {tokenSupply.toLocaleString()} tokens
+                    </div>
+                    <div className="text-xs text-neutral-500">
+                      Available for investment
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
+                <div className="flex items-center gap-3 mb-2">
+                  <Download size={20} className="text-orange-600" />
+                  <span className="font-semibold text-orange-900">Download Full Tokenomics Report</span>
+                </div>
+                <p className="text-orange-800 text-sm">
+                  Get the complete 40 Acres tokenomics documentation including detailed formulas, 
+                  compliance frameworks, and investment structures.
+                </p>
+                <Button className="mt-3 bg-orange-600 hover:bg-orange-700 text-white">
+                  <Download size={16} className="mr-2" />
+                  Download PDF
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -801,3 +335,5 @@ export default function Learn() {
     </div>
   );
 }
+
+export default Learn;

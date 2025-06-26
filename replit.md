@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Reverted Learn page back to original content with articles and guides on crowdfunding and real estate investing, moved tokenomics section to bottom
 - June 26, 2025: Removed white background from Schedule Consultation link in footer, restored original gray text styling
 - June 26, 2025: Updated Schedule Consultation button on List Property page "Ready to list your property" section to have white background with black text
 - June 26, 2025: Added Step 5 "Business Verification & Review" to BusinessOwnerTour to match CreatePropertyModal's 6-step structure
