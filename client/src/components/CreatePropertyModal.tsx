@@ -493,7 +493,94 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                   rows={4}
                 />
               </div>
-              
+
+              {/* Property Images Upload */}
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <Camera className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Images</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload multiple high-quality photos (JPG, PNG, max 10MB each)</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'images')}
+                    className="hidden"
+                    id="images-upload"
+                  />
+                  <Label htmlFor="images-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Images'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.propertyImages.length > 0 && (
+                  <div className="mt-4 grid grid-cols-3 gap-2">
+                    {formData.propertyImages.map((img, index) => (
+                      <div key={index} className="relative group">
+                        <div className="aspect-square bg-neutral-100 rounded-lg flex items-center justify-center text-xs text-neutral-600 overflow-hidden">
+                          <Camera size={20} />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => removeDocument('propertyImages', index)}
+                        >
+                          <X size={12} />
+                        </Button>
+                        <p className="text-xs text-center mt-1 truncate">{img.split('/').pop()}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Property Videos Upload */}
+              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
+                <div className="text-center">
+                  <Video className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
+                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Videos</h4>
+                  <p className="text-sm text-neutral-600 mb-4">Upload property tour videos (MP4, MOV, max 100MB each)</p>
+                  <Input
+                    type="file"
+                    multiple
+                    accept="video/*"
+                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'videos')}
+                    className="hidden"
+                    id="videos-upload"
+                  />
+                  <Label htmlFor="videos-upload" className="cursor-pointer">
+                    <Button type="button" variant="outline" disabled={uploadingFiles}>
+                      <Upload className="mr-2" size={16} />
+                      {uploadingFiles ? 'Uploading...' : 'Select Videos'}
+                    </Button>
+                  </Label>
+                </div>
+                {formData.propertyVideos.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="font-medium text-sm">Uploaded Videos:</p>
+                    {formData.propertyVideos.map((video, index) => (
+                      <div key={index} className="flex items-center justify-between bg-purple-50 p-2 rounded">
+                        <span className="text-sm text-purple-800 flex items-center">
+                          <Video size={16} className="mr-2" />
+                          {video.split('/').pop()}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeDocument('propertyVideos', index)}
+                        >
+                          <X size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {formData.thumbnailUrl && (
                 <div className="border border-neutral-200 rounded-lg overflow-hidden">
@@ -660,108 +747,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
           </div>
         );
       case 5:
-        return (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Camera className="text-white" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Property Media</h3>
-              <p className="text-neutral-600">Upload high-quality images and videos of your property</p>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Property Images Upload */}
-              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
-                <div className="text-center">
-                  <Camera className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
-                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Images</h4>
-                  <p className="text-sm text-neutral-600 mb-4">Upload multiple high-quality photos (JPG, PNG, max 10MB each)</p>
-                  <Input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'images')}
-                    className="hidden"
-                    id="images-upload"
-                  />
-                  <Label htmlFor="images-upload" className="cursor-pointer">
-                    <Button type="button" variant="outline" disabled={uploadingFiles}>
-                      <Upload className="mr-2" size={16} />
-                      {uploadingFiles ? 'Uploading...' : 'Select Images'}
-                    </Button>
-                  </Label>
-                </div>
-                {formData.propertyImages.length > 0 && (
-                  <div className="mt-4 grid grid-cols-3 gap-2">
-                    {formData.propertyImages.map((img, index) => (
-                      <div key={index} className="relative group">
-                        <div className="aspect-square bg-neutral-100 rounded-lg flex items-center justify-center text-xs text-neutral-600 overflow-hidden">
-                          <Camera size={20} />
-                        </div>
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={() => removeDocument('propertyImages', index)}
-                        >
-                          <X size={12} />
-                        </Button>
-                        <p className="text-xs text-center mt-1 truncate">{img.split('/').pop()}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Property Videos Upload */}
-              <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 hover:border-primary transition-colors">
-                <div className="text-center">
-                  <Video className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
-                  <h4 className="text-lg font-medium text-neutral-900 mb-2">Property Videos</h4>
-                  <p className="text-sm text-neutral-600 mb-4">Upload property tour videos (MP4, MOV, max 100MB each)</p>
-                  <Input
-                    type="file"
-                    multiple
-                    accept="video/*"
-                    onChange={(e) => e.target.files && handleDocumentUpload(e.target.files, 'videos')}
-                    className="hidden"
-                    id="videos-upload"
-                  />
-                  <Label htmlFor="videos-upload" className="cursor-pointer">
-                    <Button type="button" variant="outline" disabled={uploadingFiles}>
-                      <Upload className="mr-2" size={16} />
-                      {uploadingFiles ? 'Uploading...' : 'Select Videos'}
-                    </Button>
-                  </Label>
-                </div>
-                {formData.propertyVideos.length > 0 && (
-                  <div className="mt-4 space-y-2">
-                    <p className="font-medium text-sm">Uploaded Videos:</p>
-                    {formData.propertyVideos.map((video, index) => (
-                      <div key={index} className="flex items-center justify-between bg-purple-50 p-2 rounded">
-                        <span className="text-sm text-purple-800 flex items-center">
-                          <Video size={16} className="mr-2" />
-                          {video.split('/').pop()}
-                        </span>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeDocument('propertyVideos', index)}
-                        >
-                          <X size={14} />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      case 6:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">

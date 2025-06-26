@@ -37,7 +37,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 }}
               />
             </Link>
-            <div className="md:absolute md:left-1/4 lg:left-1/2 md:transform md:-translate-x-1/2 ml-4 md:ml-0">
+            <div className="md:absolute md:left-1/3 lg:left-1/2 md:transform md:-translate-x-1/2 ml-8 md:ml-0">
               <nav className="hidden md:flex space-x-1 lg:space-x-4 xl:space-x-6">
                 <Link href="/">
                   <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-1 md:px-2 lg:px-3 py-1 md:py-2 rounded text-xs md:text-sm lg:text-base">
