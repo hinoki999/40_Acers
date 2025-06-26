@@ -19,9 +19,15 @@ export default function Settings() {
   const [location] = useLocation();
   
   // Get tab from URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const tabFromUrl = urlParams.get('tab') || 'profile';
-  const [activeTab, setActiveTab] = useState(tabFromUrl);
+  const [activeTab, setActiveTab] = useState('profile');
+  
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabFromUrl = urlParams.get('tab');
+    if (tabFromUrl && ['profile', 'payment', 'membership', 'security'].includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [location]);
   
   const [profile, setProfile] = useState({
     firstName: "",
