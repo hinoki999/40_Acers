@@ -495,7 +495,6 @@ export default function Dashboard() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center">
-                      <img src={logoImage} alt="40 Acres" className="w-8 h-8 object-contain" />
                     </div>
                     <span className="font-bold text-lg">40 ACRES</span>
                   </div>
