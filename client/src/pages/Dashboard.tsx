@@ -481,7 +481,7 @@ export default function Dashboard() {
           
           {/* Debit Card Design */}
           <div className="flex items-center justify-center mb-6">
-            <div className="relative w-80 h-48 bg-gradient-to-br from-[#A52A2A] to-[#8B1A1A] rounded-2xl shadow-lg overflow-hidden">
+            <div className="relative w-80 h-48 bg-gradient-to-br from-black to-gray-800 rounded-2xl shadow-lg overflow-hidden">
               {/* Card Background Pattern */}
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-4 right-4 w-8 h-8 border-2 border-white rounded-full"></div>
