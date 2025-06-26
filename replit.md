@@ -119,6 +119,8 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Fixed Download import error on Learn (Tokenomics) page by adding Download to lucide-react imports
+- June 26, 2025: Removed Step 6 "Build Your Community" from List Your Property modal, reducing total steps from 7 to 6
 - June 26, 2025: Updated Create Account modal colors: changed blue icons to black, Continue/Complete Registration buttons to black, and added #A52A2A burgundy hover colors for dropdown menus
 - June 26, 2025: Implemented Business Owner registration flow with "Property Listing Preferences" instead of "Investment Preferences" and property type dropdown with common property types
 - June 26, 2025: Fixed navigation menu positioning to prevent overlap with logo and authentication buttons by adjusting left positioning

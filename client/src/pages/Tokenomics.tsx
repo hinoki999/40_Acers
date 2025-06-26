@@ -15,7 +15,8 @@ import {
   CheckCircle,
   AlertTriangle,
   Zap,
-  Smartphone
+  Smartphone,
+  Download
 } from "lucide-react";
 import Footer from "@/components/Footer";
 

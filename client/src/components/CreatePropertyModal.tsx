@@ -51,7 +51,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   const [propertyScreenshots, setPropertyScreenshots] = useState<File[]>([]);
 
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 7;
+  const totalSteps = 6;
   const [uploadingFiles, setUploadingFiles] = useState(false);
 
   // Calculate tokenization based on property value and square footage
@@ -747,107 +747,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
           </div>
         );
       case 5:
-        return (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="text-white" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-neutral-900 mb-2">Build Your Community</h3>
-              <p className="text-neutral-600">Create an investor community around your property like fractional.app</p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="communityName" className="flex items-center gap-2">
-                  <Users size={16} />
-                  Community Name
-                </Label>
-                <Input
-                  id="communityName"
-                  placeholder={`${formData.address || 'Property'} Investor Community`}
-                  value={formData.communityName}
-                  onChange={(e) => setFormData({ ...formData, communityName: e.target.value })}
-                  className="mt-2"
-                />
-                <p className="text-xs text-neutral-500 mt-1">
-                  This will be the name of your property's investor community
-                </p>
-              </div>
-
-              <div>
-                <Label htmlFor="communityDescription">Community Description</Label>
-                <Textarea
-                  id="communityDescription"
-                  placeholder="Describe your property community, investment opportunity, and what makes it special..."
-                  value={formData.communityDescription}
-                  onChange={(e) => setFormData({ ...formData, communityDescription: e.target.value })}
-                  className="min-h-[100px]"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="targetInvestorProfile">Target Investor Profile</Label>
-                <Select value={formData.targetInvestorProfile} onValueChange={(value) => setFormData({ ...formData, targetInvestorProfile: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select target investor type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="accredited">Accredited Investors</SelectItem>
-                    <SelectItem value="retail">Retail Investors</SelectItem>
-                    <SelectItem value="local">Local Community Members</SelectItem>
-                    <SelectItem value="experienced">Experienced Real Estate Investors</SelectItem>
-                    <SelectItem value="young_professionals">Young Professionals</SelectItem>
-                    <SelectItem value="mixed">Mixed Investor Base</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="socialMediaStrategy">Social Media Recruitment Strategy</Label>
-                <Select value={formData.socialMediaStrategy} onValueChange={(value) => setFormData({ ...formData, socialMediaStrategy: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Primary platform for investor recruitment" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="linkedin">LinkedIn Professional Network</SelectItem>
-                    <SelectItem value="facebook">Facebook Community Groups</SelectItem>
-                    <SelectItem value="twitter">Twitter Real Estate Community</SelectItem>
-                    <SelectItem value="instagram">Instagram Visual Marketing</SelectItem>
-                    <SelectItem value="multi_platform">Multi-Platform Approach</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="communityGuidelines">Community Guidelines (Optional)</Label>
-                <Textarea
-                  id="communityGuidelines"
-                  placeholder="Set guidelines for your investor community (communication rules, investment minimums, etc.)"
-                  value={formData.communityGuidelines}
-                  onChange={(e) => setFormData({ ...formData, communityGuidelines: e.target.value })}
-                  className="min-h-[80px]"
-                />
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg border border-purple-200">
-              <h4 className="font-semibold text-purple-900 mb-2 flex items-center gap-2">
-                <TrendingUp size={16} />
-                Community Benefits
-              </h4>
-              <ul className="text-sm text-purple-800 space-y-1">
-                <li>• Build investor relationships before and after funding</li>
-                <li>• Share property updates and performance metrics</li>
-                <li>• Recruit investors through social media networks</li>
-                <li>• Create transparency like fractional.app model</li>
-                <li>• 40 Acres handles all legal compliance and documentation</li>
-              </ul>
-            </div>
-          </div>
-        );
-
-      case 7:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
