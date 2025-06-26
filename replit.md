@@ -119,6 +119,8 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Fixed Community page loading and modernized Loop Feed with 20% zoom out and enhanced aesthetics
+- June 26, 2025: Added comprehensive tokenization education step to all tutorials covering cryptocurrency investing and blockchain benefits
 - June 25, 2025: Created comprehensive Legal Disclaimer page for real estate crowdfunding and cryptocurrency investments
 - June 25, 2025: Implemented payment method modal popup in Settings with full card entry form and billing address
 - June 25, 2025: Fixed Investor Guide modal button overlap issue by hiding default close button
