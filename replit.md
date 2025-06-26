@@ -119,7 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
-- June 26, 2025: Fixed navigation menu visibility on tablets and mobile devices by changing breakpoint from lg to md
+- June 26, 2025: Fixed navigation menu spacing on tablets and mobile devices to prevent overlap with authentication buttons by adjusting positioning and padding
 - June 26, 2025: Updated List Your Property Step 3: Changed "Visual Appeal" to "Property Details", "Property Image URL" to "Featured Image" with file upload, removed Property Screenshots section, and updated button hover colors to black with white text
 - June 26, 2025: Enhanced dropdown navigation for profile settings with Membership tab and improved same-page navigation
 - June 26, 2025: Fixed 40 Acres logo display on credit card graphic in Dashboard wallet container
