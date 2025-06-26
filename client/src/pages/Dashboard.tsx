@@ -448,7 +448,32 @@ export default function Dashboard() {
       <div className="mb-8">
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">40 Acres Wallet</h2>
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-semibold text-gray-900">40 Acres Wallet</h2>
+              <div className="flex bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setCurrency('USD')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                    currency === 'USD'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  USD
+                </button>
+                <button
+                  onClick={() => setCurrency('BTC')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                    currency === 'BTC'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  Bitcoin (BTC)
+                </button>
+              </div>
+            </div>
             <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
               <span>Last 30 days</span>
               <ChevronDown className="h-4 w-4" />
@@ -482,7 +507,13 @@ export default function Dashboard() {
                 {/* Balance */}
                 <div className="space-y-2">
                   <div className="text-sm opacity-80">BALANCE</div>
-                  <div className="text-3xl font-bold">${portfolio?.totalValue?.toLocaleString() || "0.00"}</div>
+                  <div className="text-3xl font-bold">
+                    {currency === 'USD' ? (
+                      `$${portfolio?.totalValue?.toLocaleString() || "0.00"}`
+                    ) : (
+                      `₿${((portfolio?.totalValue || 0) / (bitcoinPrice?.price || 107000)).toFixed(6)}`
+                    )}
+                  </div>
                 </div>
                 
                 {/* Card Details */}

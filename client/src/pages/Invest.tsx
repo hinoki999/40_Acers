@@ -167,11 +167,11 @@ export default function Invest() {
               
               <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-4 order-1 sm:order-2">
               <Select value={propertyType} onValueChange={setPropertyType}>
-                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white transition-colors">
                   <SelectValue placeholder="Property Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="all" className="hover:bg-[#A52A2A] hover:text-white">All Types</SelectItem>
                   <SelectItem value="Townhouse">Townhouse</SelectItem>
                   <SelectItem value="Single Family">Single Family</SelectItem>
                   <SelectItem value="Condo">Condominium</SelectItem>
@@ -181,11 +181,11 @@ export default function Invest() {
               </Select>
 
               <Select value={priceRange} onValueChange={setPriceRange}>
-                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white transition-colors">
                   <SelectValue placeholder="Price Range" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Prices</SelectItem>
+                  <SelectItem value="all" className="hover:bg-[#A52A2A] hover:text-white">All Prices</SelectItem>
                   <SelectItem value="low">Less than $5,000</SelectItem>
                   <SelectItem value="medium">$5,001-$100,000</SelectItem>
                   <SelectItem value="high">$101,000-$500,000</SelectItem>
@@ -194,11 +194,11 @@ export default function Invest() {
               </Select>
 
               <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10">
+                <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white transition-colors">
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Locations</SelectItem>
+                  <SelectItem value="all" className="hover:bg-[#A52A2A] hover:text-white">All Locations</SelectItem>
                   <SelectItem value="CA">California</SelectItem>
                   <SelectItem value="TX">Texas</SelectItem>
                   <SelectItem value="FL">Florida</SelectItem>

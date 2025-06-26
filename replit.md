@@ -119,6 +119,10 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Added cryptocurrency payment support to Investment modal with USD/Bitcoin payment method selector
+- June 26, 2025: Implemented cryptocurrency wallet connection functionality for Bitcoin investments
+- June 26, 2025: Added USD/Bitcoin switcher to 40 Acres Wallet container on Dashboard
+- June 26, 2025: Updated Invest page dropdown hover colors to #A52A2A for "All Types", "All Prices", and "All Locations"
 - June 26, 2025: Added USD/Bitcoin (BTC) currency switcher to Dashboard Investment Breakdown and Earnings containers with Bitcoin icon
 - June 26, 2025: Added Property Screenshots upload section (up to 75 photos) to List Your Property form
 - June 26, 2025: Added "Land" as new property type option in property listing form

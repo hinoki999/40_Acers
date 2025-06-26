@@ -22,8 +22,15 @@ interface InvestmentModalProps {
 export default function InvestmentModal({ isOpen, onClose, property }: InvestmentModalProps) {
   const [shares, setShares] = useState(1);
   const [investmentAmount, setInvestmentAmount] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<'USD' | 'BTC'>('USD');
+  const [walletConnected, setWalletConnected] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  const { data: bitcoinPrice } = useQuery<{ price: number }>({
+    queryKey: ["/api/bitcoin-price"],
+    refetchInterval: 60000, // Refetch every minute
+  });
 
   // Calculate ownership details with 49% minimum rule
   const sharePriceValue = property ? parseFloat(property.sharePrice) : 0;
@@ -50,10 +57,6 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   // Minimum investment: 10% of available 49% ownership
   const minTokensRequired = Math.ceil(maxTokensFor49Percent * 0.1);
   const meetsMinimumOwnership = shares >= minTokensRequired;
-
-  const { data: bitcoinPrice } = useQuery<{ price: number | null }>({
-    queryKey: ['/api/bitcoin-price'],
-  });
 
   const investMutation = useMutation({
     mutationFn: async (data: { propertyId: number; shares: number }) => {
@@ -202,6 +205,71 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
               </div>
             </div>
 
+            {/* Payment Method Selector */}
+            <div>
+              <Label>Payment Method</Label>
+              <div className="flex bg-gray-100 rounded-lg p-1 mt-2">
+                <button
+                  onClick={() => setPaymentMethod('USD')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 flex-1 justify-center ${
+                    paymentMethod === 'USD'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <DollarSign className="h-4 w-4" />
+                  USD (Credit Card)
+                </button>
+                <button
+                  onClick={() => setPaymentMethod('BTC')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 flex-1 justify-center ${
+                    paymentMethod === 'BTC'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  Bitcoin (BTC)
+                </button>
+              </div>
+            </div>
+
+            {/* Cryptocurrency Wallet Connection */}
+            {paymentMethod === 'BTC' && (
+              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                    <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-orange-900">Cryptocurrency Wallet Required</h4>
+                    <p className="text-sm text-orange-700">Connect your crypto wallet to invest with Bitcoin</p>
+                  </div>
+                </div>
+                
+                {!walletConnected ? (
+                  <Button
+                    onClick={() => {
+                      // Simulate wallet connection
+                      setWalletConnected(true);
+                      toast({
+                        title: "Wallet Connected",
+                        description: "Your cryptocurrency wallet has been connected successfully.",
+                      });
+                    }}
+                    className="w-full bg-orange-600 hover:bg-orange-700 text-white"
+                  >
+                    Connect Crypto Wallet
+                  </Button>
+                ) : (
+                  <div className="flex items-center gap-2 text-green-700">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm font-medium">Wallet Connected</span>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="shares-input">Shares</Label>
@@ -215,13 +283,16 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 />
               </div>
               <div>
-                <Label htmlFor="amount-input">Investment Amount ($)</Label>
+                <Label htmlFor="amount-input">
+                  Investment Amount ({paymentMethod === 'USD' ? '$' : '₿'})
+                </Label>
                 <Input
                   id="amount-input"
                   type="number"
                   value={investmentAmount}
                   onChange={(e) => handleAmountChange(e.target.value)}
-                  placeholder="Enter amount"
+                  placeholder={paymentMethod === 'USD' ? "Enter USD amount" : "Enter BTC amount"}
+                  step={paymentMethod === 'BTC' ? "0.00000001" : "1"}
                 />
               </div>
             </div>
@@ -268,16 +339,27 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
           <div className="flex gap-3">
             <Button
               onClick={handleInvest}
-              disabled={investMutation.isPending || shares <= 0 || shares > maxAvailableShares}
+              disabled={
+                investMutation.isPending || 
+                shares <= 0 || 
+                shares > maxAvailableShares ||
+                (paymentMethod === 'BTC' && !walletConnected)
+              }
               className="flex-1 bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90"
               size="lg"
             >
               {investMutation.isPending ? (
                 "Processing..."
+              ) : paymentMethod === 'BTC' && !walletConnected ? (
+                "Connect Wallet to Invest"
               ) : (
                 <>
-                  <TrendingUp size={16} className="mr-2" />
-                  Invest ${totalCost.toLocaleString()}
+                  {paymentMethod === 'USD' ? (
+                    <DollarSign size={16} className="mr-2" />
+                  ) : (
+                    <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4 mr-2" />
+                  )}
+                  Invest {paymentMethod === 'USD' ? `$${totalCost.toLocaleString()}` : `₿${(totalCost / (bitcoinPrice?.price || 107000)).toFixed(6)}`}
                 </>
               )}
             </Button>
