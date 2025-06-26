@@ -54,7 +54,7 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                     List Property
                   </Button>
                 </Link>
-                <Link href="/tokenomics">
+                <Link href="/learn">
                   <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-1 md:px-2 lg:px-3 py-1 md:py-2 rounded text-xs md:text-sm lg:text-base">Learn</Button>
                 </Link>
               </nav>
