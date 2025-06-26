@@ -127,14 +127,14 @@ function Learn() {
             <p className="text-xl sm:text-2xl text-white mb-8 max-w-4xl mx-auto">
               Master the fundamentals of real estate crowdfunding and build wealth through informed investment decisions
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100 font-semibold px-8 py-4">
+            <div className="flex justify-center">
+              <Button 
+                size="lg" 
+                className="bg-white text-black hover:bg-gray-100 font-semibold px-8 py-4"
+                onClick={() => document.getElementById('featured-articles')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 <BookOpen className="mr-2" size={20} />
                 Start Learning
-              </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-[#A52A2A] hover:text-white font-semibold px-8 py-4">
-                <PlayCircle className="mr-2" size={20} />
-                Watch Video Guide
               </Button>
             </div>
           </div>
@@ -142,7 +142,7 @@ function Learn() {
       </section>
 
       {/* Featured Articles */}
-      <section className="py-16">
+      <section id="featured-articles" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-neutral-900 mb-4">Featured Articles</h2>
