@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Removed white background from Schedule Consultation link in footer, restored original gray text styling
 - June 26, 2025: Updated Schedule Consultation button on List Property page "Ready to list your property" section to have white background with black text
 - June 26, 2025: Added Step 5 "Business Verification & Review" to BusinessOwnerTour to match CreatePropertyModal's 6-step structure
 - June 26, 2025: Changed 40 Acres credit card graphic to black color on Dashboard page
