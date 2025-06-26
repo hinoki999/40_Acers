@@ -119,6 +119,9 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Added USD/Bitcoin (BTC) currency switcher to Dashboard Investment Breakdown and Earnings containers with Bitcoin icon
+- June 26, 2025: Added Property Screenshots upload section (up to 75 photos) to List Your Property form
+- June 26, 2025: Added "Land" as new property type option in property listing form
 - June 26, 2025: Fixed Community page loading and modernized Loop Feed with 20% zoom out and enhanced aesthetics
 - June 26, 2025: Added comprehensive tokenization education step to all tutorials covering cryptocurrency investing and blockchain benefits
 - June 25, 2025: Created comprehensive Legal Disclaimer page for real estate crowdfunding and cryptocurrency investments

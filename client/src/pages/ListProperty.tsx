@@ -37,6 +37,7 @@ export default function ListProperty() {
   });
   const [uploadedDocuments, setUploadedDocuments] = useState([]);
   const [documentUploadCompleted, setDocumentUploadCompleted] = useState(false);
+  const [propertyScreenshots, setPropertyScreenshots] = useState<File[]>([]);
 
   const steps = [
     {

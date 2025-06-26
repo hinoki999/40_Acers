@@ -48,6 +48,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     propertyImages: [] as string[],
     propertyVideos: [] as string[],
   });
+  const [propertyScreenshots, setPropertyScreenshots] = useState<File[]>([]);
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 7;
@@ -346,6 +347,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                     <SelectItem value="Condo">Condominium</SelectItem>
                     <SelectItem value="Duplex">Duplex</SelectItem>
                     <SelectItem value="Apartment">Apartment Building</SelectItem>
+                    <SelectItem value="Land">Land</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -482,6 +484,38 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
                 />
+              </div>
+              
+              <div>
+                <Label htmlFor="propertyScreenshots" className="flex items-center gap-2">
+                  <Camera size={16} />
+                  Property Screenshots (Up to 75 photos)
+                </Label>
+                <Input
+                  id="propertyScreenshots"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    if (files.length > 75) {
+                      alert('You can upload up to 75 photos maximum');
+                      return;
+                    }
+                    setPropertyScreenshots(files);
+                  }}
+                  className="mt-2"
+                />
+                <p className="text-xs text-neutral-500 mt-1">
+                  Upload high-quality photos showcasing different angles and features of your property
+                </p>
+                {propertyScreenshots.length > 0 && (
+                  <div className="mt-3 p-3 bg-green-50 rounded border border-green-200">
+                    <p className="text-sm text-green-800">
+                      {propertyScreenshots.length} photo{propertyScreenshots.length > 1 ? 's' : ''} selected
+                    </p>
+                  </div>
+                )}
               </div>
               {formData.thumbnailUrl && (
                 <div className="border border-neutral-200 rounded-lg overflow-hidden">

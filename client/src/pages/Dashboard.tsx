@@ -37,6 +37,8 @@ export default function Dashboard() {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [transactionFilter, setTransactionFilter] = useState("");
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
+  const [earningsCurrency, setEarningsCurrency] = useState<'USD' | 'BTC'>('USD');
+  const [investmentCurrency, setInvestmentCurrency] = useState<'USD' | 'BTC'>('USD');
   const [showInvestorTour, setShowInvestorTour] = useState(false);
   const [timePeriod, setTimePeriod] = useState<'Day' | 'Week' | 'Month'>('Day');
   const { toast } = useToast();
@@ -80,6 +82,11 @@ export default function Dashboard() {
     queryKey: ["/api/properties"],
     enabled: isAuthenticated,
     retry: false,
+  });
+
+  const { data: bitcoinPrice } = useQuery<{ price: number }>({
+    queryKey: ["/api/bitcoin-price"],
+    refetchInterval: 60000, // Refetch every minute
   });
 
   const handleInvest = (propertyId: number) => {
@@ -206,7 +213,32 @@ export default function Dashboard() {
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           {/* Header with title and time period tabs */}
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-semibold text-gray-900">Earnings</h2>
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-semibold text-gray-900">Earnings</h2>
+              <div className="flex bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setEarningsCurrency('USD')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                    earningsCurrency === 'USD'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  USD
+                </button>
+                <button
+                  onClick={() => setEarningsCurrency('BTC')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                    earningsCurrency === 'BTC'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  Bitcoin (BTC)
+                </button>
+              </div>
+            </div>
             <div className="flex bg-gray-100 rounded-lg p-1">
               {['Day', 'Week', 'Month'].map((period) => (
                 <button
@@ -227,7 +259,11 @@ export default function Dashboard() {
           {/* Main value and percentage */}
           <div className="flex items-center gap-4 mb-8">
             <div className="text-4xl font-bold text-gray-900">
-              ${portfolio?.totalValue?.toLocaleString() || "8,237.00"}
+              {earningsCurrency === 'USD' ? (
+                `$${portfolio?.totalValue?.toLocaleString() || "8,237.00"}`
+              ) : (
+                `₿${((portfolio?.totalValue || 8237) / (bitcoinPrice?.price || 107000)).toFixed(6)}`
+              )}
             </div>
             <div className="flex items-center gap-1 text-green-600">
               <TrendingUp className="h-4 w-4" />
@@ -309,7 +345,32 @@ export default function Dashboard() {
         {/* Expense Breakdown Chart */}
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Investment breakdown</h2>
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-semibold text-gray-900">Investment breakdown</h2>
+              <div className="flex bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setInvestmentCurrency('USD')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                    investmentCurrency === 'USD'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  USD
+                </button>
+                <button
+                  onClick={() => setInvestmentCurrency('BTC')}
+                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                    investmentCurrency === 'BTC'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  Bitcoin (BTC)
+                </button>
+              </div>
+            </div>
             <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
               <span>Last 30 days</span>
               <ChevronDown className="h-4 w-4" />
@@ -345,7 +406,13 @@ export default function Dashboard() {
               </PieChart>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <div className="text-xs text-gray-500">SPEND</div>
-                <div className="text-sm font-bold text-gray-900" style={{ fontSize: '14pt' }}>$3,800.00</div>
+                <div className="text-sm font-bold text-gray-900" style={{ fontSize: '14pt' }}>
+                  {investmentCurrency === 'USD' ? (
+                    '$3,800.00'
+                  ) : (
+                    `₿${(3800 / (bitcoinPrice?.price || 107000)).toFixed(6)}`
+                  )}
+                </div>
               </div>
             </div>
           </div>
