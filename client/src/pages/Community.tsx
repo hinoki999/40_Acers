@@ -206,6 +206,13 @@ export default function Community() {
     .filter(p => (p.currentShares / p.maxShares) > 0.5)
     .slice(0, 5);
 
+  const filteredOpenHouses = mockOpenHouses.filter(house => {
+    if (zipCodeSearch) {
+      return house.zipCode.includes(zipCodeSearch);
+    }
+    return true;
+  });
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -242,48 +249,141 @@ export default function Community() {
             </div>
           </div>
 
-          {/* Modern Timeline Feed */}
+          {/* Modern Loop Feed */}
           <TabsContent value="feed" className="mt-0">
-            <div className="max-w-2xl mx-auto p-6">
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-neutral-900 mb-2">Community Timeline</h2>
-                <p className="text-neutral-600">Latest updates from investors and property owners</p>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <h2 className="text-2xl font-bold">Community Loop Feed</h2>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleView}
+                    className="flex items-center gap-2"
+                  >
+                    {isLoopView ? <Grid3X3 className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                    {isLoopView ? "Grid View" : "Loop View"}
+                  </Button>
+                </div>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <RefreshCw className="h-4 w-4" />
+                  Refresh
+                </Button>
               </div>
-              
-              <div className="space-y-6">
-                {mockFeedPosts.map((post) => (
-                  <Card key={post.id} className="hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
-                        <div className="w-10 h-10 bg-[#A52A2A] text-white rounded-full flex items-center justify-center font-semibold">
-                          {post.user.avatar}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <h4 className="font-semibold text-neutral-900">{post.user.name}</h4>
-                            <span className="text-sm text-neutral-500">{post.timestamp}</span>
+
+              {/* Modern Loop Feed Display with 20% zoom out */}
+              {isLoopView ? (
+                <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-2xl p-6 relative overflow-hidden shadow-2xl" style={{ height: '75vh' }}>
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-10 left-10 w-32 h-32 bg-blue-500 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-500 rounded-full blur-3xl"></div>
+                    <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-green-500 rounded-full blur-2xl"></div>
+                  </div>
+                  
+                  <div className="relative z-10 h-full flex items-center justify-center">
+                    <div className="w-72 h-[500px] relative transform scale-75">
+                      {properties.slice(0, 3).map((property, index) => (
+                        <div
+                          key={property.id}
+                          className={`absolute transition-all duration-700 ease-out ${
+                            index === 0 ? 'z-30 scale-100 opacity-100' : 
+                            index === 1 ? 'z-20 scale-95 opacity-80 translate-y-3 translate-x-2' : 
+                            'z-10 scale-90 opacity-60 translate-y-6 translate-x-4'
+                          }`}
+                          style={{
+                            left: `${index * 8}px`,
+                            top: `${index * 6}px`,
+                            filter: index === 0 ? 'none' : `blur(${index}px)`
+                          }}
+                        >
+                          <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+                            <CommunityFeedPost
+                              property={property}
+                              onInvest={handleInvest}
+                              onShare={handleShare}
+                              isTikTokStyle={true}
+                              isActive={index === 0}
+                              className="border-0 shadow-none"
+                            />
                           </div>
-                          <p className="text-neutral-700 mb-4">{post.content}</p>
-                          <div className="flex items-center space-x-6">
-                            <button className="flex items-center space-x-2 text-neutral-500 hover:text-[#A52A2A] transition-colors">
-                              <Heart className="h-4 w-4" />
-                              <span className="text-sm">{post.likes}</span>
-                            </button>
-                            <button className="flex items-center space-x-2 text-neutral-500 hover:text-[#A52A2A] transition-colors">
-                              <MessageCircle className="h-4 w-4" />
-                              <span className="text-sm">{post.comments}</span>
-                            </button>
-                            <button className="flex items-center space-x-2 text-neutral-500 hover:text-[#A52A2A] transition-colors">
-                              <RefreshCw className="h-4 w-4" />
-                              <span className="text-sm">{post.shares}</span>
-                            </button>
-                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Modern Navigation */}
+                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center space-x-4 bg-white/10 backdrop-blur-lg rounded-full px-6 py-3">
+                    <div className="flex space-x-2">
+                      {properties.slice(0, 3).map((_, index) => (
+                        <button
+                          key={index}
+                          className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                            index === 0 ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <div className="h-4 w-px bg-white/30"></div>
+                    <div className="text-white text-sm font-medium">
+                      {properties.length} Properties
+                    </div>
+                  </div>
+
+                  {/* Swipe Indicators */}
+                  <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
+                    <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+                    <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="max-w-2xl mx-auto">
+                  <div className="space-y-6">
+                    {mockFeedPosts.map((post) => (
+                      <Card key={post.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-6">
+                          <div className="flex items-start space-x-4">
+                            <div className="w-10 h-10 bg-[#A52A2A] text-white rounded-full flex items-center justify-center font-semibold">
+                              {post.user.avatar}
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-2">
+                                <h4 className="font-semibold text-neutral-900">{post.user.name}</h4>
+                                <span className="text-sm text-neutral-500">{post.timestamp}</span>
+                              </div>
+                              <p className="text-neutral-700 mb-4">{post.content}</p>
+                              <div className="flex items-center space-x-6">
+                                <button className="flex items-center space-x-2 text-neutral-500 hover:text-[#A52A2A] transition-colors">
+                                  <Heart className="h-4 w-4" />
+                                  <span className="text-sm">{post.likes}</span>
+                                </button>
+                                <button className="flex items-center space-x-2 text-neutral-500 hover:text-[#A52A2A] transition-colors">
+                                  <MessageCircle className="h-4 w-4" />
+                                  <span className="text-sm">{post.comments}</span>
+                                </button>
+                                <button className="flex items-center space-x-2 text-neutral-500 hover:text-[#A52A2A] transition-colors">
+                                  <RefreshCw className="h-4 w-4" />
+                                  <span className="text-sm">{post.shares}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </TabsContent>
 

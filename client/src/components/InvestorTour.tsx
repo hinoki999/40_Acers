@@ -425,6 +425,115 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
             </div>
           </div>
         </div>
+      )
+    },
+    {
+      id: 6,
+      title: "Blockchain Tokenization & Cryptocurrency Investing",
+      description: "The future of decentralized fractional ownership",
+      icon: <Shield className="h-8 w-8 text-purple-600" />,
+      content: (
+        <div className="space-y-6">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Shield className="h-8 w-8 text-white" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Cryptocurrency & Blockchain Benefits</h3>
+            <p className="text-neutral-600">Enhanced security and global accessibility through decentralized technology</p>
+          </div>
+
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-lg border">
+            <h4 className="text-xl font-semibold mb-4">How Blockchain Technology Enhances Real Estate Investment</h4>
+            <p className="text-neutral-700 leading-relaxed mb-4">
+              40 Acres leverages blockchain technology to provide transparent, secure, and decentralized fractional 
+              ownership of real estate. When you invest with cryptocurrency, you receive digital tokens that represent 
+              your ownership stake, recorded immutably on the blockchain.
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-5 rounded-lg border">
+                <h4 className="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
+                  Cryptocurrency Benefits
+                </h4>
+                <ul className="text-sm space-y-2 text-neutral-600">
+                  <li>• <strong>Global Access:</strong> Invest from anywhere in the world</li>
+                  <li>• <strong>Instant Transactions:</strong> No waiting for bank transfers</li>
+                  <li>• <strong>Lower Fees:</strong> Reduced transaction costs</li>
+                  <li>• <strong>24/7 Trading:</strong> Buy and sell anytime</li>
+                  <li>• <strong>Privacy:</strong> Enhanced financial privacy</li>
+                </ul>
+              </div>
+              
+              <div className="bg-white p-5 rounded-lg border">
+                <h4 className="font-semibold text-blue-700 mb-3 flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Blockchain Proof of Ownership
+                </h4>
+                <ul className="text-sm space-y-2 text-neutral-600">
+                  <li>• <strong>Immutable Records:</strong> Ownership cannot be altered</li>
+                  <li>• <strong>Transparent:</strong> All transactions are publicly verifiable</li>
+                  <li>• <strong>Smart Contracts:</strong> Automated dividend distributions</li>
+                  <li>• <strong>Fractional Tokens:</strong> Precise ownership percentages</li>
+                  <li>• <strong>Liquidity:</strong> Trade ownership stakes on exchanges</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 bg-gradient-to-r from-amber-50 to-orange-50 p-5 rounded-lg border border-amber-200">
+              <h4 className="font-semibold text-amber-800 mb-3">Supported Cryptocurrencies</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-orange-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">₿</div>
+                  <div className="text-sm font-medium">Bitcoin</div>
+                  <div className="text-xs text-gray-600">BTC</div>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">Ξ</div>
+                  <div className="text-sm font-medium">Ethereum</div>
+                  <div className="text-xs text-gray-600">ETH</div>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-green-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">$</div>
+                  <div className="text-sm font-medium">USDC</div>
+                  <div className="text-xs text-gray-600">Stablecoin</div>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-gray-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">+</div>
+                  <div className="text-sm font-medium">More</div>
+                  <div className="text-xs text-gray-600">Coming Soon</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 bg-white p-5 rounded-lg border">
+              <h4 className="font-semibold text-gray-800 mb-3">Why Tokenization Matters</h4>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-3 flex items-center justify-center">
+                    <TrendingUp className="h-8 w-8 text-green-600" />
+                  </div>
+                  <h5 className="font-medium mb-2">Liquidity</h5>
+                  <p className="text-xs text-gray-600">Trade your property tokens on secondary markets</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-3 flex items-center justify-center">
+                    <Shield className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <h5 className="font-medium mb-2">Security</h5>
+                  <p className="text-xs text-gray-600">Cryptographic security protects your ownership</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-3 flex items-center justify-center">
+                    <Users className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <h5 className="font-medium mb-2">Accessibility</h5>
+                  <p className="text-xs text-gray-600">Global access without traditional banking barriers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       ),
       ctaText: "Browse Properties & Invest",
       ctaAction: onStartInvesting
