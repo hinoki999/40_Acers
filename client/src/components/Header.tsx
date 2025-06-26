@@ -103,15 +103,15 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={() => setLocation('/settings')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=profile')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLocation('/settings')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=payment')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                         <CreditCard className="mr-2 h-4 w-4" />
                         Payment Methods
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLocation('/settings')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=security')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                         <Shield className="mr-2 h-4 w-4" />
                         Security
                       </DropdownMenuItem>

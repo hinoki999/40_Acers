@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Implemented dropdown navigation for profile settings menu with direct tab routing
 - June 26, 2025: Fixed 40 Acres logo display on credit card graphic in Dashboard wallet container
 - June 26, 2025: Fixed Community page Loop Feed to display as modern social media timeline with investor posts and property showcases
 - June 26, 2025: Added cryptocurrency payment support to Investment modal with USD/Bitcoin payment method selector
