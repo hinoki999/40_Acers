@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Home, Users, Building, ArrowLeft } from "lucide-react";
+import logoImage from "@assets/white_40_1750724342243.png";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -110,8 +111,8 @@ export default function AuthModals({
       <Dialog open={showRegister && !registerForm.userType && !showInvestmentPreference} onOpenChange={onClose}>
         <DialogContent className="max-w-md">
           <DialogHeader className="text-center">
-            <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Users className="text-white" size={20} />
+            <div className="w-16 h-16 bg-black rounded-lg flex items-center justify-center mx-auto mb-4">
+              <img src={logoImage} alt="40 Acres Logo" className="w-10 h-10 object-contain" />
             </div>
             <DialogTitle className="text-2xl font-bold text-neutral-900">Join 40 Acres</DialogTitle>
             <p className="text-neutral-600">Choose your account type to get started</p>
