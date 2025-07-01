@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Updated Invest page with centered tour/upgrade buttons and enhanced styling for better user experience
 - June 26, 2025: Updated Learn page "Start Learning" button to scroll to featured articles section and removed "Watch Video Guide" button
 - June 26, 2025: Updated Learn page banner to match website color palette (changed from blue/purple gradient to black background) and adjusted heading font size to be consistent with other page headings
 - June 26, 2025: Fixed Learn page navigation URL from /tokenomics to /learn in Header component

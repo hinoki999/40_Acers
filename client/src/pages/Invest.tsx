@@ -95,7 +95,7 @@ export default function Invest() {
             <p className="text-responsive text-white mb-6 sm:mb-8 max-w-3xl mx-auto">
               Discover fractional real estate investments and build your portfolio with verified properties
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
                 onClick={() => setShowInvestorTour(true)}
                 variant="outline"
@@ -109,7 +109,7 @@ export default function Invest() {
                 <Button 
                   onClick={() => setShowGoldUpgrade(true)}
                   size="lg"
-                  className="bg-yellow-500 text-black hover:bg-yellow-600 font-semibold px-6 py-3"
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-500 hover:to-yellow-700 font-semibold px-6 py-3 shadow-lg"
                 >
                   <Crown className="h-5 w-5 mr-2 text-black" />
                   Upgrade to Gold

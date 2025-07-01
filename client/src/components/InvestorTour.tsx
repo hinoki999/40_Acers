@@ -629,7 +629,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
             {currentStepData.ctaText && currentStepData.ctaAction ? (
               <Button
                 onClick={currentStepData.ctaAction}
-                className="flex items-center space-x-2 bg-primary hover:bg-primary/90"
+                className="flex items-center space-x-2 bg-black text-white hover:bg-gray-800"
               >
                 <span>{currentStepData.ctaText}</span>
                 <ArrowRight className="h-4 w-4" />
@@ -637,7 +637,7 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
             ) : (
               <Button
                 onClick={handleNext}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 bg-black text-white hover:bg-gray-800"
               >
                 <span>{currentStep === steps.length - 1 ? 'Complete Tour' : 'Next'}</span>
                 <ArrowRight className="h-4 w-4" />
