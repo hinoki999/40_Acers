@@ -350,7 +350,7 @@ export default function Invest() {
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="w-full border-black text-black hover:bg-gray-200"
+                  className="w-full border-black text-black hover:bg-gray-200 hover:text-black"
                   onClick={() => setShowGoldUpgrade(false)}
                 >
                   Maybe Later
