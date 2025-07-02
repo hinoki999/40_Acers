@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Updated "Upgrade Now" button in Gold membership modal to use gold gradient styling
 - June 26, 2025: Updated "Get Started" registration modal to display 40 Acres logo instead of generic icon in header
 - June 26, 2025: Updated Invest page with centered tour/upgrade buttons and enhanced styling for better user experience
 - June 26, 2025: Updated Learn page "Start Learning" button to scroll to featured articles section and removed "Watch Video Guide" button

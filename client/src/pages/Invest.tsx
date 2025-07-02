@@ -340,7 +340,7 @@ export default function Invest() {
               <div className="text-3xl font-bold text-yellow-600 mb-4">$99/month</div>
               <div className="space-y-2 mb-6">
                 <Button 
-                  className="w-full bg-yellow-500 text-black hover:bg-yellow-600"
+                  className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-500 hover:to-yellow-700 font-semibold shadow-lg"
                   onClick={() => {
                     setIsGoldMember(true);
                     setShowGoldUpgrade(false);
