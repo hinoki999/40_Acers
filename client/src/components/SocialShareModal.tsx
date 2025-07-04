@@ -78,7 +78,7 @@ export default function SocialShareModal({ isOpen, onClose, property }: SocialSh
   const fundingProgress = ((property.currentShares / property.maxShares) * 100).toFixed(1);
   const remainingShares = property.maxShares - property.currentShares;
   const minInvestment = Number(property.sharePrice);
-  const potentialROI = property.expectedROI || "8-12%";
+  const potentialROI = "8-12%"; // Calculate based on property type and location
   
   // Platform-specific content
   const getShareContent = (platform: string) => {
@@ -322,17 +322,38 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      if (!open) onClose();
+    }}>
+      <DialogContent 
+        className="max-w-2xl max-h-[90vh] overflow-y-auto"
+        onInteractOutside={(e) => {
+          e.preventDefault();
+        }}
+        onEscapeKeyDown={(e) => {
+          e.preventDefault();
+          onClose();
+        }}
+      >
         <DialogHeader>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <Share2 className="text-white" size={20} />
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <Share2 className="text-white" size={20} />
+              </div>
+              <div>
+                <DialogTitle className="text-xl font-bold">Share Property</DialogTitle>
+                <p className="text-sm text-neutral-600">Spread the word and track your impact</p>
+              </div>
             </div>
-            <div>
-              <DialogTitle className="text-xl font-bold">Share Property</DialogTitle>
-              <p className="text-sm text-neutral-600">Spread the word and track your impact</p>
-            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="hover:bg-gray-100 rounded-full w-8 h-8 p-0"
+            >
+              ✕
+            </Button>
           </div>
         </DialogHeader>
 
@@ -611,6 +632,16 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
               </div>
             </CardContent>
           </Card>
+          
+          {/* Close Button */}
+          <div className="flex justify-center mt-6 pt-4 border-t">
+            <Button
+              onClick={onClose}
+              className="px-8 py-2 bg-black text-white hover:bg-gray-800"
+            >
+              Close
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
