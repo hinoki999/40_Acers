@@ -61,73 +61,69 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
             </div>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {!isLoading && (
-              <>
-                {!isAuthenticated ? (
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <Button 
-                      onClick={() => {
-                        console.log('Get Started clicked');
-                        onShowRegister();
-                      }} 
-                      size="sm" 
-                      className="bg-black text-white hover:bg-[#A52A2A] text-sm"
-                    >
-                      Get Started
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => {
-                        console.log('Login clicked');
-                        onShowLogin();
-                      }} 
-                      className="text-white hover:bg-[#A52A2A] hover:text-white text-sm border-0"
-                    >
-                      Login
-                    </Button>
-                  </div>
-                ) : (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-[#A52A2A]">
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
-                          <AvatarFallback>
-                            {(user as any)?.firstName?.[0] || (user as any)?.email?.[0]?.toUpperCase() || "U"}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="text-sm font-medium text-white">
-                          Hi, {(user as any)?.firstName || (user as any)?.email?.split('@')[0] || "User"}
-                        </span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=profile')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
-                        <User className="mr-2 h-4 w-4" />
-                        Profile
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=payment')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
-                        <CreditCard className="mr-2 h-4 w-4" />
-                        Payment Methods
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=membership')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
-                        <Star className="mr-2 h-4 w-4" />
-                        Membership
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setLocation('/settings?tab=security')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
-                        <Shield className="mr-2 h-4 w-4" />
-                        Security
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleLogout} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Logout
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              </>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center space-x-2 h-auto p-2 hover:bg-[#A52A2A]">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={(user as any)?.profileImageUrl || ""} alt={(user as any)?.firstName || ""} />
+                      <AvatarFallback>
+                        {(user as any)?.firstName?.[0] || (user as any)?.email?.[0]?.toUpperCase() || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium text-white">
+                      Hi, {(user as any)?.firstName || (user as any)?.email?.split('@')[0] || "User"}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=profile')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=payment')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Payment Methods
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=membership')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                    <Star className="mr-2 h-4 w-4" />
+                    Membership
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=security')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                    <Shield className="mr-2 h-4 w-4" />
+                    Security
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <Button 
+                  onClick={() => {
+                    console.log('Get Started clicked');
+                    onShowRegister();
+                  }} 
+                  size="sm" 
+                  className="bg-black text-white hover:bg-[#A52A2A] text-sm"
+                >
+                  Get Started
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => {
+                    console.log('Login clicked');
+                    onShowLogin();
+                  }} 
+                  className="text-white hover:bg-[#A52A2A] hover:text-white text-sm border-0"
+                >
+                  Login
+                </Button>
+              </div>
             )}
           </div>
         </div>
