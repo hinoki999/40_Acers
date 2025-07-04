@@ -29,13 +29,8 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
   });
 
   const handleInvest = (propertyId: number) => {
-    const property = (properties as Property[]).find((p) => p.id === propertyId);
-    if (property) {
-      setSelectedProperty(property);
-      setShowInvestment(true);
-    } else {
-      onShowLogin();
-    }
+    // Always require login for invest buttons on homepage
+    onShowRegister();
   };
 
   const handleShare = (propertyId: number) => {
@@ -92,7 +87,6 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-neutral-600">Withdraw Funds</span>
-                    <span className="text-neutral-900 font-semibold">Max Amount $2000.00</span>
                   </div>
                   <div className="text-3xl font-bold text-neutral-900">$2,500</div>
                   <div className="w-full bg-neutral-200 rounded-full h-2">
