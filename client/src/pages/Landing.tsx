@@ -115,23 +115,24 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
             </p>
           </div>
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <Card key={i} className="animate-pulse overflow-hidden">
-                  <div className="h-56 bg-gradient-to-r from-neutral-200 to-neutral-300"></div>
-                  <CardContent className="p-6">
-                    <div className="space-y-3">
-                      <div className="h-6 bg-neutral-200 rounded w-3/4"></div>
-                      <div className="h-4 bg-neutral-200 rounded w-1/2"></div>
-                      <div className="h-20 bg-neutral-200 rounded"></div>
-                      <div className="h-10 bg-neutral-200 rounded"></div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : properties.length === 0 ? (
+          <div className="min-h-[600px]">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Card key={i} className="animate-pulse overflow-hidden">
+                    <div className="h-56 bg-gradient-to-r from-neutral-200 to-neutral-300"></div>
+                    <CardContent className="p-6">
+                      <div className="space-y-3">
+                        <div className="h-6 bg-neutral-200 rounded w-3/4"></div>
+                        <div className="h-4 bg-neutral-200 rounded w-1/2"></div>
+                        <div className="h-20 bg-neutral-200 rounded"></div>
+                        <div className="h-10 bg-neutral-200 rounded"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : properties.length === 0 ? (
             <div className="text-center py-16">
               <div className="w-24 h-24 bg-gradient-to-br from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <TrendingUp className="text-white" size={32} />
@@ -161,9 +162,8 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 />
               ))}
             </div>
-          )}
-
-
+            )}
+          </div>
         </div>
       </section>
       {/* Features Section */}
