@@ -40,7 +40,7 @@ export default function Invest() {
 
   const handleInvest = (propertyId: number) => {
     if (!isAuthenticated) {
-      setShowLogin(true);
+      setShowRegister(true);
       return;
     }
     const property = (properties as Property[]).find((p: Property) => p.id === propertyId);

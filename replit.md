@@ -119,6 +119,7 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Added login requirement for "Invest Now" buttons on Invest page and "Start Property Listing" buttons on List Property page to show registration modal
 - June 26, 2025: Removed "Max Amount $2,000" text from homepage passive income container and added login requirement for "Invest Now" buttons
 - June 26, 2025: Updated "Upgrade Now" button in Gold membership modal to use gold gradient styling
 - June 26, 2025: Updated "Get Started" registration modal to display 40 Acres logo instead of generic icon in header

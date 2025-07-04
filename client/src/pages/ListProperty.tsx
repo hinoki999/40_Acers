@@ -14,12 +14,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
+import AuthModals from "@/components/AuthModals";
 
 export default function ListProperty() {
   const { user, isAuthenticated } = useAuth();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showBusinessTour, setShowBusinessTour] = useState(false);
   const [showListingForm, setShowListingForm] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [propertyData, setPropertyData] = useState({
     address: '',
@@ -116,7 +119,7 @@ export default function ListProperty() {
               <Button 
                 onClick={() => {
                   if (!isAuthenticated) {
-                    window.location.href = '/api/login';
+                    setShowRegister(true);
                     return;
                   }
                   setShowCreateModal(true);
@@ -276,7 +279,7 @@ export default function ListProperty() {
             <Button 
               onClick={() => {
                 if (!isAuthenticated) {
-                  window.location.href = '/api/login';
+                  setShowRegister(true);
                   return;
                 }
                 setShowCreateModal(true);
@@ -318,6 +321,23 @@ export default function ListProperty() {
         onStartListing={() => {
           setShowBusinessTour(false);
           setShowCreateModal(true);
+        }}
+      />
+
+      <AuthModals
+        showLogin={showLogin}
+        showRegister={showRegister}
+        onClose={() => {
+          setShowLogin(false);
+          setShowRegister(false);
+        }}
+        onSwitchToRegister={() => {
+          setShowLogin(false);
+          setShowRegister(true);
+        }}
+        onSwitchToLogin={() => {
+          setShowRegister(false);
+          setShowLogin(true);
         }}
       />
       
