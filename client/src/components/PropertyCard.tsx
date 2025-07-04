@@ -18,9 +18,11 @@ interface PropertyCardProps {
   onInvest: (propertyId: number) => void;
   onShare?: (propertyId: number) => void;
   isGoldMember?: boolean;
+  isAuthenticated?: boolean;
+  onShowRegister?: () => void;
 }
 
-export default function PropertyCard({ property, onInvest, onShare, isGoldMember = false }: PropertyCardProps) {
+export default function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAuthenticated = false, onShowRegister }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -286,6 +288,10 @@ export default function PropertyCard({ property, onInvest, onShare, isGoldMember
               className="flex-1 text-xs px-2 py-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
+                if (!isAuthenticated) {
+                  onShowRegister?.();
+                  return;
+                }
                 setSaved(!saved);
               }}
             >

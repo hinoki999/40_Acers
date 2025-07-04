@@ -119,6 +119,10 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Fixed Share button modal responsiveness with scrollable content and max height constraints for mobile devices
+- June 26, 2025: Added authentication requirement for favorites/save functionality on PropertyCard component across all pages
+- June 26, 2025: Updated PropertyCard component to show registration modal when unauthenticated users try to save properties
+- June 26, 2025: Enhanced Homepage and Invest page PropertyCard usage with authentication props for Save button functionality
 - June 26, 2025: Added login requirement for "Invest Now" buttons on Invest page and "Start Property Listing" buttons on List Property page to show registration modal
 - June 26, 2025: Removed "Max Amount $2,000" text from homepage passive income container and added login requirement for "Invest Now" buttons
 - June 26, 2025: Updated "Upgrade Now" button in Gold membership modal to use gold gradient styling

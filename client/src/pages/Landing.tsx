@@ -12,6 +12,7 @@ import InvestorNetwork from "@/components/InvestorNetwork";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import { Property } from "@shared/schema";
 import logoImage from "@/assets/40-acres-logo.png";
+import { useAuth } from "@/hooks/useAuth";
 
 interface LandingProps {
   onShowLogin: () => void;
@@ -19,6 +20,7 @@ interface LandingProps {
 }
 
 export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
+  const { isAuthenticated } = useAuth();
   const [showInvestment, setShowInvestment] = useState(false);
   const [showSocialShare, setShowSocialShare] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
@@ -154,6 +156,8 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                   property={property}
                   onInvest={() => handleInvest(property.id)}
                   onShare={() => handleShare(property.id)}
+                  isAuthenticated={isAuthenticated}
+                  onShowRegister={onShowRegister}
                 />
               ))}
             </div>

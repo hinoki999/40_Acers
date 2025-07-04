@@ -293,6 +293,8 @@ export default function Invest() {
                   onInvest={() => handleInvest(property.id)}
                   onShare={() => handleShare(property.id)}
                   isGoldMember={isGoldMember}
+                  isAuthenticated={isAuthenticated}
+                  onShowRegister={() => setShowRegister(true)}
                 />
               ))}
             </div>
