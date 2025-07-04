@@ -119,6 +119,9 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- June 26, 2025: Fixed container shaking/flickering issue by optimizing useAuth hook with aggressive caching and preventing excessive API calls
+- June 26, 2025: Added React.memo to PropertyCard component to prevent unnecessary re-renders and stabilize UI
+- June 26, 2025: Enhanced authentication flow - Invest Now button shows registration modal for unauthenticated users and investment modal for authenticated users
 - June 26, 2025: Fixed Share button modal responsiveness with scrollable content and max height constraints for mobile devices
 - June 26, 2025: Added authentication requirement for favorites/save functionality on PropertyCard component across all pages
 - June 26, 2025: Updated PropertyCard component to show registration modal when unauthenticated users try to save properties

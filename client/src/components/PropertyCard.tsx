@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { TrendingUp, MapPin, Users, Zap, Heart, Video, Calculator, Share2, PieChart, Eye, MessageSquare, DollarSign, Bookmark } from "lucide-react";
 import { Property } from "@shared/schema";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Link } from "wouter";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import TokenizationCalculator from "./TokenizationCalculator";
@@ -22,7 +22,7 @@ interface PropertyCardProps {
   onShowRegister?: () => void;
 }
 
-export default function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAuthenticated = false, onShowRegister }: PropertyCardProps) {
+function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAuthenticated = false, onShowRegister }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -320,3 +320,5 @@ export default function PropertyCard({ property, onInvest, onShare, isGoldMember
     </Card>
   );
 }
+
+export default memo(PropertyCard);
