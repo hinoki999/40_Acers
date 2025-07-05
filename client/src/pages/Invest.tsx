@@ -14,7 +14,7 @@ import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import InvestorTour from "@/components/InvestorTour";
 import AuthModals from "@/components/AuthModals";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
 
 export default function Invest() {
@@ -171,12 +171,12 @@ export default function Invest() {
                   <SelectValue placeholder="Property Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all" className="hover:bg-[#A52A2A] hover:text-white">All Types</SelectItem>
-                  <SelectItem value="Townhouse">Townhouse</SelectItem>
-                  <SelectItem value="Single Family">Single Family</SelectItem>
-                  <SelectItem value="Condo">Condominium</SelectItem>
-                  <SelectItem value="Duplex">Duplex</SelectItem>
-                  <SelectItem value="Apartment">Apartment</SelectItem>
+                  <SelectItem value="all" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">All Types</SelectItem>
+                  <SelectItem value="Townhouse" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Townhouse</SelectItem>
+                  <SelectItem value="Single Family" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Single Family</SelectItem>
+                  <SelectItem value="Condo" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Condominium</SelectItem>
+                  <SelectItem value="Duplex" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Duplex</SelectItem>
+                  <SelectItem value="Apartment" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Apartment</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -185,11 +185,11 @@ export default function Invest() {
                   <SelectValue placeholder="Price Range" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all" className="hover:bg-[#A52A2A] hover:text-white">All Prices</SelectItem>
-                  <SelectItem value="low">Less than $5,000</SelectItem>
-                  <SelectItem value="medium">$5,001-$100,000</SelectItem>
-                  <SelectItem value="high">$101,000-$500,000</SelectItem>
-                  <SelectItem value="premium">$1M+</SelectItem>
+                  <SelectItem value="all" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">All Prices</SelectItem>
+                  <SelectItem value="low" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Less than $5,000</SelectItem>
+                  <SelectItem value="medium" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$5,001-$100,000</SelectItem>
+                  <SelectItem value="high" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$101,000-$500,000</SelectItem>
+                  <SelectItem value="premium" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$1M+</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -198,12 +198,12 @@ export default function Invest() {
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all" className="hover:bg-[#A52A2A] hover:text-white">All Locations</SelectItem>
-                  <SelectItem value="CA">California</SelectItem>
-                  <SelectItem value="TX">Texas</SelectItem>
-                  <SelectItem value="FL">Florida</SelectItem>
-                  <SelectItem value="NY">New York</SelectItem>
-                  <SelectItem value="IL">Illinois</SelectItem>
+                  <SelectItem value="all" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">All Locations</SelectItem>
+                  <SelectItem value="CA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">California</SelectItem>
+                  <SelectItem value="TX" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Texas</SelectItem>
+                  <SelectItem value="FL" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Florida</SelectItem>
+                  <SelectItem value="NY" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">New York</SelectItem>
+                  <SelectItem value="IL" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Illinois</SelectItem>
                 </SelectContent>
               </Select>
               </div>
