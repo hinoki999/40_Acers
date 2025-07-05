@@ -467,10 +467,11 @@ export default function BusinessOwnerTour({ isOpen, onClose, onComplete, onStart
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-2xl font-bold text-primary">Business Owner Guide</DialogTitle>
             <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200">
               Skip Tutorial
             </Button>
+            <DialogTitle className="text-2xl font-bold text-primary">Business Owner Guide</DialogTitle>
+            <div className="w-20"></div>
           </div>
           
           <div className="space-y-2">

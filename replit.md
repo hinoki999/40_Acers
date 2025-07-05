@@ -119,6 +119,10 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- July 5, 2025: Fixed overlapping buttons in tutorial popups by moving "Skip Tutorial" button to left side with proper spacing in InvestorTour, BusinessOwnerTour, and OnboardingTour components
+- July 5, 2025: Updated Invest page dropdown menus (All Types, All Prices, All Locations) to use black selection color instead of yellow for consistent styling
+- July 5, 2025: Enhanced Invest page authentication flow - "Invest Now" buttons now show "Join 40 Acres" registration popup for unauthenticated users
+- July 5, 2025: Completed authentication system rebuild using React Context to eliminate excessive API calls and prevent property listing flickering
 - July 4, 2025: Fixed container shaking/flickering issue by optimizing useAuth hook with aggressive caching and preventing excessive API calls
 - July 4, 2025: Added React.memo to PropertyCard component to prevent unnecessary re-renders and stabilize UI
 - July 4, 2025: Enhanced authentication flow - Invest Now button shows registration modal for unauthenticated users and investment modal for authenticated users
