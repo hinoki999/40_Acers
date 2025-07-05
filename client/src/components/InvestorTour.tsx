@@ -567,14 +567,21 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto [&>button]:hidden">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-200 hover:text-black">
               Skip Tutorial
             </Button>
             <DialogTitle className="text-2xl font-bold text-primary">Investor Guide</DialogTitle>
-            <div className="w-20"></div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onClose}
+              className="hover:bg-gray-200 hover:text-black p-2"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
           
           <div className="space-y-2">
