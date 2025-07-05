@@ -87,7 +87,14 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </DialogTitle>
           <div className="flex items-center gap-2 text-neutral-600">
             <MapPin className="h-4 w-4" />
-            <span>{property.city}, {property.state} {property.zipcode}</span>
+            <a 
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.address + ', ' + property.city + ', ' + property.state + ' ' + property.zipcode)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary hover:underline cursor-pointer"
+            >
+              {property.city}, {property.state} {property.zipcode}
+            </a>
           </div>
         </DialogHeader>
 
@@ -192,9 +199,15 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-neutral-700 leading-relaxed mb-4">
-                    {property.description || `Beautiful ${property.propertyType.toLowerCase()} located in the heart of ${property.city}. This stunning property offers modern amenities and excellent investment potential with strong rental demand in the area. The property features high-quality finishes and is located in a desirable neighborhood with easy access to shopping, dining, and entertainment.`}
-                  </p>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3 text-neutral-600">
+                      <Users className="h-4 w-4" />
+                      <span className="text-sm">Property Owner: ID #{property.ownerId}</span>
+                    </div>
+                    <p className="text-neutral-700 leading-relaxed">
+                      {property.description || `Beautiful ${property.propertyType.toLowerCase()} located in the heart of ${property.city}. This stunning property offers modern amenities and excellent investment potential with strong rental demand in the area. The property features high-quality finishes and is located in a desirable neighborhood with easy access to shopping, dining, and entertainment.`}
+                    </p>
+                  </div>
                   
                   {/* Property Highlights */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
@@ -271,6 +284,12 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                   <CardTitle>Property Specifications</CardTitle>
                 </CardHeader>
                 <CardContent>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-3 text-neutral-600">
+                      <Users className="h-4 w-4" />
+                      <span className="text-sm">Property Owner: ID #{property.ownerId}</span>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div className="flex justify-between">

@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal, ChevronDown } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal, ChevronDown, Shield, Lock, Smartphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
@@ -41,6 +43,11 @@ export default function Dashboard() {
   const [investmentCurrency, setInvestmentCurrency] = useState<'USD' | 'BTC'>('USD');
   const [showInvestorTour, setShowInvestorTour] = useState(false);
   const [timePeriod, setTimePeriod] = useState<'Day' | 'Week' | 'Month'>('Day');
+  const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
+  const [withdrawalStep, setWithdrawalStep] = useState<'password' | 'sms' | 'confirm'>('password');
+  const [withdrawalPassword, setWithdrawalPassword] = useState('');
+  const [smsCode, setSmsCode] = useState('');
+  const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
@@ -335,6 +342,7 @@ export default function Dashboard() {
             <Button
               variant="outline"
               className="w-full border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+              onClick={() => setShowWithdrawalModal(true)}
             >
               <ArrowDown className="mr-2" size={16} />
               Withdraw Funds
@@ -681,6 +689,171 @@ export default function Dashboard() {
             }
           }}
         />
+        
+        {/* Secure Withdrawal Modal */}
+        <Dialog open={showWithdrawalModal} onOpenChange={(open) => {
+          if (!open) {
+            setShowWithdrawalModal(false);
+            setWithdrawalStep('password');
+            setWithdrawalPassword('');
+            setSmsCode('');
+            setWithdrawalAmount('');
+          }
+        }}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5 text-red-600" />
+                Secure Withdrawal
+              </DialogTitle>
+            </DialogHeader>
+            
+            <div className="space-y-6">
+              {/* Step 1: Password Verification */}
+              {withdrawalStep === 'password' && (
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <Lock className="h-8 w-8 text-red-600 mx-auto mb-2" />
+                    <h3 className="font-semibold">Verify Your Password</h3>
+                    <p className="text-sm text-gray-600">Enter your account password to continue</p>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="withdrawal-amount">Withdrawal Amount ($)</Label>
+                    <Input
+                      id="withdrawal-amount"
+                      type="number"
+                      value={withdrawalAmount}
+                      onChange={(e) => setWithdrawalAmount(e.target.value)}
+                      placeholder="Enter amount"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="withdrawal-password">Password</Label>
+                    <Input
+                      id="withdrawal-password"
+                      type="password"
+                      value={withdrawalPassword}
+                      onChange={(e) => setWithdrawalPassword(e.target.value)}
+                      placeholder="Enter your password"
+                    />
+                  </div>
+                  
+                  <Button 
+                    onClick={() => {
+                      if (withdrawalPassword && withdrawalAmount) {
+                        setWithdrawalStep('sms');
+                        toast({
+                          title: "SMS Sent",
+                          description: "Verification code sent to your phone",
+                        });
+                      }
+                    }}
+                    className="w-full bg-[#A52A2A] hover:bg-[#8B1A1A]"
+                    disabled={!withdrawalPassword || !withdrawalAmount}
+                  >
+                    Continue to SMS Verification
+                  </Button>
+                </div>
+              )}
+              
+              {/* Step 2: SMS Verification */}
+              {withdrawalStep === 'sms' && (
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <Smartphone className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                    <h3 className="font-semibold">SMS Verification</h3>
+                    <p className="text-sm text-gray-600">Enter the 6-digit code sent to your phone</p>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="sms-code">Verification Code</Label>
+                    <Input
+                      id="sms-code"
+                      type="text"
+                      value={smsCode}
+                      onChange={(e) => setSmsCode(e.target.value)}
+                      placeholder="Enter 6-digit code"
+                      maxLength={6}
+                    />
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline"
+                      onClick={() => setWithdrawalStep('password')}
+                      className="flex-1"
+                    >
+                      Back
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        if (smsCode.length === 6) {
+                          setWithdrawalStep('confirm');
+                        }
+                      }}
+                      className="flex-1 bg-[#A52A2A] hover:bg-[#8B1A1A]"
+                      disabled={smsCode.length !== 6}
+                    >
+                      Verify Code
+                    </Button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Step 3: Confirmation */}
+              {withdrawalStep === 'confirm' && (
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <Shield className="h-5 w-5 text-green-600" />
+                    </div>
+                    <h3 className="font-semibold">Confirm Withdrawal</h3>
+                    <p className="text-sm text-gray-600">Review your withdrawal details</p>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600">Amount:</span>
+                      <span className="font-medium">${parseFloat(withdrawalAmount).toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600">Processing Fee:</span>
+                      <span className="font-medium">$2.50</span>
+                    </div>
+                    <div className="border-t pt-2 flex justify-between">
+                      <span className="font-semibold">Net Amount:</span>
+                      <span className="font-semibold">${(parseFloat(withdrawalAmount) - 2.50).toLocaleString()}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline"
+                      onClick={() => setWithdrawalStep('sms')}
+                      className="flex-1"
+                    >
+                      Back
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        toast({
+                          title: "Withdrawal Initiated",
+                          description: "Your withdrawal request has been submitted and will be processed within 2-3 business days.",
+                        });
+                        setShowWithdrawalModal(false);
+                      }}
+                      className="flex-1 bg-green-600 hover:bg-green-700"
+                    >
+                      Confirm Withdrawal
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
         
         <Footer />
       </>

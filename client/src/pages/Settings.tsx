@@ -561,6 +561,53 @@ export default function Settings() {
               <Button onClick={handlePasswordChange} className="w-fit bg-[#A52A2A] hover:bg-[#8B1A1A] text-white">
                 Update Password
               </Button>
+              
+              {/* Two-Factor Authentication */}
+              <div className="border-t pt-6 mt-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Smartphone className="h-5 w-5" />
+                  Two-Factor Authentication
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h4 className="font-medium">SMS Authentication</h4>
+                      <p className="text-sm text-gray-600">Receive verification codes via SMS</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+                    >
+                      Enable
+                    </Button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h4 className="font-medium">Authenticator App</h4>
+                      <p className="text-sm text-gray-600">Use Google Authenticator or similar apps</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+                    >
+                      Setup
+                    </Button>
+                  </div>
+                  
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
+                      <div>
+                        <h5 className="font-medium text-blue-900">Enhanced Security</h5>
+                        <p className="text-sm text-blue-800">Two-factor authentication adds an extra layer of security to your account by requiring a verification code in addition to your password.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
