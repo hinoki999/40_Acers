@@ -140,6 +140,10 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                     <MapPin size={14} />
                     {property.city}, {property.state} {property.zipcode}
                   </p>
+                  <p className="text-neutral-500 text-sm flex items-center gap-1 mt-1">
+                    <Users size={12} />
+                    Property Owner: ID #{property.ownerId}
+                  </p>
                 </div>
                 <Badge variant="secondary">
                   <Building size={12} className="mr-1" />
@@ -294,6 +298,9 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                   placeholder={paymentMethod === 'USD' ? "Enter USD amount" : "Enter BTC amount"}
                   step={paymentMethod === 'BTC' ? "0.00000001" : "1"}
                 />
+                <p className="text-neutral-400 text-sm mt-1">
+                  Minimum Amount: ${parseFloat(property?.sharePrice || "0").toLocaleString()}
+                </p>
               </div>
             </div>
           </div>
