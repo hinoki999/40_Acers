@@ -160,10 +160,10 @@ img.critical {
 .border-blue-200 { @apply border-gray-200; }
 .border-blue-600 { @apply border-black; }
 
-/* Remove yellow colors and replace with gray */
-.bg-yellow-500 { @apply bg-gray-400; }
-.text-yellow-600 { @apply text-gray-600; }
-.hover:bg-yellow-400 { @apply hover:bg-gray-300; }
+/* Remove yellow colors and replace with burgundy theme */
+.bg-yellow-500 { @apply bg-[#A52A2A]; }
+.text-yellow-600 { @apply text-[#A52A2A]; }
+.hover:bg-yellow-400 { @apply hover:bg-[#A52A2A]; }
 
 /* Replace red buttons with black/gray */
 .bg-red-500 { @apply bg-black; }
@@ -404,7 +404,7 @@ img.critical {
   --primary-foreground: hsl(0, 0%, 98%);
   --secondary: hsl(159, 62%, 40%);
   --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(43, 96%, 56%);
+  --accent: hsl(0, 59%, 41%);
   --accent-foreground: hsl(0, 0%, 98%);
   --destructive: hsl(0, 84%, 60%);
   --destructive-foreground: hsl(0, 0%, 98%);
@@ -439,7 +439,7 @@ img.critical {
   --primary-foreground: hsl(0, 0%, 98%);
   --secondary: hsl(159, 62%, 40%);
   --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(43, 96%, 56%);
+  --accent: hsl(0, 59%, 41%);
   --accent-foreground: hsl(0, 0%, 98%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);

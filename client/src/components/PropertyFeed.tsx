@@ -428,7 +428,7 @@ export default function PropertyFeed({ properties, onInvest, onShare }: Property
                   variant="ghost"
                   className={`w-12 h-12 rounded-full ${
                     currentInteraction.saved 
-                      ? 'bg-yellow-500 text-white hover:bg-yellow-600' 
+                      ? 'bg-[#A52A2A] text-white hover:bg-[#8B1A1A]' 
                       : 'bg-white/20 text-white hover:bg-white/30'
                   }`}
                   onClick={handleSave}

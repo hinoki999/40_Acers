@@ -718,6 +718,13 @@ export default function Dashboard() {
                     <p className="text-sm text-gray-600">Enter your account password to continue</p>
                   </div>
                   
+                  <div className="bg-blue-50 p-3 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-blue-800">Available Balance:</span>
+                      <span className="text-lg font-bold text-blue-900">${((portfolio?.totalValue || 0) * 0.80).toLocaleString()}</span>
+                    </div>
+                  </div>
+                  
                   <div>
                     <Label htmlFor="withdrawal-amount">Withdrawal Amount ($)</Label>
                     <Input
@@ -726,6 +733,7 @@ export default function Dashboard() {
                       value={withdrawalAmount}
                       onChange={(e) => setWithdrawalAmount(e.target.value)}
                       placeholder="Enter amount"
+                      max={(portfolio?.totalValue || 0) * 0.80}
                     />
                   </div>
                   

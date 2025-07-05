@@ -12,6 +12,7 @@ import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Pl
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 import AddPaymentMethodModal from "@/components/AddPaymentMethodModal";
+import paypalIcon from "@assets/paypal_1751739388573.webp";
 
 export default function Settings() {
   const { user, isAuthenticated } = useAuth();
@@ -343,8 +344,8 @@ export default function Settings() {
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold">PayPal</h3>
                 <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
-                  <div className="h-12 w-12 bg-blue-500 rounded-lg mx-auto mb-4 flex items-center justify-center text-white font-bold">
-                    PP
+                  <div className="h-12 w-12 mx-auto mb-4 flex items-center justify-center">
+                    <img src={paypalIcon} alt="PayPal" className="h-12 w-12 object-contain" />
                   </div>
                   <p className="text-gray-500 mb-4">PayPal not connected</p>
                   <Button variant="outline" className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white">Connect PayPal</Button>
@@ -495,7 +496,7 @@ export default function Settings() {
                   </div>
                   <div className="mt-4">
                     <div className="text-2xl font-bold">$99.99/month</div>
-                    <Button onClick={handleUpgradeToGold} className="w-full mt-3 bg-yellow-500 hover:bg-yellow-600 text-black">
+                    <Button onClick={handleUpgradeToGold} className="w-full mt-3 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black">
                       Upgrade to Gold
                     </Button>
                   </div>
