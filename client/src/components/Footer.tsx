@@ -10,7 +10,7 @@ export default function Footer() {
               className="h-12 w-auto object-contain mb-4 self-start"
             />
             <p className="text-gray-300 mb-4">
-              Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
+              Build wealth through fractional real estate investing. Own shares in properties and earn passive income without the hassle of management.
             </p>
           </div>
           

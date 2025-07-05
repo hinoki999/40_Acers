@@ -71,7 +71,7 @@ export default function Landing({ onShowLogin, onShowRegister }: LandingProps) {
                 </h1>
               </div>
               <p className="text-base md:text-xl text-white mb-6 md:mb-8 leading-relaxed text-left drop-shadow-lg">
-                Build wealth through fractional real estate investing. Own shares in rental properties and earn passive income without the hassle of management.
+                Build wealth through fractional real estate investing. Own shares in properties and earn passive income without the hassle of management.
               </p>
 
             </div>
