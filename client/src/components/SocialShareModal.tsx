@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Property } from "@shared/schema";
 import { Share2, Users, Eye, Copy, ExternalLink, TrendingUp, DollarSign, UserCheck } from "lucide-react";
-import { FaLinkedin, FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 
 interface SocialShareModalProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ interface SocialShareModalProps {
 export default function SocialShareModal({ isOpen, onClose, property }: SocialShareModalProps) {
   const [shareStats, setShareStats] = useState({
     linkedinViews: Math.floor(Math.random() * 500 + 100),
-    twitterViews: Math.floor(Math.random() * 300 + 50),
+    xViews: Math.floor(Math.random() * 300 + 50),
     facebookViews: Math.floor(Math.random() * 200 + 25),
     instagramViews: Math.floor(Math.random() * 180 + 20),
     directViews: Math.floor(Math.random() * 150 + 30)
@@ -49,7 +49,7 @@ export default function SocialShareModal({ isOpen, onClose, property }: SocialSh
       id: 3,
       name: "Emily Rodriguez",
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150", 
-      platform: "twitter",
+      platform: "x",
       investmentAmount: 800,
       sharesOwned: 4,
       investedDate: "2024-01-20",
@@ -144,7 +144,7 @@ Perfect for anyone looking to diversify with real estate through 40 Acres!
 #40Acres #RealEstate #Investment #PassiveIncome #WealthBuilding #PropTech`
         };
       
-      case "twitter":
+      case "x":
         return {
           ...baseContent,
           text: `🏡 40 ACRES: New investment drop! 
@@ -194,7 +194,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
     }
   };
 
-  const totalViews = shareStats.linkedinViews + shareStats.twitterViews + shareStats.facebookViews + shareStats.instagramViews + shareStats.directViews;
+  const totalViews = shareStats.linkedinViews + shareStats.xViews + shareStats.facebookViews + shareStats.instagramViews + shareStats.directViews;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareUrl);
@@ -218,7 +218,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
         url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&title=${encodedTitle}&summary=${encodeURIComponent(content.text.substring(0, 256))}`;
         windowFeatures = "width=520,height=570";
         break;
-      case "twitter":
+      case "x":
         url = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
         windowFeatures = "width=550,height=420";
         break;
@@ -257,7 +257,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
   };
 
   const handleShareToAll = () => {
-    const platforms = ['linkedin', 'facebook', 'twitter'];
+    const platforms = ['linkedin', 'facebook', 'x'];
     let popupCount = 0;
     
     platforms.forEach((platform, index) => {
@@ -283,7 +283,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
             url = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
             windowFeatures = `width=580,height=400,left=${200 + offsetX},top=${200 + offsetY}`;
             break;
-          case "twitter":
+          case "x":
             url = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
             windowFeatures = `width=550,height=420,left=${300 + offsetX},top=${300 + offsetY}`;
             break;
@@ -308,7 +308,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
       setShareStats(prev => ({
         linkedinViews: prev.linkedinViews + Math.floor(Math.random() * 15 + 5),
         facebookViews: prev.facebookViews + Math.floor(Math.random() * 12 + 3),
-        twitterViews: prev.twitterViews + Math.floor(Math.random() * 10 + 2),
+        xViews: prev.xViews + Math.floor(Math.random() * 10 + 2),
         instagramViews: prev.instagramViews + Math.floor(Math.random() * 8 + 2),
         directViews: prev.directViews + Math.floor(Math.random() * 8 + 1)
       }));
@@ -316,7 +316,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
     
     toast({
       title: "40 Acres Property Shared!",
-      description: "Property shared to LinkedIn, Facebook, and Twitter. Instagram content copied to clipboard!",
+      description: "Property shared to LinkedIn, Facebook, and X. Instagram content copied to clipboard!",
       duration: 5000,
     });
   };
@@ -423,7 +423,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                           <h4 className="font-medium text-neutral-900">{friend.name}</h4>
                           {friend.platform === 'linkedin' && <FaLinkedin className="text-blue-600" size={14} />}
                           {friend.platform === 'facebook' && <FaFacebook className="text-blue-700" size={14} />}
-                          {friend.platform === 'twitter' && <FaTwitter className="text-blue-400" size={14} />}
+                          {friend.platform === 'x' && <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-3.5 h-3.5" />}
                           {friend.platform === 'instagram' && <FaInstagram className="text-purple-600" size={14} />}
                         </div>
                         <p className="text-xs text-neutral-600">
@@ -467,10 +467,10 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                   <div className="text-2xl font-bold text-blue-600">{shareStats.linkedinViews}</div>
                   <div className="text-xs text-neutral-600">LinkedIn Views</div>
                 </div>
-                <div className="text-center p-3 bg-blue-50 rounded-lg">
-                  <FaTwitter className="text-blue-400 mx-auto mb-2" size={24} />
-                  <div className="text-2xl font-bold text-blue-400">{shareStats.twitterViews}</div>
-                  <div className="text-xs text-neutral-600">Twitter Views</div>
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-6 h-6 mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-gray-900">{shareStats.xViews}</div>
+                  <div className="text-xs text-neutral-600">X Views</div>
                 </div>
                 <div className="text-center p-3 bg-blue-50 rounded-lg">
                   <FaFacebook className="text-blue-700 mx-auto mb-2" size={24} />
@@ -523,11 +523,11 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                 Facebook
               </Button>
               <Button
-                onClick={() => handleSocialShare("twitter")}
-                className="flex items-center gap-2 bg-blue-400 hover:bg-blue-500 transition-smooth"
+                onClick={() => handleSocialShare("x")}
+                className="flex items-center gap-2 bg-black hover:bg-gray-800 transition-smooth"
               >
-                <FaTwitter size={18} />
-                Twitter
+                <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-4 h-4" />
+                X
               </Button>
               <Button
                 onClick={() => handleSocialShare("instagram")}
@@ -560,10 +560,10 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
               
               <details className="group">
                 <summary className="cursor-pointer text-sm font-medium text-neutral-700 hover:text-neutral-900">
-                  Preview Twitter Post Content
+                  Preview X Post Content
                 </summary>
                 <div className="mt-2 p-3 bg-neutral-50 rounded-lg text-xs font-mono text-neutral-600 whitespace-pre-line">
-                  {getShareContent("twitter").text}
+                  {getShareContent("x").text}
                 </div>
               </details>
             </div>
@@ -595,7 +595,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                   <ul className="space-y-1">
                     <li>• LinkedIn: 9-11 AM, 2-4 PM (weekdays)</li>
                     <li>• Facebook: 1-4 PM (weekdays)</li>
-                    <li>• Twitter: 9 AM, 1-3 PM</li>
+                    <li>• X: 9 AM, 1-3 PM</li>
                     <li>• Instagram: 6-9 AM, 7-9 PM</li>
                   </ul>
                 </div>
@@ -617,7 +617,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                   <strong className="text-orange-800">40 Acres Branding:</strong>
                 </div>
                 <p className="text-xs text-orange-700">
-                  All shared content includes 40 Acres branding and platform-specific messaging. Use "Share to All Platforms" for maximum reach with one click - opens LinkedIn, Facebook, and Twitter simultaneously, plus copies Instagram content to clipboard.
+                  All shared content includes 40 Acres branding and platform-specific messaging. Use "Share to All Platforms" for maximum reach with one click - opens LinkedIn, Facebook, and X simultaneously, plus copies Instagram content to clipboard.
                 </p>
               </div>
             </CardContent>
