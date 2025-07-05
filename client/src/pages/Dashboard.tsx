@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal, ChevronDown, Shield, Lock, Smartphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -48,6 +49,7 @@ export default function Dashboard() {
   const [withdrawalPassword, setWithdrawalPassword] = useState('');
   const [smsCode, setSmsCode] = useState('');
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
+  const [selectedBankAccount, setSelectedBankAccount] = useState('');
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
@@ -698,6 +700,7 @@ export default function Dashboard() {
             setWithdrawalPassword('');
             setSmsCode('');
             setWithdrawalAmount('');
+            setSelectedBankAccount('');
           }
         }}>
           <DialogContent className="max-w-md">
@@ -821,6 +824,21 @@ export default function Dashboard() {
                     <p className="text-sm text-gray-600">Review your withdrawal details</p>
                   </div>
                   
+                  <div>
+                    <Label htmlFor="bank-account">Select Bank Account</Label>
+                    <Select value={selectedBankAccount} onValueChange={setSelectedBankAccount}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Choose bank account for withdrawal" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="chase-checking">Chase Bank - Checking ****1234</SelectItem>
+                        <SelectItem value="bofa-savings">Bank of America - Savings ****5678</SelectItem>
+                        <SelectItem value="wells-checking">Wells Fargo - Checking ****9012</SelectItem>
+                        <SelectItem value="citi-savings">Citibank - Savings ****3456</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
                   <div className="bg-gray-50 p-4 rounded-lg space-y-2">
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-600">Amount:</span>
@@ -829,6 +847,10 @@ export default function Dashboard() {
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-600">Processing Fee:</span>
                       <span className="font-medium">$2.50</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600">Destination:</span>
+                      <span className="font-medium">{selectedBankAccount ? selectedBankAccount.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Not selected'}</span>
                     </div>
                     <div className="border-t pt-2 flex justify-between">
                       <span className="font-semibold">Net Amount:</span>
@@ -846,13 +868,16 @@ export default function Dashboard() {
                     </Button>
                     <Button 
                       onClick={() => {
-                        toast({
-                          title: "Withdrawal Initiated",
-                          description: "Your withdrawal request has been submitted and will be processed within 2-3 business days.",
-                        });
-                        setShowWithdrawalModal(false);
+                        if (selectedBankAccount) {
+                          toast({
+                            title: "Withdrawal Initiated",
+                            description: "Your withdrawal request has been submitted and will be processed within 2-3 business days.",
+                          });
+                          setShowWithdrawalModal(false);
+                        }
                       }}
                       className="flex-1 bg-green-600 hover:bg-green-700"
+                      disabled={!selectedBankAccount}
                     >
                       Confirm Withdrawal
                     </Button>

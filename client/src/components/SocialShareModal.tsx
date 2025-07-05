@@ -336,24 +336,14 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
         }}
       >
         <DialogHeader>
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Share2 className="text-white" size={20} />
-              </div>
-              <div>
-                <DialogTitle className="text-xl font-bold">Share Property</DialogTitle>
-                <p className="text-sm text-neutral-600">Spread the word and track your impact</p>
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <Share2 className="text-white" size={20} />
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="hover:bg-gray-100 rounded-full w-8 h-8 p-0"
-            >
-              ✕
-            </Button>
+            <div>
+              <DialogTitle className="text-xl font-bold">Share Property</DialogTitle>
+              <p className="text-sm text-neutral-600">Spread the word and track your impact</p>
+            </div>
           </div>
         </DialogHeader>
 

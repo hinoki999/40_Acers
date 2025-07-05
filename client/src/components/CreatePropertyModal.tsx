@@ -938,7 +938,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
               <Button
                 type="button"
                 onClick={handleNext}
-                className="bg-[#b34034] hover:bg-black hover:text-white"
+                className="bg-black hover:bg-gray-800 text-white"
               >
                 Next Step
               </Button>
