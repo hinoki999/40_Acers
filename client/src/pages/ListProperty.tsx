@@ -23,6 +23,7 @@ export default function ListProperty() {
   const [showListingForm, setShowListingForm] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showAccountTypeModal, setShowAccountTypeModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [propertyData, setPropertyData] = useState({
     address: '',
@@ -41,6 +42,20 @@ export default function ListProperty() {
   const [uploadedDocuments, setUploadedDocuments] = useState([]);
   const [documentUploadCompleted, setDocumentUploadCompleted] = useState(false);
   const [propertyScreenshots, setPropertyScreenshots] = useState<File[]>([]);
+
+  const handleListPropertyClick = () => {
+    if (!isAuthenticated) {
+      setShowRegister(true);
+      return;
+    }
+    
+    if (user?.userType === "investor") {
+      setShowAccountTypeModal(true);
+      return;
+    }
+    
+    setShowCreateModal(true);
+  };
 
   const steps = [
     {
@@ -117,17 +132,11 @@ export default function ListProperty() {
             </p>
             <div className="flex items-center gap-4 justify-center">
               <Button 
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    setShowRegister(true);
-                    return;
-                  }
-                  setShowCreateModal(true);
-                }}
+                onClick={handleListPropertyClick}
                 size="lg"
                 className="bg-white text-black hover:bg-gray-200 font-semibold px-8 py-4 text-lg"
               >
-                Start Property Listing
+                List Property
               </Button>
               <Button 
                 onClick={() => setShowBusinessTour(true)}
@@ -277,13 +286,7 @@ export default function ListProperty() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              onClick={() => {
-                if (!isAuthenticated) {
-                  setShowRegister(true);
-                  return;
-                }
-                setShowCreateModal(true);
-              }}
+              onClick={handleListPropertyClick}
               size="lg"
               className="bg-white text-black hover:bg-gray-200 font-semibold px-8 py-4"
             >
@@ -320,7 +323,7 @@ export default function ListProperty() {
         onComplete={() => setShowBusinessTour(false)}
         onStartListing={() => {
           setShowBusinessTour(false);
-          setShowCreateModal(true);
+          handleListPropertyClick();
         }}
       />
 
@@ -340,6 +343,42 @@ export default function ListProperty() {
           setShowLogin(true);
         }}
       />
+
+      {/* Account Type Restriction Modal */}
+      <Dialog open={showAccountTypeModal} onOpenChange={setShowAccountTypeModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Building className="h-5 w-5" />
+              Account Type Required
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-neutral-700">
+              In order to list a property, you must switch your account type to "Business Owner."
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button 
+                onClick={() => {
+                  setShowAccountTypeModal(false);
+                  // Navigate to settings to change account type
+                  window.location.href = '/settings';
+                }}
+                className="bg-black text-white hover:bg-gray-800 flex-1"
+              >
+                Switch to Business Owner
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowAccountTypeModal(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       
       <Footer />
     </div>
