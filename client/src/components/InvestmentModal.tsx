@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
-import { TrendingUp, Users, Calculator, DollarSign, Bitcoin, MapPin, Building } from "lucide-react";
+import { TrendingUp, Users, Calculator, DollarSign, Bitcoin, MapPin, Building, CreditCard, ChevronDown, Plus } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Property } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -23,6 +24,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const [shares, setShares] = useState(1);
   const [investmentAmount, setInvestmentAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<'USD' | 'BTC'>('USD');
+  const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -31,6 +33,25 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
     queryKey: ["/api/bitcoin-price"],
     refetchInterval: 60000, // Refetch every minute
   });
+
+  // Fetch user's saved payment methods
+  const { data: paymentMethods = [] } = useQuery<any[]>({
+    queryKey: ["/api/payments/methods"],
+    enabled: paymentMethod === 'USD', // Only fetch when USD is selected
+  });
+
+  // Auto-select default payment method
+  useEffect(() => {
+    if (paymentMethods.length > 0 && !selectedPaymentMethodId) {
+      const defaultMethod = paymentMethods.find(method => method.isDefault);
+      if (defaultMethod) {
+        setSelectedPaymentMethodId(defaultMethod.id.toString());
+      } else {
+        // If no default, select the first one
+        setSelectedPaymentMethodId(paymentMethods[0].id.toString());
+      }
+    }
+  }, [paymentMethods, selectedPaymentMethodId]);
 
   // Calculate ownership details with 49% minimum rule
   const sharePriceValue = property ? parseFloat(property.sharePrice) : 0;
@@ -237,6 +258,69 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 </button>
               </div>
             </div>
+
+            {/* Payment Method Dropdown for USD */}
+            {paymentMethod === 'USD' && (
+              <div className="space-y-3">
+                <Label>Select Payment Method</Label>
+                {paymentMethods.length > 0 ? (
+                  <Select 
+                    value={selectedPaymentMethodId} 
+                    onValueChange={(value) => {
+                      if (value === 'add_new') {
+                        // Open settings page in new tab to add payment method
+                        window.open('/settings', '_blank');
+                        return;
+                      }
+                      setSelectedPaymentMethodId(value);
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Choose a payment method" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {paymentMethods.map((method) => (
+                        <SelectItem key={method.id} value={method.id.toString()}>
+                          <div className="flex items-center gap-2">
+                            <CreditCard className="h-4 w-4" />
+                            <span>**** **** **** {method.last4}</span>
+                            <span className="text-xs text-gray-500">
+                              {method.brand?.toUpperCase()} • {method.expiryMonth}/{method.expiryYear}
+                            </span>
+                            {method.isDefault && (
+                              <Badge variant="secondary" className="ml-2">Default</Badge>
+                            )}
+                          </div>
+                        </SelectItem>
+                      ))}
+                      <SelectItem value="add_new">
+                        <div className="flex items-center gap-2">
+                          <Plus className="h-4 w-4" />
+                          <span>Add New Payment Method</span>
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
+                    <CreditCard className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                    <p className="text-sm text-gray-600 mb-2">No payment methods saved</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        // Navigate to settings to add payment method
+                        window.open('/settings', '_blank');
+                      }}
+                      className="text-xs"
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      Add Payment Method
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Cryptocurrency Wallet Connection */}
             {paymentMethod === 'BTC' && (
