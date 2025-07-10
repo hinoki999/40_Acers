@@ -393,9 +393,10 @@ export default function Dashboard() {
               <PieChart width={200} height={200}>
                 <Pie
                   data={[
-                    { name: 'Residential', value: 50, color: '#A52A2A' },
-                    { name: 'Commercial', value: 32, color: '#D2691E' },
-                    { name: 'Other', value: 18, color: '#d1d5db' }
+                    { name: 'Residential', value: 40, color: '#A52A2A' },
+                    { name: 'Commercial', value: 28, color: '#D2691E' },
+                    { name: 'Land', value: 17, color: '#8B4513' },
+                    { name: 'Other', value: 15, color: '#d1d5db' }
                   ]}
                   cx={100}
                   cy={100}
@@ -406,9 +407,10 @@ export default function Dashboard() {
                   dataKey="value"
                 >
                   {[
-                    { name: 'Residential', value: 50, color: '#A52A2A' },
-                    { name: 'Commercial', value: 32, color: '#D2691E' },
-                    { name: 'Other', value: 18, color: '#d1d5db' }
+                    { name: 'Residential', value: 40, color: '#A52A2A' },
+                    { name: 'Commercial', value: 28, color: '#D2691E' },
+                    { name: 'Land', value: 17, color: '#8B4513' },
+                    { name: 'Other', value: 15, color: '#d1d5db' }
                   ].map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -432,23 +434,30 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
-                <span className="text-sm text-gray-600">Residential (50%)</span>
+                <span className="text-sm text-gray-600">Residential (40%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$2,120.63</span>
+              <span className="text-sm font-medium text-gray-900">$1,520.00</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#D2691E]"></div>
-                <span className="text-sm text-gray-600">Commercial (32%)</span>
+                <span className="text-sm text-gray-600">Commercial (28%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$1,361.23</span>
+              <span className="text-sm font-medium text-gray-900">$1,064.00</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#8B4513]"></div>
+                <span className="text-sm text-gray-600">Land (17%)</span>
+              </div>
+              <span className="text-sm font-medium text-gray-900">$646.00</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
-                <span className="text-sm text-gray-600">Other (18%)</span>
+                <span className="text-sm text-gray-600">Other (15%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$339.24</span>
+              <span className="text-sm font-medium text-gray-900">$570.00</span>
             </div>
           </div>
         </Card>
