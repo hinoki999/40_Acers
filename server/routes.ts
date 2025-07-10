@@ -119,6 +119,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User profile update route
+  app.put('/api/user/profile', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { userType, businessName, businessVerified, bio, location, investmentStyle } = req.body;
+      
+      // Get current user data
+      const currentUser = await storage.getUser(userId);
+      if (!currentUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Prepare update data
+      const updateData = {
+        id: userId,
+        email: currentUser.email,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        profileImageUrl: currentUser.profileImageUrl,
+        ...req.body, // Include all fields from request body
+        updatedAt: new Date()
+      };
+
+      // Update user in database
+      const updatedUser = await storage.upsertUser(updateData);
+      
+      console.log(`User ${userId} updated account type to: ${userType}`);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ message: "Failed to update user profile" });
+    }
+  });
+
   // Property routes
   app.get('/api/properties', async (req, res) => {
     try {

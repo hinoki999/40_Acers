@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Footer from "@/components/Footer";
 import AddPaymentMethodModal from "@/components/AddPaymentMethodModal";
 import paypalIcon from "@assets/paypal_1751739388573.webp";
@@ -18,6 +20,7 @@ export default function Settings() {
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [location] = useLocation();
+  const queryClient = useQueryClient();
   
   // Get tab from URL parameters
   const [activeTab, setActiveTab] = useState('profile');
@@ -64,11 +67,42 @@ export default function Settings() {
     }
   }, [user]);
 
+  // Mutation for updating user profile
+  const updateProfileMutation = useMutation({
+    mutationFn: async (profileData: any) => {
+      const response = await apiRequest('PUT', '/api/user/profile', profileData);
+      return response.json();
+    },
+    onSuccess: (updatedUser) => {
+      toast({
+        title: "Profile Updated",
+        description: "Your profile information has been saved successfully.",
+      });
+      // Invalidate the user query to refresh the cached user data
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      console.log("Profile updated successfully:", updatedUser);
+    },
+    onError: (error: any) => {
+      console.error("Profile update error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleProfileSave = () => {
-    toast({
-      title: "Profile Updated",
-      description: "Your profile information has been saved successfully.",
-    });
+    const profileData = {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      userType: profile.userType,
+      businessName: profile.companyName,
+      profileImageUrl: profile.profileImage
+    };
+    
+    updateProfileMutation.mutate(profileData);
   };
 
   const handlePasswordChange = () => {
@@ -267,7 +301,13 @@ export default function Settings() {
                   />
                 </div>
               )}
-              <Button onClick={handleProfileSave} className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white">Save Changes</Button>
+              <Button 
+                onClick={handleProfileSave} 
+                disabled={updateProfileMutation.isPending}
+                className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
+              >
+                {updateProfileMutation.isPending ? 'Saving...' : 'Save Changes'}
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
