@@ -181,7 +181,7 @@ export default function Dashboard() {
         <div className="flex gap-2">
           {(user as any)?.userType === 'business' ? (
             <Button 
-              className="bg-black hover:bg-red-600 text-white"
+              className="bg-black hover:bg-[#A52A2A] text-white"
               asChild
             >
               <Link href="/list-property">
