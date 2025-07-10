@@ -20,9 +20,10 @@ interface PropertyCardProps {
   isGoldMember?: boolean;
   isAuthenticated?: boolean;
   onShowRegister?: () => void;
+  hasInvested?: boolean;
 }
 
-function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAuthenticated = false, onShowRegister }: PropertyCardProps) {
+function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAuthenticated = false, onShowRegister, hasInvested = false }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -236,14 +237,23 @@ function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAut
           {(() => {
             const remainingShares = property.maxShares - property.currentShares;
             const maxPossibleOwnership = (remainingShares / property.maxShares) * 100;
-            const canInvest = maxPossibleOwnership >= 49;
+            const canInvest = maxPossibleOwnership >= 49 && !hasInvested;
+            
+            let buttonText = "Invest Now";
+            if (hasInvested) {
+              buttonText = "Already Invested";
+            } else if (maxPossibleOwnership < 49) {
+              buttonText = "Insufficient Shares Available";
+            }
             
             return (
               <Button
                 onClick={() => onInvest(property.id)}
-                disabled={!canInvest}
+                disabled={!canInvest || hasInvested}
                 className={`w-full transition-all duration-300 shadow-lg hover:shadow-xl btn-touch ${
-                  canInvest 
+                  hasInvested
+                    ? "bg-gray-400 text-gray-200 cursor-not-allowed" 
+                    : canInvest 
                     ? "bg-black text-white hover:bg-gray-200 hover:text-black" 
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"
                 }`}
@@ -251,7 +261,7 @@ function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAut
               >
                 <div className="flex items-center justify-center gap-2">
                   <TrendingUp size={16} />
-                  {canInvest ? "Invest Now" : "Insufficient Shares Available"}
+                  {buttonText}
                 </div>
               </Button>
             );

@@ -107,6 +107,15 @@ export default function Dashboard() {
     }
   };
 
+  // Function to check if user has invested in a property
+  const hasUserInvested = (propertyId: number): boolean => {
+    return transactions.some(transaction => 
+      transaction.propertyId === propertyId && 
+      transaction.status === 'completed' &&
+      transaction.transactionType === 'investment'
+    );
+  };
+
   const notifyMutation = useMutation({
     mutationFn: async () => {
       // This would typically send a notification signup request
@@ -647,6 +656,7 @@ export default function Dashboard() {
                   key={property.id}
                   property={property}
                   onInvest={handleInvest}
+                  hasInvested={hasUserInvested(property.id)}
                 />
               ))}
             </div>
