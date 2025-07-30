@@ -129,7 +129,7 @@ function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAut
                   className="text-center"
                 />
               ) : (
-                <div className="text-lg font-bold text-secondary">
+                <div className="text-lg font-bold text-black">
                   ${Number(property.sharePrice).toFixed(2)}
                 </div>
               )}
@@ -137,18 +137,18 @@ function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAut
             </div>
             <div>
               {isGoldMember ? (
-                <div className="text-lg font-bold text-secondary">
+                <div className="text-lg font-bold text-black">
                   {property.maxShares.toLocaleString()}
                 </div>
               ) : (
-                <div className="text-lg font-bold text-secondary">
+                <div className="text-lg font-bold text-black">
                   {Math.round(property.maxShares / 1000)}K+
                 </div>
               )}
               <div className="text-xs text-black mt-1">{isGoldMember ? 'Total Tokens' : 'Shares Available'}</div>
             </div>
             <div>
-              <div className="text-lg font-bold text-accent">
+              <div className="text-lg font-bold text-black">
                 {property.squareFootage ? property.squareFootage.toLocaleString() : 'N/A'}
               </div>
               <div className="text-xs text-black mt-1">Sq Ft</div>
