@@ -91,7 +91,10 @@ export default function Dashboard() {
     "USD",
   );
   const [showInvestorTour, setShowInvestorTour] = useState(false);
-  const [timePeriod, setTimePeriod] = useState<"Day" | "Week" | "Month">("Day");
+  const [timePeriod, setTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
+  const [investmentFilter, setInvestmentFilter] = useState("Last 30 Days");
+  const [walletFilter, setWalletFilter] = useState("Last 30 Days");
+  const [propertyFilter, setPropertyFilter] = useState("Last 30 Days");
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
   const [withdrawalStep, setWithdrawalStep] = useState<
     "password" | "sms" | "confirm"
@@ -317,11 +320,11 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex bg-gray-100 rounded-lg p-1">
-              {["Day", "Week", "Month"].map((period) => (
+              {["Day", "Week", "Month", "Lifetime"].map((period) => (
                 <button
                   key={period}
                   onClick={() =>
-                    setTimePeriod(period as "Day" | "Week" | "Month")
+                    setTimePeriod(period as "Day" | "Week" | "Month" | "Lifetime")
                   }
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
                     timePeriod === period
@@ -405,15 +408,6 @@ export default function Dashboard() {
 
           {/* Action buttons */}
           <div className="space-y-3">
-            {(user as any)?.userType === "business" && (
-              <Button
-                onClick={() => setShowCreateProperty(true)}
-                className="w-full bg-black text-white hover:bg-gray-800 shadow-sm"
-              >
-                <Plus className="mr-2" size={16} />
-                List Your Property
-              </Button>
-            )}
             <Button
               variant="outline"
               className="w-full border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
@@ -460,10 +454,17 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
-              <span>Last 30 days</span>
-              <ChevronDown className="h-4 w-4" />
-            </div>
+            <Select value={investmentFilter} onValueChange={setInvestmentFilter}>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
+                <SelectItem value="24H">24H</SelectItem>
+                <SelectItem value="Select Range">Select Range</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Donut Chart */}
@@ -582,10 +583,17 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1 border border-gray-200 rounded-lg text-sm text-gray-600">
-              <span>Last 30 days</span>
-              <ChevronDown className="h-4 w-4" />
-            </div>
+            <Select value={walletFilter} onValueChange={setWalletFilter}>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
+                <SelectItem value="24H">24H</SelectItem>
+                <SelectItem value="Select Range">Select Range</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Debit Card Design */}
@@ -665,62 +673,7 @@ export default function Dashboard() {
           </div>
         </Card>
       </div>
-      {/* Transactions Section */}
-      <Card>
-        <CardHeader className="border-b border-neutral-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-xl font-semibold">
-                Recent Activity
-              </CardTitle>
-              <p className="text-sm text-neutral-600">
-                Your latest transactions and investments
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder="Search by property name..."
-                className="w-64"
-              />
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filters
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-neutral-50"></TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTransactions.map((transaction) => (
-                <TableRow
-                  key={transaction.id}
-                  className="hover:bg-neutral-50"
-                ></TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between">
-          <div className="text-sm text-neutral-500">
-            0 of {filteredTransactions.length} row(s) selected.
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm">
-              Previous
-            </Button>
-            <Button variant="ghost" size="sm">
-              Next
-            </Button>
-          </div>
-        </div>
-      </Card>
-      {/* Available Properties Section */}
+      {/* My Listed Properties Section */}
       {properties.length > 0 && (
         <Card className="mb-8">
           <CardHeader>
@@ -737,10 +690,29 @@ export default function Dashboard() {
                     : "View the investments you've made"}
                 </p>
               </div>
-              <CurrencyToggle
-                currentCurrency={currency}
-                onCurrencyChange={setCurrency}
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  placeholder="Search for property name"
+                  className="w-64"
+                />
+                <Select value={propertyFilter} onValueChange={setPropertyFilter}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Filters" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                    <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
+                    <SelectItem value="24H">24H</SelectItem>
+                    <SelectItem value="Select Range">Select Range</SelectItem>
+                    <SelectItem value="Favorites">Favorites</SelectItem>
+                    <SelectItem value="Saved">Saved</SelectItem>
+                  </SelectContent>
+                </Select>
+                <CurrencyToggle
+                  currentCurrency={currency}
+                  onCurrencyChange={setCurrency}
+                />
+              </div>
             </div>
           </CardHeader>
           <CardContent>
