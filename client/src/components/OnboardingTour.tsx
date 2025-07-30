@@ -97,7 +97,7 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
               <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-bold">2</div>
               <div>
                 <p className="font-medium">Fractional Ownership</p>
-                <p className="text-sm text-neutral-600">Own a percentage of the property based on your investment amount (minimum $10)</p>
+                <p className="text-sm text-neutral-600">Own a percentage of the property based on your investment amount (i.e. minimum $50)</p>
               </div>
             </div>
             
@@ -191,20 +191,12 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
             <p className="text-neutral-600">Connect with thousands of real estate investors</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Card>
               <CardContent className="p-4 text-center">
                 <Users className="h-8 w-8 text-primary mx-auto mb-2" />
                 <h4 className="font-semibold mb-1">Community Forum</h4>
                 <p className="text-sm text-neutral-600">Share insights and learn from experienced investors</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent className="p-4 text-center">
-                <TrendingUp className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <h4 className="font-semibold mb-1">Investment Leaderboard</h4>
-                <p className="text-sm text-neutral-600">See top performers and track your progress</p>
               </CardContent>
             </Card>
           </div>
@@ -214,7 +206,6 @@ export default function OnboardingTour({ isOpen, onClose, onComplete }: Onboardi
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• 24/7 customer support available</li>
               <li>• Comprehensive documentation and guides</li>
-              <li>• Live chat support for immediate assistance</li>
             </ul>
           </div>
         </div>

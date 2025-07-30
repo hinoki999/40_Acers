@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,8 +45,12 @@ interface PropertyDetailsModalProps {
 
 export default function PropertyDetailsModal({ property, isOpen, onClose, onInvest }: PropertyDetailsModalProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const { user } = useAuth();
 
   if (!property) return null;
+
+  // Check if current user is the property owner
+  const isPropertyOwner = user && property.ownerId === (user as any).id;
 
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const availableShares = property.maxShares - property.currentShares;
@@ -139,12 +144,12 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className={`grid w-full ${isPropertyOwner ? 'grid-cols-5' : 'grid-cols-4'}`}>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="details">Property Details</TabsTrigger>
               <TabsTrigger value="investment">Investment</TabsTrigger>
               <TabsTrigger value="location">Location</TabsTrigger>
-              <TabsTrigger value="documents">Documents</TabsTrigger>
+              {isPropertyOwner && <TabsTrigger value="documents">Documents</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
