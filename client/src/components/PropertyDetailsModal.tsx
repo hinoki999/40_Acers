@@ -33,6 +33,7 @@ import {
   Coffee
 } from "lucide-react";
 import { Property } from "@shared/schema";
+import GoogleMap from "./GoogleMap";
 
 interface PropertyDetailsModalProps {
   property: Property | null;
@@ -513,13 +514,15 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                       )}
                     </div>
 
-                    {/* Placeholder for map - in real implementation, you'd integrate with Google Maps or similar */}
-                    <div className="w-full h-64 bg-neutral-100 rounded-lg flex items-center justify-center border">
-                      <div className="text-center text-neutral-500">
-                        <MapIcon className="h-12 w-12 mx-auto mb-2" />
-                        <p>Interactive Map</p>
-                        <p className="text-sm">Location: {property.city}, {property.state}</p>
-                      </div>
+                    {/* Interactive Google Map */}
+                    <div className="w-full h-64">
+                      <GoogleMap
+                        address={property.address}
+                        city={property.city}
+                        state={property.state}
+                        zipcode={property.zipcode}
+                        className="w-full h-full"
+                      />
                     </div>
                   </div>
                 </CardContent>

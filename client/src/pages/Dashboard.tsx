@@ -5,12 +5,44 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wallet, Plus, ArrowDown, Search, TrendingUp, Star, HelpCircle, Filter, MoreHorizontal, ChevronDown, Shield, Lock, Smartphone } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Wallet,
+  Plus,
+  ArrowDown,
+  Search,
+  TrendingUp,
+  Star,
+  HelpCircle,
+  Filter,
+  MoreHorizontal,
+  ChevronDown,
+  Shield,
+  Lock,
+  Smartphone,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
@@ -21,7 +53,16 @@ import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
 import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import OnboardingTour from "@/components/OnboardingTour";
 import InvestorTour from "@/components/InvestorTour";
@@ -38,28 +79,36 @@ interface PortfolioData {
 export default function Dashboard() {
   const [showCreateProperty, setShowCreateProperty] = useState(false);
   const [showInvestment, setShowInvestment] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
+    null,
+  );
   const [transactionFilter, setTransactionFilter] = useState("");
-  const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
-  const [earningsCurrency, setEarningsCurrency] = useState<'USD' | 'BTC'>('USD');
-  const [investmentCurrency, setInvestmentCurrency] = useState<'USD' | 'BTC'>('USD');
+  const [currency, setCurrency] = useState<"USD" | "BTC">("USD");
+  const [earningsCurrency, setEarningsCurrency] = useState<"USD" | "BTC">(
+    "USD",
+  );
+  const [investmentCurrency, setInvestmentCurrency] = useState<"USD" | "BTC">(
+    "USD",
+  );
   const [showInvestorTour, setShowInvestorTour] = useState(false);
-  const [timePeriod, setTimePeriod] = useState<'Day' | 'Week' | 'Month'>('Day');
+  const [timePeriod, setTimePeriod] = useState<"Day" | "Week" | "Month">("Day");
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
-  const [withdrawalStep, setWithdrawalStep] = useState<'password' | 'sms' | 'confirm'>('password');
-  const [withdrawalPassword, setWithdrawalPassword] = useState('');
-  const [smsCode, setSmsCode] = useState('');
-  const [withdrawalAmount, setWithdrawalAmount] = useState('');
-  const [selectedBankAccount, setSelectedBankAccount] = useState('');
+  const [withdrawalStep, setWithdrawalStep] = useState<
+    "password" | "sms" | "confirm"
+  >("password");
+  const [withdrawalPassword, setWithdrawalPassword] = useState("");
+  const [smsCode, setSmsCode] = useState("");
+  const [withdrawalAmount, setWithdrawalAmount] = useState("");
+  const [selectedBankAccount, setSelectedBankAccount] = useState("");
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
-  const { 
-    showOnboarding, 
-    isFirstVisit, 
-    completeOnboarding, 
-    startOnboarding, 
-    setShowOnboarding 
+  const {
+    showOnboarding,
+    isFirstVisit,
+    completeOnboarding,
+    startOnboarding,
+    setShowOnboarding,
   } = useOnboarding();
 
   // Redirect to login if not authenticated
@@ -100,7 +149,7 @@ export default function Dashboard() {
   });
 
   const handleInvest = (propertyId: number) => {
-    const property = properties.find(p => p.id === propertyId);
+    const property = properties.find((p) => p.id === propertyId);
     if (property) {
       setSelectedProperty(property);
       setShowInvestment(true);
@@ -109,17 +158,18 @@ export default function Dashboard() {
 
   // Function to check if user has invested in a property
   const hasUserInvested = (propertyId: number): boolean => {
-    return transactions.some(transaction => 
-      transaction.propertyId === propertyId && 
-      transaction.status === 'completed' &&
-      transaction.transactionType === 'investment'
+    return transactions.some(
+      (transaction) =>
+        transaction.propertyId === propertyId &&
+        transaction.status === "completed" &&
+        transaction.transactionType === "investment",
     );
   };
 
   const notifyMutation = useMutation({
     mutationFn: async () => {
       // This would typically send a notification signup request
-      return new Promise(resolve => setTimeout(resolve, 1000));
+      return new Promise((resolve) => setTimeout(resolve, 1000));
     },
     onSuccess: () => {
       toast({
@@ -147,18 +197,23 @@ export default function Dashboard() {
     },
   });
 
-  const filteredTransactions = transactions.filter(transaction =>
-    transaction.email?.toLowerCase().includes(transactionFilter.toLowerCase()) ||
-    transaction.status.toLowerCase().includes(transactionFilter.toLowerCase())
+  const filteredTransactions = transactions.filter(
+    (transaction) =>
+      transaction.email
+        ?.toLowerCase()
+        .includes(transactionFilter.toLowerCase()) ||
+      transaction.status
+        .toLowerCase()
+        .includes(transactionFilter.toLowerCase()),
   );
 
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'completed':
+      case "completed":
         return <Badge className="bg-secondary text-white">Success</Badge>;
-      case 'pending':
+      case "pending":
         return <Badge className="bg-accent text-white">Processing</Badge>;
-      case 'failed':
+      case "failed":
         return <Badge className="bg-red-500 text-white">Failed</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
@@ -183,25 +238,24 @@ export default function Dashboard() {
       <div className="flex items-center space-x-4 mb-8">
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-neutral-900">Dashboard</h1>
-          <p className="text-neutral-600">Manage your real estate investments</p>
+          <p className="text-neutral-600">
+            Manage your real estate investments
+          </p>
         </div>
-        
+
         {/* Help/Onboarding Buttons */}
         <div className="flex gap-2">
-          {(user as any)?.userType === 'business' ? (
-            <Button 
-              className="bg-black hover:bg-[#A52A2A] text-white"
-              asChild
-            >
+          {(user as any)?.userType === "business" ? (
+            <Button className="bg-black hover:bg-[#A52A2A] text-white" asChild>
               <Link href="/list-property">
                 <Plus className="h-4 w-4 mr-2" />
                 List Your Property
               </Link>
             </Button>
           ) : (
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setShowInvestorTour(true)}
               className="flex items-center space-x-2 hover:bg-[#A52A2A] hover:text-white"
             >
@@ -209,9 +263,9 @@ export default function Dashboard() {
               <span>Investor Guide</span>
             </Button>
           )}
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             onClick={startOnboarding}
             className="flex items-center space-x-2 hover:bg-[#A52A2A] hover:text-white"
           >
@@ -221,8 +275,8 @@ export default function Dashboard() {
         </div>
       </div>
       {/* Welcome Banner for new users */}
-      <WelcomeBanner 
-        userName={user?.email?.split('@')[0]} 
+      <WelcomeBanner
+        userName={user?.email?.split("@")[0]}
         onStartTour={startOnboarding}
         isFirstVisit={isFirstVisit}
       />
@@ -236,37 +290,43 @@ export default function Dashboard() {
               <h2 className="text-xl font-semibold text-gray-900">Earnings</h2>
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
-                  onClick={() => setEarningsCurrency('USD')}
+                  onClick={() => setEarningsCurrency("USD")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    earningsCurrency === 'USD'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                    earningsCurrency === "USD"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   USD
                 </button>
                 <button
-                  onClick={() => setEarningsCurrency('BTC')}
+                  onClick={() => setEarningsCurrency("BTC")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    earningsCurrency === 'BTC'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                    earningsCurrency === "BTC"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  <img
+                    src="/attached_assets/bitcoin_1750901526377.webp"
+                    alt="Bitcoin"
+                    className="w-4 h-4"
+                  />
                   Bitcoin (BTC)
                 </button>
               </div>
             </div>
             <div className="flex bg-gray-100 rounded-lg p-1">
-              {['Day', 'Week', 'Month'].map((period) => (
+              {["Day", "Week", "Month"].map((period) => (
                 <button
                   key={period}
-                  onClick={() => setTimePeriod(period as 'Day' | 'Week' | 'Month')}
+                  onClick={() =>
+                    setTimePeriod(period as "Day" | "Week" | "Month")
+                  }
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
                     timePeriod === period
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   {period}
@@ -278,11 +338,9 @@ export default function Dashboard() {
           {/* Main value and percentage */}
           <div className="flex items-center gap-4 mb-8">
             <div className="text-4xl font-bold text-gray-900">
-              {earningsCurrency === 'USD' ? (
-                `$${portfolio?.totalValue?.toLocaleString() || "8,237.00"}`
-              ) : (
-                `₿${((portfolio?.totalValue || 8237) / (bitcoinPrice?.price || 107000)).toFixed(6)}`
-              )}
+              {earningsCurrency === "USD"
+                ? `$${portfolio?.totalValue?.toLocaleString() || "8,237.00"}`
+                : `₿${((portfolio?.totalValue || 8237) / (bitcoinPrice?.price || 107000)).toFixed(6)}`}
             </div>
             <div className="flex items-center gap-1 text-green-600">
               <TrendingUp className="h-4 w-4" />
@@ -310,39 +368,44 @@ export default function Dashboard() {
           {/* Chart Area */}
           <div className="h-48 mb-6">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={[
-                { name: '8/04', income: 6000, expenses: 4500 },
-                { name: '9/04', income: 6800, expenses: 5200 },
-                { name: '10/04', income: 6121, expenses: 4800 },
-                { name: '11/04', income: 7200, expenses: 5500 }
-              ]}>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9CA3AF' }} />
-                <YAxis hide />
-                <Line 
-                  type="monotone" 
-                  dataKey="income" 
-                  stroke="#A52A2A" 
-                  strokeWidth={2} 
-                  dot={{ fill: '#A52A2A', strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, fill: '#A52A2A' }}
+              <LineChart
+                data={[
+                  { name: "8/04", income: 6000, expenses: 4500 },
+                  { name: "9/04", income: 6800, expenses: 5200 },
+                  { name: "10/04", income: 6121, expenses: 4800 },
+                  { name: "11/04", income: 7200, expenses: 5500 },
+                ]}
+              >
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 12, fill: "#9CA3AF" }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="expenses" 
-                  stroke="#1f2937" 
-                  strokeWidth={2} 
-                  dot={{ fill: '#1f2937', strokeWidth: 2, r: 4 }}
-                  activeDot={{ r: 6, fill: '#1f2937' }}
+                <YAxis hide />
+                <Line
+                  type="monotone"
+                  dataKey="income"
+                  stroke="#A52A2A"
+                  strokeWidth={2}
+                  dot={{ fill: "#A52A2A", strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: "#A52A2A" }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="expenses"
+                  stroke="#1f2937"
+                  strokeWidth={2}
+                  dot={{ fill: "#1f2937", strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, fill: "#1f2937" }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-
-
           {/* Action buttons */}
           <div className="space-y-3">
-            {(user as any)?.userType === 'business' && (
+            {(user as any)?.userType === "business" && (
               <Button
                 onClick={() => setShowCreateProperty(true)}
                 className="w-full bg-black text-white hover:bg-gray-800 shadow-sm"
@@ -366,27 +429,33 @@ export default function Dashboard() {
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <h2 className="text-xl font-semibold text-gray-900">Investment breakdown</h2>
+              <h2 className="text-xl font-semibold text-gray-900">
+                Investment breakdown
+              </h2>
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
-                  onClick={() => setInvestmentCurrency('USD')}
+                  onClick={() => setInvestmentCurrency("USD")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    investmentCurrency === 'USD'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                    investmentCurrency === "USD"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   USD
                 </button>
                 <button
-                  onClick={() => setInvestmentCurrency('BTC')}
+                  onClick={() => setInvestmentCurrency("BTC")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    investmentCurrency === 'BTC'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                    investmentCurrency === "BTC"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  <img
+                    src="/attached_assets/bitcoin_1750901526377.webp"
+                    alt="Bitcoin"
+                    className="w-4 h-4"
+                  />
                   Bitcoin (BTC)
                 </button>
               </div>
@@ -396,17 +465,17 @@ export default function Dashboard() {
               <ChevronDown className="h-4 w-4" />
             </div>
           </div>
-          
+
           {/* Donut Chart */}
           <div className="flex items-center justify-center mb-6">
             <div className="relative">
               <PieChart width={200} height={200}>
                 <Pie
                   data={[
-                    { name: 'Residential', value: 40, color: '#A52A2A' },
-                    { name: 'Commercial', value: 28, color: '#D2691E' },
-                    { name: 'Land', value: 17, color: '#8B4513' },
-                    { name: 'Other', value: 15, color: '#d1d5db' }
+                    { name: "Residential", value: 40, color: "#A52A2A" },
+                    { name: "Commercial", value: 28, color: "#D2691E" },
+                    { name: "Land", value: 17, color: "#8B4513" },
+                    { name: "Other", value: 15, color: "#d1d5db" },
                   ]}
                   cx={100}
                   cy={100}
@@ -417,10 +486,10 @@ export default function Dashboard() {
                   dataKey="value"
                 >
                   {[
-                    { name: 'Residential', value: 40, color: '#A52A2A' },
-                    { name: 'Commercial', value: 28, color: '#D2691E' },
-                    { name: 'Land', value: 17, color: '#8B4513' },
-                    { name: 'Other', value: 15, color: '#d1d5db' }
+                    { name: "Residential", value: 40, color: "#A52A2A" },
+                    { name: "Commercial", value: 28, color: "#D2691E" },
+                    { name: "Land", value: 17, color: "#8B4513" },
+                    { name: "Other", value: 15, color: "#d1d5db" },
                   ].map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -428,12 +497,13 @@ export default function Dashboard() {
               </PieChart>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <div className="text-xs text-gray-500">SPEND</div>
-                <div className="text-sm font-bold text-gray-900" style={{ fontSize: '14pt' }}>
-                  {investmentCurrency === 'USD' ? (
-                    '$3,800.00'
-                  ) : (
-                    `₿${(3800 / (bitcoinPrice?.price || 107000)).toFixed(6)}`
-                  )}
+                <div
+                  className="text-sm font-bold text-gray-900"
+                  style={{ fontSize: "14pt" }}
+                >
+                  {investmentCurrency === "USD"
+                    ? "$3,800.00"
+                    : `₿${(3800 / (bitcoinPrice?.price || 107000)).toFixed(6)}`}
                 </div>
               </div>
             </div>
@@ -446,14 +516,18 @@ export default function Dashboard() {
                 <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
                 <span className="text-sm text-gray-600">Residential (40%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$1,520.00</span>
+              <span className="text-sm font-medium text-gray-900">
+                $1,520.00
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#D2691E]"></div>
                 <span className="text-sm text-gray-600">Commercial (28%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$1,064.00</span>
+              <span className="text-sm font-medium text-gray-900">
+                $1,064.00
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -477,27 +551,33 @@ export default function Dashboard() {
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <h2 className="text-xl font-semibold text-gray-900">40 Acres Wallet</h2>
+              <h2 className="text-xl font-semibold text-gray-900">
+                40 Acres Wallet
+              </h2>
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
-                  onClick={() => setCurrency('USD')}
+                  onClick={() => setCurrency("USD")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    currency === 'USD'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                    currency === "USD"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   USD
                 </button>
                 <button
-                  onClick={() => setCurrency('BTC')}
+                  onClick={() => setCurrency("BTC")}
                   className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    currency === 'BTC'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
+                    currency === "BTC"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
+                  <img
+                    src="/attached_assets/bitcoin_1750901526377.webp"
+                    alt="Bitcoin"
+                    className="w-4 h-4"
+                  />
                   Bitcoin (BTC)
                 </button>
               </div>
@@ -507,7 +587,7 @@ export default function Dashboard() {
               <ChevronDown className="h-4 w-4" />
             </div>
           </div>
-          
+
           {/* Debit Card Design */}
           <div className="flex items-center justify-center mb-6">
             <div className="relative w-80 h-48 bg-gradient-to-br from-black to-gray-800 rounded-2xl shadow-lg overflow-hidden">
@@ -516,36 +596,33 @@ export default function Dashboard() {
                 <div className="absolute top-4 right-4 w-8 h-8 border-2 border-white rounded-full"></div>
                 <div className="absolute top-4 right-16 w-8 h-8 border-2 border-white rounded-full"></div>
               </div>
-              
+
               {/* Card Content */}
               <div className="relative p-6 h-full flex flex-col justify-between text-white">
                 {/* Logo and Chip */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    
                     <span className="font-bold text-lg">40 ACRES</span>
                   </div>
                   <div className="w-12 h-8 flex items-center justify-center pt-[0px] pb-[0px] mt-[0px] mb-[0px] ml-[11px] mr-[11px]">
-                    <img 
-                      src="/attached_assets/white_40_1750724342243.png" 
-                      alt="40 Acres Logo" 
+                    <img
+                      src="/attached_assets/white_40_1750724342243.png"
+                      alt="40 Acres Logo"
                       className="w-10 h-6 object-contain"
                     />
                   </div>
                 </div>
-                
+
                 {/* Balance */}
                 <div className="space-y-2">
                   <div className="text-sm opacity-80">BALANCE</div>
                   <div className="text-3xl font-bold">
-                    {currency === 'USD' ? (
-                      `$${portfolio?.totalValue?.toLocaleString() || "0.00"}`
-                    ) : (
-                      `₿${((portfolio?.totalValue || 0) / (bitcoinPrice?.price || 107000)).toFixed(6)}`
-                    )}
+                    {currency === "USD"
+                      ? `$${portfolio?.totalValue?.toLocaleString() || "0.00"}`
+                      : `₿${((portfolio?.totalValue || 0) / (bitcoinPrice?.price || 107000)).toFixed(6)}`}
                   </div>
                 </div>
-                
+
                 {/* Card Details */}
                 <div className="flex justify-between items-end">
                   <div className="space-y-1">
@@ -565,7 +642,9 @@ export default function Dashboard() {
                 <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
                 <span className="text-sm text-gray-600">Balance</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">${portfolio?.totalValue?.toLocaleString() || "0.00"}</span>
+              <span className="text-sm font-medium text-gray-900">
+                ${portfolio?.totalValue?.toLocaleString() || "0.00"}
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -579,7 +658,9 @@ export default function Dashboard() {
                 <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
                 <span className="text-sm text-gray-600">Available</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">${((portfolio?.totalValue || 0) * 0.80).toLocaleString()}</span>
+              <span className="text-sm font-medium text-gray-900">
+                ${((portfolio?.totalValue || 0) * 0.8).toLocaleString()}
+              </span>
             </div>
           </div>
         </Card>
@@ -589,8 +670,12 @@ export default function Dashboard() {
         <CardHeader className="border-b border-neutral-200">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-xl font-semibold">Recent Activity</CardTitle>
-              <p className="text-sm text-neutral-600">Your latest transactions and investments</p>
+              <CardTitle className="text-xl font-semibold">
+                Recent Activity
+              </CardTitle>
+              <p className="text-sm text-neutral-600">
+                Your latest transactions and investments
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <Input
@@ -608,13 +693,14 @@ export default function Dashboard() {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-neutral-50">
-              </TableRow>
+              <TableRow className="bg-neutral-50"></TableRow>
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction) => (
-                <TableRow key={transaction.id} className="hover:bg-neutral-50">
-                </TableRow>
+                <TableRow
+                  key={transaction.id}
+                  className="hover:bg-neutral-50"
+                ></TableRow>
               ))}
             </TableBody>
           </Table>
@@ -625,8 +711,12 @@ export default function Dashboard() {
             0 of {filteredTransactions.length} row(s) selected.
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm">Previous</Button>
-            <Button variant="ghost" size="sm">Next</Button>
+            <Button variant="ghost" size="sm">
+              Previous
+            </Button>
+            <Button variant="ghost" size="sm">
+              Next
+            </Button>
           </div>
         </div>
       </Card>
@@ -637,13 +727,17 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-2xl font-bold text-neutral-900">
-                  {(user as any)?.userType === 'business' ? 'My Listed Properties' : 'My Investments'}
+                  {(user as any)?.userType === "business"
+                    ? "My Listed Properties"
+                    : "My Investments"}
                 </CardTitle>
                 <p className="text-neutral-600">
-                  {(user as any)?.userType === 'business' ? 'Manage your property listings' : 'View the investments you\'ve made'}
+                  {(user as any)?.userType === "business"
+                    ? "Manage your property listings"
+                    : "View the investments you've made"}
                 </p>
               </div>
-              <CurrencyToggle 
+              <CurrencyToggle
                 currentCurrency={currency}
                 onCurrencyChange={setCurrency}
               />
@@ -662,7 +756,10 @@ export default function Dashboard() {
             </div>
             {properties.length > 3 && (
               <div className="text-center mt-6">
-                <Button variant="outline" className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]">
+                <Button
+                  variant="outline"
+                  className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]"
+                >
                   View All Properties
                 </Button>
               </div>
@@ -671,7 +768,7 @@ export default function Dashboard() {
         </Card>
       )}
       {/* Heat Map Section - Only for Gold Members */}
-      {properties.length > 0 && (user as any)?.membershipType === 'gold' && (
+      {properties.length > 0 && (user as any)?.membershipType === "gold" && (
         <div className="mb-8">
           <EnhancedHeatMap properties={properties} />
         </div>
@@ -681,7 +778,7 @@ export default function Dashboard() {
           isOpen={showCreateProperty}
           onClose={() => setShowCreateProperty(false)}
         />
-        
+
         <InvestmentModal
           isOpen={showInvestment}
           onClose={() => {
@@ -707,22 +804,25 @@ export default function Dashboard() {
               setSelectedProperty(firstProperty);
               setShowInvestment(true);
             } else {
-              window.location.href = '/invest';
+              window.location.href = "/invest";
             }
           }}
         />
-        
+
         {/* Secure Withdrawal Modal */}
-        <Dialog open={showWithdrawalModal} onOpenChange={(open) => {
-          if (!open) {
-            setShowWithdrawalModal(false);
-            setWithdrawalStep('password');
-            setWithdrawalPassword('');
-            setSmsCode('');
-            setWithdrawalAmount('');
-            setSelectedBankAccount('');
-          }
-        }}>
+        <Dialog
+          open={showWithdrawalModal}
+          onOpenChange={(open) => {
+            if (!open) {
+              setShowWithdrawalModal(false);
+              setWithdrawalStep("password");
+              setWithdrawalPassword("");
+              setSmsCode("");
+              setWithdrawalAmount("");
+              setSelectedBankAccount("");
+            }
+          }}
+        >
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
@@ -730,36 +830,44 @@ export default function Dashboard() {
                 Secure Withdrawal
               </DialogTitle>
             </DialogHeader>
-            
+
             <div className="space-y-6">
               {/* Step 1: Password Verification */}
-              {withdrawalStep === 'password' && (
+              {withdrawalStep === "password" && (
                 <div className="space-y-4">
                   <div className="text-center">
                     <Lock className="h-8 w-8 text-red-600 mx-auto mb-2" />
                     <h3 className="font-semibold">Verify Your Password</h3>
-                    <p className="text-sm text-gray-600">Enter your account password to continue</p>
+                    <p className="text-sm text-gray-600">
+                      Enter your account password to continue
+                    </p>
                   </div>
-                  
+
                   <div className="bg-blue-50 p-3 rounded-lg">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium text-blue-800">Available Balance:</span>
-                      <span className="text-lg font-bold text-blue-900">${((portfolio?.totalValue || 0) * 0.80).toLocaleString()}</span>
+                      <span className="text-sm font-medium text-blue-800">
+                        Available Balance:
+                      </span>
+                      <span className="text-lg font-bold text-blue-900">
+                        ${((portfolio?.totalValue || 0) * 0.8).toLocaleString()}
+                      </span>
                     </div>
                   </div>
-                  
+
                   <div>
-                    <Label htmlFor="withdrawal-amount">Withdrawal Amount ($)</Label>
+                    <Label htmlFor="withdrawal-amount">
+                      Withdrawal Amount ($)
+                    </Label>
                     <Input
                       id="withdrawal-amount"
                       type="number"
                       value={withdrawalAmount}
                       onChange={(e) => setWithdrawalAmount(e.target.value)}
                       placeholder="Enter amount"
-                      max={(portfolio?.totalValue || 0) * 0.80}
+                      max={(portfolio?.totalValue || 0) * 0.8}
                     />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="withdrawal-password">Password</Label>
                     <Input
@@ -770,11 +878,11 @@ export default function Dashboard() {
                       placeholder="Enter your password"
                     />
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     onClick={() => {
                       if (withdrawalPassword && withdrawalAmount) {
-                        setWithdrawalStep('sms');
+                        setWithdrawalStep("sms");
                         toast({
                           title: "SMS Sent",
                           description: "Verification code sent to your phone",
@@ -788,16 +896,18 @@ export default function Dashboard() {
                   </Button>
                 </div>
               )}
-              
+
               {/* Step 2: SMS Verification */}
-              {withdrawalStep === 'sms' && (
+              {withdrawalStep === "sms" && (
                 <div className="space-y-4">
                   <div className="text-center">
                     <Smartphone className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                     <h3 className="font-semibold">SMS Verification</h3>
-                    <p className="text-sm text-gray-600">Enter the 6-digit code sent to your phone</p>
+                    <p className="text-sm text-gray-600">
+                      Enter the 6-digit code sent to your phone
+                    </p>
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="sms-code">Verification Code</Label>
                     <Input
@@ -809,19 +919,19 @@ export default function Dashboard() {
                       maxLength={6}
                     />
                   </div>
-                  
+
                   <div className="flex gap-2">
-                    <Button 
+                    <Button
                       variant="outline"
-                      onClick={() => setWithdrawalStep('password')}
+                      onClick={() => setWithdrawalStep("password")}
                       className="flex-1"
                     >
                       Back
                     </Button>
-                    <Button 
+                    <Button
                       onClick={() => {
                         if (smsCode.length === 6) {
-                          setWithdrawalStep('confirm');
+                          setWithdrawalStep("confirm");
                         }
                       }}
                       className="flex-1 bg-[#A52A2A] hover:bg-[#8B1A1A]"
@@ -832,66 +942,98 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
-              
+
               {/* Step 3: Confirmation */}
-              {withdrawalStep === 'confirm' && (
+              {withdrawalStep === "confirm" && (
                 <div className="space-y-4">
                   <div className="text-center">
                     <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
                       <Shield className="h-5 w-5 text-green-600" />
                     </div>
                     <h3 className="font-semibold">Confirm Withdrawal</h3>
-                    <p className="text-sm text-gray-600">Review your withdrawal details</p>
+                    <p className="text-sm text-gray-600">
+                      Review your withdrawal details
+                    </p>
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="bank-account">Select Bank Account</Label>
-                    <Select value={selectedBankAccount} onValueChange={setSelectedBankAccount}>
+                    <Select
+                      value={selectedBankAccount}
+                      onValueChange={setSelectedBankAccount}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Choose bank account for withdrawal" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="chase-checking">Chase Bank - Checking ****1234</SelectItem>
-                        <SelectItem value="bofa-savings">Bank of America - Savings ****5678</SelectItem>
-                        <SelectItem value="wells-checking">Wells Fargo - Checking ****9012</SelectItem>
-                        <SelectItem value="citi-savings">Citibank - Savings ****3456</SelectItem>
+                        <SelectItem value="chase-checking">
+                          Chase Bank - Checking ****1234
+                        </SelectItem>
+                        <SelectItem value="bofa-savings">
+                          Bank of America - Savings ****5678
+                        </SelectItem>
+                        <SelectItem value="wells-checking">
+                          Wells Fargo - Checking ****9012
+                        </SelectItem>
+                        <SelectItem value="citi-savings">
+                          Citibank - Savings ****3456
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-lg space-y-2">
                     <div className="flex justify-between">
                       <span className="text-sm text-gray-600">Amount:</span>
-                      <span className="font-medium">${parseFloat(withdrawalAmount).toLocaleString()}</span>
+                      <span className="font-medium">
+                        ${parseFloat(withdrawalAmount).toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-gray-600">Processing Fee:</span>
+                      <span className="text-sm text-gray-600">
+                        Processing Fee:
+                      </span>
                       <span className="font-medium">$2.50</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-gray-600">Destination:</span>
-                      <span className="font-medium">{selectedBankAccount ? selectedBankAccount.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Not selected'}</span>
+                      <span className="text-sm text-gray-600">
+                        Destination:
+                      </span>
+                      <span className="font-medium">
+                        {selectedBankAccount
+                          ? selectedBankAccount
+                              .split("-")
+                              .map(
+                                (word) =>
+                                  word.charAt(0).toUpperCase() + word.slice(1),
+                              )
+                              .join(" ")
+                          : "Not selected"}
+                      </span>
                     </div>
                     <div className="border-t pt-2 flex justify-between">
                       <span className="font-semibold">Net Amount:</span>
-                      <span className="font-semibold">${(parseFloat(withdrawalAmount) - 2.50).toLocaleString()}</span>
+                      <span className="font-semibold">
+                        ${(parseFloat(withdrawalAmount) - 2.5).toLocaleString()}
+                      </span>
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2">
-                    <Button 
+                    <Button
                       variant="outline"
-                      onClick={() => setWithdrawalStep('sms')}
+                      onClick={() => setWithdrawalStep("sms")}
                       className="flex-1"
                     >
                       Back
                     </Button>
-                    <Button 
+                    <Button
                       onClick={() => {
                         if (selectedBankAccount) {
                           toast({
                             title: "Withdrawal Initiated",
-                            description: "Your withdrawal request has been submitted and will be processed within 2-3 business days.",
+                            description:
+                              "Your withdrawal request has been submitted and will be processed within 2-3 business days.",
                           });
                           setShowWithdrawalModal(false);
                         }
@@ -907,7 +1049,7 @@ export default function Dashboard() {
             </div>
           </DialogContent>
         </Dialog>
-        
+
         <Footer />
       </>
     </div>
