@@ -530,8 +530,8 @@ export default function Dashboard() {
                   style={{ fontSize: "14pt" }}
                 >
                   {investmentCurrency === "USD"
-                    ? "$3,800.00"
-                    : `₿${(3800 / (bitcoinPrice?.price || 107000)).toFixed(6)}`}
+                    ? `$${(portfolio?.totalValue || 0).toFixed(2)}`
+                    : `₿${((portfolio?.totalValue || 0) / (bitcoinPrice?.price || 107000)).toFixed(8)}`}
                 </div>
               </div>
             </div>
@@ -542,34 +542,34 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#A52A2A]"></div>
-                <span className="text-sm text-gray-600">Residential (40%)</span>
+                <span className="text-sm text-gray-600">Residential (0%)</span>
               </div>
               <span className="text-sm font-medium text-gray-900">
-                $1,520.00
+                {investmentCurrency === "USD" ? "$0.00" : "0.00000000 BTC"}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#D2691E]"></div>
-                <span className="text-sm text-gray-600">Commercial (28%)</span>
+                <span className="text-sm text-gray-600">Commercial (0%)</span>
               </div>
               <span className="text-sm font-medium text-gray-900">
-                $1,064.00
+                {investmentCurrency === "USD" ? "$0.00" : "0.00000000 BTC"}
               </span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#8B4513]"></div>
-                <span className="text-sm text-gray-600">Land (17%)</span>
+                <span className="text-sm text-gray-600">Land (0%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$646.00</span>
+              <span className="text-sm font-medium text-gray-900">{investmentCurrency === "USD" ? "$0.00" : "0.00000000 BTC"}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#d1d5db]"></div>
-                <span className="text-sm text-gray-600">Other (15%)</span>
+                <span className="text-sm text-gray-600">Other (0%)</span>
               </div>
-              <span className="text-sm font-medium text-gray-900">$570.00</span>
+              <span className="text-sm font-medium text-gray-900">{investmentCurrency === "USD" ? "$0.00" : "0.00000000 BTC"}</span>
             </div>
           </div>
         </Card>

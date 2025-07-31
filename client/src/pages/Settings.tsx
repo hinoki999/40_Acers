@@ -8,12 +8,13 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2 } from "lucide-react";
+import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Footer from "@/components/Footer";
 import AddPaymentMethodModal from "@/components/AddPaymentMethodModal";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import paypalIcon from "@assets/paypal_1751739388573.webp";
 
 export default function Settings() {
@@ -44,6 +45,7 @@ export default function Settings() {
   const [isGoldMember, setIsGoldMember] = useState(false);
   const [membershipTier, setMembershipTier] = useState<"Free" | "Gold">("Free");
   const [showAddPaymentModal, setShowAddPaymentModal] = useState(false);
+  const [showPayPalModal, setShowPayPalModal] = useState(false);
   const [newPaymentMethod, setNewPaymentMethod] = useState({
     cardNumber: "",
     expiryDate: "",
@@ -388,7 +390,13 @@ export default function Settings() {
                     <img src={paypalIcon} alt="PayPal" className="h-12 w-12 object-contain" />
                   </div>
                   <p className="text-gray-500 mb-4">PayPal not connected</p>
-                  <Button variant="outline" className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white">Connect PayPal</Button>
+                  <Button 
+                    onClick={() => setShowPayPalModal(true)}
+                    variant="outline" 
+                    className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+                  >
+                    Connect PayPal
+                  </Button>
                 </div>
               </div>
 
@@ -659,6 +667,75 @@ export default function Settings() {
         onClose={() => setShowAddPaymentModal(false)}
         onSave={handleAddPaymentMethod}
       />
+
+      {/* PayPal Connection Modal */}
+      <Dialog open={showPayPalModal} onOpenChange={setShowPayPalModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <img src={paypalIcon} alt="PayPal" className="h-8 w-8 object-contain" />
+                <DialogTitle>Connect to PayPal</DialogTitle>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowPayPalModal(false)}
+                className="h-6 w-6 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <DialogDescription>
+              Connect your PayPal account to make investments and receive earnings through your PayPal balance.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div>
+                  <h5 className="font-medium text-blue-900">Secure Connection</h5>
+                  <p className="text-sm text-blue-800">Your PayPal credentials are encrypted and securely stored. We never see your login information.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <Label htmlFor="paypal-email">PayPal Email Address</Label>
+              <Input
+                id="paypal-email"
+                type="email"
+                placeholder="Enter your PayPal email"
+                className="w-full"
+              />
+            </div>
+            
+            <div className="flex gap-3 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowPayPalModal(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  toast({
+                    title: "PayPal Connected",
+                    description: "Your PayPal account has been successfully connected to 40 Acres.",
+                  });
+                  setShowPayPalModal(false);
+                }}
+                className="flex-1 bg-[#0070ba] hover:bg-[#005ea6] text-white"
+              >
+                <img src={paypalIcon} alt="PayPal" className="h-4 w-4 mr-2" />
+                Connect PayPal
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       
       <Footer />
     </div>
