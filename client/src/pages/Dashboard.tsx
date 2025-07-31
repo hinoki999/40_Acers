@@ -92,6 +92,7 @@ export default function Dashboard() {
   );
   const [showInvestorTour, setShowInvestorTour] = useState(false);
   const [timePeriod, setTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
+  const [earningsTimePeriod, setEarningsTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
   const [investmentFilter, setInvestmentFilter] = useState("Last 30 Days");
   const [walletFilter, setWalletFilter] = useState("Last 30 Days");
   const [propertyFilter, setPropertyFilter] = useState("Last 30 Days");
@@ -210,6 +211,28 @@ export default function Dashboard() {
         .includes(transactionFilter.toLowerCase()),
   );
 
+  // Filter properties based on selected filter
+  const filteredProperties = properties.filter((property) => {
+    switch (propertyFilter) {
+      case "Favorites":
+        // In a real app, you'd check if property is marked as favorite by the user
+        return property.id % 3 === 0; // Mock logic for demo
+      case "Saved":
+        // In a real app, you'd check if property is saved by the user
+        return property.id % 2 === 0; // Mock logic for demo
+      case "Last 7 Days":
+        // In a real app, you'd check the property's creation/update date
+        return true; // Mock - show all for now
+      case "24H":
+        // In a real app, you'd check properties from last 24 hours
+        return true; // Mock - show all for now
+      case "Select Range":
+        return true; // Would open date picker in real app
+      default:
+        return true; // Show all properties for "Last 30 Days" and default
+    }
+  });
+
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case "completed":
@@ -288,54 +311,48 @@ export default function Dashboard() {
         {/* Portfolio Value Card - Budget Overview Style */}
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           {/* Header with title and time period tabs */}
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Earnings</h2>
+          </div>
           <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <h2 className="text-xl font-semibold text-gray-900">Earnings</h2>
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setEarningsCurrency("USD")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    earningsCurrency === "USD"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  USD
-                </button>
-                <button
-                  onClick={() => setEarningsCurrency("BTC")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    earningsCurrency === "BTC"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  <img
-                    src="/attached_assets/bitcoin_1750901526377.webp"
-                    alt="Bitcoin"
-                    className="w-4 h-4"
-                  />
-                  Bitcoin (BTC)
-                </button>
-              </div>
+            <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
+              <button
+                onClick={() => setEarningsCurrency("USD")}
+                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                  earningsCurrency === "USD"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                USD
+              </button>
+              <button
+                onClick={() => setEarningsCurrency("BTC")}
+                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                  earningsCurrency === "BTC"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <img
+                  src="/attached_assets/bitcoin_1750901526377.webp"
+                  alt="Bitcoin"
+                  className="w-4 h-4"
+                />
+                Bitcoin (BTC)
+              </button>
             </div>
-            <div className="flex bg-gray-100 rounded-lg p-1">
-              {["Day", "Week", "Month", "Lifetime"].map((period) => (
-                <button
-                  key={period}
-                  onClick={() =>
-                    setTimePeriod(period as "Day" | "Week" | "Month" | "Lifetime")
-                  }
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                    timePeriod === period
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  {period}
-                </button>
-              ))}
-            </div>
+            <Select value={earningsTimePeriod} onValueChange={setEarningsTimePeriod}>
+              <SelectTrigger className="w-28">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Day">Day</SelectItem>
+                <SelectItem value="Week">Week</SelectItem>
+                <SelectItem value="Month">Month</SelectItem>
+                <SelectItem value="Lifetime">Lifetime</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Main value and percentage */}
@@ -422,37 +439,37 @@ export default function Dashboard() {
         {/* Expense Breakdown Chart */}
         <Card className="p-6 border border-gray-200 rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <h2 className="text-xl font-semibold text-gray-900">
-                Investment breakdown
-              </h2>
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setInvestmentCurrency("USD")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    investmentCurrency === "USD"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  USD
-                </button>
-                <button
-                  onClick={() => setInvestmentCurrency("BTC")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    investmentCurrency === "BTC"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  <img
-                    src="/attached_assets/bitcoin_1750901526377.webp"
-                    alt="Bitcoin"
-                    className="w-4 h-4"
-                  />
-                  Bitcoin (BTC)
-                </button>
-              </div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Investment Breakdown
+            </h2>
+          </div>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
+              <button
+                onClick={() => setInvestmentCurrency("USD")}
+                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                  investmentCurrency === "USD"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                USD
+              </button>
+              <button
+                onClick={() => setInvestmentCurrency("BTC")}
+                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                  investmentCurrency === "BTC"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <img
+                  src="/attached_assets/bitcoin_1750901526377.webp"
+                  alt="Bitcoin"
+                  className="w-4 h-4"
+                />
+                Bitcoin (BTC)
+              </button>
             </div>
             <Select value={investmentFilter} onValueChange={setInvestmentFilter}>
               <SelectTrigger className="w-48">
@@ -717,7 +734,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {properties.slice(0, 3).map((property) => (
+              {filteredProperties.slice(0, 3).map((property) => (
                 <PropertyCard
                   key={property.id}
                   property={property}
@@ -726,13 +743,19 @@ export default function Dashboard() {
                 />
               ))}
             </div>
-            {properties.length > 3 && (
+            {filteredProperties.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-neutral-500">No properties found matching your filter criteria.</p>
+              </div>
+            )}
+            {filteredProperties.length > 3 && (
               <div className="text-center mt-6">
                 <Button
                   variant="outline"
                   className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]"
+                  asChild
                 >
-                  View All Properties
+                  <Link href="/invest">View All Properties</Link>
                 </Button>
               </div>
             )}

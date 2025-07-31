@@ -531,7 +531,7 @@ function Learn() {
                     <span>{guide.duration}</span>
                   </div>
                   <Button 
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    className="w-full bg-blue-600 hover:bg-[#A52A2A] transition-colors duration-200"
                     onClick={() => {
                       setSelectedGuide(guide);
                       setCurrentGuideStep(0);
@@ -569,7 +569,7 @@ function Learn() {
                   <p className="text-neutral-600 mb-4">{article.content}</p>
                   <Button 
                     variant="ghost" 
-                    className="p-0 h-auto font-semibold text-blue-600 hover:text-white hover:bg-[#A52A2A]"
+                    className="px-4 py-2 h-auto font-semibold text-blue-600 hover:text-white hover:bg-[#A52A2A] transition-all duration-200 rounded-md"
                     onClick={() => setSelectedArticle(article)}
                   >
                     Read More →

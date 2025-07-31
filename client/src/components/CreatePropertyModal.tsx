@@ -951,7 +951,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()} hideClose>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
         <DialogHeader>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -967,14 +967,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 </DialogDescription>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="hover:bg-gray-100"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+
           </div>
           
           {/* Progress Bar */}
