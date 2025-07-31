@@ -20,6 +20,7 @@ export default function Footer() {
               <li><a href="/business" className="text-gray-300 hover:text-white transition-colors">Schedule Consultation</a></li>
               <li><a href="/community" className="text-gray-300 hover:text-white transition-colors">Community</a></li>
               <li><a href="/learn" className="text-gray-300 hover:text-white transition-colors">Learn</a></li>
+              <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
           

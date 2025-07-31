@@ -19,6 +19,7 @@ import Marketplace from "@/pages/Marketplace";
 import Learn from "@/pages/Learn";
 import LegalDisclaimer from "@/pages/LegalDisclaimer";
 import Settings from "@/pages/Settings";
+import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import NotFound from "@/pages/not-found";
@@ -52,6 +53,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/learn" component={Learn} />
+            <Route path="/contact" component={Contact} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
             <Route path="/community/:id" component={PropertyCommunity} />
@@ -67,6 +69,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/learn" component={Learn} />
+            <Route path="/contact" component={Contact} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
             <Route path="/settings" component={Settings} />
