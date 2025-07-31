@@ -611,6 +611,62 @@ export default function Settings() {
                 Update Password
               </Button>
               
+              {/* KYC/AML Verification */}
+              <div className="border-t pt-6 mt-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  Identity Verification (KYC/AML)
+                </h3>
+                <div className="space-y-4">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <Shield className="h-5 w-5 text-yellow-600 mt-0.5" />
+                      <div>
+                        <h5 className="font-medium text-yellow-900">Verification Required</h5>
+                        <p className="text-sm text-yellow-800">To comply with regulations and secure your account, please complete identity verification through our trusted partner Veriff.</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h4 className="font-medium">Identity Verification</h4>
+                      <p className="text-sm text-gray-600">Verify your identity using government-issued ID</p>
+                      <p className="text-xs text-gray-500">Powered by Veriff - Secure and encrypted</p>
+                    </div>
+                    <Button 
+                      className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
+                      onClick={() => {
+                        toast({
+                          title: "Verification Started",
+                          description: "Redirecting to Veriff for secure identity verification...",
+                        });
+                        // In production, this would redirect to Veriff
+                        window.open('https://veriff.com', '_blank');
+                      }}
+                    >
+                      Start Verification
+                    </Button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
+                    <div>
+                      <h4 className="font-medium text-gray-500">Address Verification</h4>
+                      <p className="text-sm text-gray-400">Verify your residential address</p>
+                      <p className="text-xs text-gray-400">Available after identity verification</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      disabled
+                      className="opacity-50"
+                    >
+                      Pending
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
               {/* Two-Factor Authentication */}
               <div className="border-t pt-6 mt-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
@@ -672,19 +728,9 @@ export default function Settings() {
       <Dialog open={showPayPalModal} onOpenChange={setShowPayPalModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img src={paypalIcon} alt="PayPal" className="h-8 w-8 object-contain" />
-                <DialogTitle>Connect to PayPal</DialogTitle>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowPayPalModal(false)}
-                className="h-6 w-6 p-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+            <div className="flex items-center gap-3">
+              <img src={paypalIcon} alt="PayPal" className="h-8 w-8 object-contain" />
+              <DialogTitle>Connect to PayPal</DialogTitle>
             </div>
             <DialogDescription>
               Connect your PayPal account to make investments and receive earnings through your PayPal balance.
