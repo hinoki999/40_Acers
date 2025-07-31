@@ -269,9 +269,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
       {/* Dashboard Header */}
-      <div className="flex items-center space-x-4 mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-neutral-900">Dashboard</h1>
           <p className="text-neutral-600">
@@ -280,7 +280,7 @@ export default function Dashboard() {
         </div>
 
         {/* Help/Onboarding Buttons */}
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           {(user as any)?.userType === "business" ? (
             <Button className="bg-black hover:bg-[#A52A2A] text-white" asChild>
               <Link href="/list-property">
@@ -369,8 +369,8 @@ export default function Dashboard() {
           <div className="flex items-center gap-4 mb-8">
             <div className="text-4xl font-bold text-gray-900">
               {earningsCurrency === "USD"
-                ? `$${portfolio?.totalValue?.toLocaleString() || "8,237.00"}`
-                : `₿${((portfolio?.totalValue || 8237) / (bitcoinPrice?.price || 107000)).toFixed(6)}`}
+                ? `$${(portfolio?.totalValue || 0).toFixed(2)}`
+                : `${((portfolio?.totalValue || 0) / (bitcoinPrice?.price || 107000)).toFixed(8)} BTC`}
             </div>
             <div className="flex items-center gap-1 text-green-600">
               <TrendingUp className="h-4 w-4" />
@@ -719,8 +719,8 @@ export default function Dashboard() {
               </div>
               <div className="flex items-center gap-2">
                 <Input
-                  placeholder="Search for property"
-                  className="w-64"
+                  placeholder="Search by location or property"
+                  className="w-64 md:w-64 w-full"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />

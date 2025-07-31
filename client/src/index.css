@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove blue focus borders globally */
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+*:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button:focus, button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 /* Mapbox GL JS Styling */
 .mapboxgl-popup {
   max-width: 300px;

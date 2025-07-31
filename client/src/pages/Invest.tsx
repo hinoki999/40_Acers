@@ -177,6 +177,7 @@ export default function Invest() {
                   <SelectItem value="Condo" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Condominium</SelectItem>
                   <SelectItem value="Duplex" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Duplex</SelectItem>
                   <SelectItem value="Apartment" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Apartment</SelectItem>
+                  <SelectItem value="Other" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Other</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -189,6 +190,7 @@ export default function Invest() {
                   <SelectItem value="low" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Less than $5,000</SelectItem>
                   <SelectItem value="medium" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$5,001-$100,000</SelectItem>
                   <SelectItem value="high" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$101,000-$500,000</SelectItem>
+                  <SelectItem value="very-high" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$501,000-$1M</SelectItem>
                   <SelectItem value="premium" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">$1M+</SelectItem>
                 </SelectContent>
               </Select>
@@ -199,11 +201,56 @@ export default function Invest() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">All Locations</SelectItem>
+                  <SelectItem value="AL" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Alabama</SelectItem>
+                  <SelectItem value="AK" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Alaska</SelectItem>
+                  <SelectItem value="AZ" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Arizona</SelectItem>
+                  <SelectItem value="AR" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Arkansas</SelectItem>
                   <SelectItem value="CA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">California</SelectItem>
-                  <SelectItem value="TX" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Texas</SelectItem>
+                  <SelectItem value="CO" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Colorado</SelectItem>
+                  <SelectItem value="CT" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Connecticut</SelectItem>
+                  <SelectItem value="DE" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Delaware</SelectItem>
                   <SelectItem value="FL" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Florida</SelectItem>
-                  <SelectItem value="NY" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">New York</SelectItem>
+                  <SelectItem value="GA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Georgia</SelectItem>
+                  <SelectItem value="HI" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Hawaii</SelectItem>
+                  <SelectItem value="ID" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Idaho</SelectItem>
                   <SelectItem value="IL" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Illinois</SelectItem>
+                  <SelectItem value="IN" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Indiana</SelectItem>
+                  <SelectItem value="IA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Iowa</SelectItem>
+                  <SelectItem value="KS" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Kansas</SelectItem>
+                  <SelectItem value="KY" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Kentucky</SelectItem>
+                  <SelectItem value="LA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Louisiana</SelectItem>
+                  <SelectItem value="ME" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Maine</SelectItem>
+                  <SelectItem value="MD" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Maryland</SelectItem>
+                  <SelectItem value="MA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Massachusetts</SelectItem>
+                  <SelectItem value="MI" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Michigan</SelectItem>
+                  <SelectItem value="MN" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Minnesota</SelectItem>
+                  <SelectItem value="MS" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state-checked]:bg-black data-[state=checked]:text-white">Mississippi</SelectItem>
+                  <SelectItem value="MO" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Missouri</SelectItem>
+                  <SelectItem value="MT" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Montana</SelectItem>
+                  <SelectItem value="NE" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Nebraska</SelectItem>
+                  <SelectItem value="NV" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Nevada</SelectItem>
+                  <SelectItem value="NH" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">New Hampshire</SelectItem>
+                  <SelectItem value="NJ" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">New Jersey</SelectItem>
+                  <SelectItem value="NM" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">New Mexico</SelectItem>
+                  <SelectItem value="NY" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">New York</SelectItem>
+                  <SelectItem value="NC" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">North Carolina</SelectItem>
+                  <SelectItem value="ND" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">North Dakota</SelectItem>
+                  <SelectItem value="OH" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Ohio</SelectItem>
+                  <SelectItem value="OK" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Oklahoma</SelectItem>
+                  <SelectItem value="OR" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Oregon</SelectItem>
+                  <SelectItem value="PA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Pennsylvania</SelectItem>
+                  <SelectItem value="RI" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Rhode Island</SelectItem>
+                  <SelectItem value="SC" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">South Carolina</SelectItem>
+                  <SelectItem value="SD" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">South Dakota</SelectItem>
+                  <SelectItem value="TN" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Tennessee</SelectItem>
+                  <SelectItem value="TX" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Texas</SelectItem>
+                  <SelectItem value="UT" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Utah</SelectItem>
+                  <SelectItem value="VT" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Vermont</SelectItem>
+                  <SelectItem value="VA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Virginia</SelectItem>
+                  <SelectItem value="WA" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Washington</SelectItem>
+                  <SelectItem value="WV" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">West Virginia</SelectItem>
+                  <SelectItem value="WI" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Wisconsin</SelectItem>
+                  <SelectItem value="WY" className="hover:bg-black hover:text-white data-[state=checked]:bg-black data-[state=checked]:text-white">Wyoming</SelectItem>
                 </SelectContent>
               </Select>
               </div>
