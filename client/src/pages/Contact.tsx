@@ -62,7 +62,7 @@ export default function Contact() {
   const faqs = [
     {
       question: "How does fractional real estate investing work on 40 Acres?",
-      answer: "40 Acres allows you to invest in real estate properties starting with as little as $10. Properties are tokenized, meaning ownership is divided into digital shares. When you invest, you purchase a percentage of the property and earn proportional rental income and appreciation."
+      answer: "40 Acres allows you to invest in real estate properties starting with as little as $100. Properties are tokenized, meaning ownership is divided into digital shares. When you invest, you purchase a percentage of the property and earn proportional rental income and appreciation."
     },
     {
       question: "What payment methods do you accept?",
@@ -133,8 +133,15 @@ export default function Contact() {
             <CardContent className="p-6 text-center">
               <MessageSquare className="h-8 w-8 text-[#A52A2A] mx-auto mb-4" />
               <h3 className="font-semibold mb-2">Live Chat</h3>
-              <p className="text-gray-600 text-sm">Available on platform</p>
-              <p className="text-gray-500 text-xs mt-1">Mon-Fri 9AM-6PM EST</p>
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <span className="text-gray-600 text-sm">Powered by</span>
+                <img 
+                  src="/attached_assets/Aphid_logo_horizontal_green_light_2x_1753934905976.png" 
+                  alt="Aphid" 
+                  className="h-4 object-contain"
+                />
+              </div>
+              <p className="text-gray-500 text-sm font-medium">Coming Soon</p>
             </CardContent>
           </Card>
         </div>
