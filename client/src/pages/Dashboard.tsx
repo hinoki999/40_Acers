@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "wouter";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -96,6 +96,7 @@ export default function Dashboard() {
   const [investmentFilter, setInvestmentFilter] = useState("Last 30 Days");
   const [walletFilter, setWalletFilter] = useState("Last 30 Days");
   const [propertyFilter, setPropertyFilter] = useState("Last 30 Days");
+  const [searchTerm, setSearchTerm] = useState("");
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
   const [withdrawalStep, setWithdrawalStep] = useState<
     "password" | "sms" | "confirm"
@@ -211,8 +212,17 @@ export default function Dashboard() {
         .includes(transactionFilter.toLowerCase()),
   );
 
-  // Filter properties based on selected filter
+  // Filter properties based on selected filter and search term
   const filteredProperties = properties.filter((property) => {
+    // First filter by search term
+    const matchesSearch = searchTerm === "" || 
+      property.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      property.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      `${property.address} ${property.city}`.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (!matchesSearch) return false;
+
+    // Then filter by selected filter
     switch (propertyFilter) {
       case "Favorites":
         // In a real app, you'd check if property is marked as favorite by the user
@@ -709,8 +719,10 @@ export default function Dashboard() {
               </div>
               <div className="flex items-center gap-2">
                 <Input
-                  placeholder="Search for property name"
+                  placeholder="Search for property"
                   className="w-64"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <Select value={propertyFilter} onValueChange={setPropertyFilter}>
                   <SelectTrigger className="w-48">
@@ -753,9 +765,12 @@ export default function Dashboard() {
                 <Button
                   variant="outline"
                   className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]"
-                  asChild
+                  onClick={() => {
+                    window.location.href = "/invest";
+                    setTimeout(() => window.scrollTo(0, 0), 100);
+                  }}
                 >
-                  <Link href="/invest">View All Properties</Link>
+                  View All Properties
                 </Button>
               </div>
             )}

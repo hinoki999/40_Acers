@@ -28,8 +28,8 @@ import {
 import Footer from "@/components/Footer";
 
 function Learn() {
-  const [selectedArticle, setSelectedArticle] = useState(null);
-  const [selectedGuide, setSelectedGuide] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState<any>(null);
+  const [selectedGuide, setSelectedGuide] = useState<any>(null);
   const [currentGuideStep, setCurrentGuideStep] = useState(0);
   const articles = [
     {
@@ -691,14 +691,7 @@ function Learn() {
                     </div>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedArticle(null)}
-                  className="hover:bg-gray-100"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+
               </div>
             </DialogHeader>
 
@@ -723,14 +716,7 @@ function Learn() {
                     Step {currentGuideStep + 1} of {selectedGuide.steps}: {selectedGuide.content[currentGuideStep]?.title}
                   </DialogDescription>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedGuide(null)}
-                  className="hover:bg-gray-100"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+
               </div>
               
               {/* Progress Bar */}
