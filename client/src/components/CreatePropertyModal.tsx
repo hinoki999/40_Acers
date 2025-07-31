@@ -197,8 +197,65 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
     },
   });
 
+  // Validation for each step
+  const validateCurrentStep = () => {
+    switch (currentStep) {
+      case 1: // Property Location
+        if (!formData.address || !formData.city || !formData.state || !formData.zipcode || !formData.propertyType) {
+          toast({
+            title: "Missing Information",
+            description: "Please fill in all required property location fields.",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case 2: // Property Valuation
+        if (!formData.propertyValue || !formData.squareFootage) {
+          toast({
+            title: "Missing Valuation",
+            description: "Please enter property value and square footage.",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case 3: // Property Details
+        if (!formData.description || !formData.thumbnailUrl) {
+          toast({
+            title: "Missing Details",
+            description: "Please provide property description and featured image.",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case 4: // Document Upload
+        if (formData.deedDocuments.length === 0 || formData.titleDocuments.length === 0 || formData.llcDocuments.length === 0) {
+          toast({
+            title: "Missing Documents",
+            description: "Please upload all required legal documents.",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+      case 5: // Investment Setup
+        if (!formData.zoomMeetingUrl && !formData.zoomMeetingId) {
+          toast({
+            title: "Missing Meeting Info",
+            description: "Please provide either Zoom meeting URL or Meeting ID.",
+            variant: "destructive",
+          });
+          return false;
+        }
+        break;
+    }
+    return true;
+  };
+
   const handleNext = () => {
-    if (currentStep < totalSteps) {
+    if (validateCurrentStep() && currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -348,6 +405,7 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                     <SelectItem value="Duplex">Duplex</SelectItem>
                     <SelectItem value="Apartment">Apartment Building</SelectItem>
                     <SelectItem value="Land">Land</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -892,21 +950,31 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+    <Dialog open={isOpen} onOpenChange={() => {}}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" onPointerDownOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
         <DialogHeader>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center">
-              <Sparkles className="text-white" size={20} />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center">
+                <Sparkles className="text-white" size={20} />
+              </div>
+              <div>
+                <DialogTitle className="text-2xl font-bold text-neutral-900">
+                  List Your Property
+                </DialogTitle>
+                <DialogDescription className="text-sm text-neutral-600 mt-1">
+                  Step {currentStep} of {totalSteps}: Complete property documentation
+                </DialogDescription>
+              </div>
             </div>
-            <div>
-              <DialogTitle className="text-2xl font-bold text-neutral-900">
-                List Your Property
-              </DialogTitle>
-              <DialogDescription className="text-sm text-neutral-600 mt-1">
-                Step {currentStep} of {totalSteps}: Complete property documentation
-              </DialogDescription>
-            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="hover:bg-gray-100"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
           
           {/* Progress Bar */}

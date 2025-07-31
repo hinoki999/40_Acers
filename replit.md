@@ -119,6 +119,8 @@
 - Database connection pooling for high concurrency
 
 ## Recent Changes
+- July 31, 2025: Enhanced List Your Property modal: Added "Other" to Property Type dropdown, prevented modal from closing when clicking outside, added comprehensive form validation for each step to ensure required fields are completed before proceeding, and added manual close button with X icon in header
+- July 31, 2025: Completed Dashboard overhaul: Removed "List Your Property" button from Earnings container, added "Lifetime" time period option, updated Investment Breakdown and 40 Acres Wallet dropdowns with filtering options (Last 30 Days, Last 7 Days, 24H, Select Range), combined Recent Activity with My Listed Properties containers, and added functional Filters dropdown with time ranges, Favorites, and Saved options
 - July 5, 2025: Updated homepage description text to change "rental properties" to "properties" for broader property type inclusivity
 - July 5, 2025: Fixed website favicon proportions to prevent stretching - created square SVG favicon that maintains 40 Acres logo proportions properly in browser tabs
 - July 5, 2025: Successfully rebranded Share Property modal from "Twitter" to "X" - updated all text references, replaced Twitter icon with provided X logo image, changed button styling to black theme, and updated social media URLs to use X branding throughout the modal
