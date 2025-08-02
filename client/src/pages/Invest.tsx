@@ -92,7 +92,7 @@ export default function Invest() {
       <section className="bg-black text-white pt-32 pb-12 sm:pt-24 sm:pb-16 safe-area-inset">
         <div className="container-mobile max-w-7xl mx-auto">
           <div className="text-center space-mobile">
-            <h1 className="heading-responsive font-bold mb-4">Investment Opportunities</h1>
+            <h1 className="heading-responsive font-bold mb-4 pt-[20px] pb-[20px]">Investment Opportunities</h1>
             <p className="text-responsive text-white mb-6 sm:mb-8 max-w-3xl mx-auto">
               Discover fractional real estate investments and build your portfolio with verified properties
             </p>
@@ -143,7 +143,6 @@ export default function Invest() {
           </div>
         </div>
       </section>
-
       {/* Search and Filters */}
       <section className="py-6 sm:py-8 bg-white shadow-sm">
         <div className="container-mobile max-w-7xl mx-auto">
@@ -280,7 +279,6 @@ export default function Invest() {
           )}
         </div>
       </section>
-
       {/* Gold Member Advanced Heat Map */}
       {isGoldMember && (
         <section className="py-8 sm:py-12">
@@ -323,7 +321,6 @@ export default function Invest() {
           </div>
         </section>
       )}
-
       {/* Properties Grid */}
       <section className="py-8 sm:py-12">
         <div className="container-mobile max-w-7xl mx-auto">
@@ -392,7 +389,6 @@ export default function Invest() {
           )}
         </div>
       </section>
-
       <InvestmentModal
         isOpen={showInvestment}
         onClose={() => {
@@ -417,7 +413,6 @@ export default function Invest() {
           setShowInvestorTour(false);
         }}
       />
-
       {/* Gold Member Upgrade Dialog */}
       {showGoldUpgrade && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -453,7 +448,6 @@ export default function Invest() {
           </Card>
         </div>
       )}
-      
       <Footer />
     </div>
   );
