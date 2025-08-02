@@ -454,7 +454,12 @@ export default function Dashboard() {
               onCurrencyChange={setInvestmentCurrency}
               size="sm"
             />
-            <Select value={investmentFilter} onValueChange={setInvestmentFilter}>
+            <Select value={investmentFilter} onValueChange={(value) => {
+              setInvestmentFilter(value);
+              if (value === "Select Range") {
+                setShowDatePicker(true);
+              }
+            }}>
               <SelectTrigger className="w-48">
                 <SelectValue />
               </SelectTrigger>
@@ -561,7 +566,12 @@ export default function Dashboard() {
                 size="sm"
               />
             </div>
-            <Select value={walletFilter} onValueChange={setWalletFilter}>
+            <Select value={walletFilter} onValueChange={(value) => {
+              setWalletFilter(value);
+              if (value === "Select Range") {
+                setShowDatePicker(true);
+              }
+            }}>
               <SelectTrigger className="w-48">
                 <SelectValue />
               </SelectTrigger>
@@ -678,7 +688,7 @@ export default function Dashboard() {
                 <div className="flex items-center gap-3">
                   <Select value={propertyFilter} onValueChange={(value) => {
                     setPropertyFilter(value);
-                    if (value === "custom") {
+                    if (value === "Select Range") {
                       setShowDatePicker(true);
                     }
                   }}>
@@ -689,7 +699,7 @@ export default function Dashboard() {
                       <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
                       <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
                       <SelectItem value="24H">24H</SelectItem>
-                      <SelectItem value="custom">Select Range</SelectItem>
+                      <SelectItem value="Select Range">Select Range</SelectItem>
                       <SelectItem value="Favorites">Favorites</SelectItem>
                       <SelectItem value="Saved">Saved</SelectItem>
                     </SelectContent>
@@ -1090,7 +1100,10 @@ export default function Dashboard() {
                 <Button
                   onClick={() => {
                     if (dateFrom && dateTo) {
-                      setPropertyFilter(`${format(dateFrom, "MMM dd")} - ${format(dateTo, "MMM dd")}`);
+                      const dateRangeText = `${format(dateFrom, "MMM dd")} - ${format(dateTo, "MMM dd")}`;
+                      setPropertyFilter(dateRangeText);
+                      setInvestmentFilter(dateRangeText);
+                      setWalletFilter(dateRangeText);
                     }
                     setShowDatePicker(false);
                   }}
