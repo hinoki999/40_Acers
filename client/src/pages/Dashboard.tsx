@@ -760,7 +760,7 @@ export default function Dashboard() {
         />
         <OnboardingTour
           isOpen={showOnboarding}
-          onClose={() => setShowOnboarding(false)}
+          onClose={completeOnboarding}
           onComplete={completeOnboarding}
         />
         <InvestorTour
