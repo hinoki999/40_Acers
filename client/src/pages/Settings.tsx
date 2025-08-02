@@ -64,7 +64,8 @@ export default function Settings() {
         lastName: (user as any)?.lastName || "",
         email: (user as any)?.email || "",
         companyName: (user as any)?.businessName || "",
-        userType: (user as any)?.userType || "investor"
+        userType: (user as any)?.userType || "investor",
+        profileImage: ""
       });
     }
   }, [user]);
@@ -166,7 +167,7 @@ export default function Settings() {
     };
   }, [location]);
 
-  if (!isAuthenticated && !isLoading) {
+  if (!isAuthenticated) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
