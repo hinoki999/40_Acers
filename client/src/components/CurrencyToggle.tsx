@@ -29,33 +29,43 @@ export default function CurrencyToggle({ onCurrencyChange, currentCurrency, size
 
   return (
     <>
-    <div className="flex items-center bg-neutral-100 rounded-lg p-1">
-      <Button
-        variant={currentCurrency === 'USD' ? 'default' : 'ghost'}
-        size="sm"
+    <div className="relative flex items-center bg-neutral-200 rounded-full p-1 w-32">
+      {/* Sliding background indicator */}
+      <div 
+        className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full shadow-sm transition-all duration-300 ease-in-out ${
+          currentCurrency === 'USD' ? 'left-1' : 'left-[calc(50%+2px)]'
+        }`}
+      />
+      
+      {/* USD Button */}
+      <button
         onClick={() => onCurrencyChange('USD')}
-        className={`${buttonSize} flex items-center gap-1 ${currentCurrency === 'USD' ? 'bg-black text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}`}
+        className={`relative z-10 flex items-center justify-center gap-1 flex-1 py-2 px-3 rounded-full text-sm font-medium transition-colors duration-200 ${
+          currentCurrency === 'USD' 
+            ? 'text-black' 
+            : 'text-gray-600 hover:text-black'
+        }`}
       >
         <DollarSign size={14} />
-        USD
-      </Button>
-      <Button
-        variant={currentCurrency === 'BTC' ? 'default' : 'ghost'}
-        size="sm"
+        <span className="text-xs font-semibold">USD</span>
+      </button>
+      
+      {/* Bitcoin Button */}
+      <button
         onClick={handleBitcoinClick}
-        className={`${buttonSize} flex items-center gap-1 ${
+        className={`relative z-10 flex items-center justify-center gap-1 flex-1 py-2 px-3 rounded-full text-sm font-medium transition-colors duration-200 ${
           !isGoldMember 
-            ? 'opacity-50 text-gray-400 hover:bg-[#A52A2A] hover:text-white hover:opacity-100' 
+            ? 'text-gray-400 hover:text-[#A52A2A] cursor-pointer' 
             : currentCurrency === 'BTC' 
-              ? 'bg-black text-white hover:bg-gray-800' 
-              : 'text-black hover:bg-gray-100'
+              ? 'text-black' 
+              : 'text-gray-600 hover:text-black'
         }`}
         title={!isGoldMember ? 'Click to upgrade to Gold membership' : ''}
       >
         <Bitcoin size={14} />
-        BTC
-        {!isGoldMember && <Crown size={12} className="ml-1 text-yellow-600" />}
-      </Button>
+        <span className="text-xs font-semibold">BTC</span>
+        {!isGoldMember && <Crown size={10} className="text-yellow-600" />}
+      </button>
     </div>
 
     {/* Gold Upgrade Modal */}
