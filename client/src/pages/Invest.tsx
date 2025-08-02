@@ -92,7 +92,7 @@ export default function Invest() {
       <section className="bg-black text-white pt-32 pb-12 sm:pt-24 sm:pb-16 safe-area-inset">
         <div className="container-mobile max-w-7xl mx-auto">
           <div className="text-center space-mobile">
-            <h1 className="heading-responsive font-bold mb-4 pt-[20px] pb-[20px]">Investment Opportunities</h1>
+            <h1 className="heading-responsive font-bold mb-4 pt-[8px] pb-[8px]">Investment Opportunities</h1>
             <p className="text-responsive text-white mb-6 sm:mb-8 max-w-3xl mx-auto">
               Discover fractional real estate investments and build your portfolio with verified properties
             </p>
