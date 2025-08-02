@@ -15,9 +15,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import AuthModals from "@/components/AuthModals";
+import { useLocation } from "wouter";
 
 export default function ListProperty() {
   const { user, isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showBusinessTour, setShowBusinessTour] = useState(false);
   const [showListingForm, setShowListingForm] = useState(false);
@@ -303,7 +305,7 @@ export default function ListProperty() {
               <span className="text-black">How It Works</span>
             </Button>
             <Button 
-              onClick={() => setShowBusinessTour(true)}
+              onClick={() => setLocation("/business#consultation-form")}
               size="lg"
               className="bg-white text-black hover:bg-gray-100 font-semibold px-8 py-4"
             >
