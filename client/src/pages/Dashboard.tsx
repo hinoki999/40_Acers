@@ -46,11 +46,13 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import Footer from "@/components/Footer";
+import { Link } from "wouter";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
 import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
+import SocialShareModal from "@/components/SocialShareModal";
 import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
 import {
@@ -105,6 +107,7 @@ export default function Dashboard() {
   const [smsCode, setSmsCode] = useState("");
   const [withdrawalAmount, setWithdrawalAmount] = useState("");
   const [selectedBankAccount, setSelectedBankAccount] = useState("");
+  const [showSocialShare, setShowSocialShare] = useState(false);
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
@@ -158,6 +161,14 @@ export default function Dashboard() {
     if (property) {
       setSelectedProperty(property);
       setShowInvestment(true);
+    }
+  };
+
+  const handleShare = (propertyId: number) => {
+    const property = properties.find((p) => p.id === propertyId);
+    if (property) {
+      setSelectedProperty(property);
+      setShowSocialShare(true);
     }
   };
 
@@ -716,30 +727,34 @@ export default function Dashboard() {
                     : "View the investments you've made"}
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2">
                 <Input
                   placeholder="Search by location or property"
-                  className="w-64 md:w-64 w-full"
+                  className="w-full sm:w-48 md:w-64"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <Select value={propertyFilter} onValueChange={setPropertyFilter}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Filters" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
-                    <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
-                    <SelectItem value="24H">24H</SelectItem>
-                    <SelectItem value="Select Range">Select Range</SelectItem>
-                    <SelectItem value="Favorites">Favorites</SelectItem>
-                    <SelectItem value="Saved">Saved</SelectItem>
-                  </SelectContent>
-                </Select>
-                <CurrencyToggle
-                  currentCurrency={currency}
-                  onCurrencyChange={setCurrency}
-                />
+                <div className="flex gap-2">
+                  <Select value={propertyFilter} onValueChange={setPropertyFilter}>
+                    <SelectTrigger className="w-full sm:w-36 md:w-48">
+                      <SelectValue placeholder="Filters" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                      <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
+                      <SelectItem value="24H">24H</SelectItem>
+                      <SelectItem value="Select Range">Select Range</SelectItem>
+                      <SelectItem value="Favorites">Favorites</SelectItem>
+                      <SelectItem value="Saved">Saved</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <div className="hidden sm:block">
+                    <CurrencyToggle
+                      currentCurrency={currency}
+                      onCurrencyChange={setCurrency}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </CardHeader>
@@ -750,6 +765,7 @@ export default function Dashboard() {
                   key={property.id}
                   property={property}
                   onInvest={handleInvest}
+                  onShare={handleShare}
                   hasInvested={hasUserInvested(property.id)}
                 />
               ))}
@@ -1058,6 +1074,15 @@ export default function Dashboard() {
             </div>
           </DialogContent>
         </Dialog>
+
+        <SocialShareModal
+          isOpen={showSocialShare}
+          onClose={() => {
+            setShowSocialShare(false);
+            setSelectedProperty(null);
+          }}
+          property={selectedProperty}
+        />
 
         <Footer />
       </>

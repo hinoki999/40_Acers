@@ -181,26 +181,34 @@ export default function Settings() {
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Account Settings</h1>
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4 sm:space-y-6">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-0">
-          <TabsTrigger value="profile" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+        <TabsList className="grid w-full grid-cols-4 h-auto bg-muted p-1 rounded-lg">
+          <TabsTrigger 
+            value="profile" 
+            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+          >
             <User className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Profile</span>
-            <span className="sm:hidden">Profile</span>
+            <span className="text-xs sm:text-sm">Profile</span>
           </TabsTrigger>
-          <TabsTrigger value="payment" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+          <TabsTrigger 
+            value="payment" 
+            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+          >
             <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Payment Methods</span>
-            <span className="sm:hidden">Payment</span>
+            <span className="text-xs sm:text-sm">Payment</span>
           </TabsTrigger>
-          <TabsTrigger value="membership" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+          <TabsTrigger 
+            value="membership" 
+            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+          >
             <Crown className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Membership</span>
-            <span className="sm:hidden">Member</span>
+            <span className="text-xs sm:text-sm">Member</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+          <TabsTrigger 
+            value="security" 
+            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+          >
             <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Security</span>
-            <span className="sm:hidden">Security</span>
+            <span className="text-xs sm:text-sm">Security</span>
           </TabsTrigger>
         </TabsList>
 

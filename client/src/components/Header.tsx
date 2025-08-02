@@ -1,10 +1,11 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, User, CreditCard, Shield, Settings, Star } from "lucide-react";
+import { LogOut, User, CreditCard, Shield, Settings, Star, Menu, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import logoImage from "@/assets/40-acres-logo.png";
+import { useState } from "react";
 
 import _7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed from "@assets/7EA1D455-ADA2-43DF-B6CA-C0F56A04AD78_processed.png";
 
@@ -16,6 +17,7 @@ interface HeaderProps {
 export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
   const { user, isAuthenticated, isLoading } = useAuth();
   const [location, setLocation] = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     window.location.href = "/api/logout";
@@ -26,6 +28,16 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
       <div className="container-mobile max-w-7xl mx-auto">
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
           <div className="flex items-center space-x-2 md:space-x-8">
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="sm:hidden text-white hover:bg-[#A52A2A] p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </Button>
+            
             <Link href="/" className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-smooth touch-target">
               <img 
                 src={_7EA1D455_ADA2_43DF_B6CA_C0F56A04AD78_processed} 
@@ -127,6 +139,34 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
             )}
           </div>
         </div>
+        
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <div className="sm:hidden bg-black border-t border-neutral-800">
+            <nav className="flex flex-col space-y-1 p-4">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                  Home
+                </Button>
+              </Link>
+              <Link href="/invest" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                  Invest
+                </Button>
+              </Link>
+              <Link href="/list-property" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                  List Property
+                </Button>
+              </Link>
+              <Link href="/learn" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                  Learn
+                </Button>
+              </Link>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );
