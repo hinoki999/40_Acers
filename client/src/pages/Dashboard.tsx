@@ -1042,7 +1042,7 @@ export default function Dashboard() {
 
         {/* Date Picker Dialog */}
         <Dialog open={showDatePicker} onOpenChange={setShowDatePicker}>
-          <DialogContent className="max-w-lg">
+          <DialogContent className="max-w-lg sm:max-w-lg">
             <DialogHeader>
               <DialogTitle>Select Date Range</DialogTitle>
             </DialogHeader>
@@ -1096,7 +1096,12 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowDatePicker(false)}>
+                <Button variant="outline" onClick={() => {
+                  setShowDatePicker(false);
+                  // Reset dates when cancelled
+                  setDateFrom(undefined);
+                  setDateTo(undefined);
+                }}>
                   Cancel
                 </Button>
                 <Button
@@ -1108,6 +1113,9 @@ export default function Dashboard() {
                       setWalletFilter(dateRangeText);
                     }
                     setShowDatePicker(false);
+                    // Reset dates for next use
+                    setDateFrom(undefined);
+                    setDateTo(undefined);
                   }}
                   disabled={!dateFrom || !dateTo}
                   className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
