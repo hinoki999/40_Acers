@@ -89,7 +89,7 @@ export default function Invest() {
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-black text-white pt-24 pb-12 sm:pt-24 sm:pb-16 safe-area-inset">
+      <section className="bg-black text-white pt-32 pb-12 sm:pt-24 sm:pb-16 safe-area-inset">
         <div className="container-mobile max-w-7xl mx-auto">
           <div className="text-center space-mobile">
             <h1 className="heading-responsive font-bold mb-4">Investment Opportunities</h1>
