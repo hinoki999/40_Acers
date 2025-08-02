@@ -423,7 +423,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                           <h4 className="font-medium text-neutral-900 text-sm sm:text-base truncate">{friend.name}</h4>
                           {friend.platform === 'linkedin' && <FaLinkedin className="text-blue-600 flex-shrink-0" size={12} />}
                           {friend.platform === 'facebook' && <FaFacebook className="text-blue-700 flex-shrink-0" size={12} />}
-                          {friend.platform === 'x' && <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-3 h-3 flex-shrink-0" />}
+                          {friend.platform === 'x' && <img src="/attached_assets/x-icon_1754165507693.png" alt="X" className="w-3 h-3 flex-shrink-0" />}
                           {friend.platform === 'instagram' && <FaInstagram className="text-purple-600 flex-shrink-0" size={12} />}
                         </div>
                         <p className="text-xs text-neutral-600 break-words">
@@ -524,10 +524,10 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
               </Button>
               <Button
                 onClick={() => handleSocialShare("x")}
-                className="flex items-center gap-2 bg-black hover:bg-gray-800 transition-smooth"
+                className="flex items-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 text-black transition-smooth"
               >
-                <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-4 h-4 object-contain" />
-                X
+                <img src="/attached_assets/x-icon_1754165507693.png" alt="X" className="w-4 h-4 object-contain" />
+                <span className="text-black font-medium">X</span>
               </Button>
               <Button
                 onClick={() => handleSocialShare("instagram")}
