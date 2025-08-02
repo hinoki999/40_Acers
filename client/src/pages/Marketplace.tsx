@@ -258,17 +258,17 @@ export default function Marketplace() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="container-mobile max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-neutral-900">40 Acres Marketplace</h1>
-            <p className="text-neutral-600 mt-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900">40 Acres Marketplace</h1>
+            <p className="text-sm sm:text-base text-neutral-600 mt-2">
               Discover, filter, and invest in verified real estate opportunities
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <Button
               variant={showFilters ? "default" : "outline"}
               onClick={() => setShowFilters(!showFilters)}
@@ -300,7 +300,7 @@ export default function Marketplace() {
         </div>
 
         {/* Marketplace Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
           <Card>
             <CardContent className="p-4 text-center">
               <Building className="w-8 h-8 text-blue-600 mx-auto mb-2" />

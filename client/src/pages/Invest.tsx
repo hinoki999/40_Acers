@@ -116,7 +116,7 @@ export default function Invest() {
                 </Button>
               )}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8 lg:mt-12">
               <Card className="bg-white/10 backdrop-blur-sm border-white/20">
                 <CardContent className="p-6 text-center">
                   <DollarSign className="mx-auto mb-4 text-yellow-300" size={32} />
@@ -162,10 +162,10 @@ export default function Invest() {
             
             {/* Mobile filters section */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
-              <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-1">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 order-2 sm:order-1">
               </div>
               
-              <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-4 order-1 sm:order-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 order-1 sm:order-2">
               <Select value={propertyType} onValueChange={setPropertyType}>
                 <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white transition-colors">
                   <SelectValue placeholder="Property Type" />

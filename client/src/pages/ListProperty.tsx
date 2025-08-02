@@ -122,15 +122,15 @@ export default function ListProperty() {
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-black text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-black text-white py-12 sm:py-16 lg:py-20">
+        <div className="container-mobile max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-5xl font-bold mb-6">List Your Property</h1>
-            <p className="text-xl text-white mb-8 max-w-3xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">List Your Property</h1>
+            <p className="text-base sm:text-lg lg:text-xl text-white mb-6 sm:mb-8 max-w-3xl mx-auto">
               Transform your real estate into fractional investment opportunities. 
               Unlock liquidity while maintaining ownership and earning from your property.
             </p>
-            <div className="flex items-center gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center">
               <Button 
                 onClick={handleListPropertyClick}
                 size="lg"
@@ -153,16 +153,16 @@ export default function ListProperty() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-neutral-900 mb-4">Why List Your Property?</h2>
-            <p className="text-xl text-neutral-600">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="container-mobile max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">Why List Your Property?</h2>
+            <p className="text-base sm:text-lg lg:text-xl text-neutral-600">
               Join the future of real estate investment and unlock new opportunities
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {benefits.map((benefit, index) => (
               <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="p-6 text-center">

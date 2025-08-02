@@ -177,26 +177,30 @@ export default function Settings() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Account Settings</h1>
+    <div className="container-mobile max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Account Settings</h1>
       
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="profile" className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            Profile
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-0">
+          <TabsTrigger value="profile" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <User className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Profile</span>
+            <span className="sm:hidden">Profile</span>
           </TabsTrigger>
-          <TabsTrigger value="payment" className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4" />
-            Payment Methods
+          <TabsTrigger value="payment" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Payment Methods</span>
+            <span className="sm:hidden">Payment</span>
           </TabsTrigger>
-          <TabsTrigger value="membership" className="flex items-center gap-2">
-            <Crown className="h-4 w-4" />
-            Membership
+          <TabsTrigger value="membership" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <Crown className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Membership</span>
+            <span className="sm:hidden">Member</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
-            <Shield className="h-4 w-4" />
-            Security
+          <TabsTrigger value="security" className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+            <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Security</span>
+            <span className="sm:hidden">Security</span>
           </TabsTrigger>
         </TabsList>
 
@@ -254,7 +258,7 @@ export default function Settings() {
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
                   <Input
@@ -477,7 +481,7 @@ export default function Settings() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-4 sm:gap-6">
                 {/* Basic Plan */}
                 <div className="border rounded-lg p-6 bg-gray-50">
                   <div className="flex items-center justify-between mb-4">
@@ -508,7 +512,7 @@ export default function Settings() {
                 {/* Gold Plan */}
                 <div className="border-2 border-yellow-400 rounded-lg p-6 bg-gradient-to-br from-yellow-50 to-orange-50 relative">
                   <div className="absolute -top-3 left-4">
-                    <Badge className="bg-yellow-500 text-black">Recommended</Badge>
+                    <Badge className="bg-yellow-500 text-white">Recommended</Badge>
                   </div>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
