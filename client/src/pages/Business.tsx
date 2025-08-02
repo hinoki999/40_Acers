@@ -200,7 +200,7 @@ function Business() {
                     ))}
                   </div>
                   <Button 
-                    className="w-full mt-6 bg-[#A52A2A] hover:bg-[#A0522D]"
+                    className="w-full mt-6 bg-[#A52A2A] hover:bg-[#8B1A1A]"
                     onClick={() => {
                       setFormData(prev => ({ ...prev, consultationType: consultation.type }));
                       document.getElementById('consultation-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -377,21 +377,21 @@ function Business() {
           <div className="text-center">
             <h3 className="text-2xl font-bold text-neutral-900 mb-6">Need Immediate Assistance?</h3>
             <div className="flex flex-col sm:flex-row gap-8 justify-center">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
                 <Phone className="text-blue-600" size={24} />
                 <div>
                   <div className="font-semibold">Call Us</div>
                   <div className="text-neutral-600">248-250-4510</div>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
                 <Mail className="text-blue-600" size={24} />
                 <div>
                   <div className="font-semibold">Email Us</div>
                   <div className="text-neutral-600">info@40acresapp.com</div>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
                 <Calendar className="text-blue-600" size={24} />
                 <div>
                   <div className="font-semibold">Business Hours</div>

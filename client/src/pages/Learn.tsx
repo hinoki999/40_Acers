@@ -678,20 +678,17 @@ function Learn() {
         <Dialog open={!!selectedArticle} onOpenChange={() => setSelectedArticle(null)}>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <DialogTitle className="text-3xl font-bold text-neutral-900 mb-2">
-                    {selectedArticle.title}
-                  </DialogTitle>
-                  <div className="flex items-center gap-4 text-sm text-neutral-600">
-                    <Badge variant="secondary">{selectedArticle.category}</Badge>
-                    <div className="flex items-center">
-                      <Clock size={14} className="mr-1" />
-                      {selectedArticle.readTime}
-                    </div>
+              <div className="pr-8 mb-4">
+                <DialogTitle className="text-2xl sm:text-3xl font-bold text-neutral-900 mb-2 leading-tight">
+                  {selectedArticle.title}
+                </DialogTitle>
+                <div className="flex items-center gap-4 text-sm text-neutral-600">
+                  <Badge variant="secondary">{selectedArticle.category}</Badge>
+                  <div className="flex items-center">
+                    <Clock size={14} className="mr-1" />
+                    {selectedArticle.readTime}
                   </div>
                 </div>
-
               </div>
             </DialogHeader>
 
@@ -707,16 +704,13 @@ function Learn() {
         <Dialog open={!!selectedGuide} onOpenChange={() => setSelectedGuide(null)}>
           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <DialogTitle className="text-2xl font-bold text-neutral-900">
-                    {selectedGuide.title}
-                  </DialogTitle>
-                  <DialogDescription className="text-neutral-600 mt-1">
-                    Step {currentGuideStep + 1} of {selectedGuide.steps}: {selectedGuide.content[currentGuideStep]?.title}
-                  </DialogDescription>
-                </div>
-
+              <div className="pr-8 mb-4">
+                <DialogTitle className="text-xl sm:text-2xl font-bold text-neutral-900 leading-tight">
+                  {selectedGuide.title}
+                </DialogTitle>
+                <DialogDescription className="text-neutral-600 mt-1">
+                  Step {currentGuideStep + 1} of {selectedGuide.steps}: {selectedGuide.content[currentGuideStep]?.title}
+                </DialogDescription>
               </div>
               
               {/* Progress Bar */}
