@@ -436,8 +436,7 @@ export default function Dashboard() {
           {/* Action buttons */}
           <div className="space-y-3">
             <Button
-              variant="outline"
-              className="w-full border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+              className="w-full bg-[#A52A2A] text-white border-[#A52A2A] hover:bg-[#8B1A1A] hover:border-[#8B1A1A]"
               onClick={() => setShowWithdrawalModal(true)}
             >
               <ArrowDown className="mr-2" size={16} />

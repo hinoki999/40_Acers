@@ -326,7 +326,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
       if (!open) onClose();
     }}>
       <DialogContent 
-        className="max-w-2xl max-h-[90vh] overflow-y-auto"
+        className="max-w-2xl max-h-[90vh] overflow-y-auto container-mobile mx-2 sm:mx-4 w-full"
         onInteractOutside={(e) => {
           e.preventDefault();
         }}
@@ -351,26 +351,26 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
           {/* Property Preview */}
           <Card className="border-2 border-blue-200 bg-blue-50">
             <CardContent className="p-4">
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
                 {property.thumbnailUrl ? (
                   <img
                     src={property.thumbnailUrl}
                     alt={property.address}
-                    className="w-20 h-20 rounded-lg object-cover"
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-20 h-20 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center">
-                    <TrendingUp className="text-white" size={24} />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="text-white" size={20} />
                   </div>
                 )}
-                <div className="flex-1">
-                  <h3 className="font-semibold text-neutral-900">{property.address}</h3>
-                  <p className="text-sm text-neutral-600">{property.city}, {property.state} {property.zipcode}</p>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <Badge variant="secondary">${property.sharePrice}/share</Badge>
-                    <Badge className="bg-green-600">{property.propertyType}</Badge>
-                    <Badge className="bg-purple-600">{fundingProgress}% funded</Badge>
-                    <Badge className="bg-orange-600">{remainingShares} left</Badge>
+                <div className="flex-1 text-center sm:text-left min-w-0">
+                  <h3 className="font-semibold text-neutral-900 text-sm sm:text-base break-words">{property.address}</h3>
+                  <p className="text-xs sm:text-sm text-neutral-600 break-words">{property.city}, {property.state} {property.zipcode}</p>
+                  <div className="grid grid-cols-2 gap-1 sm:gap-2 mt-2">
+                    <Badge variant="secondary" className="text-xs">${property.sharePrice}/share</Badge>
+                    <Badge className="bg-green-600 text-xs">{property.propertyType}</Badge>
+                    <Badge className="bg-purple-600 text-xs">{fundingProgress}% funded</Badge>
+                    <Badge className="bg-orange-600 text-xs">{remainingShares} left</Badge>
                   </div>
                 </div>
               </div>
@@ -411,27 +411,27 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
             <CardContent>
               <div className="space-y-3">
                 {friendInvestors.map((friend) => (
-                  <div key={friend.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors">
+                  <div key={friend.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors gap-2 sm:gap-3">
                     <div className="flex items-center gap-3">
                       <img
                         src={friend.avatar}
                         alt={friend.name}
-                        className="w-10 h-10 rounded-full object-cover"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
                       />
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h4 className="font-medium text-neutral-900">{friend.name}</h4>
-                          {friend.platform === 'linkedin' && <FaLinkedin className="text-blue-600" size={14} />}
-                          {friend.platform === 'facebook' && <FaFacebook className="text-blue-700" size={14} />}
-                          {friend.platform === 'x' && <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-3.5 h-3.5" />}
-                          {friend.platform === 'instagram' && <FaInstagram className="text-purple-600" size={14} />}
+                          <h4 className="font-medium text-neutral-900 text-sm sm:text-base truncate">{friend.name}</h4>
+                          {friend.platform === 'linkedin' && <FaLinkedin className="text-blue-600 flex-shrink-0" size={12} />}
+                          {friend.platform === 'facebook' && <FaFacebook className="text-blue-700 flex-shrink-0" size={12} />}
+                          {friend.platform === 'x' && <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-3 h-3 flex-shrink-0" />}
+                          {friend.platform === 'instagram' && <FaInstagram className="text-purple-600 flex-shrink-0" size={12} />}
                         </div>
-                        <p className="text-xs text-neutral-600">
-                          {friend.mutualConnections} mutual connections • Invested {new Date(friend.investedDate).toLocaleDateString()}
+                        <p className="text-xs text-neutral-600 break-words">
+                          {friend.mutualConnections} mutual • {new Date(friend.investedDate).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-center sm:text-right ml-11 sm:ml-0">
                       <div className="text-sm font-semibold text-green-600">${friend.investmentAmount.toLocaleString()}</div>
                       <div className="text-xs text-neutral-600">{friend.sharesOwned} shares</div>
                     </div>

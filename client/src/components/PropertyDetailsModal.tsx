@@ -85,19 +85,19 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto container-mobile mx-2 sm:mx-4 w-full">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-            <Building className="h-6 w-6 text-primary" />
-            {property.address}
+          <DialogTitle className="text-lg sm:text-xl lg:text-2xl font-bold flex items-center gap-2 break-words">
+            <Building className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0" />
+            <span className="truncate">{property.address}</span>
           </DialogTitle>
-          <div className="flex items-center gap-2 text-neutral-600">
-            <MapPin className="h-4 w-4" />
+          <div className="flex items-center gap-2 text-neutral-600 text-sm sm:text-base">
+            <MapPin className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
             <a 
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.address + ', ' + property.city + ', ' + property.state + ' ' + property.zipcode)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-primary hover:underline cursor-pointer"
+              className="hover:text-primary hover:underline cursor-pointer truncate"
             >
               {property.city}, {property.state} {property.zipcode}
             </a>
@@ -144,12 +144,12 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={`grid w-full ${isPropertyOwner ? 'grid-cols-5' : 'grid-cols-4'}`}>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="details">Property Details</TabsTrigger>
-              <TabsTrigger value="investment">Investment</TabsTrigger>
-              <TabsTrigger value="location">Location</TabsTrigger>
-              {isPropertyOwner && <TabsTrigger value="documents">Documents</TabsTrigger>}
+            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner ? 'grid-cols-2 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
+              <TabsTrigger value="overview" className="px-2 py-1 sm:px-3 sm:py-2">Overview</TabsTrigger>
+              <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
+              <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
+              <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
+              {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2 col-span-2 sm:col-span-1">Documents</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -592,22 +592,22 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </Tabs>
 
           {/* Action Buttons */}
-          <div className="flex gap-4 pt-6 border-t">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-4 sm:pt-6 border-t">
             <Button
               onClick={() => onInvest && onInvest(property.id)}
-              className="flex-1 bg-black text-white hover:bg-gray-200 hover:text-black"
-              size="lg"
+              className="w-full sm:flex-1 bg-black text-white hover:bg-gray-200 hover:text-black text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-3"
+              size="sm"
             >
-              <DollarSign className="h-4 w-4 mr-2" />
-              Invest in This Property
+              <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="truncate">Invest in This Property</span>
             </Button>
-            <Button variant="outline" size="lg" className="hover:bg-gray-200 hover:text-black">
-              <Clock className="h-4 w-4 mr-2" />
-              Schedule Tour
+            <Button variant="outline" className="w-full sm:w-auto hover:bg-gray-200 hover:text-black text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-3" size="sm">
+              <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="truncate">Schedule Tour</span>
             </Button>
-            <Button variant="outline" size="lg" className="hover:bg-gray-200 hover:text-black">
-              <Calculator className="h-4 w-4 mr-2" />
-              Calculate Returns
+            <Button variant="outline" className="w-full sm:w-auto hover:bg-gray-200 hover:text-black text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-3" size="sm">
+              <Calculator className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="truncate">Calculate Returns</span>
             </Button>
           </div>
         </div>

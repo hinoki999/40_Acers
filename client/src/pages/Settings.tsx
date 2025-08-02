@@ -211,18 +211,18 @@ export default function Settings() {
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Profile Picture Section */}
-              <div className="flex items-center gap-6 mb-6">
-                <div className="relative">
-                  <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6">
+                <div className="relative flex-shrink-0">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                     {profile.profileImage ? (
                       <img src={profile.profileImage} alt="Profile" className="w-full h-full object-cover" />
                     ) : (
-                      <User className="h-12 w-12 text-gray-400" />
+                      <User className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400" />
                     )}
                   </div>
                   <Button 
                     size="sm" 
-                    className="absolute -bottom-2 -right-2 rounded-full h-8 w-8 p-0 bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
+                    className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 rounded-full h-6 w-6 sm:h-8 sm:w-8 p-0 bg-[#A52A2A] hover:bg-[#8B1A1A] text-white text-xs sm:text-sm"
                     onClick={() => document.getElementById('profile-upload')?.click()}
                   >
                     +
@@ -244,13 +244,13 @@ export default function Settings() {
                     }}
                   />
                 </div>
-                <div>
-                  <h3 className="font-semibold text-lg">{profile.firstName} {profile.lastName}</h3>
-                  <p className="text-gray-600">{user?.email}</p>
+                <div className="text-center sm:text-left min-w-0 flex-1">
+                  <h3 className="font-semibold text-base sm:text-lg break-words">{profile.firstName} {profile.lastName}</h3>
+                  <p className="text-gray-600 text-sm sm:text-base break-all">{user?.email}</p>
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="mt-2 border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+                    className="mt-2 border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white text-xs sm:text-sm px-3 py-1"
                     onClick={() => document.getElementById('profile-upload')?.click()}
                   >
                     Upload Photo
