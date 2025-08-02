@@ -34,7 +34,7 @@ export default function CurrencyToggle({ onCurrencyChange, currentCurrency, size
         variant={currentCurrency === 'USD' ? 'default' : 'ghost'}
         size="sm"
         onClick={() => onCurrencyChange('USD')}
-        className={`${buttonSize} flex items-center gap-1`}
+        className={`${buttonSize} flex items-center gap-1 ${currentCurrency === 'USD' ? 'bg-black text-white hover:bg-gray-800' : 'text-black hover:bg-gray-100'}`}
       >
         <DollarSign size={14} />
         USD
@@ -43,7 +43,13 @@ export default function CurrencyToggle({ onCurrencyChange, currentCurrency, size
         variant={currentCurrency === 'BTC' ? 'default' : 'ghost'}
         size="sm"
         onClick={handleBitcoinClick}
-        className={`${buttonSize} flex items-center gap-1 ${!isGoldMember ? 'opacity-50 text-gray-400 hover:opacity-75' : ''}`}
+        className={`${buttonSize} flex items-center gap-1 ${
+          !isGoldMember 
+            ? 'opacity-50 text-gray-400 hover:bg-[#A52A2A] hover:text-white hover:opacity-100' 
+            : currentCurrency === 'BTC' 
+              ? 'bg-black text-white hover:bg-gray-800' 
+              : 'text-black hover:bg-gray-100'
+        }`}
         title={!isGoldMember ? 'Click to upgrade to Gold membership' : ''}
       >
         <Bitcoin size={14} />
