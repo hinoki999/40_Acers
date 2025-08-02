@@ -49,8 +49,8 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                 }}
               />
             </Link>
-            <div className="md:absolute md:left-1/3 lg:left-1/2 md:transform md:-translate-x-1/2 ml-4 sm:ml-8 md:ml-0">
-              <nav className="hidden sm:flex space-x-1 lg:space-x-4 xl:space-x-6">
+            <div className="landscape:absolute landscape:left-1/2 landscape:transform landscape:-translate-x-1/2 md:absolute md:left-1/3 lg:left-1/2 md:transform md:-translate-x-1/2 ml-4 sm:ml-8 md:ml-0 landscape:ml-0">
+              <nav className="hidden sm:flex space-x-1 lg:space-x-4 xl:space-x-6 landscape:space-x-2">
                 <Link href="/">
                   <Button variant="ghost" className="text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 px-1 md:px-2 lg:px-3 py-1 md:py-2 rounded text-xs md:text-sm lg:text-base">
                     Home
@@ -142,25 +142,25 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
         
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
-          <div className="sm:hidden bg-black border-t border-neutral-800">
-            <nav className="flex flex-col space-y-1 p-4">
+          <div className="sm:hidden bg-black border-t border-neutral-800 landscape:max-h-48 landscape:overflow-y-auto">
+            <nav className="flex flex-col space-y-1 p-4 landscape:p-2 landscape:space-y-0.5">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 landscape:py-1 landscape:text-sm">
                   Home
                 </Button>
               </Link>
               <Link href="/invest" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 landscape:py-1 landscape:text-sm">
                   Invest
                 </Button>
               </Link>
               <Link href="/list-property" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 landscape:py-1 landscape:text-sm">
                   List Property
                 </Button>
               </Link>
               <Link href="/learn" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200">
+                <Button variant="ghost" className="w-full text-left justify-start text-white hover:text-white hover:bg-[#A52A2A] transition-all duration-200 landscape:py-1 landscape:text-sm">
                   Learn
                 </Button>
               </Link>
