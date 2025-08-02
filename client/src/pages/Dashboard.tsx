@@ -343,33 +343,11 @@ export default function Dashboard() {
             <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Earnings</h2>
           </div>
           <div className="flex items-center justify-between mb-8">
-            <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
-              <button
-                onClick={() => setEarningsCurrency("USD")}
-                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                  earningsCurrency === "USD"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                USD
-              </button>
-              <button
-                onClick={() => setEarningsCurrency("BTC")}
-                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                  earningsCurrency === "BTC"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                <img
-                  src="/attached_assets/bitcoin_1750901526377.webp"
-                  alt="Bitcoin"
-                  className="w-4 h-4"
-                />
-                Bitcoin (BTC)
-              </button>
-            </div>
+            <CurrencyToggle 
+              currentCurrency={earningsCurrency} 
+              onCurrencyChange={setEarningsCurrency}
+              size="sm"
+            />
             <Select value={earningsTimePeriod} onValueChange={setEarningsTimePeriod}>
               <SelectTrigger className="w-28">
                 <SelectValue />
@@ -471,33 +449,11 @@ export default function Dashboard() {
             </h2>
           </div>
           <div className="flex items-center justify-between mb-8">
-            <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
-              <button
-                onClick={() => setInvestmentCurrency("USD")}
-                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                  investmentCurrency === "USD"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                USD
-              </button>
-              <button
-                onClick={() => setInvestmentCurrency("BTC")}
-                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                  investmentCurrency === "BTC"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                <img
-                  src="/attached_assets/bitcoin_1750901526377.webp"
-                  alt="Bitcoin"
-                  className="w-4 h-4"
-                />
-                Bitcoin (BTC)
-              </button>
-            </div>
+            <CurrencyToggle 
+              currentCurrency={investmentCurrency} 
+              onCurrencyChange={setInvestmentCurrency}
+              size="sm"
+            />
             <Select value={investmentFilter} onValueChange={setInvestmentFilter}>
               <SelectTrigger className="w-48">
                 <SelectValue />
@@ -599,33 +555,11 @@ export default function Dashboard() {
               <h2 className="text-xl font-semibold text-gray-900">
                 40 Acres Wallet
               </h2>
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setCurrency("USD")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    currency === "USD"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  USD
-                </button>
-                <button
-                  onClick={() => setCurrency("BTC")}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                    currency === "BTC"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  <img
-                    src="/attached_assets/bitcoin_1750901526377.webp"
-                    alt="Bitcoin"
-                    className="w-4 h-4"
-                  />
-                  Bitcoin (BTC)
-                </button>
-              </div>
+              <CurrencyToggle 
+                currentCurrency={currency} 
+                onCurrencyChange={setCurrency}
+                size="sm"
+              />
             </div>
             <Select value={walletFilter} onValueChange={setWalletFilter}>
               <SelectTrigger className="w-48">

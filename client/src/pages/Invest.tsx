@@ -14,6 +14,7 @@ import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import InvestorTour from "@/components/InvestorTour";
 import AuthModals from "@/components/AuthModals";
+import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
 
@@ -30,7 +31,7 @@ export default function Invest() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
-  const [isGoldMember, setIsGoldMember] = useState(false);
+  const isGoldMember = (user as any)?.membershipType === "gold";
   const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
 
   const { data: properties = [], isLoading } = useQuery({
@@ -279,6 +280,49 @@ export default function Invest() {
           )}
         </div>
       </section>
+
+      {/* Gold Member Advanced Heat Map */}
+      {isGoldMember && (
+        <section className="py-8 sm:py-12">
+          <div className="container-mobile max-w-7xl mx-auto">
+            <div className="flex items-center gap-2 mb-6">
+              <Crown className="h-6 w-6 text-yellow-600" />
+              <h2 className="text-2xl font-bold text-gray-900">Advanced Market Heat Map</h2>
+              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-300">Gold Exclusive</Badge>
+            </div>
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="h-96 bg-gradient-to-br from-red-100 via-yellow-100 to-green-100 relative">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <TrendingUp className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Property Market Analysis</h3>
+                      <p className="text-gray-600 max-w-md">
+                        Interactive heat map showing property performance, market trends, and investment opportunities across different regions.
+                      </p>
+                    </div>
+                  </div>
+                  {/* Heat map overlay indicators */}
+                  <div className="absolute top-4 left-4 space-y-2">
+                    <div className="flex items-center gap-2 bg-white/80 px-3 py-1 rounded-full">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span className="text-sm font-medium">High ROI</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white/80 px-3 py-1 rounded-full">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <span className="text-sm font-medium">Moderate ROI</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white/80 px-3 py-1 rounded-full">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span className="text-sm font-medium">Lower ROI</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      )}
 
       {/* Properties Grid */}
       <section className="py-8 sm:py-12">
