@@ -425,7 +425,7 @@ export default function Invest() {
               <p className="text-gray-600 mb-4">
                 Access exclusive properties with blockchain protection of ownership and advanced Web3 features.
               </p>
-              <div className="text-3xl font-bold text-yellow-600 mb-4">$99/month</div>
+              <div className="text-3xl font-bold text-yellow-600 mb-4">$99.99/year</div>
               <div className="space-y-2 mb-6">
                 <Button 
                   className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-500 hover:to-yellow-700 font-semibold shadow-lg"
