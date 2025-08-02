@@ -56,20 +56,10 @@ export default function CurrencyToggle({ onCurrencyChange, currentCurrency, size
     <Dialog open={showGoldUpgrade} onOpenChange={setShowGoldUpgrade}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-2">
-              <Crown className="h-5 w-5 text-yellow-500" />
-              Upgrade to Gold
-            </DialogTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowGoldUpgrade(false)}
-              className="h-6 w-6 p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <DialogTitle className="flex items-center gap-2">
+            <Crown className="h-5 w-5 text-yellow-500" />
+            Upgrade to Gold
+          </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
