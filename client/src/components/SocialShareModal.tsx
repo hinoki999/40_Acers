@@ -468,7 +468,7 @@ Real estate investing used to require hundreds of thousands. Now with 40 Acres, 
                   <div className="text-xs text-neutral-600">LinkedIn Views</div>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <img src="/attached_assets/x button_1751740356616.webp" alt="X" className="w-6 h-6 mx-auto mb-2 object-contain" />
+                  <img src="/attached_assets/x-icon_1754165507693.png" alt="X" className="w-6 h-6 mx-auto mb-2 object-contain" />
                   <div className="text-2xl font-bold text-gray-900">{shareStats.xViews}</div>
                   <div className="text-xs text-neutral-600">X Views</div>
                 </div>
