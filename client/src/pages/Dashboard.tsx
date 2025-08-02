@@ -1042,7 +1042,7 @@ export default function Dashboard() {
 
         {/* Date Picker Dialog */}
         <Dialog open={showDatePicker} onOpenChange={setShowDatePicker}>
-          <DialogContent className="max-w-lg sm:max-w-lg">
+          <DialogContent className="max-w-lg sm:max-w-lg top-[60%] translate-y-[-40%]">
             <DialogHeader>
               <DialogTitle>Select Date Range</DialogTitle>
             </DialogHeader>
