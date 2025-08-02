@@ -555,7 +555,7 @@ export default function Settings() {
                     </div>
                   </div>
                   <div className="mt-4">
-                    <div className="text-2xl font-bold">$99.99/month</div>
+                    <div className="text-2xl font-bold">$99.99/year</div>
                     <Button onClick={handleUpgradeToGold} className="w-full mt-3 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black">
                       Upgrade to Gold
                     </Button>

@@ -7,11 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
-import { TrendingUp, Users, Calculator, DollarSign, Bitcoin, MapPin, Building, CreditCard, ChevronDown, Plus } from "lucide-react";
+import { TrendingUp, Users, Calculator, DollarSign, Bitcoin, MapPin, Building, CreditCard, ChevronDown, Plus, Crown, X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Property } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { useLocation } from "wouter";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 
 interface InvestmentModalProps {
@@ -26,8 +28,14 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const [paymentMethod, setPaymentMethod] = useState<'USD' | 'BTC'>('USD');
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
+  const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
+  
+  // Check if user is Gold member
+  const isGoldMember = (user as any)?.membershipType === "gold";
 
   const { data: bitcoinPrice } = useQuery<{ price: number }>({
     queryKey: ["/api/bitcoin-price"],
@@ -141,6 +149,7 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   };
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -246,17 +255,35 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                   USD (Credit Card)
                 </button>
                 <button
-                  onClick={() => setPaymentMethod('BTC')}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 flex-1 justify-center ${
+                  onClick={() => {
+                    if (!isGoldMember) {
+                      setShowGoldUpgrade(true);
+                      return;
+                    }
+                    setPaymentMethod('BTC');
+                  }}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 flex-1 justify-center relative ${
                     paymentMethod === 'BTC'
                       ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
+                      : isGoldMember
+                      ? 'text-gray-500 hover:text-gray-700'
+                      : 'text-gray-400 cursor-not-allowed'
+                  } ${!isGoldMember ? 'opacity-50' : ''}`}
+                  disabled={!isGoldMember}
                 >
                   <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-4 h-4" />
                   Bitcoin (BTC)
+                  {!isGoldMember && (
+                    <Crown className="h-3 w-3 text-yellow-500 absolute -top-1 -right-1" />
+                  )}
                 </button>
               </div>
+              {!isGoldMember && (
+                <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                  <Crown className="h-3 w-3 text-yellow-500" />
+                  Bitcoin payment requires Gold membership
+                </p>
+              )}
             </div>
 
             {/* Payment Method Dropdown for USD */}
@@ -472,5 +499,93 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
         </div>
       </DialogContent>
     </Dialog>
+
+    {/* Gold Upgrade Modal */}
+    <Dialog open={showGoldUpgrade} onOpenChange={setShowGoldUpgrade}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="flex items-center gap-2">
+              <Crown className="h-5 w-5 text-yellow-500" />
+              Upgrade to Gold
+            </DialogTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowGoldUpgrade(false)}
+              className="h-6 w-6 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </DialogHeader>
+        
+        <div className="space-y-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <img src="/attached_assets/bitcoin_1750901526377.webp" alt="Bitcoin" className="w-8 h-8" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Bitcoin Payment Requires Gold Membership
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Unlock Bitcoin payment options and exclusive features with Gold membership
+            </p>
+          </div>
+
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-4">
+            <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <Crown className="h-4 w-4 text-yellow-500" />
+              Gold Membership Benefits
+            </h4>
+            <ul className="text-sm text-gray-700 space-y-2">
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
+                Bitcoin payment options
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
+                Advanced market heat maps
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
+                Priority customer support
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
+                Exclusive investment insights
+              </li>
+            </ul>
+          </div>
+
+          <div className="text-center">
+            <div className="text-2xl font-bold text-gray-900 mb-1">$99.99/year</div>
+            <div className="text-sm text-gray-500">Billed annually</div>
+          </div>
+
+          <div className="flex gap-3">
+            <Button
+              onClick={() => {
+                setShowGoldUpgrade(false);
+                setLocation('/settings?tab=membership');
+                onClose();
+              }}
+              className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:from-yellow-500 hover:to-orange-600"
+            >
+              <Crown className="h-4 w-4 mr-2" />
+              Upgrade Now
+            </Button>
+            <Button
+              onClick={() => setShowGoldUpgrade(false)}
+              variant="outline"
+              className="px-6"
+            >
+              Later
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
