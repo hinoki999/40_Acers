@@ -148,12 +148,12 @@ export default function Community() {
     <div className="min-h-screen bg-neutral-50">
       <div className="container-mobile max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Open Houses - Hidden for now as requested */}
-        <div className="p-6" style={{display: 'none'}}>
+        {/* Open Houses Section */}
+        <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold">Open Houses</h2>
-              <p className="text-gray-600 mt-1">Coming Soon</p>
+            <div className="text-center w-full">
+              <h2 className="text-3xl font-bold text-gray-900">Open Houses</h2>
+              <p className="text-lg text-gray-600 mt-2">Coming Soon</p>
             </div>
           </div>
         </div>

@@ -21,6 +21,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -42,6 +45,7 @@ import {
   Shield,
   Lock,
   Smartphone,
+  Calendar as CalendarIcon,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -99,6 +103,9 @@ export default function Dashboard() {
   const [walletFilter, setWalletFilter] = useState("Last 30 Days");
   const [propertyFilter, setPropertyFilter] = useState("Last 30 Days");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dateFrom, setDateFrom] = useState<Date | undefined>();
+  const [dateTo, setDateTo] = useState<Date | undefined>();
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
   const [withdrawalStep, setWithdrawalStep] = useState<
     "password" | "sms" | "confirm"
@@ -735,7 +742,12 @@ export default function Dashboard() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <div className="flex gap-2">
-                  <Select value={propertyFilter} onValueChange={setPropertyFilter}>
+                  <Select value={propertyFilter} onValueChange={(value) => {
+                    setPropertyFilter(value);
+                    if (value === "custom") {
+                      setShowDatePicker(true);
+                    }
+                  }}>
                     <SelectTrigger className="w-full sm:w-36 md:w-48">
                       <SelectValue placeholder="Filters" />
                     </SelectTrigger>
@@ -743,7 +755,7 @@ export default function Dashboard() {
                       <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
                       <SelectItem value="Last 7 Days">Last 7 Days</SelectItem>
                       <SelectItem value="24H">24H</SelectItem>
-                      <SelectItem value="Select Range">Select Range</SelectItem>
+                      <SelectItem value="custom">Select Range</SelectItem>
                       <SelectItem value="Favorites">Favorites</SelectItem>
                       <SelectItem value="Saved">Saved</SelectItem>
                     </SelectContent>
@@ -1083,6 +1095,79 @@ export default function Dashboard() {
           }}
           property={selectedProperty}
         />
+
+        {/* Date Picker Dialog */}
+        <Dialog open={showDatePicker} onOpenChange={setShowDatePicker}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Select Date Range</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="from">From Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start text-left font-normal"
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {dateFrom ? format(dateFrom, "MMM dd, yyyy") : "Pick a date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={dateFrom}
+                        onSelect={setDateFrom}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="to">To Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start text-left font-normal"
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {dateTo ? format(dateTo, "MMM dd, yyyy") : "Pick a date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={dateTo}
+                        onSelect={setDateTo}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={() => setShowDatePicker(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (dateFrom && dateTo) {
+                      setPropertyFilter(`${format(dateFrom, "MMM dd")} - ${format(dateTo, "MMM dd")}`);
+                    }
+                    setShowDatePicker(false);
+                  }}
+                  disabled={!dateFrom || !dateTo}
+                >
+                  Apply Filter
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         <Footer />
       </>

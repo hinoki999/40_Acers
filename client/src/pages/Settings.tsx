@@ -166,7 +166,7 @@ export default function Settings() {
     };
   }, [location]);
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -184,28 +184,28 @@ export default function Settings() {
         <TabsList className="grid w-full grid-cols-4 h-auto bg-muted p-1 rounded-lg">
           <TabsTrigger 
             value="profile" 
-            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+            className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
           >
             <User className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm">Profile</span>
           </TabsTrigger>
           <TabsTrigger 
             value="payment" 
-            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+            className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
           >
             <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm">Payment</span>
           </TabsTrigger>
           <TabsTrigger 
             value="membership" 
-            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+            className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
           >
             <Crown className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm">Member</span>
           </TabsTrigger>
           <TabsTrigger 
             value="security" 
-            className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+            className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
           >
             <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm">Security</span>
@@ -647,7 +647,7 @@ export default function Settings() {
                       <p className="text-xs text-gray-500">Powered by Veriff - Secure and encrypted</p>
                     </div>
                     <Button 
-                      className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
+                      className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white w-full sm:w-auto text-sm px-3 py-2"
                       onClick={() => {
                         toast({
                           title: "Verification Started",
