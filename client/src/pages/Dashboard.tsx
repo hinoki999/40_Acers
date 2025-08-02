@@ -668,21 +668,21 @@ export default function Dashboard() {
                     : "View the investments you've made"}
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3">
                 <Input
                   placeholder="Search by location or property"
-                  className="w-full sm:w-48 md:w-64"
+                  className="w-full sm:w-48 md:w-64 h-10"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div className="flex gap-2">
+                <div className="flex items-center gap-3">
                   <Select value={propertyFilter} onValueChange={(value) => {
                     setPropertyFilter(value);
                     if (value === "custom") {
                       setShowDatePicker(true);
                     }
                   }}>
-                    <SelectTrigger className="w-full sm:w-36 md:w-48">
+                    <SelectTrigger className="w-full sm:w-36 md:w-48 h-10">
                       <SelectValue placeholder="Filters" />
                     </SelectTrigger>
                     <SelectContent>

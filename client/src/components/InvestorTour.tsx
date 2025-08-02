@@ -489,7 +489,9 @@ export default function InvestorTour({ isOpen, onClose, onComplete, onStartInves
                   <div className="text-xs text-gray-600">BTC</div>
                 </div>
                 <div className="text-center">
-                  <div className="w-12 h-12 bg-blue-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-bold">Ξ</div>
+                  <div className="w-12 h-12 mx-auto mb-2 flex items-center justify-center">
+                    <img src="/attached_assets/ethereum_1754171605981.png" alt="Ethereum" className="w-12 h-12 object-contain" />
+                  </div>
                   <div className="text-sm font-medium">Ethereum</div>
                   <div className="text-xs text-gray-600">ETH</div>
                 </div>
