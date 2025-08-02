@@ -1065,6 +1065,7 @@ export default function Dashboard() {
                         mode="single"
                         selected={dateFrom}
                         onSelect={setDateFrom}
+                        disabled={(date) => date > new Date()}
                         initialFocus
                       />
                     </PopoverContent>
@@ -1087,6 +1088,7 @@ export default function Dashboard() {
                         mode="single"
                         selected={dateTo}
                         onSelect={setDateTo}
+                        disabled={(date) => date > new Date()}
                         initialFocus
                       />
                     </PopoverContent>
@@ -1108,6 +1110,7 @@ export default function Dashboard() {
                     setShowDatePicker(false);
                   }}
                   disabled={!dateFrom || !dateTo}
+                  className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
                 >
                   Apply Filter
                 </Button>
