@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X, History, Search, Download, Calendar, MapPin } from "lucide-react";
+import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X, History, Search, Download, Calendar, MapPin, AlertTriangle, Pause } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
@@ -157,6 +157,9 @@ export default function Settings() {
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [userBalance] = useState(0); // In real app, this would come from API
 
   useEffect(() => {
     if (user) {
@@ -296,6 +299,42 @@ Thank you for investing with 40 Acres!
         variant: "destructive",
       });
     }
+  };
+
+  const handleDeleteAccount = () => {
+    if (userBalance > 0) {
+      toast({
+        title: "Account Deletion Failed",
+        description: "Your balance must be $0.00 to close account. Please withdraw all funds before proceeding.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!deletePassword) {
+      toast({
+        title: "Password Required",
+        description: "Please enter your password to confirm account deletion.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Account Deletion Initiated",
+      description: "Your account will be permanently deleted after 60 days. You can cancel this process by logging in again.",
+    });
+    setShowDeleteModal(false);
+    setDeletePassword("");
+  };
+
+  const handlePauseMembership = () => {
+    toast({
+      title: "Membership Paused",
+      description: "Your membership has been paused. You can reactivate it at any time from your account settings.",
+    });
+    setShowDeleteModal(false);
+    setDeletePassword("");
   };
 
   const handleAddPaymentMethod = (paymentMethod: any) => {
@@ -765,6 +804,40 @@ Thank you for investing with 40 Acres!
                     <div className="text-right">
                       <div className="font-medium">$0.00</div>
                       <Badge variant="outline" className="text-xs">Free</Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Delete Account Section */}
+              <div className="border-t pt-6">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5" />
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-red-900 mb-2">Delete Account</h4>
+                      <p className="text-sm text-red-800 mb-4">
+                        Permanently delete your 40 Acres account and all associated data. This action cannot be undone.
+                      </p>
+                      
+                      <div className="bg-red-100 border border-red-300 rounded-lg p-4 mb-4">
+                        <h5 className="font-medium text-red-900 mb-2">Important Information:</h5>
+                        <ul className="text-sm text-red-800 space-y-1">
+                          <li>• You must have a $0.00 balance before closing your account</li>
+                          <li>• For security measures, your account will be permanently deleted after 60 days</li>
+                          <li>• All investment data, transaction history, and documents will be removed</li>
+                          <li>• This action cannot be reversed once confirmed</li>
+                        </ul>
+                      </div>
+
+                      <Button 
+                        variant="destructive"
+                        onClick={() => setShowDeleteModal(true)}
+                        className="bg-red-600 hover:bg-red-700"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete Account
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -1243,6 +1316,105 @@ Thank you for investing with 40 Acres!
                   disabled={paymentMethods.length === 0}
                 >
                   Upgrade Now
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Account Modal */}
+      <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600">
+              <AlertTriangle className="h-5 w-5" />
+              Delete Account Confirmation
+            </DialogTitle>
+            <DialogDescription>
+              This action will permanently delete your account after 60 days. Are you sure you want to proceed?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            {/* Balance Check Warning */}
+            {userBalance > 0 && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="h-4 w-4 text-red-600 mt-0.5" />
+                  <div>
+                    <h5 className="font-medium text-red-900">Account Balance Warning</h5>
+                    <p className="text-sm text-red-800">
+                      Your balance must be $0.00 to close account. Please withdraw all funds before proceeding.
+                    </p>
+                    <p className="text-sm font-medium text-red-900 mt-1">
+                      Current Balance: ${userBalance.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Disclaimer */}
+            <div className="bg-gray-50 border rounded-lg p-4">
+              <h5 className="font-medium text-gray-900 mb-2">Disclaimer:</h5>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li>• User must have $0.00 balance before closing account</li>
+                <li>• For security measures, account will be permanently deleted after 60 days</li>
+                <li>• All data including investments, transactions, and documents will be removed</li>
+                <li>• This action cannot be undone once the 60-day period expires</li>
+              </ul>
+            </div>
+
+            {/* Password Confirmation */}
+            <div>
+              <Label htmlFor="deletePassword">Enter your password to confirm</Label>
+              <Input
+                id="deletePassword"
+                type="password"
+                placeholder="Your account password"
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              {/* Alternative Option */}
+              <div className="text-center p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800 mb-2">
+                  Not ready to delete? Consider pausing your membership instead.
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={handlePauseMembership}
+                  className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                >
+                  <Pause className="h-4 w-4 mr-2" />
+                  Pause Membership
+                </Button>
+              </div>
+
+              {/* Main Actions */}
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setDeletePassword("");
+                  }}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={handleDeleteAccount}
+                  disabled={!deletePassword || userBalance > 0}
+                  className="flex-1 bg-red-600 hover:bg-red-700"
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Proceed with Deletion
                 </Button>
               </div>
             </div>
