@@ -785,7 +785,7 @@ Thank you for investing with 40 Acres!
                   </div>
                   <div className="mt-4">
                     <div className="text-2xl font-bold">$99.99/year</div>
-                    <Button onClick={handleUpgradeToGold} className="w-full mt-3 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black">
+                    <Button onClick={() => setShowUpgradeModal(true)} className="w-full mt-3 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black">
                       Upgrade to Gold
                     </Button>
                   </div>
