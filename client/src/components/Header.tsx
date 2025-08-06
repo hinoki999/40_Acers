@@ -19,6 +19,17 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
   const [location, setLocation] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleSettingsNavigation = (tab: string) => {
+    if (location === '/settings') {
+      // If already on settings page, trigger a custom event to change the tab
+      const event = new CustomEvent('changeSettingsTab', { detail: { tab } });
+      window.dispatchEvent(event);
+    } else {
+      // Otherwise navigate to settings with the tab
+      setLocation(`/settings?tab=${tab}`);
+    }
+  };
+
   const handleLogout = () => {
     window.location.href = "/api/logout";
   };
@@ -89,23 +100,23 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=profile')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                  <DropdownMenuItem onClick={() => handleSettingsNavigation('profile')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=payment')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                  <DropdownMenuItem onClick={() => handleSettingsNavigation('payment')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                     <CreditCard className="mr-2 h-4 w-4" />
                     Payment Methods
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=membership')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                  <DropdownMenuItem onClick={() => handleSettingsNavigation('membership')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                     <Star className="mr-2 h-4 w-4" />
                     Membership
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=security')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                  <DropdownMenuItem onClick={() => handleSettingsNavigation('security')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                     <Shield className="mr-2 h-4 w-4" />
                     Security
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=transactions')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                  <DropdownMenuItem onClick={() => handleSettingsNavigation('transactions')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                     <History className="mr-2 h-4 w-4" />
                     Transaction History
                   </DropdownMenuItem>

@@ -294,14 +294,28 @@ Thank you for investing with 40 Acres!
       }
     };
 
+    // Handle custom events from Header component for tab changes when already on settings page
+    const handleTabChange = (event: CustomEvent) => {
+      const { tab } = event.detail;
+      if (['profile', 'payment', 'membership', 'security', 'transactions'].includes(tab)) {
+        setActiveTab(tab);
+        // Update URL without page reload
+        const url = new URL(window.location.href);
+        url.searchParams.set('tab', tab);
+        window.history.pushState({}, '', url.toString());
+      }
+    };
+
     // Listen for browser navigation events
     window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('changeSettingsTab', handleTabChange as EventListener);
     
     // Also check URL on component mount and when location changes
     handleUrlChange();
 
     return () => {
       window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('changeSettingsTab', handleTabChange as EventListener);
     };
   }, [location]);
 
