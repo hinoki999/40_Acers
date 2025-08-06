@@ -156,6 +156,7 @@ export default function Settings() {
   const [transactionSearch, setTransactionSearch] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -267,6 +268,34 @@ Thank you for investing with 40 Acres!
       title: "Upgrade to Gold",
       description: "Redirecting to payment page...",
     });
+  };
+
+  const handleUpgradePayment = async (paymentType: string, paymentMethod?: any) => {
+    try {
+      toast({
+        title: "Processing Payment",
+        description: `Processing your Gold membership upgrade via ${paymentType === 'paypal' ? 'PayPal' : 'Credit Card'}...`,
+      });
+
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      setShowUpgradeModal(false);
+      
+      toast({
+        title: "Upgrade Successful!",
+        description: "Welcome to Gold membership! Your premium features are now active.",
+      });
+
+      // In a real app, this would update the user's membership tier in the backend
+      // For now, we'll just show success
+    } catch (error) {
+      toast({
+        title: "Payment Failed",
+        description: "There was an error processing your payment. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleAddPaymentMethod = (paymentMethod: any) => {
@@ -595,9 +624,9 @@ Thank you for investing with 40 Acres!
                       <p className="text-gray-500 mb-3">Upgrade to Gold Member to access the 40 Acres Wallet</p>
                       <Button 
                         className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-[#A52A2A]"
-                        onClick={handleUpgradeToGold}
+                        onClick={() => setShowUpgradeModal(true)}
                       >
-                        Upgrade to Gold - $99.99/month
+                        Upgrade to Gold - $99.99/year
                       </Button>
                     </div>
                   )}
@@ -1097,6 +1126,127 @@ Thank you for investing with 40 Acres!
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Upgrade to Gold Modal */}
+      <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Crown className="h-5 w-5 text-yellow-600" />
+              Upgrade to Gold Membership
+            </DialogTitle>
+            <DialogDescription>
+              Choose your payment method to upgrade to Gold membership for $99.99/year
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            {/* Gold Benefits Summary */}
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-lg p-4 border border-yellow-200">
+              <h4 className="font-semibold text-yellow-900 mb-2">Gold Member Benefits</h4>
+              <ul className="text-sm text-yellow-800 space-y-1">
+                <li>• Cryptocurrency investing</li>
+                <li>• Advanced market heat map</li>
+                <li>• Premium real estate agents</li>
+                <li>• 40 Acres Wallet access</li>
+                <li>• Exclusive property listings</li>
+              </ul>
+            </div>
+
+            {/* Payment Methods */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Select Payment Method</Label>
+              
+              {/* Credit/Debit Cards */}
+              {paymentMethods.filter(pm => pm.type === 'card').length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-700">Credit/Debit Cards</p>
+                  {paymentMethods
+                    .filter(pm => pm.type === 'card')
+                    .map((method) => (
+                      <button
+                        key={method.id}
+                        className="w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors text-left"
+                        onClick={() => handleUpgradePayment('card', method)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <CreditCard className="h-5 w-5 text-gray-600" />
+                            <div>
+                              <p className="font-medium">•••• •••• •••• {method.lastFour}</p>
+                              <p className="text-sm text-gray-600">{method.brand} • Expires {method.expMonth}/{method.expYear}</p>
+                            </div>
+                          </div>
+                          <Badge variant="outline">Card</Badge>
+                        </div>
+                      </button>
+                    ))}
+                </div>
+              )}
+
+              {/* PayPal */}
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-gray-700">PayPal</p>
+                <button
+                  className="w-full p-3 border rounded-lg hover:bg-gray-50 transition-colors text-left"
+                  onClick={() => handleUpgradePayment('paypal')}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <img src={paypalIcon} alt="PayPal" className="h-5 w-5" />
+                      <div>
+                        <p className="font-medium">PayPal</p>
+                        <p className="text-sm text-gray-600">Pay with your PayPal balance</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline">PayPal</Badge>
+                  </div>
+                </button>
+              </div>
+
+              {/* No Payment Methods */}
+              {paymentMethods.length === 0 && (
+                <div className="text-center py-4 text-gray-500">
+                  <p className="mb-3">No payment methods found</p>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setShowUpgradeModal(false);
+                      setShowAddPaymentModal(true);
+                    }}
+                    className="border-[#A52A2A] text-[#A52A2A] hover:bg-[#A52A2A] hover:text-white"
+                  >
+                    Add Payment Method
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Total */}
+            <div className="border-t pt-4">
+              <div className="flex justify-between items-center mb-4">
+                <span className="font-semibold">Total (Annual)</span>
+                <span className="text-xl font-bold">$99.99</span>
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowUpgradeModal(false)}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => setShowUpgradeModal(false)}
+                  className="flex-1 bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
+                  disabled={paymentMethods.length === 0}
+                >
+                  Upgrade Now
+                </Button>
+              </div>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
       
