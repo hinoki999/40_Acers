@@ -1390,7 +1390,7 @@ Thank you for investing with 40 Acres!
                 <Button
                   variant="outline"
                   onClick={handlePauseMembership}
-                  className="bg-orange-500 text-black border-orange-500 hover:bg-orange-600"
+                  className="bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
                 >
                   <Pause className="h-4 w-4 mr-2" />
                   Pause Membership
