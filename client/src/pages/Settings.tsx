@@ -8,14 +8,104 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X } from "lucide-react";
+import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X, History, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { getQueryFn } from "@/lib/queryClient";
 import Footer from "@/components/Footer";
 import AddPaymentMethodModal from "@/components/AddPaymentMethodModal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import paypalIcon from "@assets/paypal_1751739388573.webp";
+
+// Transaction History List Component
+function TransactionHistoryList({ period, searchTerm }: { period: string; searchTerm: string }) {
+  const { data: transactions = [], isLoading } = useQuery({
+    queryKey: ["/api/transactions", period],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Filter transactions based on period and search term
+  const filteredTransactions = transactions.filter((transaction: any) => {
+    const now = new Date();
+    const transactionDate = new Date(transaction.createdAt);
+    
+    // Period filtering
+    let periodMatch = true;
+    if (period === "week") {
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      periodMatch = transactionDate >= weekAgo;
+    } else if (period === "30days") {
+      const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      periodMatch = transactionDate >= monthAgo;
+    } else if (period === "60days") {
+      const twoMonthsAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+      periodMatch = transactionDate >= twoMonthsAgo;
+    }
+    
+    // Search filtering
+    const searchMatch = !searchTerm || 
+      transaction.propertyAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.type?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    return periodMatch && searchMatch;
+  });
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="p-4 border rounded-lg animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+            <div className="h-3 bg-gray-200 rounded w-1/2 mb-1"></div>
+            <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (filteredTransactions.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <DollarSign className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+        <h3 className="text-lg font-medium text-gray-900 mb-2">No Transactions Found</h3>
+        <p className="text-gray-600">
+          {searchTerm ? "No transactions match your search criteria." : "You haven't made any transactions yet."}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {filteredTransactions.map((transaction: any) => (
+        <div key={transaction.id} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h4 className="font-medium text-gray-900">
+                {transaction.type === 'investment' ? 'Investment Purchase' : transaction.type}
+              </h4>
+              <p className="text-sm text-gray-600">{transaction.propertyAddress}</p>
+            </div>
+            <div className="text-right">
+              <p className={`font-semibold ${transaction.type === 'investment' ? 'text-red-600' : 'text-green-600'}`}>
+                {transaction.type === 'investment' ? '-' : '+'}${transaction.amount}
+              </p>
+              <p className="text-xs text-gray-500">
+                {transaction.shares && `${transaction.shares} shares`}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-between items-center text-xs text-gray-500">
+            <span>Transaction ID: {transaction.id}</span>
+            <span>{new Date(transaction.createdAt).toLocaleDateString()}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Settings() {
   const { user, isAuthenticated } = useAuth();
@@ -56,6 +146,10 @@ export default function Settings() {
     state: "",
     zipCode: ""
   });
+  
+  // Transaction History state
+  const [transactionPeriod, setTransactionPeriod] = useState("lifetime");
+  const [transactionSearch, setTransactionSearch] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -183,7 +277,7 @@ export default function Settings() {
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Account Settings</h1>
       
       <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4 sm:space-y-6">
-        <TabsList className="grid w-full grid-cols-4 h-auto bg-muted p-1 rounded-lg">
+        <TabsList className="grid w-full grid-cols-5 h-auto bg-muted p-1 rounded-lg">
           <TabsTrigger 
             value="profile" 
             className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
@@ -211,6 +305,13 @@ export default function Settings() {
           >
             <Shield className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="text-xs sm:text-sm">Security</span>
+          </TabsTrigger>
+          <TabsTrigger 
+            value="transactions" 
+            className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
+          >
+            <History className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="text-xs sm:text-sm">Transactions</span>
           </TabsTrigger>
         </TabsList>
 
@@ -727,6 +828,54 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="transactions">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <History className="h-5 w-5" />
+                Transaction History
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Filters */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <div className="flex-1">
+                  <Label className="text-sm font-medium mb-2">Search Transactions</Label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input
+                      placeholder="Search by property name or transaction type..."
+                      value={transactionSearch}
+                      onChange={(e) => setTransactionSearch(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                <div className="sm:w-40">
+                  <Label className="text-sm font-medium mb-2">Time Period</Label>
+                  <Select value={transactionPeriod} onValueChange={setTransactionPeriod}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select period" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="week">Last Week</SelectItem>
+                      <SelectItem value="30days">30 Days</SelectItem>
+                      <SelectItem value="60days">60 Days</SelectItem>
+                      <SelectItem value="lifetime">Lifetime</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Transaction List */}
+              <TransactionHistoryList 
+                period={transactionPeriod} 
+                searchTerm={transactionSearch}
+              />
             </CardContent>
           </Card>
         </TabsContent>
