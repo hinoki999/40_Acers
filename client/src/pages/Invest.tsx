@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getQueryFn } from "@/lib/queryClient";
+import { useLocation } from "wouter";
 import { Property } from "@shared/schema";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
@@ -20,10 +21,11 @@ import Footer from "@/components/Footer";
 
 export default function Invest() {
   const { isAuthenticated, user } = useAuth();
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [propertyType, setPropertyType] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
-  const [location, setLocation] = useState("all");
+  const [locationFilter, setLocationFilter] = useState("all");
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [showInvestment, setShowInvestment] = useState(false);
   const [showSocialShare, setShowSocialShare] = useState(false);
@@ -66,7 +68,7 @@ export default function Invest() {
     
     const matchesType = propertyType === "all" || property.propertyType === propertyType;
     
-    const matchesLocation = location === "all" || property.state === location;
+    const matchesLocation = locationFilter === "all" || property.state === locationFilter;
     
     const price = Number(property.sharePrice);
     const matchesPrice = priceRange === "all" || 
@@ -108,7 +110,7 @@ export default function Invest() {
               </Button>
               {!isGoldMember && (
                 <Button 
-                  onClick={() => setShowGoldUpgrade(true)}
+                  onClick={() => setLocation("/settings?tab=membership")}
                   size="lg"
                   className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-500 hover:to-yellow-700 font-semibold px-6 py-3 shadow-lg"
                 >
@@ -195,7 +197,7 @@ export default function Invest() {
                 </SelectContent>
               </Select>
 
-              <Select value={location} onValueChange={setLocation}>
+              <Select value={locationFilter} onValueChange={setLocationFilter}>
                 <SelectTrigger className="w-full sm:w-40 h-12 sm:h-10 hover:bg-[#A52A2A] hover:text-white transition-colors">
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
@@ -270,7 +272,7 @@ export default function Invest() {
                   setSearchTerm("");
                   setPropertyType("all");
                   setPriceRange("all");
-                  setLocation("all");
+                  setLocationFilter("all");
                 }}
               >
                 Clear Filters
@@ -346,24 +348,24 @@ export default function Invest() {
                 <TrendingUp className="text-white" size={32} />
               </div>
               <h3 className="text-2xl font-bold text-neutral-900 mb-4">
-                {searchTerm || propertyType !== "all" || priceRange !== "all" || location !== "all" 
+                {searchTerm || propertyType !== "all" || priceRange !== "all" || locationFilter !== "all" 
                   ? "No Properties Found" 
                   : "No Properties Available"
                 }
               </h3>
               <p className="text-neutral-600 mb-8 max-w-md mx-auto">
-                {searchTerm || propertyType !== "all" || priceRange !== "all" || location !== "all"
+                {searchTerm || propertyType !== "all" || priceRange !== "all" || locationFilter !== "all"
                   ? "Try adjusting your search criteria or filters to find more properties."
                   : "Check back soon for new investment opportunities!"
                 }
               </p>
-              {searchTerm || propertyType !== "all" || priceRange !== "all" || location !== "all" ? (
+              {searchTerm || propertyType !== "all" || priceRange !== "all" || locationFilter !== "all" ? (
                 <Button
                   onClick={() => {
                     setSearchTerm("");
                     setPropertyType("all");
                     setPriceRange("all");
-                    setLocation("all");
+                    setLocationFilter("all");
                   }}
                   className="bg-gradient-to-r from-primary to-blue-600 text-white hover:from-primary/90 hover:to-blue-600/90"
                   size="lg"

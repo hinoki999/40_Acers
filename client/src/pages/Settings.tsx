@@ -203,7 +203,7 @@ export default function Settings() {
             className="flex flex-row items-center justify-center gap-1 text-xs sm:text-sm px-1 sm:px-2 py-2 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-black rounded-md transition-all"
           >
             <Crown className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm">Member</span>
+            <span className="text-xs sm:text-sm">Membership</span>
           </TabsTrigger>
           <TabsTrigger 
             value="security" 
