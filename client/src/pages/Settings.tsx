@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X, History, Search } from "lucide-react";
+import { User, CreditCard, Shield, Crown, Smartphone, DollarSign, TrendingUp, Plus, Trash2, X, History, Search, Download, Calendar, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
@@ -19,7 +19,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import paypalIcon from "@assets/paypal_1751739388573.webp";
 
 // Transaction History List Component
-function TransactionHistoryList({ period, searchTerm }: { period: string; searchTerm: string }) {
+function TransactionHistoryList({ period, searchTerm, onTransactionClick }: { period: string; searchTerm: string; onTransactionClick: (transaction: any) => void }) {
   const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["/api/transactions", period],
     queryFn: getQueryFn({ on401: "returnNull" }),
@@ -80,7 +80,11 @@ function TransactionHistoryList({ period, searchTerm }: { period: string; search
   return (
     <div className="space-y-4">
       {filteredTransactions.map((transaction: any) => (
-        <div key={transaction.id} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+        <div 
+          key={transaction.id} 
+          className="p-4 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+          onClick={() => onTransactionClick(transaction)}
+        >
           <div className="flex justify-between items-start mb-2">
             <div>
               <h4 className="font-medium text-gray-900">
@@ -150,6 +154,8 @@ export default function Settings() {
   // Transaction History state
   const [transactionPeriod, setTransactionPeriod] = useState("lifetime");
   const [transactionSearch, setTransactionSearch] = useState("");
+  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -163,6 +169,44 @@ export default function Settings() {
       });
     }
   }, [user]);
+
+  // PDF Download Function
+  const downloadTransactionPDF = (transaction: any) => {
+    // Create PDF content as text
+    const pdfContent = `
+40 Acres - Transaction Receipt
+=============================
+
+Transaction ID: ${transaction.id}
+Date: ${new Date(transaction.createdAt).toLocaleDateString()}
+Type: ${transaction.type === 'investment' ? 'Investment Purchase' : transaction.type}
+Property: ${transaction.propertyAddress}
+Amount: $${transaction.amount}
+${transaction.shares ? `Shares: ${transaction.shares}` : ''}
+${transaction.shares ? `Price per Share: $${(transaction.amount / transaction.shares).toFixed(2)}` : ''}
+Status: Completed
+
+Thank you for investing with 40 Acres!
+    `.trim();
+
+    // Create a blob with the content
+    const blob = new Blob([pdfContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create download link
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `40-acres-transaction-${transaction.id}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Receipt Downloaded",
+      description: "Transaction receipt has been downloaded successfully.",
+    });
+  };
 
   // Mutation for updating user profile
   const updateProfileMutation = useMutation({
@@ -875,6 +919,10 @@ export default function Settings() {
               <TransactionHistoryList 
                 period={transactionPeriod} 
                 searchTerm={transactionSearch}
+                onTransactionClick={(transaction) => {
+                  setSelectedTransaction(transaction);
+                  setShowTransactionModal(true);
+                }}
               />
             </CardContent>
           </Card>
@@ -943,6 +991,98 @@ export default function Settings() {
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Transaction Details Modal */}
+      <Dialog open={showTransactionModal} onOpenChange={setShowTransactionModal}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <History className="h-5 w-5" />
+              Transaction Details
+            </DialogTitle>
+          </DialogHeader>
+          {selectedTransaction && (
+            <div className="space-y-6">
+              {/* Transaction Overview */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="font-semibold text-lg">
+                      {selectedTransaction.type === 'investment' ? 'Investment Purchase' : selectedTransaction.type}
+                    </h3>
+                    <p className="text-gray-600">{selectedTransaction.propertyAddress}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-bold text-xl ${selectedTransaction.type === 'investment' ? 'text-red-600' : 'text-green-600'}`}>
+                      {selectedTransaction.type === 'investment' ? '-' : '+'}${selectedTransaction.amount}
+                    </p>
+                    {selectedTransaction.shares && (
+                      <p className="text-sm text-gray-500">{selectedTransaction.shares} shares</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Transaction Details */}
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Transaction ID</Label>
+                    <p className="font-medium">{selectedTransaction.id}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Date</Label>
+                    <p className="font-medium flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      {new Date(selectedTransaction.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Property</Label>
+                    <p className="font-medium flex items-center gap-1">
+                      <MapPin className="h-4 w-4" />
+                      {selectedTransaction.propertyAddress}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Status</Label>
+                    <Badge className="bg-green-100 text-green-800">Completed</Badge>
+                  </div>
+                </div>
+
+                {/* Additional Details */}
+                {selectedTransaction.shares && (
+                  <div>
+                    <Label className="text-sm font-medium text-gray-500">Share Details</Label>
+                    <div className="mt-1 p-3 bg-blue-50 rounded-lg">
+                      <p className="text-sm"><strong>Shares Purchased:</strong> {selectedTransaction.shares}</p>
+                      <p className="text-sm"><strong>Price per Share:</strong> ${(selectedTransaction.amount / selectedTransaction.shares).toFixed(2)}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-4 border-t">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowTransactionModal(false)}
+                  className="flex-1"
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={() => downloadTransactionPDF(selectedTransaction)}
+                  className="flex-1 bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download PDF
+                </Button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
       
