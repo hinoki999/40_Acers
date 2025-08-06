@@ -402,6 +402,7 @@ function Business() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }
