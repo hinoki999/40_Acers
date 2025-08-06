@@ -826,6 +826,7 @@ Thank you for investing with 40 Acres!
                           <li>• You must have a $0.00 balance before closing your account</li>
                           <li>• For security measures, your account will be permanently deleted after 60 days</li>
                           <li>• All investment data, transaction history, and documents will be removed</li>
+                          <li>• You are still liable for any active or pending legal contracts and negotiations</li>
                           <li>• This action cannot be reversed once confirmed</li>
                         </ul>
                       </div>
@@ -1361,6 +1362,7 @@ Thank you for investing with 40 Acres!
                 <li>• User must have $0.00 balance before closing account</li>
                 <li>• For security measures, account will be permanently deleted after 60 days</li>
                 <li>• All data including investments, transactions, and documents will be removed</li>
+                <li>• You are still liable for any active or pending legal contracts and negotiations</li>
                 <li>• This action cannot be undone once the 60-day period expires</li>
               </ul>
             </div>
