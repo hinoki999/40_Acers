@@ -289,7 +289,7 @@ Thank you for investing with 40 Acres!
     const handleUrlChange = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const tabFromUrl = urlParams.get('tab');
-      if (tabFromUrl && ['profile', 'payment', 'membership', 'security'].includes(tabFromUrl)) {
+      if (tabFromUrl && ['profile', 'payment', 'membership', 'security', 'transactions'].includes(tabFromUrl)) {
         setActiveTab(tabFromUrl);
       }
     };
