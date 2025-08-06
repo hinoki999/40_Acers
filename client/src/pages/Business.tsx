@@ -361,7 +361,7 @@ function Business() {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-[#A52A2A] hover:bg-[#A0522D] py-4 text-lg font-semibold"
+                  className="w-full bg-[#A52A2A] hover:bg-[#A52A2A] py-4 text-lg font-semibold"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Schedule Consultation"}
