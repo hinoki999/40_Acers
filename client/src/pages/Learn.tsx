@@ -515,10 +515,10 @@ function Learn() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {guides.map((guide, index) => (
-              <Card key={index} className="border-2 border-blue-200 hover:border-blue-400 transition-colors">
+              <Card key={index} className="border-2 border-[#A52A2A] hover:border-[#8B1A1A] transition-colors">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 bg-[#A52A2A] rounded-full flex items-center justify-center text-white font-bold text-sm">
                       {index + 1}
                     </div>
                     {guide.title}
@@ -531,7 +531,7 @@ function Learn() {
                     <span>{guide.duration}</span>
                   </div>
                   <Button 
-                    className="w-full bg-blue-600 hover:bg-[#A52A2A] transition-colors duration-200"
+                    className="w-full bg-[#A52A2A] hover:bg-[#8B1A1A] transition-colors duration-200"
                     onClick={() => {
                       setSelectedGuide(guide);
                       setCurrentGuideStep(0);
@@ -721,7 +721,7 @@ function Learn() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    className="bg-[#A52A2A] h-2 rounded-full transition-all duration-300"
                     style={{ width: `${((currentGuideStep + 1) / selectedGuide.steps) * 100}%` }}
                   ></div>
                 </div>
@@ -729,11 +729,11 @@ function Learn() {
             </DialogHeader>
 
             <div className="space-y-6">
-              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-                <h3 className="text-xl font-semibold text-blue-900 mb-3">
+              <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+                <h3 className="text-xl font-semibold text-red-900 mb-3">
                   {selectedGuide.content[currentGuideStep]?.title}
                 </h3>
-                <p className="text-blue-800 mb-4">
+                <p className="text-red-800 mb-4">
                   {selectedGuide.content[currentGuideStep]?.description}
                 </p>
                 <p className="text-neutral-700">
@@ -755,7 +755,7 @@ function Learn() {
                 {currentGuideStep < selectedGuide.steps - 1 ? (
                   <Button
                     onClick={() => setCurrentGuideStep(Math.min(selectedGuide.steps - 1, currentGuideStep + 1))}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
                   >
                     Next Step
                     <ArrowRight size={16} className="ml-2" />
@@ -763,7 +763,7 @@ function Learn() {
                 ) : (
                   <Button
                     onClick={() => setSelectedGuide(null)}
-                    className="bg-green-600 hover:bg-green-700 text-white"
+                    className="bg-[#A52A2A] hover:bg-[#8B1A1A] text-white"
                   >
                     Complete Guide
                     <CheckCircle size={16} className="ml-2" />

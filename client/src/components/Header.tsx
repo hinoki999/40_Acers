@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, User, CreditCard, Shield, Settings, Star, Menu, X } from "lucide-react";
+import { LogOut, User, CreditCard, Shield, Settings, Star, Menu, X, History } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import logoImage from "@/assets/40-acres-logo.png";
@@ -104,6 +104,10 @@ export default function Header({ onShowLogin, onShowRegister }: HeaderProps) {
                   <DropdownMenuItem onClick={() => setLocation('/settings?tab=security')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
                     <Shield className="mr-2 h-4 w-4" />
                     Security
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLocation('/settings?tab=transactions')} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
+                    <History className="mr-2 h-4 w-4" />
+                    Transaction History
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="hover:bg-[#A52A2A] hover:text-white focus:bg-[#A52A2A] focus:text-white">
