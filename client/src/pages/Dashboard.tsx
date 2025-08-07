@@ -106,7 +106,7 @@ export default function Dashboard() {
   const [timePeriod, setTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
   const [showPropertyReportModal, setShowPropertyReportModal] = useState(false);
   const [showInvestorReportsModal, setShowInvestorReportsModal] = useState(false);
-  const [selectedPropertyForReport, setSelectedPropertyForReport] = useState(null);
+  const [selectedPropertyForReport, setSelectedPropertyForReport] = useState<Property | null>(null);
   const [propertyReportsTab, setPropertyReportsTab] = useState("properties");
   const [earningsTimePeriod, setEarningsTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
   const [investmentFilter, setInvestmentFilter] = useState("Last 30 Days");
@@ -195,7 +195,7 @@ export default function Dashboard() {
       (transaction) =>
         transaction.propertyId === propertyId &&
         transaction.status === "completed" &&
-        transaction.transactionType === "investment",
+        transaction.type === "investment",
     );
   };
 
@@ -340,7 +340,7 @@ export default function Dashboard() {
       </div>
       {/* Welcome Banner for new users */}
       <WelcomeBanner
-        userName={user?.email?.split("@")[0]}
+        userName={(user as any)?.email?.split("@")[0]}
         onStartTour={startOnboarding}
         isFirstVisit={isFirstVisit}
       />
@@ -358,7 +358,7 @@ export default function Dashboard() {
               onCurrencyChange={setEarningsCurrency}
               size="sm"
             />
-            <Select value={earningsTimePeriod} onValueChange={setEarningsTimePeriod}>
+            <Select value={earningsTimePeriod} onValueChange={(value: "Day" | "Week" | "Month" | "Lifetime") => setEarningsTimePeriod(value)}>
               <SelectTrigger className="w-28">
                 <SelectValue />
               </SelectTrigger>
@@ -731,8 +731,8 @@ export default function Dashboard() {
                   <Building className="h-4 w-4 mr-2" />
                   Properties
                 </TabsTrigger>
-                <TabsTrigger value={user?.userType === "business" ? "send-reports" : "investor-reports"}>
-                  {user?.userType === "business" ? (
+                <TabsTrigger value={(user as any)?.userType === "business" ? "send-reports" : "investor-reports"}>
+                  {(user as any)?.userType === "business" ? (
                     <>
                       <Send className="h-4 w-4 mr-2" />
                       Send Reports
@@ -779,7 +779,7 @@ export default function Dashboard() {
                 )}
               </TabsContent>
               
-              {user?.userType === "business" ? (
+              {(user as any)?.userType === "business" ? (
                 <TabsContent value="send-reports" className="mt-6">
                   <div className="space-y-4">
                     <div className="text-center mb-6">
