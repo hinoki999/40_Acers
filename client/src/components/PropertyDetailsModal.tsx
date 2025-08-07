@@ -61,6 +61,9 @@ interface PropertyDetailsModalProps {
 }
 
 export default function PropertyDetailsModal({ property, isOpen, onClose, onInvest, isDashboardContext = false }: PropertyDetailsModalProps) {
+  // Early return before any hooks if property is null
+  if (!property) return null;
+
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -70,8 +73,6 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
   const [reportTitle, setReportTitle] = useState("");
   const [reportContent, setReportContent] = useState("");
   const [reportType, setReportType] = useState("update");
-
-  if (!property) return null;
 
   // Check if current user is the property owner
   const isPropertyOwner = user && property.ownerId === (user as any).id;
