@@ -117,23 +117,6 @@ export default function Settings() {
   const [location] = useLocation();
   const queryClient = useQueryClient();
   
-  // Check for active properties with investors for business owners
-  const { data: userProperties = [] } = useQuery({
-    queryKey: ["/api/properties", user?.id],
-    queryFn: () => fetch(`/api/properties/owner/${user?.id}`).then(res => res.json()),
-    enabled: !!user?.id && user?.userType === "business"
-  });
-  
-  const { data: propertyInvestments = [] } = useQuery({
-    queryKey: ["/api/investments/property-check", user?.id],
-    queryFn: () => fetch(`/api/investments/by-owner/${user?.id}`).then(res => res.json()),
-    enabled: !!user?.id && user?.userType === "business" && userProperties.length > 0
-  });
-  
-  const hasActivePropertiesWithInvestors = userProperties.some((property: any) => 
-    propertyInvestments.some((investment: any) => investment.propertyId === property.id)
-  );
-  
   // Get tab from URL parameters
   const [activeTab, setActiveTab] = useState('profile');
   
@@ -323,15 +306,6 @@ Thank you for investing with 40 Acres!
       toast({
         title: "Account Deletion Failed",
         description: "Your balance must be $0.00 to close account. Please withdraw all funds before proceeding.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (user?.userType === "business" && hasActivePropertiesWithInvestors) {
-      toast({
-        title: "Account Deletion Failed",
-        description: "You cannot delete your account while you have active properties with investors. Please resolve all investor relationships first.",
         variant: "destructive",
       });
       return;
@@ -850,7 +824,6 @@ Thank you for investing with 40 Acres!
                         <h5 className="font-medium text-red-900 mb-2">Important Information:</h5>
                         <ul className="text-sm text-red-800 space-y-1">
                           <li>• You must have a $0.00 balance before closing your account</li>
-                          <li>• You cannot delete your account if you have active properties listed with active investors</li>
                           <li>• For security measures, your account will be permanently deleted after 60 days</li>
                           <li>• All investment data, transaction history, and documents will be removed</li>
                           <li>• You are still liable for any active or pending legal contracts and negotiations</li>
@@ -1381,31 +1354,12 @@ Thank you for investing with 40 Acres!
                 </div>
               </div>
             )}
-            
-            {/* Active Properties Warning */}
-            {user?.userType === "business" && hasActivePropertiesWithInvestors && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="h-4 w-4 text-red-600 mt-0.5" />
-                  <div>
-                    <h5 className="font-medium text-red-900">Active Properties Warning</h5>
-                    <p className="text-sm text-red-800">
-                      You cannot delete your account while you have active properties with investors. Please resolve all investor relationships first.
-                    </p>
-                    <p className="text-sm font-medium text-red-900 mt-1">
-                      Active Properties: {userProperties.filter((p: any) => propertyInvestments.some((i: any) => i.propertyId === p.id)).length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* Disclaimer */}
             <div className="bg-gray-50 border rounded-lg p-4">
               <h5 className="font-medium text-gray-900 mb-2">Disclaimer:</h5>
               <ul className="text-sm text-gray-700 space-y-1">
                 <li>• User must have $0.00 balance before closing account</li>
-                <li>• You cannot delete your account if you have active properties listed with active investors</li>
                 <li>• For security measures, account will be permanently deleted after 60 days</li>
                 <li>• All data including investments, transactions, and documents will be removed</li>
                 <li>• You are still liable for any active or pending legal contracts and negotiations</li>
@@ -1458,7 +1412,7 @@ Thank you for investing with 40 Acres!
                 <Button
                   variant="destructive"
                   onClick={handleDeleteAccount}
-                  disabled={!deletePassword || userBalance > 0 || (user?.userType === "business" && hasActivePropertiesWithInvestors)}
+                  disabled={!deletePassword || userBalance > 0}
                   className="flex-1 bg-red-600 hover:bg-red-700"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />

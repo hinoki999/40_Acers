@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { useQuery } from "@tanstack/react-query";
 import { 
   MapPin, 
   Home, 
@@ -32,13 +31,10 @@ import {
   Wifi,
   Dumbbell,
   Waves,
-  Coffee,
-  Send
+  Coffee
 } from "lucide-react";
 import { Property } from "@shared/schema";
 import GoogleMap from "./GoogleMap";
-import PropertyReportModal from "./PropertyReportModal";
-import InvestorReportsModal from "./InvestorReportsModal";
 
 interface PropertyDetailsModalProps {
   property: Property | null;
@@ -49,37 +45,12 @@ interface PropertyDetailsModalProps {
 
 export default function PropertyDetailsModal({ property, isOpen, onClose, onInvest }: PropertyDetailsModalProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [showPropertyReportModal, setShowPropertyReportModal] = useState(false);
-  const [showInvestorReportsModal, setShowInvestorReportsModal] = useState(false);
   const { user } = useAuth();
 
   if (!property) return null;
 
   // Check if current user is the property owner
   const isPropertyOwner = user && property.ownerId === (user as any).id;
-  
-  // Check if user has invested in this property
-  const { data: transactions = [] } = useQuery<any[]>({
-    queryKey: ["/api/transactions"],
-    enabled: !!user && !isPropertyOwner
-  });
-  
-  const hasUserInvested = transactions.some(
-    (transaction) =>
-      transaction.propertyId === property?.id &&
-      transaction.status === "completed" &&
-      transaction.type === "investment"
-  );
-  
-  // Simplified logic for testing and functionality
-  const isBusinessOwner = (user as any)?.userType === "business";
-  const isInvestor = (user as any)?.userType === "investor";
-  
-  // Show Send Reports tab for business owners
-  const showSendReportsTab = isBusinessOwner;
-  
-  // Show Reports tab for investors who have invested in this property
-  const showReportsTab = isInvestor && hasUserInvested;
 
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const availableShares = property.maxShares - property.currentShares;
@@ -173,14 +144,12 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={`grid w-full text-xs sm:text-sm ${showSendReportsTab ? 'grid-cols-3 sm:grid-cols-6' : showReportsTab ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
+            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner ? 'grid-cols-2 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
               <TabsTrigger value="overview" className="px-2 py-1 sm:px-3 sm:py-2">Overview</TabsTrigger>
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
-              {showSendReportsTab ? <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger> : null}
-              {showReportsTab ? <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger> : null}
-              {showSendReportsTab ? <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger> : null}
+              {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2 col-span-2 sm:col-span-1">Documents</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -620,60 +589,6 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                 </CardContent>
               </Card>
             </TabsContent>
-
-            <TabsContent value="send-reports" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Send className="h-5 w-5" />
-                    Send Property Report
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <Send className="mx-auto h-12 w-12 text-primary mb-4" />
-                    <h3 className="text-lg font-semibold text-neutral-900 mb-2">Send Update to Investors</h3>
-                    <p className="text-neutral-600 mb-6">
-                      Keep your investors informed with property updates, financial reports, and milestone achievements.
-                    </p>
-                    <Button
-                      onClick={() => setShowPropertyReportModal(true)}
-                      className="bg-[#A52A2A] hover:bg-[#8B1A1A]"
-                    >
-                      <Send className="h-4 w-4 mr-2" />
-                      Create New Report
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="investor-reports" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" />
-                    Property Reports
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <FileText className="mx-auto h-12 w-12 text-primary mb-4" />
-                    <h3 className="text-lg font-semibold text-neutral-900 mb-2">Your Investment Reports</h3>
-                    <p className="text-neutral-600 mb-6">
-                      View updates, financial reports, and important communications from the property owner.
-                    </p>
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowInvestorReportsModal(true)}
-                    >
-                      <FileText className="h-4 w-4 mr-2" />
-                      View All Reports
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
           </Tabs>
 
           {/* Action Buttons */}
@@ -697,18 +612,6 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
         </div>
       </DialogContent>
-      
-      <PropertyReportModal
-        isOpen={showPropertyReportModal}
-        onClose={() => setShowPropertyReportModal(false)}
-        property={property}
-      />
-
-      <InvestorReportsModal
-        isOpen={showInvestorReportsModal}
-        onClose={() => setShowInvestorReportsModal(false)}
-        property={property}
-      />
     </Dialog>
   );
 }

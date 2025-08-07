@@ -31,7 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Wallet,
   Plus,
@@ -47,9 +46,6 @@ import {
   Lock,
   Smartphone,
   Calendar as CalendarIcon,
-  FileText,
-  Send,
-  Building,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -76,8 +72,6 @@ import {
 import CurrencyToggle from "@/components/CurrencyToggle";
 import OnboardingTour from "@/components/OnboardingTour";
 import InvestorTour from "@/components/InvestorTour";
-import PropertyReportModal from "@/components/PropertyReportModal";
-import InvestorReportsModal from "@/components/InvestorReportsModal";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { Transaction, Property } from "@shared/schema";
@@ -104,10 +98,6 @@ export default function Dashboard() {
   );
   const [showInvestorTour, setShowInvestorTour] = useState(false);
   const [timePeriod, setTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
-  const [showPropertyReportModal, setShowPropertyReportModal] = useState(false);
-  const [showInvestorReportsModal, setShowInvestorReportsModal] = useState(false);
-  const [selectedPropertyForReport, setSelectedPropertyForReport] = useState<Property | null>(null);
-  const [propertyReportsTab, setPropertyReportsTab] = useState("properties");
   const [earningsTimePeriod, setEarningsTimePeriod] = useState<"Day" | "Week" | "Month" | "Lifetime">("Day");
   const [investmentFilter, setInvestmentFilter] = useState("Last 30 Days");
   const [walletFilter, setWalletFilter] = useState("Last 30 Days");
@@ -195,7 +185,7 @@ export default function Dashboard() {
       (transaction) =>
         transaction.propertyId === propertyId &&
         transaction.status === "completed" &&
-        transaction.type === "investment",
+        transaction.transactionType === "investment",
     );
   };
 
@@ -340,7 +330,7 @@ export default function Dashboard() {
       </div>
       {/* Welcome Banner for new users */}
       <WelcomeBanner
-        userName={(user as any)?.email?.split("@")[0]}
+        userName={user?.email?.split("@")[0]}
         onStartTour={startOnboarding}
         isFirstVisit={isFirstVisit}
       />
@@ -358,7 +348,7 @@ export default function Dashboard() {
               onCurrencyChange={setEarningsCurrency}
               size="sm"
             />
-            <Select value={earningsTimePeriod} onValueChange={(value: "Day" | "Week" | "Month" | "Lifetime") => setEarningsTimePeriod(value)}>
+            <Select value={earningsTimePeriod} onValueChange={setEarningsTimePeriod}>
               <SelectTrigger className="w-28">
                 <SelectValue />
               </SelectTrigger>
@@ -725,148 +715,36 @@ export default function Dashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            <Tabs value={propertyReportsTab} onValueChange={setPropertyReportsTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="properties">
-                  <Building className="h-4 w-4 mr-2" />
-                  Properties
-                </TabsTrigger>
-                <TabsTrigger value={(user as any)?.userType === "business" ? "send-reports" : "investor-reports"}>
-                  {(user as any)?.userType === "business" ? (
-                    <>
-                      <Send className="h-4 w-4 mr-2" />
-                      Send Reports
-                    </>
-                  ) : (
-                    <>
-                      <FileText className="h-4 w-4 mr-2" />
-                      Investor Reports
-                    </>
-                  )}
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="properties" className="mt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredProperties.slice(0, 3).map((property) => (
-                    <PropertyCard
-                      key={property.id}
-                      property={property}
-                      onInvest={handleInvest}
-                      onShare={handleShare}
-                      hasInvested={hasUserInvested(property.id)}
-                    />
-                  ))}
-                </div>
-                {filteredProperties.length === 0 && (
-                  <div className="text-center py-8">
-                    <p className="text-neutral-500">No properties found matching your filter criteria.</p>
-                  </div>
-                )}
-                {filteredProperties.length > 3 && (
-                  <div className="text-center mt-6">
-                    <Button
-                      variant="outline"
-                      className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]"
-                      onClick={() => {
-                        window.location.href = "/invest";
-                        setTimeout(() => window.scrollTo(0, 0), 100);
-                      }}
-                    >
-                      View All Properties
-                    </Button>
-                  </div>
-                )}
-              </TabsContent>
-              
-              {(user as any)?.userType === "business" ? (
-                <TabsContent value="send-reports" className="mt-6">
-                  <div className="space-y-4">
-                    <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-2">Send Property Reports</h3>
-                      <p className="text-neutral-600">Send updates and reports to investors for your properties</p>
-                    </div>
-                    
-                    {filteredProperties.length === 0 ? (
-                      <div className="text-center py-8">
-                        <Building className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
-                        <h3 className="text-lg font-medium text-neutral-900 mb-2">No Properties Listed</h3>
-                        <p className="text-neutral-500">You need to list properties before you can send reports to investors.</p>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {filteredProperties.map((property) => (
-                          <Card key={property.id} className="hover:shadow-md transition-shadow">
-                            <CardContent className="p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="flex-1">
-                                  <h4 className="font-semibold text-neutral-900">{property.address}</h4>
-                                  <p className="text-sm text-neutral-600">{property.city}, {property.state}</p>
-                                  <p className="text-xs text-neutral-500 mt-1">Active Investors: {property.currentShares || 0} shares sold</p>
-                                </div>
-                                <Button
-                                  onClick={() => {
-                                    setSelectedPropertyForReport(property);
-                                    setShowPropertyReportModal(true);
-                                  }}
-                                  className="bg-[#A52A2A] hover:bg-[#8B1A1A]"
-                                >
-                                  <Send className="h-4 w-4 mr-2" />
-                                  Send Report
-                                </Button>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </TabsContent>
-              ) : (
-                <TabsContent value="investor-reports" className="mt-6">
-                  <div className="space-y-4">
-                    <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-2">Your Investment Reports</h3>
-                      <p className="text-neutral-600">View reports and updates from property owners</p>
-                    </div>
-                    
-                    {filteredProperties.filter(property => hasUserInvested(property.id)).length === 0 ? (
-                      <div className="text-center py-8">
-                        <FileText className="mx-auto h-12 w-12 text-neutral-400 mb-4" />
-                        <h3 className="text-lg font-medium text-neutral-900 mb-2">No Investments Yet</h3>
-                        <p className="text-neutral-500">Start investing in properties to receive reports from business owners.</p>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {filteredProperties.filter(property => hasUserInvested(property.id)).map((property) => (
-                          <Card key={property.id} className="hover:shadow-md transition-shadow">
-                            <CardContent className="p-4">
-                              <div className="flex items-center justify-between">
-                                <div className="flex-1">
-                                  <h4 className="font-semibold text-neutral-900">{property.address}</h4>
-                                  <p className="text-sm text-neutral-600">{property.city}, {property.state}</p>
-                                  <p className="text-xs text-neutral-500 mt-1">Your Investment: Active</p>
-                                </div>
-                                <Button
-                                  variant="outline"
-                                  onClick={() => {
-                                    setSelectedPropertyForReport(property);
-                                    setShowInvestorReportsModal(true);
-                                  }}
-                                >
-                                  <FileText className="h-4 w-4 mr-2" />
-                                  View Reports
-                                </Button>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </TabsContent>
-              )}
-            </Tabs>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProperties.slice(0, 3).map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  onInvest={handleInvest}
+                  onShare={handleShare}
+                  hasInvested={hasUserInvested(property.id)}
+                />
+              ))}
+            </div>
+            {filteredProperties.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-neutral-500">No properties found matching your filter criteria.</p>
+              </div>
+            )}
+            {filteredProperties.length > 3 && (
+              <div className="text-center mt-6">
+                <Button
+                  variant="outline"
+                  className="px-8 bg-[#A52A2A] text-white hover:bg-[#8B1A1A] border-[#A52A2A]"
+                  onClick={() => {
+                    window.location.href = "/invest";
+                    setTimeout(() => window.scrollTo(0, 0), 100);
+                  }}
+                >
+                  View All Properties
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
@@ -1248,24 +1126,6 @@ export default function Dashboard() {
             </div>
           </DialogContent>
         </Dialog>
-
-        <PropertyReportModal
-          isOpen={showPropertyReportModal}
-          onClose={() => {
-            setShowPropertyReportModal(false);
-            setSelectedPropertyForReport(null);
-          }}
-          property={selectedPropertyForReport}
-        />
-
-        <InvestorReportsModal
-          isOpen={showInvestorReportsModal}
-          onClose={() => {
-            setShowInvestorReportsModal(false);
-            setSelectedPropertyForReport(null);
-          }}
-          property={selectedPropertyForReport}
-        />
 
         <Footer />
       </>

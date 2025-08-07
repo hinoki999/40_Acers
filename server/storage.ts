@@ -2,7 +2,7 @@ import {
   users, properties, investments, transactions, wallets, paymentTransactions, 
   walletTransactions, listingFees, socialInvestors, userInvestmentAccounts,
   withdrawalRequests, investmentTiers, milestonePerformance, userProfiles,
-  challenges, challengeParticipants, leaderboard, propertyReports,
+  challenges, challengeParticipants, leaderboard,
   type User, type UpsertUser, type Property, type InsertProperty,
   type Investment, type InsertInvestment, type Transaction, type InsertTransaction,
   type Wallet, type InsertWallet, type PaymentTransaction, type InsertPaymentTransaction,
@@ -11,7 +11,7 @@ import {
   type WithdrawalRequest, type InsertWithdrawalRequest, type InvestmentTier, type InsertInvestmentTier,
   type MilestonePerformance, type InsertMilestonePerformance, type UserProfile, type InsertUserProfile,
   type Challenge, type InsertChallenge, type ChallengeParticipant, type InsertChallengeParticipant,
-  type LeaderboardEntry, type InsertLeaderboardEntry, type PropertyReport, type InsertPropertyReport
+  type LeaderboardEntry, type InsertLeaderboardEntry
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, sum, and, lte, gte } from "drizzle-orm";
@@ -39,11 +39,6 @@ export interface IStorage {
   getUserTransactions(userId: string): Promise<Transaction[]>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   getAllTransactions(): Promise<Transaction[]>;
-  
-  // Property Reports operations
-  createPropertyReport(report: InsertPropertyReport): Promise<PropertyReport>;
-  getPropertyReports(propertyId: number): Promise<PropertyReport[]>;
-  getPropertyReport(id: number): Promise<PropertyReport | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -338,28 +333,6 @@ export class DatabaseStorage implements IStorage {
       .from(leaderboard)
       .where(and(eq(leaderboard.userId, userId), eq(leaderboard.category, category)));
     return entry;
-  }
-  
-  // Property Reports operations
-  async createPropertyReport(report: InsertPropertyReport): Promise<PropertyReport> {
-    const [newReport] = await db.insert(propertyReports).values(report).returning();
-    return newReport;
-  }
-  
-  async getPropertyReports(propertyId: number): Promise<PropertyReport[]> {
-    return db
-      .select()
-      .from(propertyReports)
-      .where(eq(propertyReports.propertyId, propertyId))
-      .orderBy(desc(propertyReports.createdAt));
-  }
-  
-  async getPropertyReport(id: number): Promise<PropertyReport | undefined> {
-    const [report] = await db
-      .select()
-      .from(propertyReports)
-      .where(eq(propertyReports.id, id));
-    return report;
   }
 }
 
