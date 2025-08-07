@@ -70,6 +70,18 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
       transaction.status === "completed" &&
       transaction.type === "investment"
   );
+  
+  // Debug logging
+  console.log('PropertyDetailsModal Debug:', {
+    user: user ? 'authenticated' : 'not authenticated',
+    userId: (user as any)?.id,
+    userType: (user as any)?.userType,
+    propertyOwnerId: property.ownerId,
+    isPropertyOwner,
+    transactions: transactions.length,
+    hasUserInvested,
+    propertyId: property.id
+  });
 
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const availableShares = property.maxShares - property.currentShares;
@@ -163,14 +175,14 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner ? 'grid-cols-3 sm:grid-cols-6' : hasUserInvested ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
+            <TabsList className={`grid w-full text-xs sm:text-sm grid-cols-3 sm:grid-cols-7 gap-1 sm:gap-0`}>
               <TabsTrigger value="overview" className="px-2 py-1 sm:px-3 sm:py-2">Overview</TabsTrigger>
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
-              {isPropertyOwner ? <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger> : null}
-              {!isPropertyOwner && hasUserInvested ? <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger> : null}
-              {isPropertyOwner ? <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger> : null}
+              <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger>
+              <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger>
+              <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
