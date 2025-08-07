@@ -71,11 +71,19 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
       transaction.type === "investment"
   );
   
-  // Show Send Reports tab only for business owners on their own properties
-  const showSendReportsTab = (user as any)?.userType === "business" && isPropertyOwner;
+  // Show Send Reports tab for business owners (for properties they own or in My Listed Properties context)
+  const showSendReportsTab = (user as any)?.userType === "business" && (isPropertyOwner || property.ownerId === (user as any).id);
   
-  // Show Reports tab only for investors who have invested in this property
+  // Show Reports tab for investors who have invested in this property
   const showReportsTab = (user as any)?.userType === "investor" && hasUserInvested;
+  
+  // For testing: also show tabs based on user type to demonstrate functionality
+  const isBusinessOwner = (user as any)?.userType === "business";
+  const isInvestor = (user as any)?.userType === "investor";
+  
+  // Final logic: show tabs appropriately
+  const finalShowSendReports = isBusinessOwner && (isPropertyOwner || showSendReportsTab);
+  const finalShowReports = isInvestor && (hasUserInvested || showReportsTab);
 
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const availableShares = property.maxShares - property.currentShares;
@@ -169,14 +177,14 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={`grid w-full text-xs sm:text-sm ${showSendReportsTab ? 'grid-cols-3 sm:grid-cols-6' : showReportsTab ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
+            <TabsList className={`grid w-full text-xs sm:text-sm ${finalShowSendReports ? 'grid-cols-3 sm:grid-cols-6' : finalShowReports ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
               <TabsTrigger value="overview" className="px-2 py-1 sm:px-3 sm:py-2">Overview</TabsTrigger>
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
-              {showSendReportsTab ? <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger> : null}
-              {showReportsTab ? <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger> : null}
-              {showSendReportsTab ? <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger> : null}
+              {finalShowSendReports ? <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger> : null}
+              {finalShowReports ? <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger> : null}
+              {finalShowSendReports ? <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger> : null}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
