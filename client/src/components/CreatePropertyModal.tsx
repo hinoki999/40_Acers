@@ -967,14 +967,6 @@ export default function CreatePropertyModal({ isOpen, onClose }: CreatePropertyM
                 </DialogDescription>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-6 w-6 p-0 hover:bg-neutral-100"
-            >
-              <X size={16} />
-            </Button>
 
           </div>
           
