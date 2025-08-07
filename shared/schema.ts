@@ -441,6 +441,34 @@ export type InsertWithdrawalRequest = typeof withdrawalRequests.$inferInsert;
 export type MilestonePerformance = typeof milestonePerformance.$inferSelect;
 export type InsertMilestonePerformance = typeof milestonePerformance.$inferInsert;
 
+// Property Reports for Business Owners to Investors
+export const propertyReports = pgTable("property_reports", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull().references(() => properties.id),
+  businessOwnerId: varchar("business_owner_id").notNull().references(() => users.id),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  reportType: text("report_type").notNull().default("update"), // 'update', 'financial', 'maintenance', 'milestone'
+  quarterYear: text("quarter_year"), // e.g., "Q1 2024"
+  attachments: text("attachments").array(),
+  pdfUrl: text("pdf_url"), // Generated PDF report URL
+  isPublished: boolean("is_published").default(false),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type PropertyReport = typeof propertyReports.$inferSelect;
+export type InsertPropertyReport = typeof propertyReports.$inferInsert;
+
+export const insertPropertyReportSchema = createInsertSchema(propertyReports).omit({
+  id: true,
+  pdfUrl: true,
+  publishedAt: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Payment and Wallet System
 export const wallets = pgTable("wallets", {
   id: serial("id").primaryKey(),
