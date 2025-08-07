@@ -79,10 +79,22 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
   const { data: userInvestments = [] } = useQuery({
     queryKey: ["/api/investments"],
     queryFn: getQueryFn({ on401: "returnNull" }),
-    enabled: !!user && !isPropertyOwner,
+    enabled: !!user,
   });
   
   const hasUserInvested = (userInvestments as any[]).some((inv: any) => inv.propertyId === property.id);
+
+  // Debug logging
+  console.log("PropertyDetailsModal Debug:", {
+    user: user ? "authenticated" : "not authenticated",
+    userId: (user as any)?.id,
+    userType: (user as any)?.userType,
+    propertyOwnerId: property.ownerId,
+    isPropertyOwner,
+    transactions: (userInvestments as any[]).length,
+    hasUserInvested,
+    propertyId: property.id
+  });
   
   // Fetch property reports
   const { data: propertyReports = [], isLoading: reportsLoading } = useQuery({
