@@ -13,7 +13,7 @@ import {
   riskAssessmentService, 
   ownershipVerificationService 
 } from "./aiServices";
-import { insertPropertySchema, insertInvestmentSchema, insertTransactionSchema } from "@shared/schema";
+import { insertPropertySchema, insertInvestmentSchema, insertTransactionSchema, insertPropertyReportSchema } from "@shared/schema";
 import { geocodeAddress } from "./geocoding";
 import { getBitcoinPrice } from "./bitcoin";
 import { z } from "zod";
@@ -24,6 +24,14 @@ import { registerDocumentRoutes } from "./documentRoutes";
 const investmentRequestSchema = z.object({
   propertyId: z.number(),
   shares: z.number().positive(),
+});
+
+const propertyReportRequestSchema = z.object({
+  propertyId: z.number(),
+  title: z.string().min(1),
+  content: z.string().min(1),
+  reportType: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
 });
 
 // Configure multer for file uploads
@@ -275,6 +283,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating property:", error);
       res.status(500).json({ message: "Failed to create property" });
+    }
+  });
+
+  // Property Reports routes
+  app.get('/api/properties/:id/reports', isAuthenticated, async (req: any, res) => {
+    try {
+      const propertyId = parseInt(req.params.id);
+      const userId = req.user.claims.sub;
+      
+      // Get property to verify access
+      const property = await storage.getProperty(propertyId);
+      if (!property) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+      
+      // Check if user is either property owner or has invested in this property
+      const isPropertyOwner = property.ownerId === userId;
+      const userInvestments = await storage.getUserInvestments(userId);
+      const hasInvested = userInvestments.some(inv => inv.propertyId === propertyId);
+      
+      if (!isPropertyOwner && !hasInvested) {
+        return res.status(403).json({ message: "Access denied. You must be the property owner or an investor to view reports." });
+      }
+      
+      const reports = await storage.getPropertyReports(propertyId);
+      res.json(reports);
+    } catch (error) {
+      console.error("Error fetching property reports:", error);
+      res.status(500).json({ message: "Failed to fetch property reports" });
+    }
+  });
+
+  app.post('/api/properties/:id/reports', isAuthenticated, async (req: any, res) => {
+    try {
+      const propertyId = parseInt(req.params.id);
+      const userId = req.user.claims.sub;
+      const reportData = propertyReportRequestSchema.parse(req.body);
+      
+      // Get property to verify ownership
+      const property = await storage.getProperty(propertyId);
+      if (!property) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+      
+      // Only property owner can send reports
+      if (property.ownerId !== userId) {
+        return res.status(403).json({ message: "Only property owners can send reports" });
+      }
+      
+      const report = await storage.createPropertyReport({
+        propertyId,
+        senderId: userId,
+        title: reportData.title,
+        content: reportData.content,
+        reportType: reportData.reportType || 'update',
+        attachments: reportData.attachments || [],
+      });
+      
+      res.json(report);
+    } catch (error) {
+      console.error("Error creating property report:", error);
+      res.status(500).json({ message: "Failed to create property report" });
+    }
+  });
+
+  // Account deletion check route
+  app.get('/api/user/can-delete-account', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (user?.userType === 'business') {
+        const hasActiveInvestors = await storage.hasActiveInvestors(userId);
+        res.json({ canDelete: !hasActiveInvestors, hasActiveInvestors });
+      } else {
+        res.json({ canDelete: true, hasActiveInvestors: false });
+      }
+    } catch (error) {
+      console.error("Error checking account deletion eligibility:", error);
+      res.status(500).json({ message: "Failed to check account deletion eligibility" });
     }
   });
 

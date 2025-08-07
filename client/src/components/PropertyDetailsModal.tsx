@@ -1,4 +1,17 @@
 import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest, getQueryFn } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -31,7 +44,10 @@ import {
   Wifi,
   Dumbbell,
   Waves,
-  Coffee
+  Coffee,
+  Send,
+  Eye,
+  MessageSquare
 } from "lucide-react";
 import { Property } from "@shared/schema";
 import GoogleMap from "./GoogleMap";
@@ -46,11 +62,78 @@ interface PropertyDetailsModalProps {
 export default function PropertyDetailsModal({ property, isOpen, onClose, onInvest }: PropertyDetailsModalProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { user } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  // Report form state
+  const [reportTitle, setReportTitle] = useState("");
+  const [reportContent, setReportContent] = useState("");
+  const [reportType, setReportType] = useState("update");
 
   if (!property) return null;
 
   // Check if current user is the property owner
   const isPropertyOwner = user && property.ownerId === (user as any).id;
+  
+  // Check if user has invested in this property
+  const { data: userInvestments = [] } = useQuery({
+    queryKey: ["/api/investments"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+    enabled: !!user && !isPropertyOwner,
+  });
+  
+  const hasUserInvested = (userInvestments as any[]).some((inv: any) => inv.propertyId === property.id);
+  
+  // Fetch property reports
+  const { data: propertyReports = [], isLoading: reportsLoading } = useQuery({
+    queryKey: ["/api/properties", property.id, "reports"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+    enabled: isOpen && (isPropertyOwner || hasUserInvested),
+  });
+  
+  const typedPropertyReports = propertyReports as any[];
+  
+  // Send report mutation
+  const sendReportMutation = useMutation({
+    mutationFn: async (reportData: { title: string; content: string; reportType: string }) => {
+      const response = await apiRequest('POST', `/api/properties/${property.id}/reports`, reportData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Report Sent",
+        description: "Your report has been sent to all investors in this property.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/properties", property.id, "reports"] });
+      setReportTitle("");
+      setReportContent("");
+      setReportType("update");
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: "Failed to send report. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+  
+  const handleSendReport = () => {
+    if (!reportTitle.trim() || !reportContent.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please provide both title and content for the report.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    sendReportMutation.mutate({
+      title: reportTitle,
+      content: reportContent,
+      reportType,
+    });
+  };
 
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const availableShares = property.maxShares - property.currentShares;
@@ -144,12 +227,14 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner ? 'grid-cols-2 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
+            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner ? 'grid-cols-3 sm:grid-cols-6' : hasUserInvested ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
               <TabsTrigger value="overview" className="px-2 py-1 sm:px-3 sm:py-2">Overview</TabsTrigger>
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
-              {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2 col-span-2 sm:col-span-1">Documents</TabsTrigger>}
+              {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger>}
+              {isPropertyOwner && <TabsTrigger value="send-report" className="px-2 py-1 sm:px-3 sm:py-2">Send Report</TabsTrigger>}
+              {hasUserInvested && <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Investor Reports</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -586,6 +671,144 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                       )}
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Send Report Tab - Only for Property Owners */}
+            <TabsContent value="send-report" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Send className="h-5 w-5" />
+                    Send Report to Investors
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-neutral-600">
+                    Send updates and reports to all investors who have invested in this property.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="reportTitle">Report Title</Label>
+                      <Input
+                        id="reportTitle"
+                        value={reportTitle}
+                        onChange={(e) => setReportTitle(e.target.value)}
+                        placeholder="Enter report title..."
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="reportType">Report Type</Label>
+                      <Select value={reportType} onValueChange={setReportType}>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="update">General Update</SelectItem>
+                          <SelectItem value="maintenance">Maintenance Report</SelectItem>
+                          <SelectItem value="financial">Financial Report</SelectItem>
+                          <SelectItem value="general">General Information</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="reportContent">Report Content</Label>
+                      <Textarea
+                        id="reportContent"
+                        value={reportContent}
+                        onChange={(e) => setReportContent(e.target.value)}
+                        placeholder="Enter report content..."
+                        rows={6}
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <Button 
+                      onClick={handleSendReport}
+                      disabled={sendReportMutation.isPending || !reportTitle.trim() || !reportContent.trim()}
+                      className="w-full"
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      {sendReportMutation.isPending ? "Sending..." : "Send Report"}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Investor Reports Tab - Only for Investors */}
+            <TabsContent value="investor-reports" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5" />
+                    Investor Reports
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-neutral-600 mb-4">
+                    Reports and updates from the property owner about this investment.
+                  </p>
+                  
+                  {reportsLoading ? (
+                    <div className="space-y-4">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="p-4 border rounded-lg animate-pulse">
+                          <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+                          <div className="h-3 bg-gray-200 rounded w-1/2 mb-1"></div>
+                          <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : typedPropertyReports.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Eye className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Reports Yet</h3>
+                      <p className="text-gray-600">
+                        The property owner hasn't sent any reports yet. Check back later for updates.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {typedPropertyReports.map((report: any) => (
+                        <div key={report.id} className="border rounded-lg p-4 space-y-3">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-gray-900">{report.title}</h4>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Badge variant="outline" className="text-xs">
+                                  {report.reportType.charAt(0).toUpperCase() + report.reportType.slice(1)}
+                                </Badge>
+                                <span className="text-xs text-gray-500">
+                                  {new Date(report.createdAt).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-sm text-gray-700 leading-relaxed">
+                            {report.content}
+                          </div>
+                          {report.attachments && report.attachments.length > 0 && (
+                            <div className="pt-2 border-t">
+                              <p className="text-xs text-gray-500 mb-2">Attachments:</p>
+                              <div className="flex flex-wrap gap-2">
+                                {report.attachments.map((attachment: string, index: number) => (
+                                  <Badge key={index} variant="secondary" className="text-xs">
+                                    📎 {attachment}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>

@@ -346,6 +346,7 @@ export const insertTransactionSchema = createInsertSchema(transactions).omit({
   updatedAt: true,
 });
 
+
 // Social Media Investor Network
 export const socialInvestors = pgTable("social_investors", {
   id: serial("id").primaryKey(),
@@ -697,6 +698,25 @@ export const recurringInvestments = pgTable("recurring_investments", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Property Reports/Communications
+export const propertyReports = pgTable("property_reports", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull().references(() => properties.id),
+  senderId: varchar("sender_id").notNull().references(() => users.id),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  reportType: text("report_type").notNull().default("update"), // 'update', 'maintenance', 'financial', 'general'
+  attachments: text("attachments").array().default([]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertPropertyReportSchema = createInsertSchema(propertyReports).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Performance Optimization Tables
 export const apiMetrics = pgTable("api_metrics", {
   id: serial("id").primaryKey(),
@@ -742,3 +762,5 @@ export type ApiMetric = typeof apiMetrics.$inferSelect;
 export type InsertApiMetric = typeof apiMetrics.$inferInsert;
 export type CacheMetric = typeof cacheMetrics.$inferSelect;
 export type InsertCacheMetric = typeof cacheMetrics.$inferInsert;
+export type PropertyReport = typeof propertyReports.$inferSelect;
+export type InsertPropertyReport = typeof propertyReports.$inferInsert;

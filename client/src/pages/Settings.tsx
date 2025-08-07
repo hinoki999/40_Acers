@@ -13,6 +13,15 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { getQueryFn } from "@/lib/queryClient";
+
+// Hook to check account deletion eligibility
+function useAccountDeletionCheck(user: any) {
+  return useQuery({
+    queryKey: ["/api/user/can-delete-account"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+    enabled: !!user && user.userType === "business",
+  });
+}
 import Footer from "@/components/Footer";
 import AddPaymentMethodModal from "@/components/AddPaymentMethodModal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -160,6 +169,10 @@ export default function Settings() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletePassword, setDeletePassword] = useState("");
   const [userBalance] = useState(0); // In real app, this would come from API
+  const [canDeleteAccount, setCanDeleteAccount] = useState(true);
+  const [hasActiveInvestors, setHasActiveInvestors] = useState(false);
+
+  const { data: deletionCheck } = useAccountDeletionCheck(user);
 
   useEffect(() => {
     if (user) {
@@ -173,6 +186,13 @@ export default function Settings() {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    if (deletionCheck) {
+      setCanDeleteAccount(deletionCheck.canDelete);
+      setHasActiveInvestors(deletionCheck.hasActiveInvestors);
+    }
+  }, [deletionCheck]);
 
   // PDF Download Function
   const downloadTransactionPDF = (transaction: any) => {
@@ -306,6 +326,15 @@ Thank you for investing with 40 Acres!
       toast({
         title: "Account Deletion Failed",
         description: "Your balance must be $0.00 to close account. Please withdraw all funds before proceeding.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!canDeleteAccount && hasActiveInvestors) {
+      toast({
+        title: "Account Deletion Not Allowed",
+        description: "You cannot delete an account if there are any active property listings with active investors.",
         variant: "destructive",
       });
       return;
@@ -824,6 +853,9 @@ Thank you for investing with 40 Acres!
                         <h5 className="font-medium text-red-900 mb-2">Important Information:</h5>
                         <ul className="text-sm text-red-800 space-y-1">
                           <li>• You must have a $0.00 balance before closing your account</li>
+                          {profile.userType === "business" && (
+                            <li>• You cannot delete an account if there are any active property listings with active investors</li>
+                          )}
                           <li>• For security measures, your account will be permanently deleted after 60 days</li>
                           <li>• All investment data, transaction history, and documents will be removed</li>
                           <li>• You are still liable for any active or pending legal contracts and negotiations</li>

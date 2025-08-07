@@ -2,7 +2,7 @@ import {
   users, properties, investments, transactions, wallets, paymentTransactions, 
   walletTransactions, listingFees, socialInvestors, userInvestmentAccounts,
   withdrawalRequests, investmentTiers, milestonePerformance, userProfiles,
-  challenges, challengeParticipants, leaderboard,
+  challenges, challengeParticipants, leaderboard, propertyReports,
   type User, type UpsertUser, type Property, type InsertProperty,
   type Investment, type InsertInvestment, type Transaction, type InsertTransaction,
   type Wallet, type InsertWallet, type PaymentTransaction, type InsertPaymentTransaction,
@@ -11,7 +11,7 @@ import {
   type WithdrawalRequest, type InsertWithdrawalRequest, type InvestmentTier, type InsertInvestmentTier,
   type MilestonePerformance, type InsertMilestonePerformance, type UserProfile, type InsertUserProfile,
   type Challenge, type InsertChallenge, type ChallengeParticipant, type InsertChallengeParticipant,
-  type LeaderboardEntry, type InsertLeaderboardEntry
+  type LeaderboardEntry, type InsertLeaderboardEntry, type PropertyReport, type InsertPropertyReport
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, sum, and, lte, gte } from "drizzle-orm";
@@ -39,6 +39,11 @@ export interface IStorage {
   getUserTransactions(userId: string): Promise<Transaction[]>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   getAllTransactions(): Promise<Transaction[]>;
+  
+  // Property Report operations
+  getPropertyReports(propertyId: number): Promise<PropertyReport[]>;
+  createPropertyReport(report: InsertPropertyReport): Promise<PropertyReport>;
+  hasActiveInvestors(ownerId: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -333,6 +338,46 @@ export class DatabaseStorage implements IStorage {
       .from(leaderboard)
       .where(and(eq(leaderboard.userId, userId), eq(leaderboard.category, category)));
     return entry;
+  }
+
+  // Property Report operations
+  async getPropertyReports(propertyId: number): Promise<PropertyReport[]> {
+    return await db
+      .select()
+      .from(propertyReports)
+      .where(eq(propertyReports.propertyId, propertyId))
+      .orderBy(desc(propertyReports.createdAt));
+  }
+
+  async createPropertyReport(report: InsertPropertyReport): Promise<PropertyReport> {
+    const [newReport] = await db.insert(propertyReports).values(report).returning();
+    return newReport;
+  }
+
+  async hasActiveInvestors(ownerId: string): Promise<boolean> {
+    // Get all properties owned by this user
+    const userProperties = await db
+      .select({ id: properties.id })
+      .from(properties)
+      .where(eq(properties.ownerId, ownerId));
+
+    if (userProperties.length === 0) {
+      return false;
+    }
+
+    // Check if any of these properties have active investments
+    for (const property of userProperties) {
+      const investmentCount = await db
+        .select({ count: sum(investments.sharesPurchased) })
+        .from(investments)
+        .where(eq(investments.propertyId, property.id));
+
+      if (Number(investmentCount[0]?.count || 0) > 0) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 
