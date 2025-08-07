@@ -434,7 +434,7 @@ export default function Invest() {
                 <Button 
                   className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-500 hover:to-yellow-700 font-semibold shadow-lg"
                   onClick={() => {
-                    setIsGoldMember(true);
+                    setLocation("/settings?tab=membership");
                     setShowGoldUpgrade(false);
                   }}
                 >
@@ -458,8 +458,27 @@ export default function Invest() {
         <OnboardingTour
           isOpen={showGettingStarted}
           onClose={() => setShowGettingStarted(false)}
+          onComplete={() => setShowGettingStarted(false)}
         />
       )}
+      
+      {/* Auth Modals */}
+      <AuthModals
+        showLogin={showLogin}
+        showRegister={showRegister}
+        onClose={() => {
+          setShowLogin(false);
+          setShowRegister(false);
+        }}
+        onSwitchToLogin={() => {
+          setShowRegister(false);
+          setShowLogin(true);
+        }}
+        onSwitchToRegister={() => {
+          setShowLogin(false);
+          setShowRegister(true);
+        }}
+      />
       
       <Footer />
     </div>
