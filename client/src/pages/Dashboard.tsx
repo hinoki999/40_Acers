@@ -56,6 +56,7 @@ import { apiRequest } from "@/lib/queryClient";
 import CreatePropertyModal from "@/components/CreatePropertyModal";
 import InvestmentModal from "@/components/InvestmentModal";
 import PropertyCard from "@/components/PropertyCard";
+import PropertyDetailsModal from "@/components/PropertyDetailsModal";
 import SocialShareModal from "@/components/SocialShareModal";
 import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import PortfolioChart from "@/components/PortfolioChart";
@@ -115,6 +116,7 @@ export default function Dashboard() {
   const [withdrawalAmount, setWithdrawalAmount] = useState("");
   const [selectedBankAccount, setSelectedBankAccount] = useState("");
   const [showSocialShare, setShowSocialShare] = useState(false);
+  const [showPropertyDetails, setShowPropertyDetails] = useState(false);
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user } = useAuth();
   const queryClient = useQueryClient();
@@ -176,6 +178,14 @@ export default function Dashboard() {
     if (property) {
       setSelectedProperty(property);
       setShowSocialShare(true);
+    }
+  };
+
+  const handlePropertyDetails = (propertyId: number) => {
+    const property = properties.find((p) => p.id === propertyId);
+    if (property) {
+      setSelectedProperty(property);
+      setShowPropertyDetails(true);
     }
   };
 
@@ -722,6 +732,7 @@ export default function Dashboard() {
                   property={property}
                   onInvest={handleInvest}
                   onShare={handleShare}
+                  onDetails={handlePropertyDetails}
                   hasInvested={hasUserInvested(property.id)}
                 />
               ))}
@@ -1038,6 +1049,17 @@ export default function Dashboard() {
             setSelectedProperty(null);
           }}
           property={selectedProperty}
+        />
+        
+        <PropertyDetailsModal
+          property={selectedProperty}
+          isOpen={showPropertyDetails}
+          onClose={() => {
+            setShowPropertyDetails(false);
+            setSelectedProperty(null);
+          }}
+          onInvest={handleInvest}
+          isDashboardContext={true}
         />
 
         {/* Date Picker Dialog */}

@@ -57,9 +57,10 @@ interface PropertyDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   onInvest?: (propertyId: number) => void;
+  isDashboardContext?: boolean;
 }
 
-export default function PropertyDetailsModal({ property, isOpen, onClose, onInvest }: PropertyDetailsModalProps) {
+export default function PropertyDetailsModal({ property, isOpen, onClose, onInvest, isDashboardContext = false }: PropertyDetailsModalProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -239,14 +240,14 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           </div>
 
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner ? 'grid-cols-3 sm:grid-cols-6' : hasUserInvested ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
+            <TabsList className={`grid w-full text-xs sm:text-sm ${isPropertyOwner && isDashboardContext ? 'grid-cols-3 sm:grid-cols-6' : hasUserInvested && isDashboardContext ? 'grid-cols-3 sm:grid-cols-5' : 'grid-cols-2 sm:grid-cols-4'} gap-1 sm:gap-0`}>
               <TabsTrigger value="overview" className="px-2 py-1 sm:px-3 sm:py-2">Overview</TabsTrigger>
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
               {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger>}
-              {isPropertyOwner && <TabsTrigger value="send-report" className="px-2 py-1 sm:px-3 sm:py-2">Send Report</TabsTrigger>}
-              {hasUserInvested && <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Investor Reports</TabsTrigger>}
+              {isPropertyOwner && isDashboardContext && <TabsTrigger value="send-report" className="px-2 py-1 sm:px-3 sm:py-2">Send Report</TabsTrigger>}
+              {hasUserInvested && isDashboardContext && <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Show Reports</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -687,7 +688,8 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
               </Card>
             </TabsContent>
 
-            {/* Send Report Tab - Only for Property Owners */}
+            {/* Send Report Tab - Only for Property Owners in Dashboard */}
+            {isDashboardContext && (
             <TabsContent value="send-report" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -752,8 +754,10 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                 </CardContent>
               </Card>
             </TabsContent>
-
-            {/* Investor Reports Tab - Only for Investors */}
+            )}
+            
+            {/* Investor Reports Tab - Only for Investors in Dashboard */}
+            {isDashboardContext && (
             <TabsContent value="investor-reports" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -824,6 +828,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                 </CardContent>
               </Card>
             </TabsContent>
+            )}
           </Tabs>
 
           {/* Action Buttons */}

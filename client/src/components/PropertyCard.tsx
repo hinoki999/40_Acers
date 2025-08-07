@@ -17,13 +17,14 @@ interface PropertyCardProps {
   property: Property;
   onInvest: (propertyId: number) => void;
   onShare?: (propertyId: number) => void;
+  onDetails?: (propertyId: number) => void;
   isGoldMember?: boolean;
   isAuthenticated?: boolean;
   onShowRegister?: () => void;
   hasInvested?: boolean;
 }
 
-function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAuthenticated = false, onShowRegister, hasInvested = false }: PropertyCardProps) {
+function PropertyCard({ property, onInvest, onShare, onDetails, isGoldMember = false, isAuthenticated = false, onShowRegister, hasInvested = false }: PropertyCardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showTokenization, setShowTokenization] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -274,7 +275,11 @@ function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAut
               className="flex-1 text-xs px-2 py-1 hover:bg-black hover:text-white border-black"
               onClick={(e) => {
                 e.stopPropagation();
-                setShowDetails(true);
+                if (onDetails) {
+                  onDetails(property.id);
+                } else {
+                  setShowDetails(true);
+                }
               }}
             >
               <Eye size={12} className="mr-1" />
@@ -321,12 +326,14 @@ function PropertyCard({ property, onInvest, onShare, isGoldMember = false, isAut
         )}
       </CardContent>
       
-      <PropertyDetailsModal
-        property={property}
-        isOpen={showDetails}
-        onClose={() => setShowDetails(false)}
-        onInvest={onInvest}
-      />
+      {!onDetails && (
+        <PropertyDetailsModal
+          property={property}
+          isOpen={showDetails}
+          onClose={() => setShowDetails(false)}
+          onInvest={onInvest}
+        />
+      )}
     </Card>
   );
 }
