@@ -101,7 +101,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
   const { data: propertyReports = [], isLoading: reportsLoading } = useQuery({
     queryKey: ["/api/properties", property.id, "reports"],
     queryFn: getQueryFn({ on401: "returnNull" }),
-    enabled: isOpen && (isPropertyOwner || hasUserInvested),
+    enabled: isOpen && isDashboardContext && (isPropertyOwner || hasUserInvested),
   });
   
   const typedPropertyReports = propertyReports as any[];
