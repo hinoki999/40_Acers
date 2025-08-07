@@ -168,9 +168,9 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
-              {isPropertyOwner && <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger>}
-              {!isPropertyOwner && hasUserInvested && <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger>}
-              {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger>}
+              {isPropertyOwner ? <TabsTrigger value="send-reports" className="px-2 py-1 sm:px-3 sm:py-2">Send Reports</TabsTrigger> : null}
+              {!isPropertyOwner && hasUserInvested ? <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Reports</TabsTrigger> : null}
+              {isPropertyOwner ? <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger> : null}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
