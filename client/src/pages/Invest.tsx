@@ -15,6 +15,7 @@ import SocialShareModal from "@/components/SocialShareModal";
 import CurrencyToggle from "@/components/CurrencyToggle";
 import InvestorTour from "@/components/InvestorTour";
 import AuthModals from "@/components/AuthModals";
+import OnboardingTour from "@/components/OnboardingTour";
 import EnhancedHeatMap from "@/components/MapboxHeatMap";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
@@ -35,6 +36,7 @@ export default function Invest() {
   const [currency, setCurrency] = useState<'USD' | 'BTC'>('USD');
   const isGoldMember = (user as any)?.membershipType === "gold";
   const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
+  const [showGettingStarted, setShowGettingStarted] = useState(false);
 
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["/api/properties"],
@@ -43,7 +45,7 @@ export default function Invest() {
 
   const handleInvest = (propertyId: number) => {
     if (!isAuthenticated) {
-      setShowRegister(true);
+      setShowGettingStarted(true);
       return;
     }
     const property = (properties as Property[]).find((p: Property) => p.id === propertyId);
@@ -450,6 +452,15 @@ export default function Invest() {
           </Card>
         </div>
       )}
+      
+      {/* Getting Started Modal */}
+      {showGettingStarted && (
+        <OnboardingTour
+          isOpen={showGettingStarted}
+          onClose={() => setShowGettingStarted(false)}
+        />
+      )}
+      
       <Footer />
     </div>
   );
