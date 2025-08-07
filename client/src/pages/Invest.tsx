@@ -45,7 +45,7 @@ export default function Invest() {
 
   const handleInvest = (propertyId: number) => {
     if (!isAuthenticated) {
-      setShowGettingStarted(true);
+      setShowRegister(true);
       return;
     }
     const property = (properties as Property[]).find((p: Property) => p.id === propertyId);
