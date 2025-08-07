@@ -51,6 +51,7 @@ import {
 } from "lucide-react";
 import { Property } from "@shared/schema";
 import GoogleMap from "./GoogleMap";
+import OnboardingTour from "./OnboardingTour";
 
 interface PropertyDetailsModalProps {
   property: Property | null;
@@ -69,6 +70,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
   const [reportTitle, setReportTitle] = useState("");
   const [reportContent, setReportContent] = useState("");
   const [reportType, setReportType] = useState("update");
+  const [showGettingStarted, setShowGettingStarted] = useState(false);
 
   if (!property) return null;
 
@@ -84,23 +86,12 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
   
   const hasUserInvested = (userInvestments as any[]).some((inv: any) => inv.propertyId === property.id);
 
-  // Debug logging
-  console.log("PropertyDetailsModal Debug:", {
-    user: user ? "authenticated" : "not authenticated",
-    userId: (user as any)?.id,
-    userType: (user as any)?.userType,
-    propertyOwnerId: property.ownerId,
-    isPropertyOwner,
-    transactions: (userInvestments as any[]).length,
-    hasUserInvested,
-    propertyId: property.id
-  });
   
   // Fetch property reports
   const { data: propertyReports = [], isLoading: reportsLoading } = useQuery({
     queryKey: ["/api/properties", property.id, "reports"],
     queryFn: getQueryFn({ on401: "returnNull" }),
-    enabled: isOpen && (isPropertyOwner || hasUserInvested),
+    enabled: isOpen && (isPropertyOwner || hasUserInvested) ? true : false,
   });
   
   const typedPropertyReports = propertyReports as any[];
@@ -146,6 +137,16 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
       reportType,
     });
   };
+  
+  const handleInvestClick = () => {
+    if (!user) {
+      setShowGettingStarted(true);
+      return;
+    }
+    if (onInvest) {
+      onInvest(property.id);
+    }
+  };
 
   const progressPercentage = (property.currentShares / property.maxShares) * 100;
   const availableShares = property.maxShares - property.currentShares;
@@ -179,6 +180,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
   };
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto container-mobile mx-2 sm:mx-4 w-full">
         <DialogHeader>
@@ -244,9 +246,9 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
               <TabsTrigger value="details" className="px-2 py-1 sm:px-3 sm:py-2">Details</TabsTrigger>
               <TabsTrigger value="investment" className="px-2 py-1 sm:px-3 sm:py-2">Investment</TabsTrigger>
               <TabsTrigger value="location" className="px-2 py-1 sm:px-3 sm:py-2">Location</TabsTrigger>
-              {isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger>}
-              {isPropertyOwner && <TabsTrigger value="send-report" className="px-2 py-1 sm:px-3 sm:py-2">Send Report</TabsTrigger>}
-              {hasUserInvested && <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Investor Reports</TabsTrigger>}
+              {!!isPropertyOwner && <TabsTrigger value="documents" className="px-2 py-1 sm:px-3 sm:py-2">Documents</TabsTrigger>}
+              {!!isPropertyOwner && <TabsTrigger value="send-report" className="px-2 py-1 sm:px-3 sm:py-2">Send Report</TabsTrigger>}
+              {!!hasUserInvested && <TabsTrigger value="investor-reports" className="px-2 py-1 sm:px-3 sm:py-2">Investor Reports</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
@@ -791,10 +793,10 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                         <div key={report.id} className="border rounded-lg p-4 space-y-3">
                           <div className="flex justify-between items-start">
                             <div className="flex-1">
-                              <h4 className="font-semibold text-gray-900">{report.title}</h4>
+                              <h4 className="font-semibold text-gray-900">{String(report.title)}</h4>
                               <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="outline" className="text-xs">
-                                  {report.reportType.charAt(0).toUpperCase() + report.reportType.slice(1)}
+                                  {String(report.reportType).charAt(0).toUpperCase() + String(report.reportType).slice(1)}
                                 </Badge>
                                 <span className="text-xs text-gray-500">
                                   {new Date(report.createdAt).toLocaleDateString()}
@@ -803,7 +805,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                             </div>
                           </div>
                           <div className="text-sm text-gray-700 leading-relaxed">
-                            {report.content}
+                            {String(report.content)}
                           </div>
                           {report.attachments && report.attachments.length > 0 && (
                             <div className="pt-2 border-t">
@@ -811,7 +813,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
                               <div className="flex flex-wrap gap-2">
                                 {report.attachments.map((attachment: string, index: number) => (
                                   <Badge key={index} variant="secondary" className="text-xs">
-                                    📎 {attachment}
+                                    📎 {String(attachment)}
                                   </Badge>
                                 ))}
                               </div>
@@ -829,7 +831,7 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 pt-4 sm:pt-6 border-t">
             <Button
-              onClick={() => onInvest && onInvest(property.id)}
+              onClick={handleInvestClick}
               className="w-full sm:flex-1 bg-black text-white hover:bg-gray-200 hover:text-black text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-3"
               size="sm"
             >
@@ -848,5 +850,15 @@ export default function PropertyDetailsModal({ property, isOpen, onClose, onInve
         </div>
       </DialogContent>
     </Dialog>
+    
+    {/* Getting Started Modal for Unauthenticated Users */}
+    {showGettingStarted && (
+      <OnboardingTour
+        isOpen={showGettingStarted}
+        onClose={() => setShowGettingStarted(false)}
+        onComplete={() => setShowGettingStarted(false)}
+      />
+    )}
+    </>
   );
 }
