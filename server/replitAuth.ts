@@ -67,6 +67,12 @@ async function upsertUser(
 }
 
 export async function setupAuth(app: Express) {
+  // BYPASS_REPLIT_AUTH - Allow running outside Replit
+  if (!process.env.REPL_ID || process.env.BYPASS_REPLIT_AUTH === 'true') {
+    console.log("Bypassing Replit auth - running outside Replit");
+    return;
+  }
+
   if (!process.env.REPL_ID) {
     console.log("Skipping Replit auth - not on Replit");
     return;
