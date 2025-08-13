@@ -72,3 +72,7 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
   });
 })();
+
+// Import and setup E0G routes
+import { setupE0GRoutes } from './e0gRoutes';
+setupE0GRoutes(app);

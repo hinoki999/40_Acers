@@ -1,0 +1,68 @@
+  } catch (error: any) {
+    res.status(500).json({ 
+      error: error.message 
+    });
+  }
+});
+
+// ===== E0G TRUST API INTEGRATION =====
+  const E0G_API_URL = 'http://134.122.21.37:3001';
+  const E0G_API_KEY = '40ACRES_KEY';
+
+  app.get('/api/e0g/health', async (req, res) => {
+    try {
+      const response = await axios.get(`${E0G_API_URL}/health`, { timeout: 5000 });
+      res.json({ 
+        connected: true, 
+        e0gStatus: response.data,
+        message: 'E0G Trust API is operational'
+      });
+    } catch (error: any) {
+      res.json({ 
+        connected: false, 
+        error: error.message,
+        message: 'E0G Trust API is not reachable'
+      });
+    }
+  });
+
+  app.post('/api/e0g/analyze', async (req, res) => {
+    try {
+      const { walletAddress, propertyId, amount } = req.body;
+      
+      if (!walletAddress) {
+        return res.status(400).json({ error: 'Wallet address required' });
+      }
+      
+      console.log(`Analyzing wallet via E0G: ${walletAddress}`);
+      
+      const response = await axios.post(
+        `${E0G_API_URL}/api/v1/trust/analyze`,
+        { 
+          walletAddress,
+          context: { propertyId, amount }
+        },
+        { 
+          headers: { 
+            'X-API-Key': E0G_API_KEY,
+            'Content-Type': 'application/json'
+          },
+          timeout: 5000
+        }
+      );
+      
+      res.json({
+        success: true,
+        ...response.data.result,
+        poweredBy: 'E0G Crypto Intelligence'
+      });
+    } catch (error: any) {
+      console.error('E0G analysis error:', error.message);
+      res.status(500).json({ 
+        success: false,
+        error: error.message 
+      });
+    }
+  });
+
+  console.log('✅ E0G Trust API routes registered');

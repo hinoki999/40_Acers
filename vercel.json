@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "env": {
+    "DIAMONDZ_RPC": "@diamondz_rpc",
+    "CONTRACT_ADDRESS": "@contract_address",
+    "PRIVATE_KEY": "@private_key"
+  }
+}

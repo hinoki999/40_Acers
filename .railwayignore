@@ -1,0 +1,8 @@
+node_modules
+.cache
+.local
+uploads
+attached_assets
+.git
+*.log
+*.tmp
