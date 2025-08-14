@@ -573,11 +573,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register document routes
   registerDocumentRoutes(app);
   
-  // E0G Trust API routes with real API integration
+  // E0G Trust API routes with environment-aware configuration
   app.get('/api/e0g/health', async (req, res) => {
     try {
       const apiKey = process.env.E0G_API_KEY || 'demo_secure_ENTERPRISE_CLIENT_2025';
       const apiUrl = process.env.E0G_API_URL || 'https://api.bridge-analytics.net/demo';
+      const riskThreshold = Number(process.env.E0G_RISK_THRESHOLD) || 70;
       
       const response = await fetch(`${apiUrl}/health`, {
         headers: { 'Authorization': `Bearer ${apiKey}` }
@@ -589,7 +590,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           e0gStatus: 'OK',
           threatPatterns: '427,047 active',
           addressesMonitored: '2.46M+',
-          apiUrl: apiUrl
+          apiUrl: apiUrl,
+          riskThreshold: riskThreshold,
+          environment: process.env.NODE_ENV || 'development'
         });
       } else {
         throw new Error(`API responded with ${response.status}`);

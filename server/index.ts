@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// CORS configuration for production
+// Complete CORS configuration for all production domains
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? [
@@ -18,12 +18,15 @@ app.use(cors({
         'https://40acres.app',
         'https://40a.property', 
         'https://40a.homes',
-        'https://40acresapp.replit.app'
+        'https://40acresapp.replit.app',
+        'https://40AcresApp.replit.app'
       ] 
     : true,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 // Health check endpoint (highest priority)
@@ -138,9 +141,9 @@ app.use((req, res, next) => {
     await setupVite(app, server);
   }
 
-  // Production server startup with graceful error handling
-  const port = Number(process.env.PORT) || 5000;
-  const host = "0.0.0.0";
+  // Dynamic port binding for production deployment
+  const port = Number(process.env.PORT) || (process.env.NODE_ENV === 'production' ? 8080 : 5000);
+  const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '0.0.0.0';
   
   server.listen(port, host, () => {
     log(`🚀 Production server running on ${host}:${port}`);

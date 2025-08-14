@@ -9,8 +9,8 @@ const __dirname = dirname(__filename);
 export function setupProductionServer(app: express.Application) {
   console.log('🏗️ Setting up production server...');
   
-  // Serve static assets from dist/public directory (absolute path for production)
-  const staticPath = join(process.cwd(), 'dist/public');
+  // Production static file path - must be relative to bundle location
+  const staticPath = join(__dirname, 'public');
   console.log(`📦 Static files path: ${staticPath}`);
   
   app.use(express.static(staticPath, {
@@ -38,7 +38,7 @@ export function setupProductionServer(app: express.Application) {
     }
     
     try {
-      const indexPath = join(process.cwd(), 'dist/public/index.html');
+      const indexPath = join(__dirname, 'public/index.html');
       console.log(`📄 Serving index.html from: ${indexPath}`);
       const indexHtml = readFileSync(indexPath, 'utf8');
       
