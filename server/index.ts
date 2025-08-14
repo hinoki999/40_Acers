@@ -71,10 +71,17 @@ app.use((req, res, next) => {
   }, () => {
     log(`serving on port ${port}`);
   });
+  // Import and setup E0G routes
+  try {
+    const { setupE0GRoutes } = await import('./e0gRoutes');
+    const { setupBridgeAnalyticsRoutes } = await import('./bridgeAnalyticsService');
+    console.log('🔐 Setting up E0G Trust API routes...');
+    await setupE0GRoutes(app);
+    console.log('✅ E0G routes registered');
+    console.log('🔗 Setting up Bridge Analytics API routes...');
+    await setupBridgeAnalyticsRoutes(app);
+    console.log('✅ Bridge Analytics routes registered');
+  } catch (error) {
+    console.error('❌ Error setting up E0G/Bridge Analytics routes:', error);
+  }
 })();
-
-// Import and setup E0G routes
-import { setupE0GRoutes } from './e0gRoutes';
-import { setupBridgeAnalyticsRoutes } from './bridgeAnalyticsService';
-setupE0GRoutes(app);
-setupBridgeAnalyticsRoutes(app);

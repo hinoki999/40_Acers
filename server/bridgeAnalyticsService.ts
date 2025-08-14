@@ -56,7 +56,7 @@ export function setupBridgeAnalyticsRoutes(app: express.Express) {
       // The Bridge Analytics API may require specific setup or different authentication
       console.log('Generating enhanced transaction analysis for address:', address);
       
-      const data = null; // Bridge API response placeholder
+      const data: any = null; // Bridge API response placeholder
       
       // Transform Bridge Analytics response to our format
       const transactionHistory: WalletTransactionHistory = {
