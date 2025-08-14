@@ -631,7 +631,13 @@ app.post('/api/e0g/analyze', async (req, res) => {
 
 console.log('✅ E0G routes added');
 
-const E0G_API = 'http://134.122.21.37:3001';
+// Use environment variable with secure default
+const E0G_API = process.env.E0G_API_URL || 'https://api.bridge-analytics.net';
+
+// Validate that the API URL uses HTTPS in production
+if (process.env.NODE_ENV === 'production' && !E0G_API.startsWith('https://')) {
+  throw new Error('E0G API must use HTTPS in production environment');
+}
 
 app.get('/api/e0g/test', async (req, res) => {
   try {
