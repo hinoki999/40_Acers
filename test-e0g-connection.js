@@ -3,7 +3,7 @@ const axios = require('axios');
 async function testE0G() {
   console.log('🔍 Testing E0G API Connection...\n');
   
-  const E0G_URL = 'http://134.122.21.37:3001';
+  const E0G_URL = 'https://134.122.21.37:3001';
   
   try {
     // Test 1: Health Check
