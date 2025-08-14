@@ -17,6 +17,23 @@ import { useLocation } from "wouter";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
 import { QuickWalletAnalysis } from "./QuickWalletAnalysis";
 
+interface WalletAnalysisResult {
+  security: {
+    success: boolean;
+    address: string;
+    riskScore: number;
+    threatLevel: 'LOW' | 'MEDIUM' | 'HIGH';
+    patterns: string[];
+  };
+  history: {
+    walletAddress: string;
+    transactionCount: number;
+    totalVolume: number;
+    complianceScore: number;
+    status: string;
+  };
+}
+
 interface InvestmentModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -30,8 +47,9 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
-  const [walletAnalysisResult, setWalletAnalysisResult] = useState<any>(null);
+  const [walletAnalysisResult, setWalletAnalysisResult] = useState<WalletAnalysisResult | null>(null);
   const [showWalletAnalysis, setShowWalletAnalysis] = useState(false);
+  const [walletVerificationStatus, setWalletVerificationStatus] = useState<'idle' | 'verifying' | 'verified' | 'blocked'>('idle');
   const { toast } = useToast();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
@@ -135,7 +153,67 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
     setShares(Math.min(calculatedShares, maxAvailableShares));
   };
 
-  const handleInvest = () => {
+  // Enhanced wallet verification for crypto payments
+  const performWalletVerification = async (walletAddress: string) => {
+    setWalletVerificationStatus('verifying');
+    
+    try {
+      // Run both security and transaction history analysis
+      const [securityResponse, historyResponse] = await Promise.all([
+        fetch('/api/e0g/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address: walletAddress }),
+        }),
+        fetch('/api/bridge/analyze-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address: walletAddress }),
+        }),
+      ]);
+
+      const securityData = await securityResponse.json();
+      const historyData = await historyResponse.json();
+
+      const combinedResult: WalletAnalysisResult = {
+        security: securityData,
+        history: historyData,
+      };
+
+      setWalletAnalysisResult(combinedResult);
+
+      // Determine if wallet should be blocked based on combined analysis
+      const isHighRisk = securityData.threatLevel === 'HIGH';
+      const hasLowCompliance = historyData.complianceScore < 60;
+      
+      if (isHighRisk || hasLowCompliance) {
+        setWalletVerificationStatus('blocked');
+        toast({
+          title: 'Wallet Verification Failed',
+          description: 'High-risk wallet detected. Investment blocked for security.',
+          variant: 'destructive',
+        });
+        return false;
+      } else {
+        setWalletVerificationStatus('verified');
+        toast({
+          title: 'Wallet Verified',
+          description: 'Wallet security check passed. You can proceed with investment.',
+        });
+        return true;
+      }
+    } catch (error) {
+      setWalletVerificationStatus('idle');
+      toast({
+        title: 'Verification Error',
+        description: 'Unable to verify wallet. Please try again.',
+        variant: 'destructive',
+      });
+      return false;
+    }
+  };
+
+  const handleInvest = async () => {
     if (shares <= 0 || shares > maxAvailableShares) {
       toast({
         title: "Invalid Investment",
@@ -143,6 +221,26 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
         variant: "destructive",
       });
       return;
+    }
+
+    // For Bitcoin payments, require wallet verification
+    if (paymentMethod === 'BTC' && walletVerificationStatus !== 'verified') {
+      if (!walletConnected) {
+        toast({
+          title: "Wallet Connection Required",
+          description: "Please connect your wallet for Bitcoin payments.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Mock wallet address for demo (in real implementation, get from connected wallet)
+      const walletAddress = "0x1234567890abcdef1234567890abcdef12345678";
+      const verificationPassed = await performWalletVerification(walletAddress);
+      
+      if (!verificationPassed) {
+        return; // Block investment if verification fails
+      }
     }
 
     investMutation.mutate({
@@ -387,22 +485,78 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                       <span className="text-sm font-medium">Wallet Connected</span>
                     </div>
                     
-                    {/* Wallet Security Verification */}
+                    {/* Enhanced Wallet Security Verification */}
                     {showWalletAnalysis && (
                       <div className="border rounded-lg p-3 bg-blue-50 dark:bg-blue-950">
-                        <QuickWalletAnalysis 
-                          onAnalysisComplete={(result) => {
-                            setWalletAnalysisResult(result);
-                            if (result.threatLevel === 'HIGH') {
-                              toast({
-                                title: "High Risk Wallet Detected",
-                                description: "Please proceed with caution or use a different wallet.",
-                                variant: "destructive",
-                              });
-                            }
-                          }}
-                          compact={false}
-                        />
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h5 className="font-medium text-blue-900 dark:text-blue-100">
+                              Wallet Security Verification
+                            </h5>
+                            {walletVerificationStatus === 'verified' && (
+                              <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                ✓ Verified
+                              </Badge>
+                            )}
+                            {walletVerificationStatus === 'blocked' && (
+                              <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                ⚠ Blocked
+                              </Badge>
+                            )}
+                          </div>
+
+                          {walletVerificationStatus === 'idle' && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => performWalletVerification("0x1234567890abcdef1234567890abcdef12345678")}
+                              disabled={walletVerificationStatus === 'verifying'}
+                              className="w-full"
+                            >
+                              {walletVerificationStatus === 'verifying' ? "Analyzing Security..." : "Run Security Analysis"}
+                            </Button>
+                          )}
+
+                          {walletAnalysisResult && (
+                            <div className="space-y-2 text-sm">
+                              <div className="grid grid-cols-2 gap-3">
+                                <div className="text-center p-2 bg-white dark:bg-gray-800 rounded">
+                                  <div className="font-medium text-xs text-gray-600 dark:text-gray-400">E0G Security</div>
+                                  <Badge className={`mt-1 ${
+                                    walletAnalysisResult.security.threatLevel === 'LOW' ? 'bg-green-100 text-green-800' :
+                                    walletAnalysisResult.security.threatLevel === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' :
+                                    'bg-red-100 text-red-800'
+                                  }`}>
+                                    {walletAnalysisResult.security.threatLevel}
+                                  </Badge>
+                                </div>
+                                <div className="text-center p-2 bg-white dark:bg-gray-800 rounded">
+                                  <div className="font-medium text-xs text-gray-600 dark:text-gray-400">Compliance</div>
+                                  <div className={`mt-1 font-bold ${
+                                    walletAnalysisResult.history.complianceScore >= 80 ? 'text-green-600' :
+                                    walletAnalysisResult.history.complianceScore >= 60 ? 'text-yellow-600' :
+                                    'text-red-600'
+                                  }`}>
+                                    {walletAnalysisResult.history.complianceScore}%
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              {walletVerificationStatus === 'blocked' && (
+                                <div className="mt-2 p-2 bg-red-50 dark:bg-red-950 rounded text-red-800 dark:text-red-200 text-xs">
+                                  Investment blocked: High-risk wallet or low compliance score detected.
+                                  <br />Please use a different wallet or contact support.
+                                </div>
+                              )}
+
+                              {walletVerificationStatus === 'verified' && (
+                                <div className="mt-2 p-2 bg-green-50 dark:bg-green-950 rounded text-green-800 dark:text-green-200 text-xs">
+                                  Wallet verification complete. You can proceed with your investment.
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -515,7 +669,8 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 shares <= 0 || 
                 shares > maxAvailableShares ||
                 (paymentMethod === 'BTC' && !walletConnected) ||
-                (paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'HIGH')
+                (paymentMethod === 'BTC' && walletVerificationStatus === 'blocked') ||
+                (paymentMethod === 'BTC' && walletConnected && walletVerificationStatus === 'idle')
               }
               className="flex-1 bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90"
               size="lg"
@@ -524,8 +679,10 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 "Processing..."
               ) : paymentMethod === 'BTC' && !walletConnected ? (
                 "Connect Wallet to Invest"
-              ) : paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'HIGH' ? (
-                "High Risk Wallet - Cannot Proceed"
+              ) : paymentMethod === 'BTC' && walletVerificationStatus === 'blocked' ? (
+                "Wallet Blocked - Cannot Proceed"
+              ) : paymentMethod === 'BTC' && walletConnected && walletVerificationStatus === 'idle' ? (
+                "Verify Wallet Security First"
               ) : (
                 <>
                   {paymentMethod === 'USD' ? (

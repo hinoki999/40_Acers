@@ -1,4 +1,4 @@
-import { WalletSecurityAnalysis } from '@/components/WalletSecurityAnalysis';
+import { EnhancedWalletAnalysis } from '@/components/EnhancedWalletAnalysis';
 
 export default function WalletSecurity() {
   return (
@@ -10,11 +10,11 @@ export default function WalletSecurity() {
               Wallet Security Center
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-              Analyze cryptocurrency wallet addresses for security risks and compliance
+              Comprehensive wallet analysis combining security assessment and transaction history
             </p>
           </div>
           
-          <WalletSecurityAnalysis />
+          <EnhancedWalletAnalysis />
         </div>
       </div>
     </div>

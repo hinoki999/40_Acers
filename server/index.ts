@@ -75,4 +75,6 @@ app.use((req, res, next) => {
 
 // Import and setup E0G routes
 import { setupE0GRoutes } from './e0gRoutes';
+import { setupBridgeAnalyticsRoutes } from './bridgeAnalyticsService';
 setupE0GRoutes(app);
+setupBridgeAnalyticsRoutes(app);
