@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // E0G Trust API Configuration
-const E0G_API_URL = 'http://134.122.21.37:3001';
+const E0G_API_URL = 'https://134.122.21.37:3001';
 const E0G_API_KEY = '40ACRES_KEY';
 
 export class E0GTrustService {
