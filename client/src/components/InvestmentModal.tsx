@@ -510,10 +510,20 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                               variant="outline"
                               size="sm"
                               onClick={() => performWalletVerification("0x1234567890abcdef1234567890abcdef12345678")}
-                              disabled={walletVerificationStatus === 'verifying'}
                               className="w-full"
                             >
-                              {walletVerificationStatus === 'verifying' ? "Analyzing Security..." : "Run Security Analysis"}
+                              Run Security Analysis
+                            </Button>
+                          )}
+
+                          {walletVerificationStatus === 'verifying' && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              disabled={true}
+                              className="w-full"
+                            >
+                              Analyzing Security...
                             </Button>
                           )}
 
@@ -633,28 +643,28 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
           </Card>
 
           {/* Security Warning for High Risk Wallets */}
-          {paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'HIGH' && (
+          {paymentMethod === 'BTC' && walletAnalysisResult?.security.threatLevel === 'HIGH' && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <div className="flex items-center gap-2 text-red-700 mb-2">
                 <TrendingUp className="h-4 w-4" />
                 <span className="font-semibold">High Risk Wallet Detected</span>
               </div>
               <p className="text-sm text-red-600">
-                Your wallet address has been flagged as high risk (Score: {walletAnalysisResult.riskScore}/100). 
+                Your wallet address has been flagged as high risk (Score: {walletAnalysisResult.security.riskScore}/100). 
                 For security reasons, we cannot process investments from this wallet. Please use a different wallet or contact support.
               </p>
             </div>
           )}
 
           {/* Medium Risk Warning */}
-          {paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'MEDIUM' && (
+          {paymentMethod === 'BTC' && walletAnalysisResult?.security.threatLevel === 'MEDIUM' && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
               <div className="flex items-center gap-2 text-yellow-700 mb-2">
                 <TrendingUp className="h-4 w-4" />
                 <span className="font-semibold">Moderate Risk Detected</span>
               </div>
               <p className="text-sm text-yellow-600">
-                Your wallet shows moderate risk (Score: {walletAnalysisResult.riskScore}/100). 
+                Your wallet shows moderate risk (Score: {walletAnalysisResult.security.riskScore}/100). 
                 Please ensure all transactions are legitimate before proceeding.
               </p>
             </div>
