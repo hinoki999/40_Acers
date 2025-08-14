@@ -75,17 +75,5 @@ app.use((req, res, next) => {
   server.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });
-  // Import and setup E0G routes
-  try {
-    const { setupE0GRoutes } = await import('./e0gRoutes');
-    const { setupBridgeAnalyticsRoutes } = await import('./bridgeAnalyticsService');
-    console.log('🔐 Setting up E0G Trust API routes...');
-    await setupE0GRoutes(app);
-    console.log('✅ E0G routes registered');
-    console.log('🔗 Setting up Bridge Analytics API routes...');
-    await setupBridgeAnalyticsRoutes(app);
-    console.log('✅ Bridge Analytics routes registered');
-  } catch (error) {
-    console.error('❌ Error setting up E0G/Bridge Analytics routes:', error);
-  }
+  // Security routes are now registered in main routes.ts
 })();
