@@ -34,7 +34,8 @@ Preferred communication style: Simple, everyday language.
 - **Payment Integration**: Supports Stripe and PayPal for investment processing, with dynamic fee calculation. Displays Bitcoin price and supports cryptocurrency payment options.
 - **AI-Powered Features**: Provides property recommendations, risk assessments, document verification, and market analytics using AI.
 - **Security Features**: Incorporates secure session management, device tracking, document encryption, and API rate limiting.
-- **Investment Process**: Streamlined flow from property browsing to secure payment processing and portfolio updates.
+- **Wallet Security Integration**: E0G Trust API integration for cryptocurrency wallet risk assessment, providing real-time security analysis with threat level scoring (LOW/MEDIUM/HIGH) and pattern detection.
+- **Investment Process**: Streamlined flow from property browsing to secure payment processing and portfolio updates, with integrated wallet security verification for cryptocurrency transactions.
 - **Property Listing Flow**: Guided process for property owners, including AI analysis, legal document verification, and community activation.
 - **Authentication Flow**: Handles user authentication via Replit Auth, manages user sessions in PostgreSQL, and implements role-based access control.
 
@@ -44,6 +45,7 @@ Preferred communication style: Simple, everyday language.
 - **Neon Database**: Serverless PostgreSQL hosting.
 - **OpenAI**: Powers AI-driven recommendations and analysis.
 - **PayPal**: Alternative payment processing.
+- **E0G Trust API**: Wallet security analysis and cryptocurrency risk assessment.
 - **HubSpot**: (Optional) CRM integration for business users.
 - **Zoom**: (Optional) For virtual property tours and meetings.
 - **Bitcoin Price API**: For cryptocurrency price conversion.

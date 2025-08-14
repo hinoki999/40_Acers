@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
 import BitcoinPriceDisplay from "./BitcoinPriceDisplay";
+import { QuickWalletAnalysis } from "./QuickWalletAnalysis";
 
 interface InvestmentModalProps {
   isOpen: boolean;
@@ -29,6 +30,8 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<string>('');
   const [walletConnected, setWalletConnected] = useState(false);
   const [showGoldUpgrade, setShowGoldUpgrade] = useState(false);
+  const [walletAnalysisResult, setWalletAnalysisResult] = useState<any>(null);
+  const [showWalletAnalysis, setShowWalletAnalysis] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
@@ -367,9 +370,10 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                     onClick={() => {
                       // Simulate wallet connection
                       setWalletConnected(true);
+                      setShowWalletAnalysis(true);
                       toast({
                         title: "Wallet Connected",
-                        description: "Your cryptocurrency wallet has been connected successfully.",
+                        description: "Please verify your wallet security before proceeding.",
                       });
                     }}
                     className="w-full bg-orange-600 hover:bg-orange-700 text-white"
@@ -377,9 +381,30 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                     Connect Crypto Wallet
                   </Button>
                 ) : (
-                  <div className="flex items-center gap-2 text-green-700">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm font-medium">Wallet Connected</span>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-green-700">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-sm font-medium">Wallet Connected</span>
+                    </div>
+                    
+                    {/* Wallet Security Verification */}
+                    {showWalletAnalysis && (
+                      <div className="border rounded-lg p-3 bg-blue-50 dark:bg-blue-950">
+                        <QuickWalletAnalysis 
+                          onAnalysisComplete={(result) => {
+                            setWalletAnalysisResult(result);
+                            if (result.threatLevel === 'HIGH') {
+                              toast({
+                                title: "High Risk Wallet Detected",
+                                description: "Please proceed with caution or use a different wallet.",
+                                variant: "destructive",
+                              });
+                            }
+                          }}
+                          compact={false}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -453,6 +478,34 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
             </CardContent>
           </Card>
 
+          {/* Security Warning for High Risk Wallets */}
+          {paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'HIGH' && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 text-red-700 mb-2">
+                <TrendingUp className="h-4 w-4" />
+                <span className="font-semibold">High Risk Wallet Detected</span>
+              </div>
+              <p className="text-sm text-red-600">
+                Your wallet address has been flagged as high risk (Score: {walletAnalysisResult.riskScore}/100). 
+                For security reasons, we cannot process investments from this wallet. Please use a different wallet or contact support.
+              </p>
+            </div>
+          )}
+
+          {/* Medium Risk Warning */}
+          {paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'MEDIUM' && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 text-yellow-700 mb-2">
+                <TrendingUp className="h-4 w-4" />
+                <span className="font-semibold">Moderate Risk Detected</span>
+              </div>
+              <p className="text-sm text-yellow-600">
+                Your wallet shows moderate risk (Score: {walletAnalysisResult.riskScore}/100). 
+                Please ensure all transactions are legitimate before proceeding.
+              </p>
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="flex gap-3">
             <Button
@@ -461,7 +514,8 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 investMutation.isPending || 
                 shares <= 0 || 
                 shares > maxAvailableShares ||
-                (paymentMethod === 'BTC' && !walletConnected)
+                (paymentMethod === 'BTC' && !walletConnected) ||
+                (paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'HIGH')
               }
               className="flex-1 bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90"
               size="lg"
@@ -470,6 +524,8 @@ export default function InvestmentModal({ isOpen, onClose, property }: Investmen
                 "Processing..."
               ) : paymentMethod === 'BTC' && !walletConnected ? (
                 "Connect Wallet to Invest"
+              ) : paymentMethod === 'BTC' && walletAnalysisResult?.threatLevel === 'HIGH' ? (
+                "High Risk Wallet - Cannot Proceed"
               ) : (
                 <>
                   {paymentMethod === 'USD' ? (
