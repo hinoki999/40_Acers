@@ -10,7 +10,7 @@ export function setupProductionServer(app: express.Application) {
   console.log('🏗️ Setting up production server...');
   
   // Serve static assets from dist/public directory
-  const staticPath = join(__dirname, '../dist/public');
+  const staticPath = join(__dirname, './public');
   console.log(`📦 Static files path: ${staticPath}`);
   
   app.use(express.static(staticPath, {

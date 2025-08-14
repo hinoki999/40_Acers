@@ -13,7 +13,13 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // CORS configuration for production
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://40ac.app', 'https://40acres.app'] 
+    ? [
+        'https://40ac.app', 
+        'https://40acres.app',
+        'https://40a.property', 
+        'https://40a.homes',
+        'https://40acresapp.replit.app'
+      ] 
     : true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
