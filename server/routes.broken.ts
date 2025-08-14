@@ -602,7 +602,7 @@ app.get('/api/e0g/test', async (req, res) => {
   const isConnected = await e0gTrust.testConnection();
   res.json({ 
     connected: isConnected,
-    apiUrl: 'http://134.122.21.37:3001'
+    apiUrl: 'https://134.122.21.37:3001'
   });
 });
 
@@ -631,7 +631,7 @@ app.post('/api/e0g/analyze', async (req, res) => {
 
 console.log('✅ E0G routes added');
 
-const E0G_API = 'http://134.122.21.37:3001';
+const E0G_API = 'https://134.122.21.37:3001';
 
 app.get('/api/e0g/test', async (req, res) => {
   try {
@@ -675,7 +675,7 @@ app.post('/api/e0g/analyze', async (req, res) => {
 });
 
 // ===== E0G TRUST API INTEGRATION =====
-const E0G_API_URL = 'http://134.122.21.37:3001';
+const E0G_API_URL = 'https://134.122.21.37:3001';
 const E0G_API_KEY = '40ACRES_KEY';
 
 app.get('/api/e0g/health', async (req, res) => {
@@ -698,7 +698,7 @@ app.get('/api/e0g/health', async (req, res) => {
 app.post('/api/e0g/analyze', async (req, res) => {
 
 // ===== E0G TRUST API INTEGRATION =====
-  const E0G_API_URL = 'http://134.122.21.37:3001';
+  const E0G_API_URL = 'https://134.122.21.37:3001';
   const E0G_API_KEY = '40ACRES_KEY';
 
   app.get('/api/e0g/health', async (req, res) => {
