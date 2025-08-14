@@ -22,6 +22,7 @@ import Settings from "@/pages/Settings";
 import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
+import WalletSecurity from "@/pages/WalletSecurity";
 import NotFound from "@/pages/not-found";
 import AuthModals from "@/components/AuthModals";
 
@@ -53,6 +54,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/learn" component={Learn} />
+            <Route path="/wallet-security" component={WalletSecurity} />
             <Route path="/contact" component={Contact} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
@@ -69,6 +71,7 @@ function Router() {
             <Route path="/community" component={Community} />
             <Route path="/withdraw" component={Withdraw} />
             <Route path="/learn" component={Learn} />
+            <Route path="/wallet-security" component={WalletSecurity} />
             <Route path="/contact" component={Contact} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
